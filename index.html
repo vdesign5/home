@@ -30,7 +30,7 @@
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             padding: 20px 0;
-            transition: all 0.3s ease;
+            transition: all 0.42s ease;
         }
 
         /* 導航內容容器 */
@@ -48,7 +48,7 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            transition: transform 0.3s ease;
+            transition: transform 0.42s ease;
         }
 
         .logo:hover {
@@ -58,7 +58,7 @@
         .logo img {
             height: 40px;
             width: auto;
-            transition: filter 0.3s ease;
+            transition: filter 0.42s ease;
         }
 
         .logo:hover img {
@@ -80,7 +80,7 @@
         .nav-image {
             height: 40px;
             width: auto;
-            transition: all 0.3s ease;
+            transition: all 0.42s ease;
             filter: grayscale(1) brightness(0.8);
         }
 
@@ -105,14 +105,17 @@
         /* 為每個選單項目設定不同旋轉角度 */
         .nav-item:nth-child(1) {
             transform: rotate(0deg);
+            transition: transform 0.56s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .nav-item:nth-child(2) {
             transform: rotate(15deg);
+            transition: transform 0.56s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .nav-item:nth-child(3) {
             transform: rotate(30deg);
+            transition: transform 0.56s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         /* Hover時恢復到0度 */
@@ -120,43 +123,18 @@
             transform: rotate(0deg);
         }
 
-        /* Hover效果 */
+        /* Hover效果下劃線移除，因為現在是圖片 */
         .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ff0000;
-            transition: width 0.3s ease;
+            display: none;
         }
 
-        .nav-link:hover::before,
-        .nav-link.active::before {
-            width: 100%;
-        }
-
-        .nav-link:hover {
-            color: #ff0000;
-            transform: translateY(-2px) rotate(0deg);
-        }
-
-        /* Hover時恢復到0度，同時保持其他效果 */
-        .nav-item:nth-child(1) .nav-link:hover {
-            transform: translateY(-2px) rotate(0deg);
-        }
-
-        .nav-item:nth-child(2) .nav-link:hover {
-            transform: translateY(-2px) rotate(0deg);
-        }
-
-        .nav-item:nth-child(3) .nav-link:hover {
-            transform: translateY(-2px) rotate(0deg);
-        }
-
-        .nav-link.active {
-            color: #ff0000;
+        .nav-link {
+            color: transparent;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.42s ease;
+            padding: 10px;
+            display: block;
         }
 
         /* 手機版漢堡選單 */
@@ -165,7 +143,7 @@
             flex-direction: column;
             cursor: pointer;
             padding: 5px;
-            transition: transform 0.3s ease;
+            transition: transform 0.42s ease;
         }
 
         .hamburger span {
@@ -173,7 +151,7 @@
             height: 2px;
             background: #000;
             margin: 3px 0;
-            transition: all 0.3s ease;
+            transition: all 0.42s ease;
         }
 
         .hamburger.active {
@@ -219,14 +197,18 @@
                 align-items: center;
                 gap: 30px;
                 padding-top: 60px;
-                transition: right 0.3s ease;
+                transition: right 0.42s ease;
             }
 
-            /* 手機版選單項目恢復正常角度 */
-            .nav-item:nth-child(1) .nav-link,
-            .nav-item:nth-child(2) .nav-link,
-            .nav-item:nth-child(3) .nav-link {
+            /* 手機版選單項目恢復正常角度和圖片樣式 */
+            .nav-item:nth-child(1),
+            .nav-item:nth-child(2),
+            .nav-item:nth-child(3) {
                 transform: rotate(0deg);
+            }
+
+            .nav-image {
+                height: 35px;
             }
 
             .nav-menu.active {
@@ -298,14 +280,14 @@
 
         /* 載入動畫 */
         .nav-link {
-            animation: fadeInUp 0.6s ease-out forwards;
+            animation: fadeInUp 0.84s ease-out forwards;
             opacity: 0;
             transform: translateY(20px);
         }
 
-        .nav-item:nth-child(1) .nav-link { animation-delay: 0.1s; }
-        .nav-item:nth-child(2) .nav-link { animation-delay: 0.2s; }
-        .nav-item:nth-child(3) .nav-link { animation-delay: 0.3s; }
+        .nav-item:nth-child(1) .nav-link { animation-delay: 0.14s; }
+        .nav-item:nth-child(2) .nav-link { animation-delay: 0.28s; }
+        .nav-item:nth-child(3) .nav-link { animation-delay: 0.42s; }
 
         @keyframes fadeInUp {
             to {
@@ -409,12 +391,19 @@
             }
         });
 
-        // 當前頁面高亮
+        // 當前頁面高亮 - 改為檢查圖片導航
         function setActiveNav() {
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link');
+            
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === currentPage) {
+                const linkHref = link.getAttribute('href');
+                
+                // 檢查當前頁面
+                if (linkHref === currentPage || 
+                    (currentPage === 'index.html' && linkHref === 'project.html') ||
+                    (currentPage === '' && linkHref === 'project.html')) {
                     link.classList.add('active');
                 }
             });
