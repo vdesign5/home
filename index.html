@@ -76,29 +76,48 @@
             position: relative;
         }
 
-        .nav-link {
-            color: #000;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
+        /* 導航圖片樣式 */
+        .nav-image {
+            height: 40px;
+            width: auto;
             transition: all 0.3s ease;
-            padding: 10px 0;
+            filter: grayscale(1) brightness(0.8);
+        }
+
+        /* 非當前頁面 - 淺灰色 #CCCCCC */
+        .nav-link:not(.active) .nav-image {
+            filter: grayscale(1) brightness(0.8) sepia(1) hue-rotate(0deg) saturate(0) contrast(1.2);
+            opacity: 0.6;
+        }
+
+        /* 當前頁面 - 深灰色 #333333 */
+        .nav-link.active .nav-image {
+            filter: grayscale(1) brightness(0.2) sepia(0) saturate(0);
+            opacity: 1;
+        }
+
+        /* Hover效果 - 品牌紅色 */
+        .nav-link:hover .nav-image {
+            filter: grayscale(0) brightness(1) sepia(1) hue-rotate(0deg) saturate(2) contrast(1);
+            transform: translateY(-2px) scale(1.05);
         }
 
         /* 為每個選單項目設定不同旋轉角度 */
-        .nav-item:nth-child(1) .nav-link {
+        .nav-item:nth-child(1) {
             transform: rotate(0deg);
         }
 
-        .nav-item:nth-child(2) .nav-link {
+        .nav-item:nth-child(2) {
             transform: rotate(15deg);
         }
 
-        .nav-item:nth-child(3) .nav-link {
+        .nav-item:nth-child(3) {
             transform: rotate(30deg);
+        }
+
+        /* Hover時恢復到0度 */
+        .nav-item:hover {
+            transform: rotate(0deg);
         }
 
         /* Hover效果 */
@@ -308,16 +327,22 @@
                      onerror="handleLogoError(this)">
             </a>
 
-            <!-- 導航選單 -->
+            <!-- 導航選單 - 改為圖片選單 -->
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-                    <a href="project.html" class="nav-link">Project</a>
+                    <a href="project.html" class="nav-link" data-page="project">
+                        <img src="https://vdesign5.github.io/home/assets/project.webp" alt="Project" class="nav-image">
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html" class="nav-link">About</a>
+                    <a href="about.html" class="nav-link" data-page="about">
+                        <img src="https://vdesign5.github.io/home/assets/about.webp" alt="About" class="nav-image">
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
+                    <a href="contact.html" class="nav-link" data-page="contact">
+                        <img src="https://vdesign5.github.io/home/assets/contact.webp" alt="Contact" class="nav-image">
+                    </a>
                 </li>
             </ul>
 
