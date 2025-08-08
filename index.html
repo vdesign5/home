@@ -302,9 +302,10 @@
         <div class="nav-container">
             <!-- Logo -->
             <a href="index.html" class="logo">
-                <!-- 多種路徑嘗試，請選擇能正常顯示的一種 -->
-                <img src="assets/logo.png" alt="Logo" id="logo-img" 
-                     onerror="this.src='./assets/logo.png'; this.onerror=function(){this.src='https://你的用戶名.github.io/repository名稱/assets/logo.png'; this.onerror=null;}">
+                <!-- 使用確認可行的絕對路徑 -->
+                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="Logo" id="logo-img" 
+                     onload="console.log('Logo loaded successfully:', this.src)"
+                     onerror="handleLogoError(this)">
             </a>
 
             <!-- 導航選單 -->
@@ -397,27 +398,25 @@
         // 頁面載入時設定當前頁面
         setActiveNav();
 
-        // Logo載入錯誤處理 - 改進版
-        const logoImg = document.getElementById('logo-img');
-        
-        // 先嘗試多種路徑
-        const logoPaths = [
-            'assets/logo.png',
-            './assets/logo.png',
-            '/assets/logo.png'
-        ];
-        
-        let currentPathIndex = 0;
-        
-        logoImg.addEventListener('error', function() {
-            currentPathIndex++;
-            if (currentPathIndex < logoPaths.length) {
-                console.log(`嘗試路徑 ${currentPathIndex}: ${logoPaths[currentPathIndex]}`);
-                this.src = logoPaths[currentPathIndex];
+        // 改進的Logo載入處理
+        function handleLogoError(img) {
+            const logoPaths = [
+                './assets/logo.png',
+                '/assets/logo.png',
+                `${window.location.origin}${window.location.pathname}assets/logo.png`,
+                `${window.location.origin}/${window.location.pathname.split('/')[1]}/assets/logo.png`
+            ];
+            
+            const currentIndex = img.dataset.pathIndex || 0;
+            const nextIndex = parseInt(currentIndex) + 1;
+            
+            if (nextIndex < logoPaths.length) {
+                console.log(`嘗試Logo路徑 ${nextIndex}: ${logoPaths[nextIndex]}`);
+                img.dataset.pathIndex = nextIndex;
+                img.src = logoPaths[nextIndex];
             } else {
-                // 所有路徑都失敗，顯示文字Logo
-                console.log('所有Logo路徑都失敗，使用文字Logo');
-                this.style.display = 'none';
+                console.log('所有Logo路徑都失敗，顯示文字Logo');
+                img.style.display = 'none';
                 const textLogo = document.createElement('span');
                 textLogo.textContent = 'LOGO';
                 textLogo.style.cssText = `
@@ -425,14 +424,24 @@
                     font-weight: bold;
                     letter-spacing: 2px;
                     color: #000;
+                    cursor: pointer;
                 `;
-                this.parentNode.appendChild(textLogo);
+                img.parentNode.appendChild(textLogo);
             }
-        });
+        }
+
+        // Logo載入錯誤處理 - 改進版
+        const logoImg = document.getElementById('logo-img');
         
         // 成功載入時的處理
         logoImg.addEventListener('load', function() {
             console.log('Logo成功載入！路徑：', this.src);
+        });
+        
+        // 頁面載入時檢查Logo
+        window.addEventListener('load', function() {
+            console.log('當前頁面URL:', window.location.href);
+            console.log('嘗試載入Logo:', logoImg.src);
         });
     </script>
 </body>
