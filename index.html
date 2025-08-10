@@ -5,7 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - 作品集</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* 字體定義 */
+        @font-face {
+            font-family: 'Futura';
+            src: url('https://fonts.cdnfonts.com/css/futura-pt') format('woff2');
+            font-display: swap;
+        }
+        
+        /* 全域字體設定 */
+        body {
+            font-family: 'Futura', 'Arial', sans-serif;
+        }
+        
+        /* 中文字體 */
+        .chinese-text, .chinese {
+            font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
+        }
         /* 重置樣式 */
         * {
             margin: 0;
@@ -253,9 +273,15 @@
             margin-right: auto;
         }
 
+        /* Hero區域 - 拉長以便動畫播放 */
         .hero-section {
             text-align: center;
-            padding: 100px 0;
+            padding: 150px 0 200px 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .hero-title {
@@ -280,9 +306,10 @@
 
         .navbar.scrolled .logo img {
             height: 35px;
+            transition: height 0.42s ease;
         }
 
-        /* Hero區域的Logo動畫 */
+        /* Hero區域的Logo動畫 - 放大150% */
         .hero-logo-animation {
             position: fixed;
             top: 50%;
@@ -290,8 +317,8 @@
             transform: translate(-50%, -50%);
             z-index: 5;
             pointer-events: none;
-            width: 200px;
-            height: 200px;
+            width: 300px;
+            height: 300px;
         }
 
         .hero-logo-animation.hidden {
@@ -308,7 +335,7 @@
         /* 跑馬燈區域 */
         .marquee-section {
             width: 100%;
-            height: 100px;
+            height: 80px;
             background: #fff;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
@@ -319,67 +346,118 @@
             align-items: center;
         }
 
-        /* 跑馬燈容器 */
-        .marquee-container {
-            display: flex;
-            animation: marquee 30s linear infinite;
-            white-space: nowrap;
+        /* 跑馬燈邊框動畫 */
+        .marquee-section::before,
+        .marquee-section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #eee;
+            transition: width 1.2s ease-out;
         }
 
-        /* 跑馬燈文字 */
+        .marquee-section::before {
+            top: 0;
+        }
+
+        .marquee-section::after {
+            bottom: 0;
+        }
+
+        .marquee-section.animate-borders::before,
+        .marquee-section.animate-borders::after {
+            width: 100%;
+        }
+
+        /* 跑馬燈容器 - 修正循環間隙 */
+        .marquee-container {
+            display: flex;
+            animation: marquee 25s linear infinite;
+            white-space: nowrap;
+            will-change: transform;
+        }
+
+        /* 跑馬燈文字 - 調整大小和層級 */
         .marquee-text {
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             font-weight: 300;
-            letter-spacing: 2px;
-            margin-right: 100px;
+            letter-spacing: 1px;
+            margin-right: 60px;
             display: flex;
             align-items: center;
+            white-space: nowrap;
         }
 
         /* 英文樣式 */
         .marquee-text .english {
             color: #333333;
             font-weight: 500;
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 1.6rem;
         }
 
-        /* 中文和標點符號樣式 */
-        .marquee-text .chinese,
+        /* 中文和標點符號樣式 - 50%大小 */
+        .marquee-text .chinese {
+            color: #CCCCCC;
+            font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 300;
+        }
+
         .marquee-text .punctuation {
             color: #CCCCCC;
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 0.8rem;
         }
 
         /* 分隔符樣式 */
         .marquee-text .separator {
             color: #CCCCCC;
-            margin: 0 30px;
-            font-size: 1.5rem;
+            margin: 0 20px;
+            font-size: 1rem;
+            font-family: 'Futura', 'Arial', sans-serif;
         }
 
-        /* 跑馬燈動畫 */
+        /* 跑馬燈動畫 - 修正循環 */
         @keyframes marquee {
             0% {
-                transform: translateX(100%);
+                transform: translateX(0%);
             }
             100% {
-                transform: translateX(-100%);
+                transform: translateX(-50%);
             }
         }
 
         /* 響應式調整 */
         @media (max-width: 768px) {
             .hero-logo-animation {
-                width: 150px;
-                height: 150px;
+                width: 225px;
+                height: 225px;
             }
 
             .marquee-text {
-                font-size: 1.8rem;
-                margin-right: 50px;
+                font-size: 1.2rem;
+                margin-right: 40px;
+            }
+
+            .marquee-text .english {
+                font-size: 1.2rem;
+            }
+
+            .marquee-text .chinese,
+            .marquee-text .punctuation {
+                font-size: 0.6rem;
             }
 
             .marquee-text .separator {
                 margin: 0 15px;
-                font-size: 1.2rem;
+                font-size: 0.8rem;
+            }
+
+            .marquee-section {
+                height: 60px;
             }
         }
         .nav-link {
@@ -453,8 +531,9 @@
         </section>
 
         <!-- 跑馬燈區域 -->
-        <section class="marquee-section">
+        <section class="marquee-section" id="marquee-section">
             <div class="marquee-container">
+                <!-- 第一組文字 -->
                 <div class="marquee-text">
                     <span class="english">Visual</span>
                     <span class="punctuation"> / </span>
@@ -477,7 +556,7 @@
                     <span class="chinese">追求頂點</span>
                     <span class="separator">•</span>
                 </div>
-                <!-- 重複內容確保無縫循環 -->
+                <!-- 第二組文字（無縫循環） -->
                 <div class="marquee-text">
                     <span class="english">Visual</span>
                     <span class="punctuation"> / </span>
@@ -629,75 +708,104 @@
             console.log('Logo成功載入！路徑：', this.src);
         });
         
-        // Hero Logo動畫控制
+        // Hero Logo動畫控制 - 改為滾動觸發
         function initHeroLogoAnimation() {
             const heroLogoAnimation = document.getElementById('hero-logo-animation');
             const logoMotionContainer = document.getElementById('logo-motion');
+            let animation = null;
             
-            // 初始化Lottie動畫（如果有載入Lottie庫）
+            // 初始化Lottie動畫（滾動控制）
             if (typeof lottie !== 'undefined') {
-                const animation = lottie.loadAnimation({
+                animation = lottie.loadAnimation({
                     container: logoMotionContainer,
                     renderer: 'svg',
-                    loop: true,
-                    autoplay: true,
-                    path: './assets/logo_motion.json' // JSON動畫檔案路徑
+                    loop: false,
+                    autoplay: false,
+                    path: './assets/logo_motion.json'
                 });
                 
-                console.log('Lottie動畫已載入');
+                console.log('Lottie動畫已載入（滾動控制模式）');
             } else {
-                // 如果沒有Lottie，創建簡單的CSS動畫作為替代
+                // CSS動畫備用方案
                 logoMotionContainer.innerHTML = `
-                    <div style="
+                    <div id="css-logo-animation" style="
                         width: 100%;
                         height: 100%;
                         background: url('./assets/logo.png') no-repeat center center;
                         background-size: contain;
-                        animation: logoFloat 3s ease-in-out infinite alternate;
+                        transform: scale(0);
+                        transition: transform 0.6s ease-out;
                     "></div>
                 `;
-                
-                // 添加簡單浮動動畫
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes logoFloat {
-                        0% { transform: translateY(0px) rotate(0deg); }
-                        100% { transform: translateY(-20px) rotate(5deg); }
-                    }
-                `;
-                document.head.appendChild(style);
-                
                 console.log('使用CSS動畫作為Logo動畫');
             }
             
-            // 滾動控制動畫可見性
+            // 滾動控制動畫播放和可見性
             function handleHeroAnimationScroll() {
                 const heroSection = document.querySelector('.hero-section');
                 const marqueeSection = document.querySelector('.marquee-section');
+                const scrollTop = window.pageYOffset;
                 
                 if (heroSection && marqueeSection) {
-                    const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+                    const heroTop = heroSection.offsetTop;
+                    const heroBottom = heroTop + heroSection.offsetHeight;
                     const marqueeTop = marqueeSection.offsetTop;
-                    const scrollTop = window.pageYOffset;
                     
-                    // 當滾動到跑馬燈區域時隱藏Logo動畫
-                    if (scrollTop >= marqueeTop - 50) {
-                        heroLogoAnimation.classList.add('hidden');
-                    } else {
+                    // 在Hero區域內播放動畫
+                    if (scrollTop >= heroTop && scrollTop < marqueeTop - 100) {
                         heroLogoAnimation.classList.remove('hidden');
+                        
+                        // 計算播放進度（基於滾動位置）
+                        const progress = Math.min((scrollTop - heroTop) / (heroBottom - heroTop - 200), 1);
+                        
+                        if (animation) {
+                            // Lottie動畫進度控制
+                            const frame = progress * (animation.totalFrames - 1);
+                            animation.goToAndStop(frame, true);
+                        } else {
+                            // CSS動畫進度控制
+                            const cssAnimation = document.getElementById('css-logo-animation');
+                            if (cssAnimation) {
+                                const scale = Math.min(progress * 1.5, 1);
+                                const rotation = progress * 360;
+                                cssAnimation.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+                            }
+                        }
+                    } else {
+                        // 在跑馬燈及以下區域隱藏
+                        heroLogoAnimation.classList.add('hidden');
                     }
                 }
             }
             
             window.addEventListener('scroll', handleHeroAnimationScroll);
-            handleHeroAnimationScroll(); // 初始檢查
+            handleHeroAnimationScroll();
         }
 
-        // 頁面載入時初始化動畫
+        // 跑馬燈邊框動畫
+        function initMarqueeAnimation() {
+            const marqueeSection = document.getElementById('marquee-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-borders');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            if (marqueeSection) {
+                observer.observe(marqueeSection);
+            }
+        }
+
+        // 頁面載入時初始化所有動畫
         window.addEventListener('load', function() {
             initHeroLogoAnimation();
-            console.log('當前頁面URL:', window.location.href);
-            console.log('嘗試載入Logo:', logoImg.src);
+            initMarqueeAnimation();
+            console.log('所有動畫已初始化');
         });
     </script>
 </body>
