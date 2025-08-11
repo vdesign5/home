@@ -19,16 +19,6 @@
             font-display: swap;
         }
         
-        /* 全域字體設定 */
-        body {
-            font-family: 'Futura', 'Arial', sans-serif;
-        }
-        
-        /* 中文字體 */
-        .chinese-text, .chinese {
-            font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
-        }
-        
         /* 重置樣式 */
         * {
             margin: 0;
@@ -37,7 +27,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Futura', 'Arial', sans-serif;
             background-color: #fff;
             color: #000;
             line-height: 1.6;
@@ -68,22 +58,44 @@
             align-items: center;
         }
 
-        /* Logo區域 */
+        /* Logo區域 - 加入hover效果 */
         .logo {
             display: flex;
             align-items: center;
             text-decoration: none;
-            transition: transform 0.42s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.365);
+            position: relative;
+            overflow: hidden;
+            height: 40px;
+            transition: all 0.42s ease;
         }
 
         .logo img {
             height: 40px;
             width: auto;
-            transition: transform 0.42s ease;
+            transition: all 0.42s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Logotype - hover時出現 */
+        .logo-type {
+            position: absolute;
+            left: 45px;
+            height: 40px;
+            width: auto;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+        }
+
+        .logo:hover .logo-type {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .logo:hover {
+            padding-right: 120px;
         }
 
         /* 導航選單 */
@@ -205,14 +217,14 @@
             background: #fff;
         }
 
-        /* 固定的Logo動畫容器 - 放大300% */
+        /* 固定的Logo動畫容器 - 調整大小為2倍 */
         .hero-logo-container {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(3);
-            width: 300px;
-            height: 300px;
+            transform: translate(-50%, -50%) scale(2);
+            width: 200px;
+            height: 200px;
             z-index: 5;
             pointer-events: none;
         }
@@ -222,14 +234,14 @@
             height: 100%;
         }
 
-        /* 輪播圖容器 - 左下角 */
+        /* 輪播圖容器 - 縮小30% */
         .carousel-container {
             position: absolute;
             bottom: 40px;
             left: 40px;
-            width: 600px;
-            height: 300px;
-            border-radius: 20px;
+            width: 420px;
+            height: 210px;
+            border-radius: 15px;
             overflow: hidden;
             background: #f0f0f0;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
@@ -251,52 +263,61 @@
             background-position: center;
         }
 
-        /* 輪播圖指示器 */
+        /* 輪播圖指示器 - 修正顯示 */
         .carousel-indicators {
             position: absolute;
-            top: -30px;
+            top: -25px;
             left: 0;
             display: flex;
-            gap: 5px;
             font-family: 'Futura', monospace;
-            font-size: 14px;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .indicator-bracket {
             color: #333;
         }
 
         .indicator {
             opacity: 0.3;
             transition: opacity 0.3s ease;
+            margin: 0 1px;
         }
 
         .indicator.active {
             opacity: 1;
+            color: #333;
         }
 
-        /* 文字介紹區域 - Logo右側 */
+        /* 文字介紹區域 - 調整字體和大小 */
         .intro-text {
             position: absolute;
             top: 50%;
-            left: 60%;
+            left: 58%;
             transform: translateY(-50%);
             z-index: 10;
             opacity: 0;
             animation: fadeInFromLeft 1.2s ease-out 0.5s forwards;
+            max-width: 350px;
         }
 
         .intro-english {
-            font-size: 1.8rem;
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 1.3rem;
             color: #333333;
             font-weight: 400;
-            letter-spacing: 1px;
-            line-height: 1.4;
-            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+            margin-bottom: 8px;
         }
 
         .intro-chinese {
-            font-size: 0.9rem;
+            font-family: '思源黑體', 'Noto Sans TC', 'Source Han Sans TC', sans-serif;
+            font-size: 0.65rem;
             color: #CCCCCC;
             font-weight: 300;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             line-height: 1.6;
         }
 
@@ -365,7 +386,7 @@
 
         .marquee-text .chinese {
             color: #CCCCCC;
-            font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
+            font-family: '思源黑體', 'Noto Sans TC', 'Source Han Sans TC', sans-serif;
             font-size: 0.8rem;
             font-weight: 300;
         }
@@ -412,7 +433,31 @@
             transition: height 0.42s ease;
         }
 
+        .navbar.scrolled .logo-type {
+            height: 35px;
+        }
+
         /* 響應式設計 */
+        @media (max-width: 1024px) {
+            .carousel-container {
+                width: 350px;
+                height: 175px;
+            }
+
+            .intro-text {
+                left: 55%;
+                max-width: 300px;
+            }
+
+            .intro-english {
+                font-size: 1.1rem;
+            }
+
+            .intro-chinese {
+                font-size: 0.55rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 20px;
@@ -420,6 +465,15 @@
 
             .logo img {
                 height: 32px;
+            }
+
+            .logo-type {
+                height: 32px;
+                left: 37px;
+            }
+
+            .logo:hover {
+                padding-right: 100px;
             }
 
             .hamburger {
@@ -457,32 +511,34 @@
             }
 
             .carousel-container {
-                width: 90%;
-                height: 200px;
-                left: 5%;
+                width: calc(100% - 40px);
+                height: 180px;
+                left: 20px;
                 bottom: 20px;
+                max-width: 400px;
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -50%) scale(2);
-                width: 200px;
-                height: 200px;
+                transform: translate(-50%, -40%) scale(1.5);
+                width: 150px;
+                height: 150px;
             }
 
             .intro-text {
                 left: 50%;
-                top: 70%;
+                top: 75%;
                 transform: translateX(-50%) translateY(-50%);
                 text-align: center;
                 padding: 0 20px;
+                max-width: 90%;
             }
 
             .intro-english {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
 
             .intro-chinese {
-                font-size: 0.7rem;
+                font-size: 0.5rem;
             }
 
             .marquee-section {
@@ -513,14 +569,31 @@
                 height: 28px;
             }
 
+            .logo-type {
+                height: 28px;
+            }
+
             .carousel-container {
                 height: 150px;
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -50%) scale(1.5);
-                width: 150px;
-                height: 150px;
+                transform: translate(-50%, -40%) scale(1.2);
+                width: 120px;
+                height: 120px;
+            }
+
+            .intro-english {
+                font-size: 0.9rem;
+            }
+
+            .intro-chinese {
+                font-size: 0.45rem;
+            }
+
+            .carousel-indicators {
+                font-size: 14px;
+                top: -20px;
             }
         }
     </style>
@@ -529,9 +602,10 @@
     <!-- 導航選單 -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <!-- Logo -->
+            <!-- Logo with hover logotype -->
             <a href="index.html" class="logo">
                 <img src="https://vdesign5.github.io/home/assets/logo.png" alt="Logo" id="logo-img">
+                <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="logo-type">
             </a>
 
             <!-- 導航選單 -->
@@ -564,7 +638,7 @@
 
     <!-- Hero區域 -->
     <section class="hero-section">
-        <!-- 固定的Logo動畫 (放大300%) -->
+        <!-- 固定的Logo動畫 (放大200%) -->
         <div class="hero-logo-container" id="hero-logo-container">
             <div id="logo-motion"></div>
         </div>
@@ -575,7 +649,7 @@
                 VDESIGN is a creative studio<br>
                 based in Taiwan
             </div>
-            <div class="intro-chinese chinese-text">
+            <div class="intro-chinese">
                 V DESIGN是一個位於台灣的創意工作室
             </div>
         </div>
@@ -583,14 +657,20 @@
         <!-- 輪播圖 (左下角) -->
         <div class="carousel-container">
             <div class="carousel-indicators">
-                (<span class="indicator active">*</span><span class="indicator">*</span><span class="indicator">*</span><span class="indicator">*</span><span class="indicator">*</span>)
+                <span class="indicator-bracket">(</span>
+                <span class="indicator active">*</span>
+                <span class="indicator">*</span>
+                <span class="indicator">*</span>
+                <span class="indicator">*</span>
+                <span class="indicator">*</span>
+                <span class="indicator-bracket">)</span>
             </div>
             <div class="carousel-wrapper" id="carousel-wrapper">
-                <div class="carousel-slide" style="background-image: url('./assets/project_showcase_01.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/brand_identity_02.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/web_design_03.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/motion_graphics_04.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/creative_campaign_05.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/showcase_I.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/showcase_II.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/showcase_III.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/showcase_IV.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/showcase_V.jpg')"></div>
             </div>
         </div>
     </section>
@@ -653,8 +733,8 @@
     <!-- 內容區域 -->
     <section class="content-section">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px;">Our Projects</h2>
-            <p style="font-size: 1.2rem; color: #666; line-height: 1.8;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; font-family: 'Futura', 'Arial', sans-serif;">Our Projects</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8; font-family: '思源黑體', 'Noto Sans TC', sans-serif;">
                 探索我們的創意作品，每一個專案都是獨特的視覺體驗。
             </p>
         </div>
@@ -670,9 +750,13 @@
         const carouselWrapper = document.getElementById('carousel-wrapper');
         const indicators = document.querySelectorAll('.indicator');
 
+        // Lottie動畫物件
+        let logoAnimation = null;
+
         // 滾動效果
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
+            const heroHeight = window.innerHeight;
             
             // 導航欄效果
             if (scrollY > 50) {
@@ -681,14 +765,31 @@
                 navbar.classList.remove('scrolled');
             }
 
-            // Logo動畫隨滾動消失（被遮擋）
-            const heroHeight = window.innerHeight;
-            if (scrollY > heroHeight - 100) {
-                heroLogoContainer.style.opacity = '0';
-                heroLogoContainer.style.pointerEvents = 'none';
-            } else {
-                heroLogoContainer.style.opacity = '1';
-                heroLogoContainer.style.pointerEvents = 'auto';
+            // Logo動畫隨滾動播放
+            if (logoAnimation && logoAnimation.totalFrames) {
+                const scrollProgress = Math.min(scrollY / (heroHeight * 0.8), 1);
+                const frame = scrollProgress * (logoAnimation.totalFrames - 1);
+                logoAnimation.goToAndStop(frame, true);
+                
+                // 滾動到底部時隱藏
+                if (scrollY > heroHeight - 100) {
+                    heroLogoContainer.style.opacity = '0';
+                } else {
+                    heroLogoContainer.style.opacity = '1';
+                }
+            } else if (document.getElementById('css-logo-animation')) {
+                // CSS備用方案
+                const scrollProgress = Math.min(scrollY / (heroHeight * 0.8), 1);
+                const rotation = scrollProgress * 360;
+                const scale = 1 - (scrollProgress * 0.3);
+                const cssAnimation = document.getElementById('css-logo-animation');
+                cssAnimation.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+                
+                if (scrollY > heroHeight - 100) {
+                    heroLogoContainer.style.opacity = '0';
+                } else {
+                    heroLogoContainer.style.opacity = '1';
+                }
             }
         });
 
@@ -736,10 +837,8 @@
             indicators.forEach((indicator, index) => {
                 if (index === currentSlide) {
                     indicator.classList.add('active');
-                    indicator.textContent = '*';
                 } else {
                     indicator.classList.remove('active');
-                    indicator.textContent = '*';
                 }
             });
         }
@@ -752,42 +851,33 @@
         // 自動輪播
         setInterval(nextSlide, 4000);
 
-        // 初始化Lottie動畫
+        // 初始化Lottie動畫 - 滾動控制版本
         function initLogoAnimation() {
             const logoMotionContainer = document.getElementById('logo-motion');
             
             if (typeof lottie !== 'undefined') {
-                const animation = lottie.loadAnimation({
+                logoAnimation = lottie.loadAnimation({
                     container: logoMotionContainer,
                     renderer: 'svg',
-                    loop: true,
-                    autoplay: true,
+                    loop: false,
+                    autoplay: false, // 不自動播放，由滾動控制
                     path: './assets/logo_motion.json'
                 });
                 
-                console.log('Lottie動畫已載入並開始播放');
+                console.log('Lottie動畫已載入（滾動控制模式）');
             } else {
                 // CSS動畫備用方案
                 logoMotionContainer.innerHTML = `
-                    <div style="
+                    <div id="css-logo-animation" style="
                         width: 100%;
                         height: 100%;
                         background: url('./assets/logo.png') no-repeat center center;
                         background-size: contain;
-                        animation: rotate 10s linear infinite;
+                        transition: transform 0.1s linear;
                     "></div>
                 `;
                 
-                const style = document.createElement('style');
-                style.innerHTML = `
-                    @keyframes rotate {
-                        from { transform: rotate(0deg); }
-                        to { transform: rotate(360deg); }
-                    }
-                `;
-                document.head.appendChild(style);
-                
-                console.log('使用CSS動畫作為備用方案');
+                console.log('使用CSS動畫作為備用方案（滾動控制）');
             }
         }
 
@@ -807,4 +897,3 @@
         });
     </script>
 </body>
-</html>
