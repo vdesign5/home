@@ -1,5 +1,4 @@
-<!-- Lottie動畫庫（可選載入） -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +7,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Lottie動畫庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     
     <style>
         /* 字體定義 */
@@ -26,6 +28,7 @@
         .chinese-text, .chinese {
             font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
         }
+        
         /* 重置樣式 */
         * {
             margin: 0;
@@ -38,6 +41,7 @@
             background-color: #fff;
             color: #000;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* 導航容器 */
@@ -113,7 +117,7 @@
             opacity: 1;
         }
 
-        /* Hover效果 - 品牌紅色 + 移除放大效果 */
+        /* Hover效果 - 品牌紅色 */
         .nav-link:hover .nav-image {
             filter: sepia(1) saturate(10) hue-rotate(340deg) brightness(1.2) contrast(1.5);
             transform: translateY(-2px);
@@ -135,21 +139,16 @@
             transition: transform 0.56s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* Hover時恢復到0度 - 使用更慢的動畫 */
+        /* Hover時恢復到0度 */
         .nav-item:hover {
             transform: rotate(0deg);
             transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* 點擊時的動畫 - 更慢更優雅 */
+        /* 點擊時的動畫 */
         .nav-item:active {
             transform: rotate(0deg) scale(0.95);
             transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        /* Hover效果下劃線移除，因為現在是圖片 */
-        .nav-link::before {
-            display: none;
         }
 
         .nav-link {
@@ -194,7 +193,226 @@
             transform: rotate(-45deg) translate(6px, -6px);
         }
 
-        /* 響應式設計 - 平板和手機 */
+        /* Hero區域 - 全新設計 */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        /* 固定的Logo動畫容器 - 放大300% */
+        .hero-logo-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(3);
+            width: 300px;
+            height: 300px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #logo-motion {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 輪播圖容器 - 左下角 */
+        .carousel-container {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            width: 600px;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #f0f0f0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        /* 輪播圖包裝器 */
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.6s ease;
+            height: 100%;
+        }
+
+        /* 輪播圖片 */
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 輪播圖指示器 */
+        .carousel-indicators {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            display: flex;
+            gap: 5px;
+            font-family: 'Futura', monospace;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .indicator {
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .indicator.active {
+            opacity: 1;
+        }
+
+        /* 文字介紹區域 - Logo右側 */
+        .intro-text {
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translateY(-50%);
+            z-index: 10;
+            opacity: 0;
+            animation: fadeInFromLeft 1.2s ease-out 0.5s forwards;
+        }
+
+        .intro-english {
+            font-size: 1.8rem;
+            color: #333333;
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .intro-chinese {
+            font-size: 0.9rem;
+            color: #CCCCCC;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            line-height: 1.6;
+        }
+
+        /* 淡入動畫 */
+        @keyframes fadeInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px) translateY(-50%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) translateY(-50%);
+            }
+        }
+
+        /* 滾動遮罩層 */
+        .scroll-mask {
+            position: absolute;
+            top: 100vh;
+            left: 0;
+            right: 0;
+            height: 100vh;
+            background: #fff;
+            z-index: 6;
+        }
+
+        /* 跑馬燈區域 */
+        .marquee-section {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 跑馬燈容器 */
+        .marquee-container {
+            display: flex;
+            animation: marquee 25s linear infinite;
+            white-space: nowrap;
+            will-change: transform;
+        }
+
+        /* 跑馬燈文字 */
+        .marquee-text {
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-right: 60px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .marquee-text .english {
+            color: #333333;
+            font-weight: 500;
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 1.6rem;
+        }
+
+        .marquee-text .chinese {
+            color: #CCCCCC;
+            font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 300;
+        }
+
+        .marquee-text .punctuation {
+            color: #CCCCCC;
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .marquee-text .separator {
+            color: #CCCCCC;
+            margin: 0 20px;
+            font-size: 1rem;
+            font-family: 'Futura', 'Arial', sans-serif;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* 內容區域 */
+        .content-section {
+            position: relative;
+            background: #fff;
+            z-index: 10;
+            min-height: 100vh;
+            padding: 80px 40px;
+        }
+
+        /* 滑動過渡效果 */
+        .navbar.scrolled {
+            padding: 15px 0;
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .navbar.scrolled .logo img {
+            height: 35px;
+            transition: height 0.42s ease;
+        }
+
+        /* 響應式設計 */
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 20px;
@@ -224,7 +442,6 @@
                 transition: right 0.42s ease;
             }
 
-            /* 手機版選單項目恢復正常角度和圖片樣式 */
             .nav-item:nth-child(1),
             .nav-item:nth-child(2),
             .nav-item:nth-child(3) {
@@ -239,202 +456,37 @@
                 right: 0;
             }
 
-            .nav-link {
-                font-size: 18px;
-                letter-spacing: 2px;
+            .carousel-container {
+                width: 90%;
+                height: 200px;
+                left: 5%;
+                bottom: 20px;
             }
 
-            .nav-link::before {
-                bottom: -5px;
-            }
-        }
-
-        /* 極小螢幕優化 */
-        @media (max-width: 480px) {
-            .nav-container {
-                padding: 0 15px;
+            .hero-logo-container {
+                transform: translate(-50%, -50%) scale(2);
+                width: 200px;
+                height: 200px;
             }
 
-            .logo img {
-                height: 28px;
+            .intro-text {
+                left: 50%;
+                top: 70%;
+                transform: translateX(-50%) translateY(-50%);
+                text-align: center;
+                padding: 0 20px;
             }
 
-            .nav-link {
-                font-size: 16px;
+            .intro-english {
+                font-size: 1.2rem;
             }
-        }
 
-        /* 頁面內容區域（示範用） */
-        .main-content {
-            margin-top: 100px;
-            padding: 40px;
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Hero區域 - 拉長以便動畫播放 */
-        .hero-section {
-            text-align: center;
-            padding: 150px 0 200px 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 300;
-            margin-bottom: 20px;
-            letter-spacing: 3px;
-            color: #000;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            letter-spacing: 1px;
-        }
-
-        /* 滑動過渡效果 */
-        .navbar.scrolled {
-            padding: 15px 0;
-            background: rgba(255, 255, 255, 0.98);
-        }
-
-        .navbar.scrolled .logo img {
-            height: 35px;
-            transition: height 0.42s ease;
-        }
-
-        /* Hero區域的Logo動畫 - 放大150% */
-        .hero-logo-animation {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 5;
-            pointer-events: none;
-            width: 300px;
-            height: 300px;
-        }
-
-        .hero-logo-animation.hidden {
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        /* Lottie動畫容器 */
-        #logo-motion {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* 跑馬燈區域 */
-        .marquee-section {
-            width: 100%;
-            height: 80px;
-            background: #fff;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            overflow: hidden;
-            position: relative;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-        }
-
-        /* 跑馬燈邊框動畫 */
-        .marquee-section::before,
-        .marquee-section::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #eee;
-            transition: width 1.2s ease-out;
-        }
-
-        .marquee-section::before {
-            top: 0;
-        }
-
-        .marquee-section::after {
-            bottom: 0;
-        }
-
-        .marquee-section.animate-borders::before,
-        .marquee-section.animate-borders::after {
-            width: 100%;
-        }
-
-        /* 跑馬燈容器 - 修正循環間隙 */
-        .marquee-container {
-            display: flex;
-            animation: marquee 25s linear infinite;
-            white-space: nowrap;
-            will-change: transform;
-        }
-
-        /* 跑馬燈文字 - 調整大小和層級 */
-        .marquee-text {
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin-right: 60px;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
-
-        /* 英文樣式 */
-        .marquee-text .english {
-            color: #333333;
-            font-weight: 500;
-            font-family: 'Futura', 'Arial', sans-serif;
-            font-size: 1.6rem;
-        }
-
-        /* 中文和標點符號樣式 - 50%大小 */
-        .marquee-text .chinese {
-            color: #CCCCCC;
-            font-family: 'Noto Sans TC', '思源黑體', 'Source Han Sans TC', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 300;
-        }
-
-        .marquee-text .punctuation {
-            color: #CCCCCC;
-            font-family: 'Futura', 'Arial', sans-serif;
-            font-size: 0.8rem;
-        }
-
-        /* 分隔符樣式 */
-        .marquee-text .separator {
-            color: #CCCCCC;
-            margin: 0 20px;
-            font-size: 1rem;
-            font-family: 'Futura', 'Arial', sans-serif;
-        }
-
-        /* 跑馬燈動畫 - 修正循環 */
-        @keyframes marquee {
-            0% {
-                transform: translateX(0%);
+            .intro-chinese {
+                font-size: 0.7rem;
             }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
 
-        /* 響應式調整 */
-        @media (max-width: 768px) {
-            .hero-logo-animation {
-                width: 225px;
-                height: 225px;
+            .marquee-section {
+                height: 60px;
             }
 
             .marquee-text {
@@ -450,30 +502,25 @@
             .marquee-text .punctuation {
                 font-size: 0.6rem;
             }
-
-            .marquee-text .separator {
-                margin: 0 15px;
-                font-size: 0.8rem;
-            }
-
-            .marquee-section {
-                height: 60px;
-            }
-        }
-        .nav-link {
-            animation: fadeInUp 0.84s ease-out forwards;
-            opacity: 0;
-            transform: translateY(20px);
         }
 
-        .nav-item:nth-child(1) .nav-link { animation-delay: 0.14s; }
-        .nav-item:nth-child(2) .nav-link { animation-delay: 0.28s; }
-        .nav-item:nth-child(3) .nav-link { animation-delay: 0.42s; }
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 15px;
+            }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .logo img {
+                height: 28px;
+            }
+
+            .carousel-container {
+                height: 150px;
+            }
+
+            .hero-logo-container {
+                transform: translate(-50%, -50%) scale(1.5);
+                width: 150px;
+                height: 150px;
             }
         }
     </style>
@@ -484,16 +531,13 @@
         <div class="nav-container">
             <!-- Logo -->
             <a href="index.html" class="logo">
-                <!-- 使用確認可行的絕對路徑 -->
-                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="Logo" id="logo-img" 
-                     onload="console.log('Logo loaded successfully:', this.src)"
-                     onerror="handleLogoError(this)">
+                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="Logo" id="logo-img">
             </a>
 
-            <!-- 導航選單 - 改為圖片選單 -->
+            <!-- 導航選單 -->
             <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-                    <a href="project.html" class="nav-link" data-page="project">
+                    <a href="project.html" class="nav-link active" data-page="project">
                         <img src="https://vdesign5.github.io/home/assets/project.webp" alt="Project" class="nav-image">
                     </a>
                 </li>
@@ -518,75 +562,103 @@
         </div>
     </nav>
 
-    <!-- Hero區域Logo動畫 -->
-    <div class="hero-logo-animation" id="hero-logo-animation">
-        <div id="logo-motion"></div>
-    </div>
+    <!-- Hero區域 -->
+    <section class="hero-section">
+        <!-- 固定的Logo動畫 (放大300%) -->
+        <div class="hero-logo-container" id="hero-logo-container">
+            <div id="logo-motion"></div>
+        </div>
 
-    <!-- 主要內容區域 -->
-    <main class="main-content">
-        <section class="hero-section">
-            <h1 class="hero-title">PORTFOLIO</h1>
-            <p class="hero-subtitle">Creative Design & Development</p>
-        </section>
-
-        <!-- 跑馬燈區域 -->
-        <section class="marquee-section" id="marquee-section">
-            <div class="marquee-container">
-                <!-- 第一組文字 -->
-                <div class="marquee-text">
-                    <span class="english">Visual</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">視覺美學</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vivid</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">生動表現</span>
-                    <span class="separator">•</span>
-                    <span class="english">Versatile</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">靈活創新</span>
-                    <span class="separator">•</span>
-                    <span class="english">Visionary</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">前瞻視野</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vertex</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">追求頂點</span>
-                    <span class="separator">•</span>
-                </div>
-                <!-- 第二組文字（無縫循環） -->
-                <div class="marquee-text">
-                    <span class="english">Visual</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">視覺美學</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vivid</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">生動表現</span>
-                    <span class="separator">•</span>
-                    <span class="english">Versatile</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">靈活創新</span>
-                    <span class="separator">•</span>
-                    <span class="english">Visionary</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">前瞻視野</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vertex</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">追求頂點</span>
-                    <span class="separator">•</span>
-                </div>
+        <!-- 文字介紹 (Logo右側) -->
+        <div class="intro-text">
+            <div class="intro-english">
+                VDESIGN is a creative studio<br>
+                based in Taiwan
             </div>
-        </section>
+            <div class="intro-chinese chinese-text">
+                V DESIGN是一個位於台灣的創意工作室
+            </div>
+        </div>
 
-        <!-- 這裡可以添加更多內容 -->
-        <section style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-            <p style="font-size: 1.5rem; color: #666;">滾動頁面測試導航效果</p>
-        </section>
-    </main>
+        <!-- 輪播圖 (左下角) -->
+        <div class="carousel-container">
+            <div class="carousel-indicators">
+                (<span class="indicator active">*</span><span class="indicator">*</span><span class="indicator">*</span><span class="indicator">*</span><span class="indicator">*</span>)
+            </div>
+            <div class="carousel-wrapper" id="carousel-wrapper">
+                <div class="carousel-slide" style="background-image: url('./assets/project_showcase_01.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/brand_identity_02.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/web_design_03.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/motion_graphics_04.jpg')"></div>
+                <div class="carousel-slide" style="background-image: url('./assets/creative_campaign_05.jpg')"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 滾動遮罩層 -->
+    <div class="scroll-mask"></div>
+
+    <!-- 跑馬燈區域 -->
+    <section class="marquee-section">
+        <div class="marquee-container">
+            <!-- 第一組文字 -->
+            <div class="marquee-text">
+                <span class="english">Visual</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">視覺美學</span>
+                <span class="separator">•</span>
+                <span class="english">Vivid</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">生動表現</span>
+                <span class="separator">•</span>
+                <span class="english">Versatile</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">靈活創新</span>
+                <span class="separator">•</span>
+                <span class="english">Visionary</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">前瞻視野</span>
+                <span class="separator">•</span>
+                <span class="english">Vertex</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">追求頂點</span>
+                <span class="separator">•</span>
+            </div>
+            <!-- 第二組文字（無縫循環） -->
+            <div class="marquee-text">
+                <span class="english">Visual</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">視覺美學</span>
+                <span class="separator">•</span>
+                <span class="english">Vivid</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">生動表現</span>
+                <span class="separator">•</span>
+                <span class="english">Versatile</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">靈活創新</span>
+                <span class="separator">•</span>
+                <span class="english">Visionary</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">前瞻視野</span>
+                <span class="separator">•</span>
+                <span class="english">Vertex</span>
+                <span class="punctuation"> / </span>
+                <span class="chinese">追求頂點</span>
+                <span class="separator">•</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 內容區域 -->
+    <section class="content-section">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px;">Our Projects</h2>
+            <p style="font-size: 1.2rem; color: #666; line-height: 1.8;">
+                探索我們的創意作品，每一個專案都是獨特的視覺體驗。
+            </p>
+        </div>
+    </section>
 
     <script>
         // DOM元素
@@ -594,13 +666,29 @@
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
         const navLinks = document.querySelectorAll('.nav-link');
+        const heroLogoContainer = document.getElementById('hero-logo-container');
+        const carouselWrapper = document.getElementById('carousel-wrapper');
+        const indicators = document.querySelectorAll('.indicator');
 
         // 滾動效果
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            const scrollY = window.scrollY;
+            
+            // 導航欄效果
+            if (scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
+            }
+
+            // Logo動畫隨滾動消失（被遮擋）
+            const heroHeight = window.innerHeight;
+            if (scrollY > heroHeight - 100) {
+                heroLogoContainer.style.opacity = '0';
+                heroLogoContainer.style.pointerEvents = 'none';
+            } else {
+                heroLogoContainer.style.opacity = '1';
+                heroLogoContainer.style.pointerEvents = 'auto';
             }
         });
 
@@ -611,7 +699,7 @@
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
         });
 
-        // 點擊選單項目關閉手機版選單 - 加入旋轉動畫
+        // 點擊選單項目關閉手機版選單
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 // 桌面版點擊動畫效果
@@ -620,7 +708,6 @@
                     navItem.style.transition = 'transform 1.2s cubic-bezier(0.19, 1, 0.22, 1)';
                     navItem.style.transform = 'rotate(0deg) scale(0.95)';
                     
-                    // 動畫完成後恢復
                     setTimeout(() => {
                         navItem.style.transform = 'rotate(0deg) scale(1)';
                     }, 100);
@@ -638,6 +725,78 @@
             });
         });
 
+        // 輪播圖功能
+        let currentSlide = 0;
+        const totalSlides = 5;
+
+        function updateCarousel() {
+            carouselWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // 更新指示器
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                    indicator.textContent = '*';
+                } else {
+                    indicator.classList.remove('active');
+                    indicator.textContent = '*';
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        // 自動輪播
+        setInterval(nextSlide, 4000);
+
+        // 初始化Lottie動畫
+        function initLogoAnimation() {
+            const logoMotionContainer = document.getElementById('logo-motion');
+            
+            if (typeof lottie !== 'undefined') {
+                const animation = lottie.loadAnimation({
+                    container: logoMotionContainer,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: './assets/logo_motion.json'
+                });
+                
+                console.log('Lottie動畫已載入並開始播放');
+            } else {
+                // CSS動畫備用方案
+                logoMotionContainer.innerHTML = `
+                    <div style="
+                        width: 100%;
+                        height: 100%;
+                        background: url('./assets/logo.png') no-repeat center center;
+                        background-size: contain;
+                        animation: rotate 10s linear infinite;
+                    "></div>
+                `;
+                
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes rotate {
+                        from { transform: rotate(0deg); }
+                        to { transform: rotate(360deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                console.log('使用CSS動畫作為備用方案');
+            }
+        }
+
+        // 頁面載入完成後初始化
+        window.addEventListener('load', function() {
+            initLogoAnimation();
+            updateCarousel();
+        });
+
         // 點擊外部區域關閉選單
         document.addEventListener('click', (e) => {
             if (!navbar.contains(e.target)) {
@@ -645,167 +804,6 @@
                 navMenu.classList.remove('active');
                 document.body.style.overflow = 'auto';
             }
-        });
-
-        // 當前頁面高亮 - 改為檢查圖片導航
-        function setActiveNav() {
-            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                const linkHref = link.getAttribute('href');
-                
-                // 檢查當前頁面
-                if (linkHref === currentPage || 
-                    (currentPage === 'index.html' && linkHref === 'project.html') ||
-                    (currentPage === '' && linkHref === 'project.html')) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // 頁面載入時設定當前頁面
-        setActiveNav();
-
-        // 改進的Logo載入處理
-        function handleLogoError(img) {
-            const logoPaths = [
-                './assets/logo.png',
-                '/assets/logo.png',
-                `${window.location.origin}${window.location.pathname}assets/logo.png`,
-                `${window.location.origin}/${window.location.pathname.split('/')[1]}/assets/logo.png`
-            ];
-            
-            const currentIndex = img.dataset.pathIndex || 0;
-            const nextIndex = parseInt(currentIndex) + 1;
-            
-            if (nextIndex < logoPaths.length) {
-                console.log(`嘗試Logo路徑 ${nextIndex}: ${logoPaths[nextIndex]}`);
-                img.dataset.pathIndex = nextIndex;
-                img.src = logoPaths[nextIndex];
-            } else {
-                console.log('所有Logo路徑都失敗，顯示文字Logo');
-                img.style.display = 'none';
-                const textLogo = document.createElement('span');
-                textLogo.textContent = 'LOGO';
-                textLogo.style.cssText = `
-                    font-size: 24px;
-                    font-weight: bold;
-                    letter-spacing: 2px;
-                    color: #000;
-                    cursor: pointer;
-                `;
-                img.parentNode.appendChild(textLogo);
-            }
-        }
-
-        // Logo載入錯誤處理 - 改進版
-        const logoImg = document.getElementById('logo-img');
-        
-        // 成功載入時的處理
-        logoImg.addEventListener('load', function() {
-            console.log('Logo成功載入！路徑：', this.src);
-        });
-        
-        // Hero Logo動畫控制 - 改為滾動觸發
-        function initHeroLogoAnimation() {
-            const heroLogoAnimation = document.getElementById('hero-logo-animation');
-            const logoMotionContainer = document.getElementById('logo-motion');
-            let animation = null;
-            
-            // 初始化Lottie動畫（滾動控制）
-            if (typeof lottie !== 'undefined') {
-                animation = lottie.loadAnimation({
-                    container: logoMotionContainer,
-                    renderer: 'svg',
-                    loop: false,
-                    autoplay: false,
-                    path: './assets/logo_motion.json'
-                });
-                
-                console.log('Lottie動畫已載入（滾動控制模式）');
-            } else {
-                // CSS動畫備用方案
-                logoMotionContainer.innerHTML = `
-                    <div id="css-logo-animation" style="
-                        width: 100%;
-                        height: 100%;
-                        background: url('./assets/logo.png') no-repeat center center;
-                        background-size: contain;
-                        transform: scale(0);
-                        transition: transform 0.6s ease-out;
-                    "></div>
-                `;
-                console.log('使用CSS動畫作為Logo動畫');
-            }
-            
-            // 滾動控制動畫播放和可見性
-            function handleHeroAnimationScroll() {
-                const heroSection = document.querySelector('.hero-section');
-                const marqueeSection = document.querySelector('.marquee-section');
-                const scrollTop = window.pageYOffset;
-                
-                if (heroSection && marqueeSection) {
-                    const heroTop = heroSection.offsetTop;
-                    const heroBottom = heroTop + heroSection.offsetHeight;
-                    const marqueeTop = marqueeSection.offsetTop;
-                    
-                    // 在Hero區域內播放動畫
-                    if (scrollTop >= heroTop && scrollTop < marqueeTop - 100) {
-                        heroLogoAnimation.classList.remove('hidden');
-                        
-                        // 計算播放進度（基於滾動位置）
-                        const progress = Math.min((scrollTop - heroTop) / (heroBottom - heroTop - 200), 1);
-                        
-                        if (animation) {
-                            // Lottie動畫進度控制
-                            const frame = progress * (animation.totalFrames - 1);
-                            animation.goToAndStop(frame, true);
-                        } else {
-                            // CSS動畫進度控制
-                            const cssAnimation = document.getElementById('css-logo-animation');
-                            if (cssAnimation) {
-                                const scale = Math.min(progress * 1.5, 1);
-                                const rotation = progress * 360;
-                                cssAnimation.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-                            }
-                        }
-                    } else {
-                        // 在跑馬燈及以下區域隱藏
-                        heroLogoAnimation.classList.add('hidden');
-                    }
-                }
-            }
-            
-            window.addEventListener('scroll', handleHeroAnimationScroll);
-            handleHeroAnimationScroll();
-        }
-
-        // 跑馬燈邊框動畫
-        function initMarqueeAnimation() {
-            const marqueeSection = document.getElementById('marquee-section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-borders');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            
-            if (marqueeSection) {
-                observer.observe(marqueeSection);
-            }
-        }
-
-        // 頁面載入時初始化所有動畫
-        window.addEventListener('load', function() {
-            initHeroLogoAnimation();
-            initMarqueeAnimation();
-            console.log('所有動畫已初始化');
         });
     </script>
 </body>
