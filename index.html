@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - 作品集</title>
+    <link rel="icon" type="image/png" href="https://vdesign5.github.io/home/assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -44,7 +45,7 @@
             min-height: 100vh;
         }
 
-        /* 導航容器 */
+        /* 導航容器 - 改用柔和陰影 */
         .navbar {
             position: fixed;
             top: 0;
@@ -52,8 +53,8 @@
             right: 0;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
             padding: 20px 0;
             transition: all 0.42s ease;
         }
@@ -66,9 +67,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
-        /* Logo區域 - 調整hover效果和間距 */
+        /* Logo區域 - 調整logotype位置 */
         .logo {
             display: flex;
             align-items: center;
@@ -87,14 +89,14 @@
             z-index: 2;
         }
 
-        /* Logotype - hover時出現，調整間距 */
+        /* Logotype - 更靠近logo */
         .logo-type {
             position: absolute;
-            left: 42px;
+            left: 35px; /* 從42px調整為35px */
             height: 40px;
             width: auto;
             opacity: 0;
-            transform: translateX(-15px);
+            transform: translateX(-10px); /* 從-15px調整為-10px */
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: 1;
         }
@@ -105,7 +107,19 @@
         }
 
         .logo:hover {
-            padding-right: 110px;
+            padding-right: 100px; /* 從110px調整為100px */
+        }
+
+        /* 台灣時間顯示 */
+        .taiwan-time {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 0.75rem;
+            color: #999;
+            letter-spacing: 0.5px;
+            font-weight: 300;
         }
 
         /* 導航選單 */
@@ -215,7 +229,7 @@
             transform: rotate(-45deg) translate(6px, -6px);
         }
 
-        /* Hero區域 - 全新設計 */
+        /* Hero區域 - 優化設計 */
         .hero-section {
             position: relative;
             width: 100%;
@@ -224,15 +238,61 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            background: #fff;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         }
 
-        /* 固定的Logo動畫容器 - 放大到3倍 */
+        /* 背景裝飾元素 */
+        .hero-bg-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.03), rgba(255, 100, 100, 0.05));
+        }
+
+        .bg-circle-1 {
+            width: 200px;
+            height: 200px;
+            top: 15%;
+            right: 10%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .bg-circle-2 {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            right: 20%;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        .bg-circle-3 {
+            width: 100px;
+            height: 100px;
+            top: 60%;
+            left: 15%;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* 固定的Logo動畫容器 - 放大到4倍 */
         .hero-logo-container {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(3);
+            transform: translate(-50%, -50%) scale(4); /* 從3倍增加到4倍 */
             width: 200px;
             height: 200px;
             z-index: 5;
@@ -242,6 +302,7 @@
         #logo-motion {
             width: 100%;
             height: 100%;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
         }
 
         /* 輪播圖容器 - 左下角 */
@@ -254,14 +315,19 @@
             border-radius: 15px;
             overflow: hidden;
             background: #f0f0f0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             z-index: 10;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-container:hover {
+            transform: translateY(-5px);
         }
 
         /* 輪播圖包裝器 */
         .carousel-wrapper {
             display: flex;
-            transition: transform 0.6s ease;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             height: 100%;
         }
 
@@ -276,7 +342,7 @@
         /* 輪播圖指示器 */
         .carousel-indicators {
             position: absolute;
-            top: -25px;
+            top: -30px;
             left: 0;
             display: flex;
             font-family: 'Futura', monospace;
@@ -300,17 +366,22 @@
             color: #333;
         }
 
-        /* 文字介紹區域 - 調整位置避免過近 */
+        /* 文字介紹區域 - 向左移動 */
         .intro-text {
             position: absolute;
             top: 50%;
-            right: 60px;
+            right: 180px; /* 從60px調整為180px，向左移動120px */
             transform: translateY(-50%);
             z-index: 10;
             opacity: 0;
             animation: fadeInFromLeft 1.2s ease-out 0.5s forwards;
             max-width: 350px;
             text-align: right;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .intro-english {
@@ -361,8 +432,7 @@
             width: 100%;
             height: 80px;
             background: #fff;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
             z-index: 10;
             display: flex;
@@ -437,6 +507,7 @@
         .navbar.scrolled {
             padding: 15px 0;
             background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.12);
         }
 
         .navbar.scrolled .logo img {
@@ -446,19 +517,19 @@
 
         .navbar.scrolled .logo-type {
             height: 35px;
-            left: 38px;
+            left: 32px;
         }
 
         /* 超大螢幕響應式 */
         @media (min-width: 1920px) {
             .hero-logo-container {
-                transform: translate(-50%, -50%) scale(3.5);
+                transform: translate(-50%, -50%) scale(4.5);
                 width: 250px;
                 height: 250px;
             }
 
             .intro-text {
-                right: 120px;
+                right: 240px;
                 max-width: 400px;
             }
 
@@ -477,7 +548,7 @@
             }
 
             .intro-text {
-                right: 40px;
+                right: 140px;
             }
 
             .carousel-container {
@@ -497,8 +568,9 @@
             }
 
             .intro-text {
-                right: 30px;
+                right: 100px;
                 max-width: 300px;
+                padding: 20px;
             }
 
             .intro-english {
@@ -510,7 +582,7 @@
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -50%) scale(2.5);
+                transform: translate(-50%, -50%) scale(3);
             }
         }
 
@@ -519,17 +591,21 @@
                 padding: 0 20px;
             }
 
+            .taiwan-time {
+                display: none; /* 手機版隱藏時間 */
+            }
+
             .logo img {
                 height: 32px;
             }
 
             .logo-type {
                 height: 32px;
-                left: 35px;
+                left: 30px;
             }
 
             .logo:hover {
-                padding-right: 95px;
+                padding-right: 85px;
             }
 
             .hamburger {
@@ -576,21 +652,22 @@
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -60%) scale(2);
+                transform: translate(-50%, -60%) scale(2.5);
                 width: 150px;
                 height: 150px;
                 top: 40%;
             }
 
-            /* 手機版文字位置調整避免被遮擋 */
+            /* 手機版文字位置調整避免被遮擋 - 不調整位置 */
             .intro-text {
                 left: 50%;
                 right: auto;
                 top: 65%;
                 transform: translateX(-50%) translateY(-50%);
                 text-align: center;
-                padding: 0 20px;
+                padding: 20px;
                 max-width: 90%;
+                background: rgba(255, 255, 255, 0.9);
             }
 
             @keyframes fadeInFromLeft {
@@ -633,6 +710,10 @@
             .content-section {
                 padding: 60px 20px;
             }
+
+            .bg-circle {
+                display: none; /* 手機版隱藏背景裝飾 */
+            }
         }
 
         @media (max-width: 480px) {
@@ -646,7 +727,7 @@
 
             .logo-type {
                 height: 28px;
-                left: 32px;
+                left: 28px;
             }
 
             .carousel-container {
@@ -654,13 +735,14 @@
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -60%) scale(1.8);
+                transform: translate(-50%, -60%) scale(2);
                 width: 120px;
                 height: 120px;
             }
 
             .intro-text {
                 top: 68%;
+                padding: 15px;
             }
 
             .intro-english {
@@ -702,6 +784,11 @@
                     <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="logo-type">
                 </a>
 
+                <!-- 台灣時間顯示 -->
+                <div class="taiwan-time" id="taiwan-time">
+                    TPE 00:00
+                </div>
+
                 <!-- 導航選單 -->
                 <ul class="nav-menu" id="nav-menu">
                     <li class="nav-item">
@@ -732,12 +819,19 @@
 
         <!-- Hero區域 -->
         <section class="hero-section">
-            <!-- 固定的Logo動畫 (放大300%) -->
+            <!-- 背景裝飾元素 -->
+            <div class="hero-bg-elements">
+                <div class="bg-circle bg-circle-1"></div>
+                <div class="bg-circle bg-circle-2"></div>
+                <div class="bg-circle bg-circle-3"></div>
+            </div>
+
+            <!-- 固定的Logo動畫 (放大400%) -->
             <div class="hero-logo-container" id="hero-logo-container">
                 <div id="logo-motion"></div>
             </div>
 
-            <!-- 文字介紹 (右側，避免與動畫過近) -->
+            <!-- 文字介紹 (向左移動120px) -->
             <div class="intro-text">
                 <div class="intro-english">
                     VDESIGN is a creative studio<br>
@@ -757,6 +851,9 @@
                     <span class="indicator">*</span>
                     <span class="indicator">*</span>
                     <span class="indicator">*</span>
+                    <span class="indicator">*</span>
+                    <span class="indicator">*</span>
+                    <span class="indicator">*</span>
                     <span class="indicator-bracket">)</span>
                 </div>
                 <div class="carousel-wrapper" id="carousel-wrapper">
@@ -765,6 +862,9 @@
                     <div class="carousel-slide" style="background-image: url('./assets/showcase_III.jpg')"></div>
                     <div class="carousel-slide" style="background-image: url('./assets/showcase_IV.jpg')"></div>
                     <div class="carousel-slide" style="background-image: url('./assets/showcase_V.jpg')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_I.webp')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_II.webp')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_III.webp')"></div>
                 </div>
             </div>
         </section>
@@ -844,9 +944,23 @@
         const heroLogoContainer = document.getElementById('hero-logo-container');
         const carouselWrapper = document.getElementById('carousel-wrapper');
         const indicators = document.querySelectorAll('.indicator');
+        const taiwanTimeElement = document.getElementById('taiwan-time');
 
         // Lottie動畫物件
         let logoAnimation = null;
+
+        // 台灣時間更新函數
+        function updateTaiwanTime() {
+            const now = new Date();
+            const taiwanTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
+            const hours = taiwanTime.getHours().toString().padStart(2, '0');
+            const minutes = taiwanTime.getMinutes().toString().padStart(2, '0');
+            taiwanTimeElement.textContent = `TPE ${hours}:${minutes}`;
+        }
+
+        // 每秒更新時間
+        setInterval(updateTaiwanTime, 1000);
+        updateTaiwanTime(); // 立即執行一次
 
         // 滾動效果
         window.addEventListener('scroll', () => {
@@ -923,7 +1037,7 @@
 
         // 輪播圖功能
         let currentSlide = 0;
-        const totalSlides = 5;
+        const totalSlides = 8; // 增加到8張圖片
 
         function updateCarousel() {
             carouselWrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -946,7 +1060,7 @@
         // 自動輪播
         setInterval(nextSlide, 4000);
 
-        // 初始化Lottie動畫 - 滾動控制版本（增強遮色片支援）
+        // 初始化Lottie動畫 - 優化版本
         function initLogoAnimation() {
             const logoMotionContainer = document.getElementById('logo-motion');
             
@@ -959,7 +1073,7 @@
                         autoplay: false,
                         path: './assets/logo_motion.json',
                         rendererSettings: {
-                            preserveAspectRatio: 'xMidYMid slice',
+                            preserveAspectRatio: 'xMidYMid meet',
                             clearCanvas: true,
                             progressiveLoad: false,
                             hideOnTransparent: true,
@@ -967,34 +1081,47 @@
                         }
                     });
                     
-                    // 修正遮色片渲染問題
+                    // 動畫載入完成後的處理
                     logoAnimation.addEventListener('DOMLoaded', function() {
                         const svgElement = logoMotionContainer.querySelector('svg');
                         if (svgElement) {
                             svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                            svgElement.style.overflow = 'visible';
                             
-                            // 檢查並修正遮色片元素
-                            const masks = svgElement.querySelectorAll('mask');
-                            masks.forEach(mask => {
-                                const maskElements = mask.querySelectorAll('*');
-                                maskElements.forEach(el => {
-                                    if (el.hasAttribute('fill')) {
-                                        const fill = el.getAttribute('fill');
-                                        if (fill === 'black' || fill === '#000000') {
-                                            el.setAttribute('fill', 'white');
-                                        }
+                            // 修正遮色片問題
+                            const defs = svgElement.querySelector('defs');
+                            if (defs) {
+                                const masks = defs.querySelectorAll('mask');
+                                masks.forEach(mask => {
+                                    const maskRect = mask.querySelector('rect');
+                                    if (maskRect) {
+                                        maskRect.setAttribute('fill', 'white');
                                     }
                                 });
-                            });
+                                
+                                const clipPaths = defs.querySelectorAll('clipPath');
+                                clipPaths.forEach(clipPath => {
+                                    const clipRect = clipPath.querySelector('rect');
+                                    if (clipRect) {
+                                        clipRect.setAttribute('fill', 'white');
+                                    }
+                                });
+                            }
                         }
+                        console.log('Lottie動畫已載入並優化遮色片');
                     });
                     
-                    console.log('Lottie動畫已載入（滾動控制模式，遮色片優化）');
+                    logoAnimation.addEventListener('loadError', function() {
+                        console.error('Lottie動畫載入失敗，使用備用方案');
+                        fallbackAnimation();
+                    });
+                    
                 } catch (error) {
-                    console.error('Lottie動畫載入失敗:', error);
+                    console.error('Lottie動畫初始化失敗:', error);
                     fallbackAnimation();
                 }
             } else {
+                console.log('Lottie庫未載入，使用備用方案');
                 fallbackAnimation();
             }
         }
@@ -1012,13 +1139,14 @@
                 "></div>
             `;
             
-            console.log('使用CSS動畫作為備用方案（滾動控制）');
+            console.log('使用CSS動畫作為備用方案');
         }
 
         // 頁面載入完成後初始化
         window.addEventListener('load', function() {
             initLogoAnimation();
             updateCarousel();
+            updateTaiwanTime();
         });
 
         // 點擊外部區域關閉選單
