@@ -203,6 +203,8 @@
             cursor: pointer;
             padding: 5px;
             transition: transform 0.42s ease;
+            z-index: 1001;
+            position: relative;
         }
 
         .hamburger span {
@@ -211,10 +213,6 @@
             background: #000;
             margin: 3px 0;
             transition: all 0.42s ease;
-        }
-
-        .hamburger.active {
-            transform: rotate(45deg);
         }
 
         .hamburger.active span:nth-child(1) {
@@ -281,6 +279,7 @@
             height: 200px;
             z-index: 5;
             pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
         #logo-motion {
@@ -451,8 +450,10 @@
         .service-item {
             opacity: 0;
             transform: translateY(30px);
+        }
+
+        .service-item.animated {
             animation: fadeInUp 0.8s ease-out forwards;
-            animation-delay: calc(var(--index) * 0.1s);
         }
 
         .service-title {
@@ -579,80 +580,7 @@
             left: 32px;
         }
 
-        /* 超大螢幕響應式 */
-        @media (min-width: 1920px) {
-            .hero-logo-container {
-                transform: translate(-50%, -50%) scale(3.8);
-                width: 250px;
-                height: 250px;
-            }
-
-            .intro-text {
-                right: 240px;
-                max-width: 400px;
-            }
-
-            .carousel-container {
-                left: 120px;
-                bottom: 80px;
-                width: 480px;
-                height: 240px;
-            }
-        }
-
         /* 響應式設計 */
-        @media (max-width: 1440px) {
-            .nav-container {
-                padding: 0 40px;
-            }
-
-            .intro-text {
-                right: 140px;
-            }
-
-            .carousel-container {
-                left: 40px;
-                bottom: 40px;
-            }
-
-            .content-section {
-                padding: 80px 40px;
-            }
-
-            .services-section {
-                padding: 80px 40px;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .carousel-container {
-                width: 350px;
-                height: 175px;
-            }
-
-            .intro-text {
-                right: 100px;
-                max-width: 300px;
-            }
-
-            .intro-english {
-                font-size: 1.1rem;
-            }
-
-            .intro-chinese {
-                font-size: 0.55rem;
-            }
-
-            .hero-logo-container {
-                transform: translate(-50%, -50%) scale(2.8);
-            }
-
-            .services-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 30px;
-            }
-        }
-
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 20px;
@@ -709,7 +637,6 @@
                 right: 0;
             }
 
-            /* 手機版輪播圖位置調整 */
             .carousel-container {
                 width: calc(100% - 40px);
                 height: 160px;
@@ -725,7 +652,6 @@
                 top: 40%;
             }
 
-            /* 手機版文字位置調整 */
             .intro-text {
                 left: 50%;
                 right: auto;
@@ -764,90 +690,9 @@
                 gap: 20px;
             }
 
-            .service-title {
-                font-size: 1rem;
-            }
-
-            .service-chinese {
-                font-size: 0.7rem;
-            }
-
-            .marquee-section {
-                height: 60px;
-            }
-
-            .marquee-text {
-                font-size: 1.2rem;
-                margin-right: 40px;
-            }
-
-            .marquee-text .english {
-                font-size: 1.2rem;
-            }
-
-            .marquee-text .chinese,
-            .marquee-text .punctuation {
-                font-size: 0.6rem;
-            }
-
             .content-section {
                 padding: 60px 20px;
             }
-        }
-
-        @media (max-width: 480px) {
-            .nav-container {
-                padding: 0 15px;
-            }
-
-            .logo img {
-                height: 28px;
-            }
-
-            .logo-type {
-                height: 28px;
-                left: 28px;
-            }
-
-            .carousel-container {
-                height: 140px;
-            }
-
-            .hero-logo-container {
-                transform: translate(-50%, -60%) scale(2.8);
-                width: 120px;
-                height: 120px;
-            }
-
-            .intro-text {
-                top: 68%;
-                padding: 0;
-            }
-
-            .intro-english {
-                font-size: 0.9rem;
-            }
-
-            .intro-chinese {
-                font-size: 0.45rem;
-            }
-
-            .carousel-indicators {
-                font-size: 14px;
-                top: -25px;
-            }
-        }
-
-        /* Lottie動畫備用CSS樣式 */
-        .lottie-fallback {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .lottie-fallback svg {
-            width: 100%;
-            height: 100%;
         }
     </style>
 </head>
@@ -951,37 +796,37 @@
         <!-- 服務項目區域 - 新增 -->
         <section class="services-section" id="services-section">
             <div class="services-grid">
-                <div class="service-item" style="--index: 0">
+                <div class="service-item" style="animation-delay: 0s">
                     <span class="service-title">Brand Identity</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">品牌視覺</span>
                 </div>
-                <div class="service-item" style="--index: 1">
+                <div class="service-item" style="animation-delay: 0.1s">
                     <span class="service-title">Graphic Design</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">平面設計</span>
                 </div>
-                <div class="service-item" style="--index: 2">
+                <div class="service-item" style="animation-delay: 0.2s">
                     <span class="service-title">Packaging Design</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">包裝設計</span>
                 </div>
-                <div class="service-item" style="--index: 3">
+                <div class="service-item" style="animation-delay: 0.3s">
                     <span class="service-title">Motion Design</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">動態設計</span>
                 </div>
-                <div class="service-item" style="--index: 4">
+                <div class="service-item" style="animation-delay: 0.4s">
                     <span class="service-title">3D Modeling</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">3D建模</span>
                 </div>
-                <div class="service-item" style="--index: 5">
+                <div class="service-item" style="animation-delay: 0.5s">
                     <span class="service-title">Low-Code Web Design</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">網頁設計、規劃</span>
                 </div>
-                <div class="service-item" style="--index: 6">
+                <div class="service-item" style="animation-delay: 0.6s">
                     <span class="service-title">Photography</span>
                     <span class="service-divider">/</span>
                     <span class="service-chinese">攝影</span>
@@ -1002,52 +847,4 @@
                     <span class="punctuation"> / </span>
                     <span class="chinese">生動表現</span>
                     <span class="separator">•</span>
-                    <span class="english">Versatile</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">靈活創新</span>
-                    <span class="separator">•</span>
-                    <span class="english">Visionary</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">前瞻視野</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vertex</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">追求頂點</span>
-                    <span class="separator">•</span>
-                </div>
-                <!-- 第二組文字（無縫循環） -->
-                <div class="marquee-text">
-                    <span class="english">Visual</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">視覺美學</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vivid</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">生動表現</span>
-                    <span class="separator">•</span>
-                    <span class="english">Versatile</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">靈活創新</span>
-                    <span class="separator">•</span>
-                    <span class="english">Visionary</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">前瞻視野</span>
-                    <span class="separator">•</span>
-                    <span class="english">Vertex</span>
-                    <span class="punctuation"> / </span>
-                    <span class="chinese">追求頂點</span>
-                    <span class="separator">•</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 內容區域 -->
-        <section class="content-section">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; font-family: 'Futura', 'Arial', sans-serif;">Our Projects</h2>
-                <p style="font-size: 1.2rem; color: #666; line-height: 1.8; font-family: '思源黑體', 'Noto Sans TC', sans-serif;">
-                    探索我們的創意作品，每一個專案都是獨特的視覺體驗。
-                </p>
-            </div>
-        </section>
-    </div>
+                    <span class="english">Versatile</span
