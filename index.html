@@ -28,10 +28,20 @@
 
         body {
             font-family: 'Futura', 'Arial', sans-serif;
-            background-color: #fff;
+            background-color: #fafafa;
             color: #000;
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        /* 主要內容容器 - 最大寬度限制 */
+        .main-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            background: #fff;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.05);
+            min-height: 100vh;
         }
 
         /* 導航容器 */
@@ -50,15 +60,15 @@
 
         /* 導航內容容器 */
         .nav-container {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* Logo區域 - 加入hover效果 */
+        /* Logo區域 - 調整hover效果和間距 */
         .logo {
             display: flex;
             align-items: center;
@@ -77,14 +87,14 @@
             z-index: 2;
         }
 
-        /* Logotype - hover時出現 */
+        /* Logotype - hover時出現，調整間距 */
         .logo-type {
             position: absolute;
-            left: 45px;
+            left: 42px;
             height: 40px;
             width: auto;
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateX(-15px);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: 1;
         }
@@ -95,7 +105,7 @@
         }
 
         .logo:hover {
-            padding-right: 120px;
+            padding-right: 110px;
         }
 
         /* 導航選單 */
@@ -217,12 +227,12 @@
             background: #fff;
         }
 
-        /* 固定的Logo動畫容器 - 調整大小為2倍 */
+        /* 固定的Logo動畫容器 - 放大到3倍 */
         .hero-logo-container {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(2);
+            transform: translate(-50%, -50%) scale(3);
             width: 200px;
             height: 200px;
             z-index: 5;
@@ -234,11 +244,11 @@
             height: 100%;
         }
 
-        /* 輪播圖容器 - 縮小30% */
+        /* 輪播圖容器 - 左下角 */
         .carousel-container {
             position: absolute;
-            bottom: 40px;
-            left: 40px;
+            bottom: 60px;
+            left: 60px;
             width: 420px;
             height: 210px;
             border-radius: 15px;
@@ -263,7 +273,7 @@
             background-position: center;
         }
 
-        /* 輪播圖指示器 - 修正顯示 */
+        /* 輪播圖指示器 */
         .carousel-indicators {
             position: absolute;
             top: -25px;
@@ -290,16 +300,17 @@
             color: #333;
         }
 
-        /* 文字介紹區域 - 調整字體和大小 */
+        /* 文字介紹區域 - 調整位置避免過近 */
         .intro-text {
             position: absolute;
             top: 50%;
-            left: 58%;
+            right: 60px;
             transform: translateY(-50%);
             z-index: 10;
             opacity: 0;
             animation: fadeInFromLeft 1.2s ease-out 0.5s forwards;
             max-width: 350px;
+            text-align: right;
         }
 
         .intro-english {
@@ -325,7 +336,7 @@
         @keyframes fadeInFromLeft {
             from {
                 opacity: 0;
-                transform: translateX(-30px) translateY(-50%);
+                transform: translateX(30px) translateY(-50%);
             }
             to {
                 opacity: 1;
@@ -419,7 +430,7 @@
             background: #fff;
             z-index: 10;
             min-height: 100vh;
-            padding: 80px 40px;
+            padding: 80px 60px;
         }
 
         /* 滑動過渡效果 */
@@ -435,9 +446,50 @@
 
         .navbar.scrolled .logo-type {
             height: 35px;
+            left: 38px;
+        }
+
+        /* 超大螢幕響應式 */
+        @media (min-width: 1920px) {
+            .hero-logo-container {
+                transform: translate(-50%, -50%) scale(3.5);
+                width: 250px;
+                height: 250px;
+            }
+
+            .intro-text {
+                right: 120px;
+                max-width: 400px;
+            }
+
+            .carousel-container {
+                left: 120px;
+                bottom: 80px;
+                width: 480px;
+                height: 240px;
+            }
         }
 
         /* 響應式設計 */
+        @media (max-width: 1440px) {
+            .nav-container {
+                padding: 0 40px;
+            }
+
+            .intro-text {
+                right: 40px;
+            }
+
+            .carousel-container {
+                left: 40px;
+                bottom: 40px;
+            }
+
+            .content-section {
+                padding: 80px 40px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .carousel-container {
                 width: 350px;
@@ -445,7 +497,7 @@
             }
 
             .intro-text {
-                left: 55%;
+                right: 30px;
                 max-width: 300px;
             }
 
@@ -455,6 +507,10 @@
 
             .intro-chinese {
                 font-size: 0.55rem;
+            }
+
+            .hero-logo-container {
+                transform: translate(-50%, -50%) scale(2.5);
             }
         }
 
@@ -469,11 +525,11 @@
 
             .logo-type {
                 height: 32px;
-                left: 37px;
+                left: 35px;
             }
 
             .logo:hover {
-                padding-right: 100px;
+                padding-right: 95px;
             }
 
             .hamburger {
@@ -510,27 +566,42 @@
                 right: 0;
             }
 
+            /* 手機版輪播圖位置調整 */
             .carousel-container {
                 width: calc(100% - 40px);
-                height: 180px;
+                height: 160px;
                 left: 20px;
                 bottom: 20px;
                 max-width: 400px;
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -40%) scale(1.5);
+                transform: translate(-50%, -60%) scale(2);
                 width: 150px;
                 height: 150px;
+                top: 40%;
             }
 
+            /* 手機版文字位置調整避免被遮擋 */
             .intro-text {
                 left: 50%;
-                top: 75%;
+                right: auto;
+                top: 65%;
                 transform: translateX(-50%) translateY(-50%);
                 text-align: center;
                 padding: 0 20px;
                 max-width: 90%;
+            }
+
+            @keyframes fadeInFromLeft {
+                from {
+                    opacity: 0;
+                    transform: translateX(-50%) translateY(-50%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(-50%) translateY(-50%);
+                }
             }
 
             .intro-english {
@@ -558,6 +629,10 @@
             .marquee-text .punctuation {
                 font-size: 0.6rem;
             }
+
+            .content-section {
+                padding: 60px 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -571,16 +646,21 @@
 
             .logo-type {
                 height: 28px;
+                left: 32px;
             }
 
             .carousel-container {
-                height: 150px;
+                height: 140px;
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -40%) scale(1.2);
+                transform: translate(-50%, -60%) scale(1.8);
                 width: 120px;
                 height: 120px;
+            }
+
+            .intro-text {
+                top: 68%;
             }
 
             .intro-english {
@@ -596,149 +676,164 @@
                 top: -20px;
             }
         }
+
+        /* Lottie動畫備用CSS樣式 */
+        .lottie-fallback {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .lottie-fallback svg {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
-    <!-- 導航選單 -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <!-- Logo with hover logotype -->
-            <a href="index.html" class="logo">
-                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="Logo" id="logo-img">
-                <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="logo-type">
-            </a>
+    <!-- 主容器 -->
+    <div class="main-container">
+        <!-- 導航選單 -->
+        <nav class="navbar" id="navbar">
+            <div class="nav-container">
+                <!-- Logo with hover logotype -->
+                <a href="index.html" class="logo">
+                    <img src="https://vdesign5.github.io/home/assets/logo.png" alt="Logo" id="logo-img">
+                    <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="logo-type">
+                </a>
 
-            <!-- 導航選單 -->
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item">
-                    <a href="project.html" class="nav-link active" data-page="project">
-                        <img src="https://vdesign5.github.io/home/assets/project.webp" alt="Project" class="nav-image">
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="about.html" class="nav-link" data-page="about">
-                        <img src="https://vdesign5.github.io/home/assets/about.webp" alt="About" class="nav-image">
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link" data-page="contact">
-                        <img src="https://vdesign5.github.io/home/assets/contact.webp" alt="Contact" class="nav-image">
-                    </a>
-                </li>
-            </ul>
+                <!-- 導航選單 -->
+                <ul class="nav-menu" id="nav-menu">
+                    <li class="nav-item">
+                        <a href="project.html" class="nav-link active" data-page="project">
+                            <img src="https://vdesign5.github.io/home/assets/project.webp" alt="Project" class="nav-image">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link" data-page="about">
+                            <img src="https://vdesign5.github.io/home/assets/about.webp" alt="About" class="nav-image">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link" data-page="contact">
+                            <img src="https://vdesign5.github.io/home/assets/contact.webp" alt="Contact" class="nav-image">
+                        </a>
+                    </li>
+                </ul>
 
-            <!-- 手機版漢堡選單 -->
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <!-- 手機版漢堡選單 -->
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- Hero區域 -->
-    <section class="hero-section">
-        <!-- 固定的Logo動畫 (放大200%) -->
-        <div class="hero-logo-container" id="hero-logo-container">
-            <div id="logo-motion"></div>
-        </div>
+        <!-- Hero區域 -->
+        <section class="hero-section">
+            <!-- 固定的Logo動畫 (放大300%) -->
+            <div class="hero-logo-container" id="hero-logo-container">
+                <div id="logo-motion"></div>
+            </div>
 
-        <!-- 文字介紹 (Logo右側) -->
-        <div class="intro-text">
-            <div class="intro-english">
-                VDESIGN is a creative studio<br>
-                based in Taiwan
+            <!-- 文字介紹 (右側，避免與動畫過近) -->
+            <div class="intro-text">
+                <div class="intro-english">
+                    VDESIGN is a creative studio<br>
+                    based in Taiwan
+                </div>
+                <div class="intro-chinese">
+                    V DESIGN是一個位於台灣的創意工作室
+                </div>
             </div>
-            <div class="intro-chinese">
-                V DESIGN是一個位於台灣的創意工作室
-            </div>
-        </div>
 
-        <!-- 輪播圖 (左下角) -->
-        <div class="carousel-container">
-            <div class="carousel-indicators">
-                <span class="indicator-bracket">(</span>
-                <span class="indicator active">*</span>
-                <span class="indicator">*</span>
-                <span class="indicator">*</span>
-                <span class="indicator">*</span>
-                <span class="indicator">*</span>
-                <span class="indicator-bracket">)</span>
+            <!-- 輪播圖 (左下角) -->
+            <div class="carousel-container">
+                <div class="carousel-indicators">
+                    <span class="indicator-bracket">(</span>
+                    <span class="indicator active">*</span>
+                    <span class="indicator">*</span>
+                    <span class="indicator">*</span>
+                    <span class="indicator">*</span>
+                    <span class="indicator">*</span>
+                    <span class="indicator-bracket">)</span>
+                </div>
+                <div class="carousel-wrapper" id="carousel-wrapper">
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_I.jpg')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_II.jpg')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_III.jpg')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_IV.jpg')"></div>
+                    <div class="carousel-slide" style="background-image: url('./assets/showcase_V.jpg')"></div>
+                </div>
             </div>
-            <div class="carousel-wrapper" id="carousel-wrapper">
-                <div class="carousel-slide" style="background-image: url('./assets/showcase_I.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/showcase_II.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/showcase_III.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/showcase_IV.jpg')"></div>
-                <div class="carousel-slide" style="background-image: url('./assets/showcase_V.jpg')"></div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 滾動遮罩層 -->
-    <div class="scroll-mask"></div>
+        <!-- 滾動遮罩層 -->
+        <div class="scroll-mask"></div>
 
-    <!-- 跑馬燈區域 -->
-    <section class="marquee-section">
-        <div class="marquee-container">
-            <!-- 第一組文字 -->
-            <div class="marquee-text">
-                <span class="english">Visual</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">視覺美學</span>
-                <span class="separator">•</span>
-                <span class="english">Vivid</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">生動表現</span>
-                <span class="separator">•</span>
-                <span class="english">Versatile</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">靈活創新</span>
-                <span class="separator">•</span>
-                <span class="english">Visionary</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">前瞻視野</span>
-                <span class="separator">•</span>
-                <span class="english">Vertex</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">追求頂點</span>
-                <span class="separator">•</span>
+        <!-- 跑馬燈區域 -->
+        <section class="marquee-section">
+            <div class="marquee-container">
+                <!-- 第一組文字 -->
+                <div class="marquee-text">
+                    <span class="english">Visual</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">視覺美學</span>
+                    <span class="separator">•</span>
+                    <span class="english">Vivid</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">生動表現</span>
+                    <span class="separator">•</span>
+                    <span class="english">Versatile</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">靈活創新</span>
+                    <span class="separator">•</span>
+                    <span class="english">Visionary</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">前瞻視野</span>
+                    <span class="separator">•</span>
+                    <span class="english">Vertex</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">追求頂點</span>
+                    <span class="separator">•</span>
+                </div>
+                <!-- 第二組文字（無縫循環） -->
+                <div class="marquee-text">
+                    <span class="english">Visual</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">視覺美學</span>
+                    <span class="separator">•</span>
+                    <span class="english">Vivid</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">生動表現</span>
+                    <span class="separator">•</span>
+                    <span class="english">Versatile</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">靈活創新</span>
+                    <span class="separator">•</span>
+                    <span class="english">Visionary</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">前瞻視野</span>
+                    <span class="separator">•</span>
+                    <span class="english">Vertex</span>
+                    <span class="punctuation"> / </span>
+                    <span class="chinese">追求頂點</span>
+                    <span class="separator">•</span>
+                </div>
             </div>
-            <!-- 第二組文字（無縫循環） -->
-            <div class="marquee-text">
-                <span class="english">Visual</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">視覺美學</span>
-                <span class="separator">•</span>
-                <span class="english">Vivid</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">生動表現</span>
-                <span class="separator">•</span>
-                <span class="english">Versatile</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">靈活創新</span>
-                <span class="separator">•</span>
-                <span class="english">Visionary</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">前瞻視野</span>
-                <span class="separator">•</span>
-                <span class="english">Vertex</span>
-                <span class="punctuation"> / </span>
-                <span class="chinese">追求頂點</span>
-                <span class="separator">•</span>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 內容區域 -->
-    <section class="content-section">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; font-family: 'Futura', 'Arial', sans-serif;">Our Projects</h2>
-            <p style="font-size: 1.2rem; color: #666; line-height: 1.8; font-family: '思源黑體', 'Noto Sans TC', sans-serif;">
-                探索我們的創意作品，每一個專案都是獨特的視覺體驗。
-            </p>
-        </div>
-    </section>
+        <!-- 內容區域 -->
+        <section class="content-section">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; font-family: 'Futura', 'Arial', sans-serif;">Our Projects</h2>
+                <p style="font-size: 1.2rem; color: #666; line-height: 1.8; font-family: '思源黑體', 'Noto Sans TC', sans-serif;">
+                    探索我們的創意作品，每一個專案都是獨特的視覺體驗。
+                </p>
+            </div>
+        </section>
+    </div>
 
     <script>
         // DOM元素
@@ -851,34 +946,73 @@
         // 自動輪播
         setInterval(nextSlide, 4000);
 
-        // 初始化Lottie動畫 - 滾動控制版本
+        // 初始化Lottie動畫 - 滾動控制版本（增強遮色片支援）
         function initLogoAnimation() {
             const logoMotionContainer = document.getElementById('logo-motion');
             
             if (typeof lottie !== 'undefined') {
-                logoAnimation = lottie.loadAnimation({
-                    container: logoMotionContainer,
-                    renderer: 'svg',
-                    loop: false,
-                    autoplay: false, // 不自動播放，由滾動控制
-                    path: './assets/logo_motion.json'
-                });
-                
-                console.log('Lottie動畫已載入（滾動控制模式）');
+                try {
+                    logoAnimation = lottie.loadAnimation({
+                        container: logoMotionContainer,
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: false,
+                        path: './assets/logo_motion.json',
+                        rendererSettings: {
+                            preserveAspectRatio: 'xMidYMid slice',
+                            clearCanvas: true,
+                            progressiveLoad: false,
+                            hideOnTransparent: true,
+                            className: 'lottie-svg'
+                        }
+                    });
+                    
+                    // 修正遮色片渲染問題
+                    logoAnimation.addEventListener('DOMLoaded', function() {
+                        const svgElement = logoMotionContainer.querySelector('svg');
+                        if (svgElement) {
+                            svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                            
+                            // 檢查並修正遮色片元素
+                            const masks = svgElement.querySelectorAll('mask');
+                            masks.forEach(mask => {
+                                const maskElements = mask.querySelectorAll('*');
+                                maskElements.forEach(el => {
+                                    if (el.hasAttribute('fill')) {
+                                        const fill = el.getAttribute('fill');
+                                        if (fill === 'black' || fill === '#000000') {
+                                            el.setAttribute('fill', 'white');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    });
+                    
+                    console.log('Lottie動畫已載入（滾動控制模式，遮色片優化）');
+                } catch (error) {
+                    console.error('Lottie動畫載入失敗:', error);
+                    fallbackAnimation();
+                }
             } else {
-                // CSS動畫備用方案
-                logoMotionContainer.innerHTML = `
-                    <div id="css-logo-animation" style="
-                        width: 100%;
-                        height: 100%;
-                        background: url('./assets/logo.png') no-repeat center center;
-                        background-size: contain;
-                        transition: transform 0.1s linear;
-                    "></div>
-                `;
-                
-                console.log('使用CSS動畫作為備用方案（滾動控制）');
+                fallbackAnimation();
             }
+        }
+
+        // 備用動畫方案
+        function fallbackAnimation() {
+            const logoMotionContainer = document.getElementById('logo-motion');
+            logoMotionContainer.innerHTML = `
+                <div id="css-logo-animation" style="
+                    width: 100%;
+                    height: 100%;
+                    background: url('./assets/logo.png') no-repeat center center;
+                    background-size: contain;
+                    transition: transform 0.1s linear;
+                "></div>
+            `;
+            
+            console.log('使用CSS動畫作為備用方案（滾動控制）');
         }
 
         // 頁面載入完成後初始化
@@ -895,5 +1029,20 @@
                 document.body.style.overflow = 'auto';
             }
         });
+
+        // 視窗大小改變時的處理
+        let resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                // 重新計算佈局
+                if (window.innerWidth > 768) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }, 250);
+        });
     </script>
 </body>
+</html>
