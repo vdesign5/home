@@ -92,11 +92,11 @@
         /* Logotype - 更靠近logo */
         .logo-type {
             position: absolute;
-            left: 35px; /* 從42px調整為35px */
+            left: 35px;
             height: 40px;
             width: auto;
             opacity: 0;
-            transform: translateX(-10px); /* 從-15px調整為-10px */
+            transform: translateX(-10px);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: 1;
         }
@@ -107,7 +107,7 @@
         }
 
         .logo:hover {
-            padding-right: 100px; /* 從110px調整為100px */
+            padding-right: 100px;
         }
 
         /* 台灣時間顯示 */
@@ -276,7 +276,7 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(3.2); /* 電腦版調小一些 */
+            transform: translate(-50%, -50%) scale(3.2);
             width: 200px;
             height: 200px;
             z-index: 5;
@@ -296,16 +296,17 @@
             left: 60px;
             width: 420px;
             height: 210px;
-            border-radius: 8px; /* 減少圓角 */
+            border-radius: 8px;
             overflow: hidden;
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 
                 0 2px 20px rgba(0, 0, 0, 0.06),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.05); /* 凹凸紙質效果 */
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
             z-index: 10;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border: 1px solid rgba(0, 0, 0, 0.08);
+            cursor: grab;
         }
 
         .carousel-container:hover {
@@ -316,12 +317,16 @@
                 inset 0 -1px 0 rgba(0, 0, 0, 0.08);
         }
 
-        /* 輪播圖包裝器 - 無縫循環 */
+        .carousel-container:active {
+            cursor: grabbing;
+        }
+
+        /* 輪播圖包裝器 */
         .carousel-wrapper {
             display: flex;
-            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             height: 100%;
-            width: calc(800% + 100%); /* 8張圖片 + 第一張的複製 */
+            will-change: transform;
         }
 
         /* 輪播圖片 */
@@ -330,9 +335,10 @@
             height: 100%;
             background-size: cover;
             background-position: center;
+            user-select: none;
         }
 
-        /* 輪播圖指示器 */
+        /* 輪播圖指示器 - 移到上方 */
         .carousel-indicators {
             position: absolute;
             top: -30px;
@@ -340,45 +346,47 @@
             display: flex;
             font-family: 'Futura', monospace;
             font-size: 16px;
-            color: #333;
             letter-spacing: 2px;
+            align-items: center;
+            gap: 3px;
         }
 
         .indicator-bracket {
             color: #333;
+            font-weight: 300;
         }
 
         .indicator {
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-            margin: 0 1px;
+            color: #CCCCCC;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 2px 4px;
+            user-select: none;
+        }
+
+        .indicator:hover {
+            color: #666;
+            transform: scale(1.2);
         }
 
         .indicator.active {
-            opacity: 1;
-            color: #333;
+            color: #333333;
+            font-weight: 500;
         }
 
-        /* 文字介紹區域 - 北歐簡約風格 */
+        /* 文字介紹區域 - 移除背景色塊 */
         .intro-text {
             position: absolute;
             top: 50%;
-            right: 180px; /* 從60px調整為180px，向左移動120px */
+            right: 180px;
             transform: translateY(-50%);
             z-index: 10;
             opacity: 0;
             animation: fadeInFromLeft 1.2s ease-out 0.5s forwards;
             max-width: 350px;
             text-align: right;
-            padding: 25px 30px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            border-radius: 6px; /* 減少圓角 */
-            box-shadow: 
-                0 4px 25px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.9),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.04); /* 紙質凹凸效果 */
-            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 0;
+            background: transparent;
         }
 
         .intro-english {
@@ -394,7 +402,7 @@
         .intro-chinese {
             font-family: '思源黑體', 'Noto Sans TC', 'Source Han Sans TC', sans-serif;
             font-size: 0.65rem;
-            color: #CCCCCC;
+            color: #666666;
             font-weight: 300;
             letter-spacing: 0.3px;
             line-height: 1.6;
@@ -421,6 +429,60 @@
             height: 100vh;
             background: #fff;
             z-index: 6;
+        }
+
+        /* 服務項目區域 - 新增 */
+        .services-section {
+            position: relative;
+            width: 100%;
+            padding: 100px 60px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-item {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: calc(var(--index) * 0.1s);
+        }
+
+        .service-title {
+            font-family: 'Futura', 'Arial', sans-serif;
+            font-size: 1.1rem;
+            color: #333333;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .service-divider {
+            color: #CCCCCC;
+            margin: 0 10px;
+            font-weight: 300;
+        }
+
+        .service-chinese {
+            font-family: '思源黑體', 'Noto Sans TC', sans-serif;
+            font-size: 0.75rem;
+            color: #999999;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* 跑馬燈區域 */
@@ -556,6 +618,10 @@
             .content-section {
                 padding: 80px 40px;
             }
+
+            .services-section {
+                padding: 80px 40px;
+            }
         }
 
         @media (max-width: 1024px) {
@@ -567,7 +633,6 @@
             .intro-text {
                 right: 100px;
                 max-width: 300px;
-                padding: 20px;
             }
 
             .intro-english {
@@ -581,6 +646,11 @@
             .hero-logo-container {
                 transform: translate(-50%, -50%) scale(2.8);
             }
+
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -589,7 +659,7 @@
             }
 
             .taiwan-time {
-                display: none; /* 手機版隱藏時間 */
+                display: none;
             }
 
             .logo img {
@@ -649,22 +719,21 @@
             }
 
             .hero-logo-container {
-                transform: translate(-50%, -60%) scale(3.2); /* 手機版放大 */
+                transform: translate(-50%, -60%) scale(3.2);
                 width: 150px;
                 height: 150px;
                 top: 40%;
             }
 
-            /* 手機版文字位置調整避免被遮擋 - 不調整位置 */
+            /* 手機版文字位置調整 */
             .intro-text {
                 left: 50%;
                 right: auto;
                 top: 65%;
                 transform: translateX(-50%) translateY(-50%);
                 text-align: center;
-                padding: 20px;
+                padding: 0;
                 max-width: 90%;
-                background: rgba(255, 255, 255, 0.9);
             }
 
             @keyframes fadeInFromLeft {
@@ -684,6 +753,23 @@
 
             .intro-chinese {
                 font-size: 0.5rem;
+            }
+
+            .services-section {
+                padding: 60px 20px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .service-title {
+                font-size: 1rem;
+            }
+
+            .service-chinese {
+                font-size: 0.7rem;
             }
 
             .marquee-section {
@@ -735,7 +821,7 @@
 
             .intro-text {
                 top: 68%;
-                padding: 15px;
+                padding: 0;
             }
 
             .intro-english {
@@ -748,7 +834,7 @@
 
             .carousel-indicators {
                 font-size: 14px;
-                top: -20px;
+                top: -25px;
             }
         }
 
@@ -815,12 +901,12 @@
             <!-- 背景紙質紋理 -->
             <div class="hero-bg-elements"></div>
 
-            <!-- 固定的Logo動畫 (調整大小) -->
+            <!-- 固定的Logo動畫 -->
             <div class="hero-logo-container" id="hero-logo-container">
                 <div id="logo-motion"></div>
             </div>
 
-            <!-- 文字介紹 (向左移動120px) -->
+            <!-- 文字介紹 (移除背景色塊) -->
             <div class="intro-text">
                 <div class="intro-english">
                     VDESIGN is a creative studio<br>
@@ -832,17 +918,18 @@
             </div>
 
             <!-- 輪播圖 (左下角) -->
-            <div class="carousel-container">
+            <div class="carousel-container" id="carousel-container">
+                <!-- 指示器移到上方 -->
                 <div class="carousel-indicators">
                     <span class="indicator-bracket">(</span>
-                    <span class="indicator active">*</span>
-                    <span class="indicator">*</span>
-                    <span class="indicator">*</span>
-                    <span class="indicator">*</span>
-                    <span class="indicator">*</span>
-                    <span class="indicator">*</span>
-                    <span class="indicator">*</span>
-                    <span class="indicator">*</span>
+                    <span class="indicator active" data-slide="0">*</span>
+                    <span class="indicator" data-slide="1">*</span>
+                    <span class="indicator" data-slide="2">*</span>
+                    <span class="indicator" data-slide="3">*</span>
+                    <span class="indicator" data-slide="4">*</span>
+                    <span class="indicator" data-slide="5">*</span>
+                    <span class="indicator" data-slide="6">*</span>
+                    <span class="indicator" data-slide="7">*</span>
                     <span class="indicator-bracket">)</span>
                 </div>
                 <div class="carousel-wrapper" id="carousel-wrapper">
@@ -854,14 +941,53 @@
                     <div class="carousel-slide" style="background-image: url('./assets/showcase_I.webp')"></div>
                     <div class="carousel-slide" style="background-image: url('./assets/showcase_II.webp')"></div>
                     <div class="carousel-slide" style="background-image: url('./assets/showcase_III.webp')"></div>
-                    <!-- 第一張的複製，實現無縫循環 -->
-                    <div class="carousel-slide" style="background-image: url('./assets/showcase_I.jpg')"></div>
                 </div>
             </div>
         </section>
 
         <!-- 滾動遮罩層 -->
         <div class="scroll-mask"></div>
+
+        <!-- 服務項目區域 - 新增 -->
+        <section class="services-section" id="services-section">
+            <div class="services-grid">
+                <div class="service-item" style="--index: 0">
+                    <span class="service-title">Brand Identity</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">品牌視覺</span>
+                </div>
+                <div class="service-item" style="--index: 1">
+                    <span class="service-title">Graphic Design</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">平面設計</span>
+                </div>
+                <div class="service-item" style="--index: 2">
+                    <span class="service-title">Packaging Design</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">包裝設計</span>
+                </div>
+                <div class="service-item" style="--index: 3">
+                    <span class="service-title">Motion Design</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">動態設計</span>
+                </div>
+                <div class="service-item" style="--index: 4">
+                    <span class="service-title">3D Modeling</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">3D建模</span>
+                </div>
+                <div class="service-item" style="--index: 5">
+                    <span class="service-title">Low-Code Web Design</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">網頁設計、規劃</span>
+                </div>
+                <div class="service-item" style="--index: 6">
+                    <span class="service-title">Photography</span>
+                    <span class="service-divider">/</span>
+                    <span class="service-chinese">攝影</span>
+                </div>
+            </div>
+        </section>
 
         <!-- 跑馬燈區域 -->
         <section class="marquee-section">
@@ -925,256 +1051,3 @@
             </div>
         </section>
     </div>
-
-    <script>
-        // DOM元素
-        const navbar = document.getElementById('navbar');
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const heroLogoContainer = document.getElementById('hero-logo-container');
-        const carouselWrapper = document.getElementById('carousel-wrapper');
-        const indicators = document.querySelectorAll('.indicator');
-        const taiwanTimeElement = document.getElementById('taiwan-time');
-
-        // Lottie動畫物件
-        let logoAnimation = null;
-
-        // 台灣時間更新函數
-        function updateTaiwanTime() {
-            const now = new Date();
-            const taiwanTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
-            const hours = taiwanTime.getHours().toString().padStart(2, '0');
-            const minutes = taiwanTime.getMinutes().toString().padStart(2, '0');
-            taiwanTimeElement.textContent = `TPE ${hours}:${minutes}`;
-        }
-
-        // 每秒更新時間
-        setInterval(updateTaiwanTime, 1000);
-        updateTaiwanTime(); // 立即執行一次
-
-        // 滾動效果
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const heroHeight = window.innerHeight;
-            
-            // 導航欄效果
-            if (scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-
-            // Logo動畫隨滾動播放
-            if (logoAnimation && logoAnimation.totalFrames) {
-                const scrollProgress = Math.min(scrollY / (heroHeight * 0.8), 1);
-                const frame = scrollProgress * (logoAnimation.totalFrames - 1);
-                logoAnimation.goToAndStop(frame, true);
-                
-                // 滾動到底部時隱藏
-                if (scrollY > heroHeight - 100) {
-                    heroLogoContainer.style.opacity = '0';
-                } else {
-                    heroLogoContainer.style.opacity = '1';
-                }
-            } else if (document.getElementById('css-logo-animation')) {
-                // CSS備用方案
-                const scrollProgress = Math.min(scrollY / (heroHeight * 0.8), 1);
-                const rotation = scrollProgress * 360;
-                const scale = 1 - (scrollProgress * 0.3);
-                const cssAnimation = document.getElementById('css-logo-animation');
-                cssAnimation.style.transform = `rotate(${rotation}deg) scale(${scale})`;
-                
-                if (scrollY > heroHeight - 100) {
-                    heroLogoContainer.style.opacity = '0';
-                } else {
-                    heroLogoContainer.style.opacity = '1';
-                }
-            }
-        });
-
-        // 手機版選單切換
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
-        });
-
-        // 點擊選單項目關閉手機版選單
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                // 桌面版點擊動畫效果
-                if (window.innerWidth > 768) {
-                    const navItem = this.parentElement;
-                    navItem.style.transition = 'transform 1.2s cubic-bezier(0.19, 1, 0.22, 1)';
-                    navItem.style.transform = 'rotate(0deg) scale(0.95)';
-                    
-                    setTimeout(() => {
-                        navItem.style.transform = 'rotate(0deg) scale(1)';
-                    }, 100);
-                    
-                    setTimeout(() => {
-                        navItem.style.transition = '';
-                        navItem.style.transform = '';
-                    }, 1200);
-                }
-                
-                // 關閉手機版選單
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-        });
-
-        // 輪播圖功能 - 無縫循環
-        let currentSlide = 0;
-        const totalSlides = 8; // 實際圖片數量
-        const totalSlidesWithClone = 9; // 包含複製的第一張
-
-        function updateCarousel() {
-            if (currentSlide === totalSlides) {
-                // 到達複製的第一張時，無過渡效果跳回真正的第一張
-                carouselWrapper.style.transition = 'none';
-                carouselWrapper.style.transform = `translateX(0%)`;
-                currentSlide = 0;
-                
-                // 重新啟用過渡效果
-                setTimeout(() => {
-                    carouselWrapper.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                }, 50);
-            } else {
-                carouselWrapper.style.transform = `translateX(-${currentSlide * (100 / totalSlidesWithClone)}%)`;
-            }
-            
-            // 更新指示器（只顯示真實圖片的指示器）
-            indicators.forEach((indicator, index) => {
-                if (index === currentSlide) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentSlide++;
-            updateCarousel();
-        }
-
-        // 自動輪播
-        setInterval(nextSlide, 4000);
-
-        // 初始化Lottie動畫 - 優化版本
-        function initLogoAnimation() {
-            const logoMotionContainer = document.getElementById('logo-motion');
-            
-            if (typeof lottie !== 'undefined') {
-                try {
-                    logoAnimation = lottie.loadAnimation({
-                        container: logoMotionContainer,
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: false,
-                        path: './assets/logo_motion.json',
-                        rendererSettings: {
-                            preserveAspectRatio: 'xMidYMid meet',
-                            clearCanvas: true,
-                            progressiveLoad: false,
-                            hideOnTransparent: true,
-                            className: 'lottie-svg'
-                        }
-                    });
-                    
-                    // 動畫載入完成後的處理
-                    logoAnimation.addEventListener('DOMLoaded', function() {
-                        const svgElement = logoMotionContainer.querySelector('svg');
-                        if (svgElement) {
-                            svgElement.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-                            svgElement.style.overflow = 'visible';
-                            
-                            // 修正遮色片問題
-                            const defs = svgElement.querySelector('defs');
-                            if (defs) {
-                                const masks = defs.querySelectorAll('mask');
-                                masks.forEach(mask => {
-                                    const maskRect = mask.querySelector('rect');
-                                    if (maskRect) {
-                                        maskRect.setAttribute('fill', 'white');
-                                    }
-                                });
-                                
-                                const clipPaths = defs.querySelectorAll('clipPath');
-                                clipPaths.forEach(clipPath => {
-                                    const clipRect = clipPath.querySelector('rect');
-                                    if (clipRect) {
-                                        clipRect.setAttribute('fill', 'white');
-                                    }
-                                });
-                            }
-                        }
-                        console.log('Lottie動畫已載入並優化遮色片');
-                    });
-                    
-                    logoAnimation.addEventListener('loadError', function() {
-                        console.error('Lottie動畫載入失敗，使用備用方案');
-                        fallbackAnimation();
-                    });
-                    
-                } catch (error) {
-                    console.error('Lottie動畫初始化失敗:', error);
-                    fallbackAnimation();
-                }
-            } else {
-                console.log('Lottie庫未載入，使用備用方案');
-                fallbackAnimation();
-            }
-        }
-
-        // 備用動畫方案
-        function fallbackAnimation() {
-            const logoMotionContainer = document.getElementById('logo-motion');
-            logoMotionContainer.innerHTML = `
-                <div id="css-logo-animation" style="
-                    width: 100%;
-                    height: 100%;
-                    background: url('./assets/logo.png') no-repeat center center;
-                    background-size: contain;
-                    transition: transform 0.1s linear;
-                "></div>
-            `;
-            
-            console.log('使用CSS動畫作為備用方案');
-        }
-
-        // 頁面載入完成後初始化
-        window.addEventListener('load', function() {
-            initLogoAnimation();
-            updateCarousel();
-            updateTaiwanTime();
-        });
-
-        // 點擊外部區域關閉選單
-        document.addEventListener('click', (e) => {
-            if (!navbar.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // 視窗大小改變時的處理
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                // 重新計算佈局
-                if (window.innerWidth > 768) {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            }, 250);
-        });
-    </script>
-</body>
-</html>
