@@ -147,9 +147,9 @@
             opacity: 0.6;
         }
 
-        /* Hover效果 - 修正為100%正紅色 */
+        /* Hover效果 - 修正為100% #ff0000 */
         .nav-link:hover .nav-image {
-            filter: sepia(1) saturate(10) hue-rotate(0deg) brightness(1) contrast(2) !important;
+            filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7481%) hue-rotate(356deg) brightness(91%) contrast(135%) !important;
             transform: translateY(-2px);
             opacity: 1;
         }
@@ -354,6 +354,26 @@
             color: #333;
         }
 
+        /* 輪播圖進度條 */
+        .carousel-progress {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .carousel-progress-bar {
+            height: 100%;
+            background: #333;
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 1px;
+        }
+
         /* 文字介紹區域 - 北歐簡約風格 */
         .intro-text {
             position: absolute;
@@ -404,12 +424,7 @@
             opacity: 0;
             transform: translateX(30px);
             transition: all 0.5s ease;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
             padding: 20px 25px;
-            border-radius: 6px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.06);
             text-align: right;
             white-space: nowrap;
         }
@@ -451,7 +466,7 @@
         .v-word .chinese {
             font-family: '思源黑體', 'Noto Sans TC', sans-serif;
             font-size: 0.55rem;
-            color: #999;
+            color: #CCCCCC;
             font-weight: 300;
             letter-spacing: 0.2px;
         }
@@ -558,7 +573,13 @@
             background: #fff;
             z-index: 10;
             min-height: 100vh;
-            padding: 80px 60px;
+            padding: 80px 0;
+        }
+
+        .content-section .project-image {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* 滑動過渡效果 */
@@ -615,7 +636,11 @@
             }
 
             .content-section {
-                padding: 80px 40px;
+                padding: 80px 0;
+            }
+
+            .content-section > div {
+                padding: 0 40px !important;
             }
         }
 
@@ -780,7 +805,11 @@
             }
 
             .content-section {
-                padding: 60px 20px;
+                padding: 60px 0;
+            }
+
+            .content-section > div {
+                padding: 0 20px !important;
             }
         }
 
@@ -936,6 +965,9 @@
 
             <!-- 輪播圖 (左下角) - 更新圖片 -->
             <div class="carousel-container">
+                <div class="carousel-progress">
+                    <div class="carousel-progress-bar" id="carousel-progress-bar"></div>
+                </div>
                 <div class="carousel-indicators">
                     <span class="indicator-bracket">(</span>
                     <span class="indicator active">*</span>
@@ -1030,11 +1062,8 @@
 
         <!-- 內容區域 -->
         <section class="content-section">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <h2 style="font-size: 2.5rem; margin-bottom: 30px; letter-spacing: 2px; font-family: 'Futura', 'Arial', sans-serif;">Our Projects</h2>
-                <p style="font-size: 1.2rem; color: #666; line-height: 1.8; font-family: '思源黑體', 'Noto Sans TC', sans-serif;">
-                    探索我們的創意作品，每一個專案都是獨特的視覺體驗。
-                </p>
+            <div style="max-width: 1440px; margin: 0 auto; padding: 0 60px;">
+                <img src="./assets/project.webp" alt="Projects" class="project-image">
             </div>
         </section>
     </div>
@@ -1049,9 +1078,18 @@
         const carouselWrapper = document.getElementById('carousel-wrapper');
         const indicators = document.querySelectorAll('.indicator');
         const taiwanTimeElement = document.getElementById('taiwan-time');
+        const progressBar = document.getElementById('carousel-progress-bar');
 
         // Lottie動畫物件
         let logoAnimation = null;
+
+        // 輪播圖變數
+        let currentSlide = 0;
+        const totalSlides = 5; // 實際圖片數量
+        const totalSlidesWithClone = 6; // 包含複製的第一張
+        const slideInterval = 4000; // 4秒間隔
+        let slideTimer = null;
+        let progressTimer = null;
 
         // 台灣時間更新函數
         function updateTaiwanTime() {
@@ -1140,10 +1178,6 @@
         });
 
         // 輪播圖功能 - 無縫循環 (更新為5張圖片)
-        let currentSlide = 0;
-        const totalSlides = 5; // 實際圖片數量
-        const totalSlidesWithClone = 6; // 包含複製的第一張
-
         function updateCarousel() {
             if (currentSlide === totalSlides) {
                 // 到達複製的第一張時，無過渡效果跳回真正的第一張
@@ -1172,10 +1206,40 @@
         function nextSlide() {
             currentSlide++;
             updateCarousel();
+            resetProgress();
+        }
+
+        function resetProgress() {
+            // 清除舊的進度條動畫
+            if (progressTimer) {
+                clearInterval(progressTimer);
+            }
+            
+            // 重置進度條
+            progressBar.style.width = '0%';
+            
+            // 開始新的進度條動畫
+            let progress = 0;
+            const increment = 100 / (slideInterval / 50); // 每50ms更新一次
+            
+            progressTimer = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(progressTimer);
+                }
+                progressBar.style.width = progress + '%';
+            }, 50);
         }
 
         // 自動輪播
-        setInterval(nextSlide, 4000);
+        function startCarousel() {
+            slideTimer = setInterval(nextSlide, slideInterval);
+            resetProgress();
+        }
+
+        // 初始化輪播
+        startCarousel();
 
         // 初始化Lottie動畫 - 優化版本
         function initLogoAnimation() {
