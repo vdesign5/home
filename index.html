@@ -7,12 +7,40 @@
     <link rel="icon" type="image/png" href="https://vdesign5.github.io/home/assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Lottie動畫庫 -->
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    
+    <!-- Lottie -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     
     <style>
+        /* CSS變數 */
+        :root {
+            --primary: #ff0000;
+            --primary-rgb: 255, 0, 0;
+            --dark: #0a0a0a;
+            --dark-light: #1a1a1a;
+            --text: #333333;
+            --text-light: #666666;
+            --text-muted: #999999;
+            --text-ultra-light: #cccccc;
+            --bg: #fafafa;
+            --bg-white: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.1);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.12);
+            --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+            --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
         /* 重置樣式 */
         * {
             margin: 0;
@@ -20,76 +48,206 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #ff0000;
-            --text-dark: #1a1a1a;
-            --text-light: #666666;
-            --text-muted: #CCCCCC;
-            --bg-light: #fafafa;
-            --bg-white: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.95);
-            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.05);
-            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
-            --border-radius: 16px;
-            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #f8f8f8 100%);
-            color: var(--text-dark);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
+            cursor: none;
         }
 
-        /* 主要容器 */
+        /* 自定義游標 */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .custom-cursor.hover {
+            transform: scale(3);
+            background: rgba(var(--primary-rgb), 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        /* 預加載器 */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            flex-direction: column;
+        }
+
+        .preloader-logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        .preloader-text {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 500;
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 20px;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* 主容器 */
         .main-container {
-            max-width: 1440px;
+            max-width: 1600px;
             margin: 0 auto;
             background: var(--bg-white);
             position: relative;
-            box-shadow: var(--shadow-light);
+            box-shadow: var(--shadow-soft);
             min-height: 100vh;
         }
 
-        /* 頂部導航 - 簡化版 */
-        .top-nav {
+        /* 浮動粒子背景 */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(var(--primary-rgb), 0.3);
+            border-radius: 50%;
+            animation: float 8s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 導航 */
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
             transition: var(--transition);
         }
 
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+        }
+
         .nav-container {
-            max-width: 1440px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo-minimal {
-            height: 32px;
+        .logo {
+            height: 40px;
             width: auto;
             transition: var(--transition);
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.1));
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+            cursor: none;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s var(--ease-out-quart);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
         }
 
         .taiwan-time {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            letter-spacing: 0.5px;
             font-weight: 400;
+            letter-spacing: 1px;
         }
 
-        /* Hero區域 - 視差效果 */
+        /* Hero區域 */
         .hero-section {
             position: relative;
             height: 100vh;
@@ -97,136 +255,260 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            background: linear-gradient(135deg, #fdfdfd 0%, #ffffff 50%, #fcfcfc 100%);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(250, 250, 250, 0.95) 50%, 
+                rgba(255, 255, 255, 0.9) 100%);
         }
 
+        /* 3D背景網格 */
         .hero-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 120%;
+            height: 100%;
             background: 
-                radial-gradient(circle at 25% 25%, rgba(255, 0, 0, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
-            transform: translateY(0);
-            transition: transform 0.1s linear;
+                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+            z-index: 1;
         }
 
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* 浮動元素 */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: float-random 15s linear infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: rgba(var(--primary-rgb), 0.05);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            background: rgba(var(--primary-rgb), 0.08);
+            top: 60%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: rgba(var(--primary-rgb), 0.03);
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float-random {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(90deg); }
+            50% { transform: translate(-10px, -30px) rotate(180deg); }
+            75% { transform: translate(-30px, 10px) rotate(270deg); }
+        }
+
+        /* Hero內容 */
         .hero-content {
             text-align: center;
             z-index: 10;
-            max-width: 800px;
-            padding: 0 40px;
+            max-width: 1000px;
+            padding: 0 60px;
         }
 
         .hero-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 40px;
-            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 50px;
+            position: relative;
         }
 
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 20px;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 30px;
             letter-spacing: -0.02em;
-            line-height: 1.1;
+            line-height: 0.9;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--text) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             color: var(--text-light);
-            margin-bottom: 15px;
-            font-weight: 400;
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         .hero-description {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--text-muted);
             font-family: 'Noto Sans TC', sans-serif;
-            max-width: 500px;
-            margin: 0 auto 50px;
+            max-width: 600px;
+            margin: 0 auto 60px;
+            line-height: 1.8;
         }
 
-        /* V-words 動畫 */
+        /* V-words */
         .v-words {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.8s forwards;
+            gap: 20px;
+            margin-bottom: 80px;
         }
 
         .v-word {
-            padding: 12px 20px;
-            background: var(--bg-card);
-            border-radius: 25px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: var(--transition);
-            cursor: default;
+            cursor: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .v-word::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(var(--primary-rgb), 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .v-word:hover::before {
+            left: 100%;
         }
 
         .v-word:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-medium);
-            border-color: rgba(255, 0, 0, 0.1);
+            border-color: rgba(var(--primary-rgb), 0.2);
         }
 
         .v-word .english {
-            font-size: 0.85rem;
-            color: var(--text-dark);
-            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text);
+            font-weight: 600;
         }
 
         .v-word .separator {
-            color: var(--text-muted);
-            margin: 0 6px;
+            color: var(--primary);
+            margin: 0 8px;
+            font-weight: 300;
         }
 
         .v-word .chinese {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 400;
         }
 
-        /* 卡片式內容區域 */
-        .content-grid {
-            padding: 100px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* CTA按鈕 */
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: none;
+            box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(var(--primary-rgb), 0.4);
+        }
+
+        /* 服務區域 */
+        .services-section {
+            padding: 120px 60px;
+            background: var(--bg-white);
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 60px;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 80px;
             letter-spacing: -0.01em;
         }
 
-        /* 服務卡片 */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 100px;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .service-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            padding: 40px 30px;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: var(--transition);
-            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
+            cursor: none;
         }
 
         .service-card::before {
@@ -234,11 +516,11 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), #ff6666);
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), #ff6666);
             transform: scaleX(0);
-            transition: var(--transition);
+            transition: transform 0.5s var(--ease-out-quart);
         }
 
         .service-card:hover::before {
@@ -246,316 +528,247 @@
         }
 
         .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(var(--primary-rgb), 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            color: var(--primary);
         }
 
         .service-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 15px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
         }
 
         .service-description {
             color: var(--text-light);
-            line-height: 1.7;
-            margin-bottom: 20px;
+            line-height: 1.8;
+            margin-bottom: 30px;
         }
 
         .service-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
 
         .service-tag {
-            padding: 6px 12px;
-            background: rgba(255, 0, 0, 0.05);
-            color: var(--primary-color);
+            padding: 8px 16px;
+            background: rgba(var(--primary-rgb), 0.05);
+            color: var(--primary);
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 500;
+            border: 1px solid rgba(var(--primary-rgb), 0.1);
         }
 
-        /* 作品展示卡片 */
+        /* 作品集區域 */
+        .portfolio-section {
+            padding: 120px 60px;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg-white) 100%);
+        }
+
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin-bottom: 100px;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .portfolio-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: var(--transition);
-            backdrop-filter: blur(10px);
+            cursor: none;
+            position: relative;
         }
 
         .portfolio-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-heavy);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-strong);
         }
 
         .portfolio-image {
             width: 100%;
-            height: 250px;
+            height: 300px;
             background-size: cover;
             background-position: center;
-            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        .portfolio-card:hover .portfolio-image {
-            transform: scale(1.05);
+        .portfolio-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(var(--primary-rgb), 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .portfolio-card:hover .portfolio-image::before {
+            opacity: 1;
         }
 
         .portfolio-content {
-            padding: 30px;
+            padding: 40px;
         }
 
         .portfolio-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
         }
 
         .portfolio-description {
             color: var(--text-light);
-            margin-bottom: 20px;
-            line-height: 1.6;
+            margin-bottom: 25px;
+            line-height: 1.7;
         }
 
         .portfolio-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* 底部導航區域 */
-        .bottom-navigation {
-            background: var(--text-dark);
-            color: white;
-            padding: 60px 40px 40px;
-            margin-top: 100px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 40px;
-        }
-
-        .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .footer-logo {
-            width: 40px;
-            height: 40px;
-            filter: brightness(0) invert(1);
-        }
-
-        .footer-brand-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .footer-description {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .footer-section h3 {
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .footer-nav {
-            list-style: none;
-        }
-
-        .footer-nav li {
-            margin-bottom: 12px;
-        }
-
-        .footer-nav a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-nav a:hover {
-            color: var(--primary-color);
-            transform: translateX(3px);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.5);
         }
 
-        /* 動畫 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .portfolio-category {
+            color: var(--primary);
+            font-weight: 600;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
+        .portfolio-year {
+            color: var(--text-muted);
         }
 
         /* 響應式設計 */
         @media (max-width: 768px) {
-            .nav-container {
-                padding: 0 20px;
+            .nav-container,
+            .hero-content {
+                padding: 0 30px;
             }
 
-            .hero-content {
-                padding: 0 20px;
+            .services-section,
+            .portfolio-section {
+                padding: 80px 30px;
+            }
+
+            .services-grid,
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
 
             .v-words {
                 gap: 15px;
             }
 
-            .content-grid {
-                padding: 60px 20px;
+            .v-word {
+                padding: 12px 20px;
             }
 
-            .services-grid,
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            body {
+                cursor: auto;
             }
 
-            .service-card,
-            .portfolio-content {
-                padding: 25px 20px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-
-            .bottom-navigation {
-                padding: 40px 20px 30px;
+            .custom-cursor {
+                display: none;
             }
         }
 
-        @media (max-width: 480px) {
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .portfolio-card {
-                min-width: auto;
-            }
+        /* 滾動條樣式 */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        /* 滾動指示器 */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 50px;
-            border: 2px solid rgba(0, 0, 0, 0.2);
-            border-radius: 25px;
-            z-index: 100;
-            opacity: 0.7;
-            transition: var(--transition);
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
         }
 
-        .scroll-indicator::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 2px;
-            animation: scroll-down 2s infinite;
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
 
-        @keyframes scroll-down {
-            0% { top: 8px; opacity: 1; }
-            50% { top: 20px; opacity: 0.5; }
-            100% { top: 8px; opacity: 1; }
-        }
-
-        .scroll-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #cc0000;
         }
     </style>
 </head>
 <body>
+    <!-- 自定義游標 -->
+    <div class="custom-cursor"></div>
+
+    <!-- 預加載器 -->
+    <div class="preloader">
+        <div class="preloader-logo">
+            <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" style="width: 100%; height: 100%;">
+        </div>
+        <div class="preloader-text">LOADING</div>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- 粒子背景 -->
+    <div class="particle-container"></div>
+
     <div class="main-container">
-        <!-- 頂部導航 -->
-        <nav class="top-nav" id="top-nav">
+        <!-- 導航 -->
+        <nav class="navbar">
             <div class="nav-container">
-                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="logo-minimal">
+                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="logo">
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
                 <div class="taiwan-time" id="taiwan-time">TPE 00:00</div>
             </div>
         </nav>
 
         <!-- Hero區域 -->
-        <section class="hero-section">
-            <div class="hero-bg" id="hero-bg"></div>
+        <section class="hero-section" id="home">
+            <div class="hero-bg"></div>
+            
+            <!-- 浮動元素 -->
+            <div class="floating-elements">
+                <div class="floating-shape"></div>
+                <div class="floating-shape"></div>
+                <div class="floating-shape"></div>
+            </div>
             
             <div class="hero-content">
-                <div class="hero-logo floating" id="hero-logo">
+                <div class="hero-logo">
                     <div id="logo-motion"></div>
                 </div>
                 
                 <h1 class="hero-title">VDESIGN</h1>
                 <p class="hero-subtitle">Creative Studio Based in Taiwan</p>
-                <p class="hero-description">V DESIGN是一個位於台灣的創意工作室</p>
+                <p class="hero-description">V DESIGN是一個位於台灣的創意工作室，專注於為客戶創造獨特且富有影響力的視覺體驗</p>
                 
                 <div class="v-words">
                     <div class="v-word">
@@ -584,17 +797,17 @@
                         <span class="chinese">追求頂點</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- 滾動指示器 -->
-            <div class="scroll-indicator" id="scroll-indicator"></div>
+                <a href="#services" class="cta-button">探索我們的服務</a>
+            </div>
         </section>
 
-        <!-- 服務內容 -->
-        <section class="content-grid">
+        <!-- 服務區域 -->
+        <section class="services-section" id="services">
             <h2 class="section-title">Our Services</h2>
             <div class="services-grid">
                 <div class="service-card">
+                    <div class="service-icon">🎨</div>
                     <h3 class="service-title">Brand Identity</h3>
                     <p class="service-description">品牌視覺識別系統設計，從Logo到完整的品牌指導手冊，為您的品牌建立獨特且一致的視覺語言。</p>
                     <div class="service-tags">
@@ -605,6 +818,7 @@
                 </div>
 
                 <div class="service-card">
+                    <div class="service-icon">📐</div>
                     <h3 class="service-title">Graphic Design</h3>
                     <p class="service-description">平面設計解決方案，涵蓋海報、宣傳品、出版物等各類視覺設計需求。</p>
                     <div class="service-tags">
@@ -615,6 +829,7 @@
                 </div>
 
                 <div class="service-card">
+                    <div class="service-icon">💻</div>
                     <h3 class="service-title">Digital Design</h3>
                     <p class="service-description">數位設計服務，包含網頁設計、UI/UX設計以及數位媒體的視覺規劃。</p>
                     <div class="service-tags">
@@ -625,6 +840,7 @@
                 </div>
 
                 <div class="service-card">
+                    <div class="service-icon">🎬</div>
                     <h3 class="service-title">Motion Design</h3>
                     <p class="service-description">動態設計與動畫製作，為您的品牌帶來生動的視覺體驗。</p>
                     <div class="service-tags">
@@ -635,6 +851,7 @@
                 </div>
 
                 <div class="service-card">
+                    <div class="service-icon">🔲</div>
                     <h3 class="service-title">3D Modeling</h3>
                     <p class="service-description">專業3D建模與視覺化服務，為產品和空間創造逼真的3D呈現。</p>
                     <div class="service-tags">
@@ -645,6 +862,7 @@
                 </div>
 
                 <div class="service-card">
+                    <div class="service-icon">📷</div>
                     <h3 class="service-title">Photography</h3>
                     <p class="service-description">專業攝影服務，包含商業攝影、產品攝影及品牌形象拍攝。</p>
                     <div class="service-tags">
@@ -654,17 +872,20 @@
                     </div>
                 </div>
             </div>
+        </section>
 
+        <!-- 作品集區域 -->
+        <section class="portfolio-section" id="portfolio">
             <h2 class="section-title">Featured Projects</h2>
             <div class="portfolio-grid">
                 <div class="portfolio-card">
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Alpha</h3>
-                        <p class="portfolio-description">品牌識別設計專案，為新創科技公司打造完整的視覺識別系統。</p>
+                        <p class="portfolio-description">品牌識別設計專案，為新創科技公司打造完整的視覺識別系統，涵蓋Logo設計、品牌色彩與字體規範。</p>
                         <div class="portfolio-meta">
-                            <span>Brand Identity</span>
-                            <span>2024</span>
+                            <span class="portfolio-category">Brand Identity</span>
+                            <span class="portfolio-year">2024</span>
                         </div>
                     </div>
                 </div>
@@ -673,10 +894,10 @@
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_II.webp')"></div>
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Beta</h3>
-                        <p class="portfolio-description">數位平台UI/UX設計，提升用戶體驗與介面美感的整合設計。</p>
+                        <p class="portfolio-description">數位平台UI/UX設計，提升用戶體驗與介面美感的整合設計，包含完整的使用者旅程規劃。</p>
                         <div class="portfolio-meta">
-                            <span>Digital Design</span>
-                            <span>2024</span>
+                            <span class="portfolio-category">Digital Design</span>
+                            <span class="portfolio-year">2024</span>
                         </div>
                     </div>
                 </div>
@@ -685,10 +906,10 @@
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_III.webp')"></div>
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Gamma</h3>
-                        <p class="portfolio-description">包裝設計專案，結合美學與功能性的創新包裝解決方案。</p>
+                        <p class="portfolio-description">包裝設計專案，結合美學與功能性的創新包裝解決方案，提升產品市場競爭力。</p>
                         <div class="portfolio-meta">
-                            <span>Packaging Design</span>
-                            <span>2024</span>
+                            <span class="portfolio-category">Packaging Design</span>
+                            <span class="portfolio-year">2024</span>
                         </div>
                     </div>
                 </div>
@@ -697,107 +918,252 @@
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_IV.webp')"></div>
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Delta</h3>
-                        <p class="portfolio-description">動態設計作品，為品牌活動創造引人注目的動畫視覺效果。</p>
+                        <p class="portfolio-description">動態設計作品，為品牌活動創造引人注目的動畫視覺效果，增強品牌記憶點。</p>
                         <div class="portfolio-meta">
-                            <span>Motion Design</span>
-                            <span>2024</span>
+                            <span class="portfolio-category">Motion Design</span>
+                            <span class="portfolio-year">2024</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- 底部導航 -->
-        <footer class="bottom-navigation">
-            <div class="footer-content">
-                <div>
-                    <div class="footer-brand">
-                        <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="footer-logo">
-                        <span class="footer-brand-text">VDESIGN</span>
-                    </div>
-                    <p class="footer-description">
-                        我們是一個專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。每一個專案都是我們創意與專業的體現。
-                    </p>
-                    <div style="color: rgba(255, 255, 255, 0.5); font-size: 0.85rem;">
-                        © 2024 VDESIGN. All rights reserved.
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Services</h3>
-                    <ul class="footer-nav">
-                        <li><a href="#brand">Brand Identity</a></li>
-                        <li><a href="#graphic">Graphic Design</a></li>
-                        <li><a href="#digital">Digital Design</a></li>
-                        <li><a href="#motion">Motion Design</a></li>
-                        <li><a href="#3d">3D Modeling</a></li>
-                        <li><a href="#photography">Photography</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Connect</h3>
-                    <ul class="footer-nav">
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                        <li><a href="#careers">Careers</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <div>Made with ❤️ in Taiwan</div>
-                <div id="footer-time">TPE 00:00</div>
-            </div>
-        </footer>
     </div>
 
     <script>
+        // 註冊 GSAP 插件
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 全域變數
+        let mouse = { x: 0, y: 0 };
+        let cursor = { x: 0, y: 0 };
+        let isHovering = false;
+
+        // DOM 元素
+        const customCursor = document.querySelector('.custom-cursor');
+        const preloader = document.querySelector('.preloader');
+        const progressFill = document.querySelector('.progress-fill');
+        const navbar = document.querySelector('.navbar');
+        const taiwanTimeElement = document.getElementById('taiwan-time');
+
+        // 預加載動畫
+        window.addEventListener('load', () => {
+            // 模擬加載進度
+            let progress = 0;
+            const loadInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadInterval);
+                    setTimeout(() => {
+                        gsap.to(preloader, {
+                            duration: 1.5,
+                            opacity: 0,
+                            y: -100,
+                            ease: "power4.inOut",
+                            onComplete: () => {
+                                preloader.style.display = 'none';
+                                initAnimations();
+                            }
+                        });
+                    }, 500);
+                }
+                progressFill.style.width = progress + '%';
+            }, 100);
+        });
+
         // 時間更新
         function updateTime() {
             const now = new Date();
             const taiwanTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
             const hours = taiwanTime.getHours().toString().padStart(2, '0');
             const minutes = taiwanTime.getMinutes().toString().padStart(2, '0');
-            const timeStr = `TPE ${hours}:${minutes}`;
-            
-            document.getElementById('taiwan-time').textContent = timeStr;
-            document.getElementById('footer-time').textContent = timeStr;
+            taiwanTimeElement.textContent = `TPE ${hours}:${minutes}`;
         }
-
         setInterval(updateTime, 1000);
         updateTime();
 
-        // 視差滾動效果
+        // 自定義游標
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function updateCursor() {
+            cursor.x += (mouse.x - cursor.x) * 0.1;
+            cursor.y += (mouse.y - cursor.y) * 0.1;
+            
+            customCursor.style.left = cursor.x + 'px';
+            customCursor.style.top = cursor.y + 'px';
+            
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
+
+        // 游標懸停效果
+        const hoverElements = document.querySelectorAll('a, .service-card, .portfolio-card, .v-word');
+        hoverElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                customCursor.classList.add('hover');
+            });
+            element.addEventListener('mouseleave', () => {
+                customCursor.classList.remove('hover');
+            });
+        });
+
+        // 粒子系統
+        function createParticles() {
+            const particleContainer = document.querySelector('.particle-container');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // 滾動效果
         window.addEventListener('scroll', () => {
             const scrollY = window.scrollY;
-            const heroHeight = window.innerHeight;
             
-            // 背景視差
-            const heroBg = document.getElementById('hero-bg');
-            const parallaxSpeed = 0.5;
-            heroBg.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
-
-            // 滾動指示器隱藏
-            const scrollIndicator = document.getElementById('scroll-indicator');
-            if (scrollY > 100) {
-                scrollIndicator.classList.add('hidden');
-            } else {
-                scrollIndicator.classList.remove('hidden');
-            }
-
             // 導航欄效果
-            const topNav = document.getElementById('top-nav');
-            if (scrollY > 50) {
-                topNav.style.background = 'rgba(255, 255, 255, 0.98)';
-                topNav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+            if (scrollY > 100) {
+                navbar.classList.add('scrolled');
             } else {
-                topNav.style.background = 'rgba(255, 255, 255, 0.95)';
-                topNav.style.boxShadow = 'none';
+                navbar.classList.remove('scrolled');
             }
         });
+
+        // GSAP 動畫初始化
+        function initAnimations() {
+            // Hero 標題動畫
+            gsap.fromTo('.hero-title', {
+                y: 100,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power4.out"
+            });
+
+            // Hero 副標題動畫
+            gsap.fromTo('.hero-subtitle', {
+                y: 50,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1.2,
+                delay: 0.3,
+                ease: "power3.out"
+            });
+
+            // Hero 描述動畫
+            gsap.fromTo('.hero-description', {
+                y: 30,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: 0.6,
+                ease: "power2.out"
+            });
+
+            // V-words 動畫
+            gsap.fromTo('.v-word', {
+                y: 50,
+                opacity: 0,
+                scale: 0.8
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                delay: 0.9,
+                stagger: 0.1,
+                ease: "back.out(1.7)"
+            });
+
+            // CTA 按鈕動畫
+            gsap.fromTo('.cta-button', {
+                y: 30,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: 1.5,
+                ease: "power3.out"
+            });
+
+            // 服務卡片動畫
+            gsap.fromTo('.service-card', {
+                y: 100,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                stagger: 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: '.services-section',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // 作品集卡片動畫
+            gsap.fromTo('.portfolio-card', {
+                y: 100,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                stagger: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: '.portfolio-section',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // 標題動畫
+            gsap.fromTo('.section-title', {
+                y: 80,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: '.section-title',
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // 視差效果
+            gsap.to('.floating-shape', {
+                y: -100,
+                rotation: 360,
+                duration: 20,
+                ease: "none",
+                repeat: -1,
+                stagger: 2
+            });
+        }
 
         // Lottie 動畫初始化
         function initLogoAnimation() {
@@ -816,7 +1182,6 @@
                         }
                     });
                 } catch (error) {
-                    // 備用方案
                     logoContainer.innerHTML = `
                         <img src="https://vdesign5.github.io/home/assets/logo.png" 
                              alt="VDESIGN" 
@@ -824,7 +1189,6 @@
                     `;
                 }
             } else {
-                // 備用方案
                 logoContainer.innerHTML = `
                     <img src="https://vdesign5.github.io/home/assets/logo.png" 
                          alt="VDESIGN" 
@@ -832,35 +1196,7 @@
                 `;
             }
         }
-
-        // 卡片入場動畫
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // 初始化
-        window.addEventListener('load', () => {
-            initLogoAnimation();
-            
-            // 為卡片添加動畫
-            const cards = document.querySelectorAll('.service-card, .portfolio-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
-                observer.observe(card);
-            });
-        });
+        initLogoAnimation();
 
         // 平滑滾動
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -868,9 +1204,10 @@
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: target,
+                        ease: "power3.inOut"
                     });
                 }
             });
