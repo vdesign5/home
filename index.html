@@ -80,8 +80,8 @@
         }
 
         .logo-minimal {
-            height: 48px;
-            width: 48px;
+            height: 72px;
+            width: 72px;
             transition: var(--transition-fast);
             cursor: pointer;
         }
@@ -222,15 +222,15 @@
             margin: 0 auto 50px;
         }
 
-        /* V-words 動畫 - 奧迪風格四圓環交錯 */
+        /* V-words 動畫 - 5個圓環水平排列 */
         .v-words {
             display: grid;
-            grid-template-columns: repeat(4, 80px);
-            grid-template-rows: repeat(2, 80px);
-            gap: 0;
+            grid-template-columns: repeat(5, 80px);
+            grid-template-rows: 80px;
+            gap: 15px;
             justify-content: center;
             align-items: center;
-            max-width: 320px;
+            max-width: 500px;
             margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
@@ -246,47 +246,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: var(--bg-card);
+            background: transparent;
             transition: var(--transition-medium);
             cursor: default;
             position: relative;
             overflow: hidden;
-        }
-
-        /* 奧迪風格交錯排列 */
-        .v-word:nth-child(1) {
-            grid-column: 1;
-            grid-row: 1;
-            z-index: 4;
-        }
-
-        .v-word:nth-child(2) {
-            grid-column: 2;
-            grid-row: 1;
-            transform: translateX(-20px);
-            z-index: 3;
-        }
-
-        .v-word:nth-child(3) {
-            grid-column: 3;
-            grid-row: 1;
-            transform: translateX(-40px);
-            z-index: 2;
-        }
-
-        .v-word:nth-child(4) {
-            grid-column: 4;
-            grid-row: 1;
-            transform: translateX(-60px);
-            z-index: 1;
-        }
-
-        .v-word:nth-child(5) {
-            grid-column: 1 / span 4;
-            grid-row: 2;
-            transform: translateX(-30px) translateY(-20px);
-            z-index: 5;
-            justify-self: center;
         }
 
         .v-word::before {
@@ -296,7 +260,7 @@
             left: 50%;
             width: 0;
             height: 0;
-            border: 2px solid var(--primary-color);
+            border: 1px solid var(--primary-color);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             transition: var(--transition-medium);
@@ -313,24 +277,6 @@
             transform: scale(1.1);
             box-shadow: var(--shadow-medium);
             border-color: var(--primary-color);
-            z-index: 10;
-        }
-
-        /* 保持各自的transform在hover時 */
-        .v-word:nth-child(2):hover {
-            transform: translateX(-20px) scale(1.1);
-        }
-
-        .v-word:nth-child(3):hover {
-            transform: translateX(-40px) scale(1.1);
-        }
-
-        .v-word:nth-child(4):hover {
-            transform: translateX(-60px) scale(1.1);
-        }
-
-        .v-word:nth-child(5):hover {
-            transform: translateX(-30px) translateY(-20px) scale(1.1);
         }
 
         .v-word .english {
@@ -824,46 +770,15 @@
             }
 
             .v-words {
-                grid-template-columns: repeat(4, 55px);
-                grid-template-rows: repeat(2, 55px);
-                max-width: 220px;
+                grid-template-columns: 55px;
+                grid-template-rows: repeat(5, 55px);
+                gap: 8px;
+                max-width: 55px;
             }
 
             .v-word {
                 width: 55px;
                 height: 55px;
-            }
-
-            .v-word:nth-child(2) {
-                transform: translateX(-12px);
-            }
-
-            .v-word:nth-child(3) {
-                transform: translateX(-24px);
-            }
-
-            .v-word:nth-child(4) {
-                transform: translateX(-36px);
-            }
-
-            .v-word:nth-child(5) {
-                transform: translateX(-18px) translateY(-12px);
-            }
-
-            .v-word:nth-child(2):hover {
-                transform: translateX(-12px) scale(1.1);
-            }
-
-            .v-word:nth-child(3):hover {
-                transform: translateX(-24px) scale(1.1);
-            }
-
-            .v-word:nth-child(4):hover {
-                transform: translateX(-36px) scale(1.1);
-            }
-
-            .v-word:nth-child(5):hover {
-                transform: translateX(-18px) translateY(-12px) scale(1.1);
             }
 
             .v-word .english {
@@ -1121,7 +1036,7 @@
                 </div>
             </div>
 
-            <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image">
+            <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image" id="projects-title">
             <div class="portfolio-grid" id="projects-section">
                 <div class="portfolio-card">
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
@@ -1376,7 +1291,7 @@
                         navAnimation.play();
                     });
 
-                    // 點擊重新載入頁面
+                    // 點擊重新載入頁面（保持點擊功能）
                     navLogo.addEventListener('click', () => {
                         location.reload();
                     });
@@ -1424,14 +1339,29 @@
             
             // Menu區域 project.webp 點擊滾動功能
             const projectNav = document.querySelector('a[href="project.html"]');
-            const projectsSection = document.getElementById('projects-section');
+            const projectsTitle = document.getElementById('projects-title');
             
-            if (projectNav) {
+            if (projectNav && projectsTitle) {
                 projectNav.addEventListener('click', (e) => {
                     e.preventDefault(); // 阻止跳轉到 project.html
-                    projectsSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    // 滾動到標題上方100px的位置，讓標題完整顯示
+                    const targetPosition = projectsTitle.offsetTop - 100;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // Footer Projects 連結滾動功能
+            const footerProjectLink = document.querySelector('a[href="#projects"]');
+            if (footerProjectLink && projectsTitle) {
+                footerProjectLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetPosition = projectsTitle.offsetTop - 100;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
                     });
                 });
             }
