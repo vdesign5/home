@@ -81,11 +81,19 @@
 
         .logo-minimal {
             height: 32px;
-            width: auto;
+            width: 32px;
             transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .logo-minimal:hover {
+            transform: scale(1.1);
         }
 
         .taiwan-time {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.75rem;
             color: var(--text-muted);
             letter-spacing: 0.5px;
@@ -214,56 +222,81 @@
             margin: 0 auto 50px;
         }
 
-        /* V-words 動畫 - 重新设计为网格布局 */
+        /* V-words 動畫 - 圓形交錯排列 */
         .v-words {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            max-width: 700px;
             margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            position: relative;
         }
 
         .v-word {
-            padding: 20px 15px;
-            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 255, 255, 0.8) 100%);
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: var(--transition-fast);
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            transition: var(--transition-medium);
             cursor: default;
-            text-align: center;
             position: relative;
             overflow: hidden;
+        }
+
+        /* 交錯排列 */
+        .v-word:nth-child(2),
+        .v-word:nth-child(4) {
+            transform: translateY(20px);
         }
 
         .v-word::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.05), transparent);
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 1px solid var(--primary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
             transition: var(--transition-medium);
+            opacity: 0;
         }
 
         .v-word:hover::before {
-            left: 100%;
+            width: 90%;
+            height: 90%;
+            opacity: 0.3;
         }
 
         .v-word:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.05);
             box-shadow: var(--shadow-medium);
+            border-color: var(--primary-color);
+        }
+
+        .v-word:nth-child(2):hover,
+        .v-word:nth-child(4):hover {
+            transform: translateY(15px) scale(1.05);
         }
 
         .v-word .english {
-            font-size: 1rem;
+            font-size: 0.7rem;
             color: var(--text-dark);
             font-weight: 600;
             font-family: 'Futura PT', sans-serif;
-            display: block;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
+            text-align: center;
+            line-height: 1;
         }
 
         .v-word .separator {
@@ -271,10 +304,11 @@
         }
 
         .v-word .chinese {
-            font-size: 0.75rem;
+            font-size: 0.55rem;
             color: var(--text-muted);
             font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
-            display: block;
+            text-align: center;
+            line-height: 1;
         }
 
         /* 卡片式內容區域 */
@@ -286,13 +320,28 @@
 
         .section-title {
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 0.9rem;
             font-weight: 400;
             color: #cccccc;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             letter-spacing: 0.5px;
             font-family: 'Futura PT', sans-serif;
             text-transform: uppercase;
+        }
+
+        .section-title.project-image {
+            width: auto;
+            height: 40px;
+            display: block;
+            margin: 0 auto 40px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            filter: grayscale(1) brightness(0.8);
+        }
+
+        .section-title.project-image:hover {
+            filter: grayscale(0) brightness(1);
+            transform: translateY(-2px);
         }
 
         /* 服务展示 - 简洁版 */
@@ -690,6 +739,10 @@
                 font-size: 0.9rem;
             }
 
+            .service-title-cn {
+                font-size: 0.65rem;
+            }
+
             .content-grid {
                 padding: 60px 20px;
             }
@@ -723,20 +776,50 @@
 
         @media (max-width: 480px) {
             .hero-logotype {
-                width: 200px;
+                width: 180px;
             }
 
             .v-words {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
+                gap: 10px;
+            }
+
+            .v-word {
+                width: 55px;
+                height: 55px;
+            }
+
+            .v-word .english {
+                font-size: 0.55rem;
+            }
+
+            .v-word .chinese {
+                font-size: 0.45rem;
+            }
+
+            .v-word:nth-child(2),
+            .v-word:nth-child(4) {
+                transform: translateY(15px);
+            }
+
+            .v-word:nth-child(2):hover,
+            .v-word:nth-child(4):hover {
+                transform: translateY(10px) scale(1.05);
             }
 
             .nav-menu {
-                gap: 20px;
+                gap: 15px;
             }
 
             .nav-image {
-                height: 24px;
+                height: 22px;
+            }
+
+            .service-title {
+                font-size: 0.85rem;
+            }
+
+            .service-title-cn {
+                font-size: 0.65rem;
             }
 
             .portfolio-grid {
@@ -793,7 +876,9 @@
         <!-- 頂部導航 -->
         <nav class="top-nav" id="top-nav">
             <div class="nav-container">
-                <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="logo-minimal">
+                <div class="logo-minimal" id="nav-logo">
+                    <div id="nav-logo-motion"></div>
+                </div>
                 <div class="taiwan-time" id="taiwan-time">TPE 00:00</div>
                 
                 <!-- 導航選單 -->
@@ -868,66 +953,108 @@
                     <!-- 第一组 -->
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Brand Identity</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Brand Identity</div>
+                            <div class="service-title-cn">品牌識別</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Graphic Design</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Graphic Design</div>
+                            <div class="service-title-cn">平面設計</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Digital Design</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Digital Design</div>
+                            <div class="service-title-cn">數位設計</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Motion Design</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Motion Design</div>
+                            <div class="service-title-cn">動態設計</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">3D Modeling</div>
+                        <div class="service-title-group">
+                            <div class="service-title">3D Modeling</div>
+                            <div class="service-title-cn">3D建模</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Photography</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Photography</div>
+                            <div class="service-title-cn">攝影</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Web Development</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Web Development</div>
+                            <div class="service-title-cn">網頁開發</div>
+                        </div>
                     </div>
                     <!-- 第二组，实现无缝循环 -->
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Brand Identity</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Brand Identity</div>
+                            <div class="service-title-cn">品牌識別</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Graphic Design</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Graphic Design</div>
+                            <div class="service-title-cn">平面設計</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Digital Design</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Digital Design</div>
+                            <div class="service-title-cn">數位設計</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Motion Design</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Motion Design</div>
+                            <div class="service-title-cn">動態設計</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">3D Modeling</div>
+                        <div class="service-title-group">
+                            <div class="service-title">3D Modeling</div>
+                            <div class="service-title-cn">3D建模</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Photography</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Photography</div>
+                            <div class="service-title-cn">攝影</div>
+                        </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
-                        <div class="service-title">Web Development</div>
+                        <div class="service-title-group">
+                            <div class="service-title">Web Development</div>
+                            <div class="service-title-cn">網頁開發</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="portfolio-grid">
+            <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image" id="projects-title">
+            <div class="portfolio-grid" id="projects-section">
                 <div class="portfolio-card">
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
                     <div class="portfolio-content">
@@ -971,6 +1098,30 @@
                         <p class="portfolio-description">動態設計作品，為品牌活動創造引人注目的動畫視覺效果。</p>
                         <div class="portfolio-meta">
                             <span>Motion Design</span>
+                            <span>2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="portfolio-image" style="background-image: url('./assets/showcase_V.webp')"></div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Project Epsilon</h3>
+                        <p class="portfolio-description">3D視覺設計專案，為產品展示創造逼真的立體視覺效果。</p>
+                        <div class="portfolio-meta">
+                            <span>3D Modeling</span>
+                            <span>2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
+                    <div class="portfolio-content">
+                        <h3 class="portfolio-title">Project Zeta</h3>
+                        <p class="portfolio-description">攝影作品集，捕捉品牌故事的每一個精彩瞬間與情感表達。</p>
+                        <div class="portfolio-meta">
+                            <span>Photography</span>
                             <span>2024</span>
                         </div>
                     </div>
@@ -1084,7 +1235,7 @@
             }
         });
 
-        // Lottie 動畫初始化 - 簡化版
+        // Lottie 动画初始化 - 简化版
         function initLogoAnimation() {
             const logoContainer = document.getElementById('logo-motion');
             
@@ -1120,6 +1271,57 @@
             }
         }
 
+        // 導航 Logo 動畫
+        function initNavLogoAnimation() {
+            const navLogoContainer = document.getElementById('nav-logo-motion');
+            
+            if (typeof lottie !== 'undefined') {
+                try {
+                    const navAnimation = lottie.loadAnimation({
+                        container: navLogoContainer,
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: false,
+                        path: './assets/logo_motion.json',
+                        rendererSettings: {
+                            preserveAspectRatio: 'xMidYMid meet',
+                            clearCanvas: false,
+                            progressiveLoad: true
+                        }
+                    });
+
+                    const navLogo = document.getElementById('nav-logo');
+                    
+                    // Hover 播放動畫
+                    navLogo.addEventListener('mouseenter', () => {
+                        navAnimation.goToAndPlay(0);
+                    });
+
+                    // 點擊重新載入頁面
+                    navLogo.addEventListener('click', () => {
+                        location.reload();
+                    });
+
+                } catch (error) {
+                    // 備用方案
+                    navLogoContainer.innerHTML = `
+                        <img src="https://vdesign5.github.io/home/assets/logo.png" 
+                             alt="VDESIGN" 
+                             style="width: 100%; height: 100%; object-fit: contain; cursor: pointer;"
+                             onclick="location.reload()">
+                    `;
+                }
+            } else {
+                // 備用方案
+                navLogoContainer.innerHTML = `
+                    <img src="https://vdesign5.github.io/home/assets/logo.png" 
+                         alt="VDESIGN" 
+                         style="width: 100%; height: 100%; object-fit: contain; cursor: pointer;"
+                         onclick="location.reload()">
+                `;
+            }
+        }
+
         // 簡化的卡片入場動畫
         const observerOptions = {
             threshold: 0.15,
@@ -1139,6 +1341,18 @@
         // 初始化
         window.addEventListener('load', () => {
             initLogoAnimation();
+            initNavLogoAnimation();
+            
+            // 項目標題點擊滾動功能
+            const projectsTitle = document.getElementById('projects-title');
+            const projectsSection = document.getElementById('projects-section');
+            
+            projectsTitle.addEventListener('click', () => {
+                projectsSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
             
             // 只为作品集卡片添加简化动画
             const cards = document.querySelectorAll('.portfolio-card');
