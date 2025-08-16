@@ -7,7 +7,9 @@
     <link rel="icon" type="image/png" href="https://vdesign5.github.io/home/assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/futura-pt" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Han+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <!-- Lottie動畫庫 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
@@ -28,15 +30,16 @@
             --bg-light: #fafafa;
             --bg-white: #ffffff;
             --bg-card: rgba(255, 255, 255, 0.95);
-            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.05);
-            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
-            --border-radius: 16px;
-            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.04);
+            --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --shadow-heavy: 0 8px 25px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition-fast: all 0.2s ease;
+            --transition-medium: all 0.3s ease;
         }
 
         body {
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            font-family: 'Futura PT', 'Source Han Sans', 'Noto Sans TC', sans-serif;
             background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #f8f8f8 100%);
             color: var(--text-dark);
             line-height: 1.6;
@@ -61,10 +64,10 @@
             right: 0;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             padding: 15px 0;
-            transition: var(--transition);
+            transition: var(--transition-fast);
+            will-change: background, box-shadow;
         }
 
         .nav-container {
@@ -79,7 +82,7 @@
         .logo-minimal {
             height: 32px;
             width: auto;
-            transition: var(--transition);
+            transition: var(--transition-fast);
         }
 
         .taiwan-time {
@@ -87,6 +90,7 @@
             color: var(--text-muted);
             letter-spacing: 0.5px;
             font-weight: 400;
+            font-family: 'Futura PT', monospace;
         }
 
         /* Hero區域 - 視差效果 */
@@ -134,6 +138,7 @@
             margin-bottom: 20px;
             letter-spacing: -0.02em;
             line-height: 1.1;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .hero-subtitle {
@@ -141,12 +146,13 @@
             color: var(--text-light);
             margin-bottom: 15px;
             font-weight: 400;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .hero-description {
             font-size: 0.95rem;
             color: var(--text-muted);
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
             max-width: 500px;
             margin: 0 auto 50px;
         }
@@ -156,42 +162,43 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.8s forwards;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
         }
 
         .v-word {
-            padding: 12px 20px;
+            padding: 10px 18px;
             background: var(--bg-card);
-            border-radius: 25px;
+            border-radius: 20px;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
+            transition: var(--transition-fast);
             cursor: default;
+            will-change: transform;
         }
 
         .v-word:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-medium);
-            border-color: rgba(255, 0, 0, 0.1);
         }
 
         .v-word .english {
             font-size: 0.85rem;
             color: var(--text-dark);
             font-weight: 500;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .v-word .separator {
             color: var(--text-muted);
             margin: 0 6px;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .v-word .chinese {
             font-size: 0.75rem;
             color: var(--text-muted);
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
         }
 
         /* 卡片式內容區域 */
@@ -208,25 +215,26 @@
             color: var(--text-dark);
             margin-bottom: 60px;
             letter-spacing: -0.01em;
+            font-family: 'Futura PT', sans-serif;
         }
 
         /* 服務卡片 */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 100px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 80px;
         }
 
         .service-card {
             background: var(--bg-card);
             border-radius: var(--border-radius);
-            padding: 40px 30px;
+            padding: 30px 25px;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
+            transition: var(--transition-medium);
             position: relative;
             overflow: hidden;
+            will-change: transform, box-shadow;
         }
 
         .service-card::before {
@@ -236,9 +244,10 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), #ff6666);
+            background: var(--primary-color);
             transform: scaleX(0);
-            transition: var(--transition);
+            transition: var(--transition-fast);
+            transform-origin: left;
         }
 
         .service-card:hover::before {
@@ -246,44 +255,47 @@
         }
 
         .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
         }
 
         .service-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .service-description {
             color: var(--text-light);
-            line-height: 1.7;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
         }
 
         .service-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
 
         .service-tag {
-            padding: 6px 12px;
-            background: rgba(255, 0, 0, 0.05);
+            padding: 4px 10px;
+            background: rgba(255, 0, 0, 0.06);
             color: var(--primary-color);
-            border-radius: 20px;
-            font-size: 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
             font-weight: 500;
+            font-family: 'Futura PT', sans-serif;
         }
 
         /* 作品展示卡片 */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin-bottom: 100px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
         }
 
         .portfolio-card {
@@ -291,58 +303,62 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-            backdrop-filter: blur(10px);
+            transition: var(--transition-medium);
+            will-change: transform, box-shadow;
         }
 
         .portfolio-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-heavy);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
         }
 
         .portfolio-image {
             width: 100%;
-            height: 250px;
+            height: 220px;
             background-size: cover;
             background-position: center;
-            transition: var(--transition);
+            transition: var(--transition-fast);
+            overflow: hidden;
         }
 
         .portfolio-card:hover .portfolio-image {
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .portfolio-content {
-            padding: 30px;
+            padding: 25px;
         }
 
         .portfolio-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .portfolio-description {
             color: var(--text-light);
-            margin-bottom: 20px;
-            line-height: 1.6;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
         }
 
         .portfolio-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
+            font-family: 'Futura PT', sans-serif;
         }
 
         /* 底部導航區域 */
         .bottom-navigation {
             background: var(--text-dark);
             color: white;
-            padding: 60px 40px 40px;
-            margin-top: 100px;
+            padding: 50px 40px 30px;
+            margin-top: 80px;
         }
 
         .footer-content {
@@ -350,40 +366,43 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 40px;
+            gap: 50px;
+            margin-bottom: 30px;
         }
 
         .footer-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
         .footer-logo {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             filter: brightness(0) invert(1);
         }
 
         .footer-brand-text {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: white;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .footer-description {
             color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-            margin-bottom: 30px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
         }
 
         .footer-section h3 {
             color: white;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-family: 'Futura PT', sans-serif;
         }
 
         .footer-nav {
@@ -391,38 +410,41 @@
         }
 
         .footer-nav li {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .footer-nav a {
             color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            transition: var(--transition);
+            transition: var(--transition-fast);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            font-family: 'Futura PT', sans-serif;
+            font-size: 0.9rem;
         }
 
         .footer-nav a:hover {
             color: var(--primary-color);
-            transform: translateX(3px);
+            transform: translateX(2px);
         }
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
+            padding-top: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.5);
+            font-family: 'Futura PT', sans-serif;
         }
 
         /* 動畫 */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -432,11 +454,11 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-5px); }
         }
 
         .floating {
-            animation: float 6s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
         }
 
         /* 響應式設計 */
@@ -497,35 +519,35 @@
         /* 滾動指示器 */
         .scroll-indicator {
             position: fixed;
-            bottom: 40px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 30px;
-            height: 50px;
+            width: 24px;
+            height: 40px;
             border: 2px solid rgba(0, 0, 0, 0.2);
-            border-radius: 25px;
+            border-radius: 20px;
             z-index: 100;
-            opacity: 0.7;
-            transition: var(--transition);
+            opacity: 0.6;
+            transition: var(--transition-fast);
         }
 
         .scroll-indicator::before {
             content: '';
             position: absolute;
-            top: 8px;
+            top: 6px;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 8px;
+            width: 3px;
+            height: 6px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 2px;
-            animation: scroll-down 2s infinite;
+            animation: scroll-down 1.5s infinite;
         }
 
         @keyframes scroll-down {
-            0% { top: 8px; opacity: 1; }
-            50% { top: 20px; opacity: 0.5; }
-            100% { top: 8px; opacity: 1; }
+            0% { top: 6px; opacity: 1; }
+            50% { top: 16px; opacity: 0.3; }
+            100% { top: 6px; opacity: 1; }
         }
 
         .scroll-indicator.hidden {
@@ -770,36 +792,50 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // 視差滾動效果
-        window.addEventListener('scroll', () => {
+        // 優化的視差滾動效果
+        let ticking = false;
+        
+        function updateOnScroll() {
             const scrollY = window.scrollY;
             const heroHeight = window.innerHeight;
             
-            // 背景視差
-            const heroBg = document.getElementById('hero-bg');
-            const parallaxSpeed = 0.5;
-            heroBg.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
+            // 背景視差 - 減少更新頻率
+            if (scrollY < heroHeight) {
+                const heroBg = document.getElementById('hero-bg');
+                const parallaxSpeed = 0.3;
+                heroBg.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
+            }
 
             // 滾動指示器隱藏
             const scrollIndicator = document.getElementById('scroll-indicator');
-            if (scrollY > 100) {
+            if (scrollY > 80) {
                 scrollIndicator.classList.add('hidden');
             } else {
                 scrollIndicator.classList.remove('hidden');
             }
 
-            // 導航欄效果
+            // 導航欄效果 - 簡化
             const topNav = document.getElementById('top-nav');
-            if (scrollY > 50) {
+            if (scrollY > 30) {
                 topNav.style.background = 'rgba(255, 255, 255, 0.98)';
-                topNav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                topNav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.08)';
             } else {
                 topNav.style.background = 'rgba(255, 255, 255, 0.95)';
                 topNav.style.boxShadow = 'none';
             }
+            
+            ticking = false;
+        }
+
+        // 節流滾動事件
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateOnScroll);
+                ticking = true;
+            }
         });
 
-        // Lottie 動畫初始化
+        // Lottie 動畫初始化 - 簡化版
         function initLogoAnimation() {
             const logoContainer = document.getElementById('logo-motion');
             
@@ -812,7 +848,9 @@
                         autoplay: true,
                         path: './assets/logo_motion.json',
                         rendererSettings: {
-                            preserveAspectRatio: 'xMidYMid meet'
+                            preserveAspectRatio: 'xMidYMid meet',
+                            clearCanvas: false,
+                            progressiveLoad: true
                         }
                     });
                 } catch (error) {
@@ -833,10 +871,10 @@
             }
         }
 
-        // 卡片入場動畫
+        // 簡化的卡片入場動畫
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -30px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -844,6 +882,7 @@
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target); // 停止觀察已動畫的元素
                 }
             });
         }, observerOptions);
@@ -852,17 +891,17 @@
         window.addEventListener('load', () => {
             initLogoAnimation();
             
-            // 為卡片添加動畫
+            // 為卡片添加簡化動畫
             const cards = document.querySelectorAll('.service-card, .portfolio-card');
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.4s ease ${index * 0.05}s, transform 0.4s ease ${index * 0.05}s`;
                 observer.observe(card);
             });
         });
 
-        // 平滑滾動
+        // 簡化的平滑滾動
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
