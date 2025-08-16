@@ -80,8 +80,8 @@
         }
 
         .logo-minimal {
-            height: 32px;
-            width: 32px;
+            height: 48px;
+            width: 48px;
             transition: var(--transition-fast);
             cursor: pointer;
         }
@@ -222,14 +222,15 @@
             margin: 0 auto 50px;
         }
 
-        /* V-words 動畫 - 圓形交錯排列 */
+        /* V-words 動畫 - 奧迪風格四圓環交錯 */
         .v-words {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            grid-template-rows: repeat(2, 80px);
+            gap: 0;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            max-width: 700px;
+            max-width: 320px;
             margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
@@ -239,7 +240,7 @@
         .v-word {
             width: 80px;
             height: 80px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(0, 0, 0, 0.15);
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -252,10 +253,40 @@
             overflow: hidden;
         }
 
-        /* 交錯排列 */
-        .v-word:nth-child(2),
+        /* 奧迪風格交錯排列 */
+        .v-word:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1;
+            z-index: 4;
+        }
+
+        .v-word:nth-child(2) {
+            grid-column: 2;
+            grid-row: 1;
+            transform: translateX(-20px);
+            z-index: 3;
+        }
+
+        .v-word:nth-child(3) {
+            grid-column: 3;
+            grid-row: 1;
+            transform: translateX(-40px);
+            z-index: 2;
+        }
+
         .v-word:nth-child(4) {
-            transform: translateY(20px);
+            grid-column: 4;
+            grid-row: 1;
+            transform: translateX(-60px);
+            z-index: 1;
+        }
+
+        .v-word:nth-child(5) {
+            grid-column: 1 / span 4;
+            grid-row: 2;
+            transform: translateX(-30px) translateY(-20px);
+            z-index: 5;
+            justify-self: center;
         }
 
         .v-word::before {
@@ -265,7 +296,7 @@
             left: 50%;
             width: 0;
             height: 0;
-            border: 1px solid var(--primary-color);
+            border: 2px solid var(--primary-color);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             transition: var(--transition-medium);
@@ -275,22 +306,35 @@
         .v-word:hover::before {
             width: 90%;
             height: 90%;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
         .v-word:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: scale(1.1);
             box-shadow: var(--shadow-medium);
             border-color: var(--primary-color);
+            z-index: 10;
         }
 
-        .v-word:nth-child(2):hover,
+        /* 保持各自的transform在hover時 */
+        .v-word:nth-child(2):hover {
+            transform: translateX(-20px) scale(1.1);
+        }
+
+        .v-word:nth-child(3):hover {
+            transform: translateX(-40px) scale(1.1);
+        }
+
         .v-word:nth-child(4):hover {
-            transform: translateY(15px) scale(1.05);
+            transform: translateX(-60px) scale(1.1);
+        }
+
+        .v-word:nth-child(5):hover {
+            transform: translateX(-30px) translateY(-20px) scale(1.1);
         }
 
         .v-word .english {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-dark);
             font-weight: 600;
             font-family: 'Futura PT', sans-serif;
@@ -304,7 +348,7 @@
         }
 
         .v-word .chinese {
-            font-size: 0.55rem;
+            font-size: 0.5rem;
             color: var(--text-muted);
             font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
             text-align: center;
@@ -717,7 +761,7 @@
 
             .services-scroll {
                 gap: 30px;
-                animation-duration: 30s; /* 在移动端稍微慢一点 */
+                animation-duration: 18s; /* 手機版滾動速度增加40% */
             }
 
             .services-container::before,
@@ -780,12 +824,46 @@
             }
 
             .v-words {
-                gap: 10px;
+                grid-template-columns: repeat(4, 55px);
+                grid-template-rows: repeat(2, 55px);
+                max-width: 220px;
             }
 
             .v-word {
                 width: 55px;
                 height: 55px;
+            }
+
+            .v-word:nth-child(2) {
+                transform: translateX(-12px);
+            }
+
+            .v-word:nth-child(3) {
+                transform: translateX(-24px);
+            }
+
+            .v-word:nth-child(4) {
+                transform: translateX(-36px);
+            }
+
+            .v-word:nth-child(5) {
+                transform: translateX(-18px) translateY(-12px);
+            }
+
+            .v-word:nth-child(2):hover {
+                transform: translateX(-12px) scale(1.1);
+            }
+
+            .v-word:nth-child(3):hover {
+                transform: translateX(-24px) scale(1.1);
+            }
+
+            .v-word:nth-child(4):hover {
+                transform: translateX(-36px) scale(1.1);
+            }
+
+            .v-word:nth-child(5):hover {
+                transform: translateX(-18px) translateY(-12px) scale(1.1);
             }
 
             .v-word .english {
@@ -794,16 +872,6 @@
 
             .v-word .chinese {
                 font-size: 0.45rem;
-            }
-
-            .v-word:nth-child(2),
-            .v-word:nth-child(4) {
-                transform: translateY(15px);
-            }
-
-            .v-word:nth-child(2):hover,
-            .v-word:nth-child(4):hover {
-                transform: translateY(10px) scale(1.05);
             }
 
             .nav-menu {
@@ -1053,7 +1121,7 @@
                 </div>
             </div>
 
-            <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image" id="projects-title">
+            <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image">
             <div class="portfolio-grid" id="projects-section">
                 <div class="portfolio-card">
                     <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
@@ -1138,10 +1206,11 @@
                         <span class="footer-brand-text">VDESIGN</span>
                     </div>
                     <p class="footer-description">
-                        我們是一個專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。每一個專案都是我們創意與專業的體現。
+                        我們是一個專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。每一個專案都是我們創意與專業的體現。<br><br>
+                        We are a studio focused on innovative design, dedicated to providing clients with exceptional visual solutions. Every project is a manifestation of our creativity and professionalism.
                     </p>
                     <div style="color: rgba(255, 255, 255, 0.5); font-size: 0.85rem;">
-                        © 2024 VDESIGN. All rights reserved.
+                        © 2025 VDESIGN. All rights reserved.
                     </div>
                 </div>
 
@@ -1163,8 +1232,6 @@
                         <li><a href="#projects">Projects</a></li>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                        <li><a href="#careers">Careers</a></li>
                     </ul>
                 </div>
             </div>
@@ -1292,9 +1359,21 @@
 
                     const navLogo = document.getElementById('nav-logo');
                     
-                    // Hover 播放動畫
+                    // 進入頁面時播放至100%
+                    navAnimation.addEventListener('DOMLoaded', () => {
+                        navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
+                    });
+
+                    // Hover 播放至0%
                     navLogo.addEventListener('mouseenter', () => {
-                        navAnimation.goToAndPlay(0);
+                        navAnimation.setDirection(-1);
+                        navAnimation.play();
+                    });
+
+                    // 離開時播放至100%
+                    navLogo.addEventListener('mouseleave', () => {
+                        navAnimation.setDirection(1);
+                        navAnimation.play();
                     });
 
                     // 點擊重新載入頁面
@@ -1343,16 +1422,19 @@
             initLogoAnimation();
             initNavLogoAnimation();
             
-            // 項目標題點擊滾動功能
-            const projectsTitle = document.getElementById('projects-title');
+            // Menu區域 project.webp 點擊滾動功能
+            const projectNav = document.querySelector('a[href="project.html"]');
             const projectsSection = document.getElementById('projects-section');
             
-            projectsTitle.addEventListener('click', () => {
-                projectsSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
+            if (projectNav) {
+                projectNav.addEventListener('click', (e) => {
+                    e.preventDefault(); // 阻止跳轉到 project.html
+                    projectsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 });
-            });
+            }
             
             // 只为作品集卡片添加简化动画
             const cards = document.querySelectorAll('.portfolio-card');
