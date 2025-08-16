@@ -222,24 +222,25 @@
             margin: 0 auto 50px;
         }
 
-        /* V-words 動畫 - 5個圓環水平排列 */
+        /* V-words 動畫 - 5個圓環交叠排列 */
         .v-words {
             display: grid;
-            grid-template-columns: repeat(5, 80px);
-            grid-template-rows: 80px;
-            gap: 15px;
+            grid-template-columns: repeat(5, 90px);
+            grid-template-rows: 120px;
+            gap: 0;
             justify-content: center;
             align-items: center;
-            max-width: 500px;
+            max-width: 450px;
             margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
             position: relative;
+            overflow: visible;
         }
 
         .v-word {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
             border: 2px solid rgba(0, 0, 0, 0.15);
             border-radius: 50%;
             display: flex;
@@ -250,7 +251,38 @@
             transition: var(--transition-medium);
             cursor: default;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
+            z-index: 1;
+        }
+
+        /* 創建交叠效果 */
+        .v-word:nth-child(1) {
+            grid-column: 1;
+            z-index: 5;
+        }
+
+        .v-word:nth-child(2) {
+            grid-column: 2;
+            transform: translateX(-30px);
+            z-index: 4;
+        }
+
+        .v-word:nth-child(3) {
+            grid-column: 3;
+            transform: translateX(-60px);
+            z-index: 3;
+        }
+
+        .v-word:nth-child(4) {
+            grid-column: 4;
+            transform: translateX(-90px);
+            z-index: 2;
+        }
+
+        .v-word:nth-child(5) {
+            grid-column: 5;
+            transform: translateX(-120px);
+            z-index: 1;
         }
 
         .v-word::before {
@@ -277,10 +309,28 @@
             transform: scale(1.1);
             box-shadow: var(--shadow-medium);
             border-color: var(--primary-color);
+            z-index: 10;
+        }
+
+        /* 保持各自的transform在hover時 */
+        .v-word:nth-child(2):hover {
+            transform: translateX(-30px) scale(1.1);
+        }
+
+        .v-word:nth-child(3):hover {
+            transform: translateX(-60px) scale(1.1);
+        }
+
+        .v-word:nth-child(4):hover {
+            transform: translateX(-90px) scale(1.1);
+        }
+
+        .v-word:nth-child(5):hover {
+            transform: translateX(-120px) scale(1.1);
         }
 
         .v-word .english {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--text-dark);
             font-weight: 600;
             font-family: 'Futura PT', sans-serif;
@@ -294,7 +344,7 @@
         }
 
         .v-word .chinese {
-            font-size: 0.5rem;
+            font-size: 0.55rem;
             color: var(--text-muted);
             font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
             text-align: center;
@@ -770,23 +820,72 @@
             }
 
             .v-words {
-                grid-template-columns: 55px;
-                grid-template-rows: repeat(5, 55px);
-                gap: 8px;
-                max-width: 55px;
+                grid-template-columns: 85px;
+                grid-template-rows: repeat(5, 70px);
+                gap: 0;
+                max-width: 85px;
+                max-height: 350px;
+                overflow: visible;
             }
 
             .v-word {
-                width: 55px;
-                height: 55px;
+                width: 85px;
+                height: 85px;
+                overflow: visible;
+            }
+
+            /* 手機版垂直交叠 */
+            .v-word:nth-child(1) {
+                grid-row: 1;
+                z-index: 5;
+            }
+
+            .v-word:nth-child(2) {
+                grid-row: 2;
+                transform: translateY(-20px);
+                z-index: 4;
+            }
+
+            .v-word:nth-child(3) {
+                grid-row: 3;
+                transform: translateY(-40px);
+                z-index: 3;
+            }
+
+            .v-word:nth-child(4) {
+                grid-row: 4;
+                transform: translateY(-60px);
+                z-index: 2;
+            }
+
+            .v-word:nth-child(5) {
+                grid-row: 5;
+                transform: translateY(-80px);
+                z-index: 1;
+            }
+
+            .v-word:nth-child(2):hover {
+                transform: translateY(-20px) scale(1.1);
+            }
+
+            .v-word:nth-child(3):hover {
+                transform: translateY(-40px) scale(1.1);
+            }
+
+            .v-word:nth-child(4):hover {
+                transform: translateY(-60px) scale(1.1);
+            }
+
+            .v-word:nth-child(5):hover {
+                transform: translateY(-80px) scale(1.1);
             }
 
             .v-word .english {
-                font-size: 0.55rem;
+                font-size: 0.6rem;
             }
 
             .v-word .chinese {
-                font-size: 0.45rem;
+                font-size: 0.48rem;
             }
 
             .nav-menu {
@@ -1273,30 +1372,45 @@
                     });
 
                     const navLogo = document.getElementById('nav-logo');
+                    let isAnimationReady = false;
                     
-                    // 進入頁面時播放至100%
-                    navAnimation.addEventListener('DOMLoaded', () => {
-                        navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
-                    });
+                    // 確保動畫完全載入後才設置初始狀態
+                    function setupAnimation() {
+                        if (navAnimation.totalFrames && !isAnimationReady) {
+                            isAnimationReady = true;
+                            navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
+                            console.log('導航Logo動畫初始化完成，設置為100%狀態');
+                        }
+                    }
+                    
+                    // 多重檢查確保動畫載入
+                    navAnimation.addEventListener('DOMLoaded', setupAnimation);
+                    navAnimation.addEventListener('data_ready', setupAnimation);
+                    
+                    // 延遲檢查作為備案
+                    setTimeout(setupAnimation, 1000);
 
-                    // Hover 播放至0%
+                    // Hover 進入：瞬間跳至0%
                     navLogo.addEventListener('mouseenter', () => {
-                        navAnimation.setDirection(-1);
-                        navAnimation.play();
+                        if (isAnimationReady && navAnimation.totalFrames) {
+                            navAnimation.goToAndStop(0, true);
+                        }
                     });
 
-                    // 離開時播放至100%
+                    // Hover 離開：瞬間跳回100%
                     navLogo.addEventListener('mouseleave', () => {
-                        navAnimation.setDirection(1);
-                        navAnimation.play();
+                        if (isAnimationReady && navAnimation.totalFrames) {
+                            navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
+                        }
                     });
 
-                    // 點擊重新載入頁面（保持點擊功能）
+                    // 點擊重新載入頁面
                     navLogo.addEventListener('click', () => {
                         location.reload();
                     });
 
                 } catch (error) {
+                    console.error('Lottie動畫載入失敗:', error);
                     // 備用方案
                     navLogoContainer.innerHTML = `
                         <img src="https://vdesign5.github.io/home/assets/logo.png" 
@@ -1306,6 +1420,7 @@
                     `;
                 }
             } else {
+                console.log('Lottie庫未載入，使用備用Logo');
                 // 備用方案
                 navLogoContainer.innerHTML = `
                     <img src="https://vdesign5.github.io/home/assets/logo.png" 
@@ -1344,8 +1459,8 @@
             if (projectNav && projectsTitle) {
                 projectNav.addEventListener('click', (e) => {
                     e.preventDefault(); // 阻止跳轉到 project.html
-                    // 滾動到標題上方100px的位置，讓標題完整顯示
-                    const targetPosition = projectsTitle.offsetTop - 100;
+                    // 滾動到標題區域，減少偏移讓標題完整顯示
+                    const targetPosition = projectsTitle.offsetTop - 50;
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -1358,7 +1473,7 @@
             if (footerProjectLink && projectsTitle) {
                 footerProjectLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const targetPosition = projectsTitle.offsetTop - 100;
+                    const targetPosition = projectsTitle.offsetTop - 50;
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
