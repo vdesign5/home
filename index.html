@@ -93,6 +93,50 @@
             font-family: 'Futura PT', monospace;
         }
 
+        /* 導航選單 */
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-item {
+            position: relative;
+            transition: var(--transition-medium);
+        }
+
+        .nav-item:nth-child(1) {
+            transform: rotate(0deg);
+        }
+
+        .nav-item:nth-child(2) {
+            transform: rotate(15deg);
+        }
+
+        .nav-item:nth-child(3) {
+            transform: rotate(30deg);
+        }
+
+        .nav-item:hover {
+            transform: translateY(-3px) rotate(0deg);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-image {
+            height: 35px;
+            width: auto;
+            transition: var(--transition-fast);
+            filter: grayscale(1) brightness(0.8);
+        }
+
+        .nav-link:hover .nav-image {
+            filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7481%) hue-rotate(356deg) brightness(91%) contrast(135%);
+        }
+
         /* Hero區域 - 視差效果 */
         .hero-section {
             position: relative;
@@ -131,6 +175,19 @@
             filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
         }
 
+        .hero-logotype {
+            width: 300px;
+            height: auto;
+            margin: 0 auto 30px;
+            transition: var(--transition-medium);
+            cursor: default;
+        }
+
+        .hero-logotype:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.15));
+        }
+
         .hero-title {
             font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 600;
@@ -157,48 +214,67 @@
             margin: 0 auto 50px;
         }
 
-        /* V-words 動畫 */
+        /* V-words 動畫 - 重新设计为网格布局 */
         .v-words {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
         }
 
         .v-word {
-            padding: 10px 18px;
-            background: var(--bg-card);
-            border-radius: 20px;
+            padding: 20px 15px;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 255, 255, 0.8) 100%);
+            border-radius: var(--border-radius);
             border: 1px solid rgba(0, 0, 0, 0.05);
             transition: var(--transition-fast);
             cursor: default;
-            will-change: transform;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .v-word::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.05), transparent);
+            transition: var(--transition-medium);
+        }
+
+        .v-word:hover::before {
+            left: 100%;
         }
 
         .v-word:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-medium);
         }
 
         .v-word .english {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--text-dark);
-            font-weight: 500;
+            font-weight: 600;
             font-family: 'Futura PT', sans-serif;
+            display: block;
+            margin-bottom: 5px;
         }
 
         .v-word .separator {
-            color: var(--text-muted);
-            margin: 0 6px;
-            font-family: 'Futura PT', sans-serif;
+            display: none;
         }
 
         .v-word .chinese {
             font-size: 0.75rem;
             color: var(--text-muted);
             font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
+            display: block;
         }
 
         /* 卡片式內容區域 */
@@ -210,12 +286,13 @@
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 60px;
-            letter-spacing: -0.01em;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #cccccc;
+            margin-bottom: 50px;
+            letter-spacing: 0.5px;
             font-family: 'Futura PT', sans-serif;
+            text-transform: uppercase;
         }
 
         /* 服务展示 - 简洁版 */
@@ -645,6 +722,23 @@
         }
 
         @media (max-width: 480px) {
+            .hero-logotype {
+                width: 200px;
+            }
+
+            .v-words {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .nav-image {
+                height: 24px;
+            }
+
             .portfolio-grid {
                 grid-template-columns: 1fr;
             }
@@ -701,6 +795,25 @@
             <div class="nav-container">
                 <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="logo-minimal">
                 <div class="taiwan-time" id="taiwan-time">TPE 00:00</div>
+                
+                <!-- 導航選單 -->
+                <div class="nav-menu">
+                    <div class="nav-item">
+                        <a href="project.html" class="nav-link">
+                            <img src="./assets/project.webp" alt="Project" class="nav-image">
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="about.html" class="nav-link">
+                            <img src="./assets/about.webp" alt="About" class="nav-image">
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="contact.html" class="nav-link">
+                            <img src="./assets/contact.webp" alt="Contact" class="nav-image">
+                        </a>
+                    </div>
+                </div>
             </div>
         </nav>
 
@@ -713,34 +826,29 @@
                     <div id="logo-motion"></div>
                 </div>
                 
-                <h1 class="hero-title">VDESIGN</h1>
+                <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="hero-logotype">
                 <p class="hero-subtitle">Creative Studio Based in Taiwan</p>
                 <p class="hero-description">V DESIGN是一個位於台灣的創意工作室</p>
                 
                 <div class="v-words">
                     <div class="v-word">
                         <span class="english">Visual</span>
-                        <span class="separator">/</span>
                         <span class="chinese">視覺美學</span>
                     </div>
                     <div class="v-word">
                         <span class="english">Vivid</span>
-                        <span class="separator">/</span>
                         <span class="chinese">生動表現</span>
                     </div>
                     <div class="v-word">
                         <span class="english">Versatile</span>
-                        <span class="separator">/</span>
                         <span class="chinese">靈活創新</span>
                     </div>
                     <div class="v-word">
                         <span class="english">Visionary</span>
-                        <span class="separator">/</span>
                         <span class="chinese">前瞻視野</span>
                     </div>
                     <div class="v-word">
                         <span class="english">Vertex</span>
-                        <span class="separator">/</span>
                         <span class="chinese">追求頂點</span>
                     </div>
                 </div>
