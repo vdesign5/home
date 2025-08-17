@@ -80,8 +80,8 @@
         }
 
         .logo-minimal {
-            height: 72px;
-            width: 72px;
+            height: 108px; /* 放大50%: 72px * 1.5 = 108px */
+            width: 108px;
             transition: var(--transition-fast);
             cursor: pointer;
         }
@@ -184,7 +184,7 @@
         }
 
         .hero-logotype {
-            width: 300px;
+            width: 210px; /* 縮小30%: 300px * 0.7 = 210px */
             height: auto;
             margin: 0 auto 30px;
             transition: var(--transition-medium);
@@ -225,12 +225,12 @@
         /* V-words 動畫 - 5個圓環交叠排列，以第3個圓為中心 */
         .v-words {
             display: grid;
-            grid-template-columns: repeat(5, 100px);
-            grid-template-rows: 120px;
+            grid-template-columns: repeat(5, 140px); /* 調整grid寬度以容納更大的圓環: 100px * 1.4 = 140px */
+            grid-template-rows: 168px; /* 調整高度: 120px * 1.4 = 168px */
             gap: 0;
             justify-content: center;
             align-items: center;
-            max-width: 400px;
+            max-width: 560px; /* 調整容器最大寬度: 400px * 1.4 = 560px */
             margin: 0 auto;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
@@ -239,8 +239,8 @@
         }
 
         .v-word {
-            width: 120px;
-            height: 120px;
+            width: 168px; /* 放大40%: 120px * 1.4 = 168px */
+            height: 168px;
             border: 2px solid rgba(0, 0, 0, 0.15);
             border-radius: 50%;
             display: flex;
@@ -255,16 +255,16 @@
             z-index: 1;
         }
 
-        /* 創建輕微交叠效果，以第3個圓為中心 - 減少50%交疊 */
+        /* 創建輕微交叠效果，以第3個圓為中心 - 減少50%交疊，並調整為更大圓環的間距 */
         .v-word:nth-child(1) {
             grid-column: 1;
-            transform: translateX(20px);
+            transform: translateX(28px); /* 調整間距: 20px * 1.4 = 28px */
             z-index: 1;
         }
 
         .v-word:nth-child(2) {
             grid-column: 2;
-            transform: translateX(10px);
+            transform: translateX(14px); /* 調整間距: 10px * 1.4 = 14px */
             z-index: 2;
         }
 
@@ -276,13 +276,13 @@
 
         .v-word:nth-child(4) {
             grid-column: 4;
-            transform: translateX(-10px);
+            transform: translateX(-14px); /* 調整間距: -10px * 1.4 = -14px */
             z-index: 2;
         }
 
         .v-word:nth-child(5) {
             grid-column: 5;
-            transform: translateX(-20px);
+            transform: translateX(-28px); /* 調整間距: -20px * 1.4 = -28px */
             z-index: 1;
         }
 
