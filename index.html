@@ -1369,7 +1369,7 @@
             }
         }
 
-        // 導航 Logo 動畫 - 精確控制版本
+        // 導航 Logo 動畫 - 嚴謹修正版本
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1392,6 +1392,7 @@
                     let isReady = false;
                     let isAnimating = false;
                     let hasPlayedInitial = false;
+                    let currentState = 'initial'; // 'initial', 'complete', 'hover', 'reset'
                     
                     // 確保動畫載入完成
                     navAnimation.addEventListener('DOMLoaded', () => {
@@ -1399,12 +1400,14 @@
                             isReady = true;
                             // 初始狀態設為0%，準備播放入場動畫
                             navAnimation.goToAndStop(0, true);
+                            currentState = 'initial';
                             
                             // 延遲500ms後播放入場動畫（0% → 100%）
                             setTimeout(() => {
-                                if (isReady && !hasPlayedInitial) {
+                                if (isReady && !hasPlayedInitial && currentState === 'initial') {
                                     hasPlayedInitial = true;
                                     isAnimating = true;
+                                    currentState = 'playing_initial';
                                     navAnimation.setDirection(1); // 正向播放
                                     navAnimation.play();
                                 }
@@ -1415,12 +1418,23 @@
                     // 動畫完成事件監聽
                     navAnimation.addEventListener('complete', () => {
                         isAnimating = false;
+                        
+                        if (currentState === 'playing_initial') {
+                            currentState = 'complete'; // 入場動畫完成，停在100%
+                        } else if (currentState === 'playing_hover') {
+                            currentState = 'hover'; // hover動畫完成，停在0%
+                        } else if (currentState === 'playing_reset') {
+                            currentState = 'complete'; // 重置動畫完成，停在100%
+                        }
                     });
 
                     // Hover 進入：從100%逆向播放到0%
                     navLogo.addEventListener('mouseenter', () => {
-                        if (isReady && !isAnimating && hasPlayedInitial) {
+                        if (isReady && !isAnimating && hasPlayedInitial && currentState === 'complete') {
                             isAnimating = true;
+                            currentState = 'playing_hover';
+                            // 確保從100%開始
+                            navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
                             navAnimation.setDirection(-1); // 逆向播放
                             navAnimation.play();
                         }
@@ -1428,8 +1442,11 @@
 
                     // Hover 離開：從0%正向播放到100%
                     navLogo.addEventListener('mouseleave', () => {
-                        if (isReady && !isAnimating && hasPlayedInitial) {
+                        if (isReady && !isAnimating && hasPlayedInitial && currentState === 'hover') {
                             isAnimating = true;
+                            currentState = 'playing_reset';
+                            // 確保從0%開始
+                            navAnimation.goToAndStop(0, true);
                             navAnimation.setDirection(1); // 正向播放
                             navAnimation.play();
                         }
