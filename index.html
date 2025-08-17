@@ -269,33 +269,32 @@
             position: relative;
         }
 
-        /* 眼睛容器 */
-        .eye-container {
+        /* 眼睛動畫效果 */
+        #eye-container {
             position: relative;
             width: 100%;
             height: 100%;
         }
 
-        /* 眼睛背景 */
         .eye-background {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
         }
 
-        /* 眼球 */
         .eye-ball {
+            width: 30%; /* 眼球相對於眼睛的大小 */
+            height: 30%;
+            object-fit: contain;
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 60%;
-            height: 60%;
             transform: translate(-50%, -50%);
-            z-index: 2;
-            transition: transform 0.1s ease-out;
+            transition: all 0.1s ease-out;
+            z-index: 1;
         }
 
         .hero-logotype {
@@ -1157,10 +1156,7 @@
             
             <div class="hero-content">
                 <div class="hero-logo floating" id="hero-logo">
-                    <div class="eye-container">
-                        <div class="eye-background" id="eye-background"></div>
-                        <div class="eye-ball" id="eye-ball"></div>
-                    </div>
+                    <div id="logo-motion"></div>
                 </div>
                 
                 <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="hero-logotype">
@@ -1486,40 +1482,105 @@
             }
         });
 
-        // Lottie 动画初始化 - 简化版
+        // Lottie 动画初始化 - 替換為眼睛動畫
         function initLogoAnimation() {
-            const logoContainer = document.getElementById('logo-motion');
+            // 不再需要 Lottie 動畫，改為眼睛跟隨效果
+            initEyeTracking();
+        }
+
+        // 眼睛跟隨鼠標效果
+        function initEyeTracking() {
+            const eyeBall = document.getElementById('eye-ball');
+            const eyeContainer = document.getElementById('eye-container');
             
-            if (typeof lottie !== 'undefined') {
-                try {
-                    const animation = lottie.loadAnimation({
-                        container: logoContainer,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: './assets/logo_motion.json',
-                        rendererSettings: {
-                            preserveAspectRatio: 'xMidYMid meet',
-                            clearCanvas: false,
-                            progressiveLoad: true
-                        }
-                    });
-                } catch (error) {
-                    // 備用方案
-                    logoContainer.innerHTML = `
-                        <img src="https://vdesign5.github.io/home/assets/logo.png" 
-                             alt="VDESIGN" 
-                             style="width: 100%; height: 100%; object-fit: contain;">
-                    `;
-                }
-            } else {
-                // 備用方案
-                logoContainer.innerHTML = `
-                    <img src="https://vdesign5.github.io/home/assets/logo.png" 
-                         alt="VDESIGN" 
-                         style="width: 100%; height: 100%; object-fit: contain;">
-                `;
+            if (!eyeBall || !eyeContainer) return;
+
+            let isDesktop = window.innerWidth > 768;
+            
+            // 桌面版：跟隨鼠標
+            function handleMouseMove(e) {
+                if (!isDesktop) return;
+                
+                const containerRect = eyeContainer.getBoundingClientRect();
+                const containerCenterX = containerRect.left + containerRect.width / 2;
+                const containerCenterY = containerRect.top + containerRect.height / 2;
+                
+                // 計算鼠標相對於眼睛中心的位置
+                const deltaX = e.clientX - containerCenterX;
+                const deltaY = e.clientY - containerCenterY;
+                
+                // 計算角度和距離
+                const angle = Math.atan2(deltaY, deltaX);
+                const distance = Math.min(Math.sqrt(deltaX * deltaX + deltaY * deltaY), 25); // 限制移動距離
+                
+                // 計算眼球新位置（限制在眼睛區域內）
+                const maxMovement = 20; // 最大移動距離（像素）
+                const normalizedDistance = Math.min(distance / 100, 1); // 正規化距離
+                const moveX = Math.cos(angle) * normalizedDistance * maxMovement;
+                const moveY = Math.sin(angle) * normalizedDistance * maxMovement;
+                
+                eyeBall.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
             }
+
+            // 手機版：盯著畫面中心
+            function handleScroll() {
+                if (isDesktop) return;
+                
+                const containerRect = eyeContainer.getBoundingClientRect();
+                const containerCenterX = containerRect.left + containerRect.width / 2;
+                const containerCenterY = containerRect.top + containerRect.height / 2;
+                
+                // 畫面中心點
+                const screenCenterX = window.innerWidth / 2;
+                const screenCenterY = window.innerHeight / 2;
+                
+                // 計算眼睛看向畫面中心的角度
+                const deltaX = screenCenterX - containerCenterX;
+                const deltaY = screenCenterY - containerCenterY;
+                
+                const angle = Math.atan2(deltaY, deltaX);
+                const maxMovement = 15; // 手機版移動距離稍小
+                
+                const moveX = Math.cos(angle) * maxMovement;
+                const moveY = Math.sin(angle) * maxMovement;
+                
+                eyeBall.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+            }
+
+            // 響應式檢測
+            function updateDeviceType() {
+                const wasDesktop = isDesktop;
+                isDesktop = window.innerWidth > 768;
+                
+                if (wasDesktop !== isDesktop) {
+                    // 設備類型改變時重置眼球位置
+                    eyeBall.style.transform = 'translate(-50%, -50%)';
+                }
+            }
+
+            // 事件監聽
+            if (isDesktop) {
+                document.addEventListener('mousemove', handleMouseMove);
+            } else {
+                window.addEventListener('scroll', handleScroll);
+                // 初始化手機版位置
+                setTimeout(handleScroll, 100);
+            }
+
+            // 監聽窗口大小變化
+            window.addEventListener('resize', () => {
+                updateDeviceType();
+                // 重新綁定事件
+                document.removeEventListener('mousemove', handleMouseMove);
+                window.removeEventListener('scroll', handleScroll);
+                
+                if (isDesktop) {
+                    document.addEventListener('mousemove', handleMouseMove);
+                } else {
+                    window.addEventListener('scroll', handleScroll);
+                    setTimeout(handleScroll, 100);
+                }
+            });
         }
 
         // 導航 Logo 動畫 - 仿照 CodePen 範例邏輯
