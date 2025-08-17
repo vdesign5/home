@@ -306,7 +306,7 @@
         }
 
         .hero-logotype {
-            width: 210px; /* 縮小30%: 300px * 0.7 = 210px */
+            width: 252px; /* 放大20%: 210px * 1.2 = 252px */
             height: auto;
             margin: 0 auto 30px;
             transition: var(--transition-medium);
@@ -806,11 +806,14 @@
             filter: brightness(0) invert(1);
         }
 
+        .footer-brand-logotype {
+            height: 24px; /* 與原本文字高度相近 */
+            width: auto;
+            filter: brightness(0) invert(1); /* 白色濾鏡 */
+        }
+
         .footer-brand-text {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: white;
-            font-family: 'Futura PT', sans-serif;
+            display: none; /* 隱藏原本的文字 */
         }
 
         .footer-description {
@@ -1180,7 +1183,7 @@
                     <div id="logo-motion"></div>
                 </div>
                 
-                <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="hero-logotype">
+                <img src="./assets/eye.webp" alt="VDESIGN" class="hero-logotype">
                 <p class="hero-subtitle">Creative Studio Based in Taiwan</p>
                 <p class="hero-description">V DESIGN是一個位於台灣的創意工作室</p>
                 
