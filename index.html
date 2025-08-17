@@ -373,8 +373,37 @@
             transition: var(--transition-medium);
             cursor: default;
             position: relative;
-            overflow: visible;
+            overflow: hidden; /* 確保圖片不會超出圓形邊界 */
             z-index: 1;
+        }
+
+        /* Hover 時顯示的圖片 */
+        .v-word-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .v-word:hover .v-word-image {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 文字在 hover 時的變化 */
+        .v-word:hover .english,
+        .v-word:hover .chinese {
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+            position: relative;
         }
 
         /* 創建輕微交叠效果，以第3個圓為中心 - 減少50%交疊，並調整為更大圓環的間距 */
@@ -1173,22 +1202,27 @@
                 
                 <div class="v-words">
                     <div class="v-word">
+                        <img src="./assets/showcase_II.webp" alt="Visual" class="v-word-image">
                         <span class="english">Visual</span>
                         <span class="chinese">視覺美學</span>
                     </div>
                     <div class="v-word">
+                        <img src="./assets/showcase_IV.webp" alt="Vivid" class="v-word-image">
                         <span class="english">Vivid</span>
                         <span class="chinese">生動表現</span>
                     </div>
                     <div class="v-word">
+                        <img src="./assets/showcase_III.webp" alt="Versatile" class="v-word-image">
                         <span class="english">Versatile</span>
                         <span class="chinese">靈活創新</span>
                     </div>
                     <div class="v-word">
+                        <img src="./assets/showcase_I.webp" alt="Visionary" class="v-word-image">
                         <span class="english">Visionary</span>
                         <span class="chinese">前瞻視野</span>
                     </div>
                     <div class="v-word">
+                        <img src="./assets/showcase_V.webp" alt="Vertex" class="v-word-image">
                         <span class="english">Vertex</span>
                         <span class="chinese">追求頂點</span>
                     </div>
@@ -1622,7 +1656,7 @@
             });
         }
 
-        // 導航 Logo 動畫 - 仿照 CodePen 範例邏輯
+        // 導航 Logo 動畫 - 顛倒播放邏輯
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1639,15 +1673,20 @@
 
                     const navLogo = document.getElementById('nav-logo');
                     
-                    // 滑鼠進入：正向播放
+                    // 動畫載入完成後設置初始狀態為100%
+                    navAnimation.addEventListener('DOMLoaded', () => {
+                        navAnimation.goToAndStop(navAnimation.totalFrames - 1, true); // 設置為100%
+                    });
+                    
+                    // 滑鼠進入：從100%逆向播放到0%
                     navLogo.addEventListener('mouseenter', () => {
-                        navAnimation.setDirection(1); // 正向
+                        navAnimation.setDirection(-1); // 逆向播放
                         navAnimation.play();
                     });
 
-                    // 滑鼠離開：逆向播放
+                    // 滑鼠離開：從0%正向播放回100%
                     navLogo.addEventListener('mouseleave', () => {
-                        navAnimation.setDirection(-1); // 逆向
+                        navAnimation.setDirection(1); // 正向播放
                         navAnimation.play();
                     });
 
