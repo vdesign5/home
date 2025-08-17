@@ -1622,7 +1622,7 @@
             });
         }
 
-        // 導航 Logo 動畫 - 仿照 CodePen 範例邏輯
+        // 導航 Logo 動畫 - 顛倒播放邏輯
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1639,15 +1639,20 @@
 
                     const navLogo = document.getElementById('nav-logo');
                     
-                    // 滑鼠進入：正向播放
+                    // 動畫載入完成後設置初始狀態為100%
+                    navAnimation.addEventListener('DOMLoaded', () => {
+                        navAnimation.goToAndStop(navAnimation.totalFrames - 1, true); // 設置為100%
+                    });
+                    
+                    // 滑鼠進入：從100%逆向播放到0%
                     navLogo.addEventListener('mouseenter', () => {
-                        navAnimation.setDirection(1); // 正向
+                        navAnimation.setDirection(-1); // 逆向播放
                         navAnimation.play();
                     });
 
-                    // 滑鼠離開：逆向播放
+                    // 滑鼠離開：從0%正向播放回100%
                     navLogo.addEventListener('mouseleave', () => {
-                        navAnimation.setDirection(-1); // 逆向
+                        navAnimation.setDirection(1); // 正向播放
                         navAnimation.play();
                     });
 
