@@ -77,6 +77,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative; /* 確保子元素定位正確 */
         }
 
         .logo-minimal {
@@ -115,6 +116,8 @@
             cursor: pointer;
             padding: 8px;
             gap: 4px;
+            z-index: 1001; /* 確保按鈕在最上層 */
+            position: relative;
         }
 
         .menu-toggle span {
@@ -140,19 +143,27 @@
         /* 手機選單 */
         .mobile-menu {
             position: fixed;
-            top: 90px; /* 導航欄高度之下 */
+            top: 81px; /* 導航欄高度之下 */
             left: 0;
             right: 0;
             background: rgba(255, 255, 255, 0.98);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 20px 40px;
+            padding: 80px 40px 80px; /* 大幅增加上下padding */
             transform: translateY(-100%);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-light);
+            box-shadow: var(--shadow-medium);
             backdrop-filter: blur(10px);
-            z-index: 999; /* 確保顯示在其他內容之上，但在導航欄之下 */
+            z-index: 999;
+            border-radius: 0 0 12px 12px;
+            min-height: 300px; /* 確保選單有足夠高度 */
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
         }
 
         .mobile-menu.active {
@@ -163,7 +174,7 @@
 
         .mobile-nav-item {
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 50px; /* 大幅增加按鈕間距 */
             text-align: center;
         }
 
@@ -172,7 +183,7 @@
         }
 
         .mobile-nav-item .nav-image {
-            height: 50px;
+            height: 70px; /* 再次放大圖示 */
             transition: var(--transition-fast);
             filter: grayscale(1) brightness(0.8);
         }
