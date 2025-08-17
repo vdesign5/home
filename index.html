@@ -1499,56 +1499,31 @@
             initLogoAnimation();
             initNavLogoAnimation();
             
-            // Menu區域 project.webp 點擊滾動功能 - 修正版本
+            // Menu區域 project.webp 點擊滾動功能 - 正確版本
             const projectNav = document.querySelector('a[href="project.html"]');
             const projectsTitle = document.getElementById('projects-title');
-            const projectsSection = document.getElementById('projects-section');
             
-            if (projectNav && projectsTitle && projectsSection) {
+            if (projectNav && projectsTitle) {
                 projectNav.addEventListener('click', (e) => {
                     e.preventDefault(); // 阻止跳轉到 project.html
                     
-                    // 滾動到 project.webp 圖片位置，並確保整個作品集區塊都能看到
-                    const servicesSection = document.querySelector('.services-section');
-                    const navHeight = 90; // 固定導航欄高度
-                    const paddingTop = 60; // 上方間距
-                    
-                    // 以 services-section 的底部作為滾動目標，這樣可以完整顯示 project 圖片和作品集
-                    let targetPosition;
-                    if (servicesSection) {
-                        targetPosition = servicesSection.offsetTop + servicesSection.offsetHeight - navHeight - paddingTop;
-                    } else {
-                        // 備用方案：直接定位到 projects-title
-                        targetPosition = projectsTitle.offsetTop - navHeight - paddingTop;
-                    }
-                    
-                    window.scrollTo({
-                        top: Math.max(0, targetPosition),
-                        behavior: 'smooth'
+                    // 直接滾動到 projects-title，它本身就是 project.webp 圖片
+                    projectsTitle.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
                 });
             }
 
-            // Footer Projects 連結滾動功能 - 使用相同邏輯
+            // Footer Projects 連結滾動功能
             const footerProjectLink = document.querySelector('a[href="#projects"]');
             if (footerProjectLink && projectsTitle) {
                 footerProjectLink.addEventListener('click', (e) => {
                     e.preventDefault();
                     
-                    const servicesSection = document.querySelector('.services-section');
-                    const navHeight = 90;
-                    const paddingTop = 60;
-                    
-                    let targetPosition;
-                    if (servicesSection) {
-                        targetPosition = servicesSection.offsetTop + servicesSection.offsetHeight - navHeight - paddingTop;
-                    } else {
-                        targetPosition = projectsTitle.offsetTop - navHeight - paddingTop;
-                    }
-                    
-                    window.scrollTo({
-                        top: Math.max(0, targetPosition),
-                        behavior: 'smooth'
+                    projectsTitle.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
                 });
             }
