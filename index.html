@@ -152,6 +152,7 @@
             transition: all 0.3s ease;
             box-shadow: var(--shadow-light);
             backdrop-filter: blur(10px);
+            z-index: 999; /* 確保顯示在其他內容之上，但在導航欄之下 */
         }
 
         .mobile-menu.active {
@@ -1477,7 +1478,7 @@
             }
         }
 
-        // 導航 Logo 動畫 - 嚴謹修正版本
+        // 導航 Logo 動畫 - 立即播放版本
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1499,63 +1500,38 @@
                     const navLogo = document.getElementById('nav-logo');
                     let isReady = false;
                     let isAnimating = false;
-                    let hasPlayedInitial = false;
-                    let currentState = 'initial'; // 'initial', 'complete', 'hover', 'reset'
                     
                     // 確保動畫載入完成
                     navAnimation.addEventListener('DOMLoaded', () => {
                         if (navAnimation.totalFrames > 0) {
                             isReady = true;
-                            // 初始狀態設為0%，準備播放入場動畫
-                            navAnimation.goToAndStop(0, true);
-                            currentState = 'initial';
-                            
-                            // 延遲500ms後播放入場動畫（0% → 100%）
-                            setTimeout(() => {
-                                if (isReady && !hasPlayedInitial && currentState === 'initial') {
-                                    hasPlayedInitial = true;
-                                    isAnimating = true;
-                                    currentState = 'playing_initial';
-                                    navAnimation.setDirection(1); // 正向播放
-                                    navAnimation.play();
-                                }
-                            }, 500);
+                            // 立即播放入場動畫（0% → 100%）
+                            isAnimating = true;
+                            navAnimation.setDirection(1); // 正向播放
+                            navAnimation.play();
                         }
                     });
 
                     // 動畫完成事件監聽
                     navAnimation.addEventListener('complete', () => {
                         isAnimating = false;
-                        
-                        if (currentState === 'playing_initial') {
-                            currentState = 'complete'; // 入場動畫完成，停在100%
-                        } else if (currentState === 'playing_hover') {
-                            currentState = 'hover'; // hover動畫完成，停在0%
-                        } else if (currentState === 'playing_reset') {
-                            currentState = 'complete'; // 重置動畫完成，停在100%
-                        }
                     });
 
-                    // Hover 進入：從100%逆向播放到0%
+                    // Hover 進入：立即從0%播放到100%
                     navLogo.addEventListener('mouseenter', () => {
-                        if (isReady && !isAnimating && hasPlayedInitial && currentState === 'complete') {
+                        if (isReady && !isAnimating) {
                             isAnimating = true;
-                            currentState = 'playing_hover';
-                            // 確保從100%開始
-                            navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
-                            navAnimation.setDirection(-1); // 逆向播放
+                            navAnimation.goToAndStop(0, true); // 重置到0%
+                            navAnimation.setDirection(1); // 正向播放
                             navAnimation.play();
                         }
                     });
 
-                    // Hover 離開：從0%正向播放到100%
+                    // Hover 離開：從當前進度倒播到0%
                     navLogo.addEventListener('mouseleave', () => {
-                        if (isReady && !isAnimating && hasPlayedInitial && currentState === 'hover') {
+                        if (isReady && !isAnimating) {
                             isAnimating = true;
-                            currentState = 'playing_reset';
-                            // 確保從0%開始
-                            navAnimation.goToAndStop(0, true);
-                            navAnimation.setDirection(1); // 正向播放
+                            navAnimation.setDirection(-1); // 逆向播放
                             navAnimation.play();
                         }
                     });
