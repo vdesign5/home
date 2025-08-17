@@ -274,15 +274,18 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background: #f0f0f0; /* 臨時背景，幫助調試 */
+            /* 移除臨時背景 */
             border-radius: 50%;
-            overflow: hidden; /* 確保眼球不會超出眼睛邊界 */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .eye-background {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 改為 cover 確保圖片填滿容器 */
+            object-fit: contain; /* 改回 contain 保持比例 */
             position: absolute;
             top: 0;
             left: 0;
@@ -290,16 +293,16 @@
         }
 
         .eye-ball {
-            width: 25%; /* 根據您的圖片調整眼球大小 */
-            height: 25%;
-            object-fit: cover;
+            width: 20%; /* 進一步縮小眼球 */
+            height: 20%;
+            object-fit: contain;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             transition: all 0.15s ease-out;
             z-index: 1;
-            border-radius: 50%; /* 確保眼球是圓形 */
+            border-radius: 50%;
         }
 
         .hero-logotype {
@@ -1487,10 +1490,32 @@
             }
         });
 
-        // Lottie 动画初始化 - 替換為眼睛動畫
+        // Lottie 动画初始化 - 替換為眼睛動畫，並添加檢測
         function initLogoAnimation() {
-            // 不再需要 Lottie 動畫，改為眼睛跟隨效果
-            initEyeTracking();
+            // 檢查眼睛圖片是否存在
+            const eyeImg = new Image();
+            const eyeBallImg = new Image();
+            
+            eyeImg.onload = function() {
+                console.log('Eye image loaded successfully');
+                initEyeTracking();
+            };
+            
+            eyeImg.onerror = function() {
+                console.log('Eye image failed to load, falling back to original logo animation');
+                // 如果眼睛圖片載入失敗，恢復原本的logo顯示
+                const eyeContainer = document.getElementById('eye-container');
+                if (eyeContainer) {
+                    eyeContainer.innerHTML = `
+                        <img src="https://vdesign5.github.io/home/assets/logo.png" 
+                             alt="VDESIGN" 
+                             style="width: 100%; height: 100%; object-fit: contain;">
+                    `;
+                }
+            };
+            
+            // 測試圖片是否存在
+            eyeImg.src = 'https://vdesign5.github.io/home/assets/eye.webp';
         }
 
         // 眼睛跟隨鼠標效果
