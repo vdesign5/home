@@ -1489,7 +1489,7 @@
             }
         }
 
-        // 導航 Logo 動畫 - 立即播放版本
+        // 導航 Logo 動畫 - 正確的 hover 播放模式
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1499,7 +1499,7 @@
                         container: navLogoContainer,
                         renderer: 'svg',
                         loop: false,
-                        autoplay: false,
+                        autoplay: true, // 頁面載入時自動播放一次
                         path: './assets/logo_motion.json',
                         rendererSettings: {
                             preserveAspectRatio: 'xMidYMid meet',
@@ -1510,39 +1510,33 @@
 
                     const navLogo = document.getElementById('nav-logo');
                     let isReady = false;
-                    let isAnimating = false;
+                    let isPlaying = false;
                     
                     // 確保動畫載入完成
                     navAnimation.addEventListener('DOMLoaded', () => {
                         if (navAnimation.totalFrames > 0) {
                             isReady = true;
-                            // 立即播放入場動畫（0% → 100%）
-                            isAnimating = true;
-                            navAnimation.setDirection(1); // 正向播放
-                            navAnimation.play();
                         }
                     });
 
-                    // 動畫完成事件監聽
+                    // 動畫完成事件
                     navAnimation.addEventListener('complete', () => {
-                        isAnimating = false;
+                        isPlaying = false;
                     });
 
-                    // Hover 進入：立即從0%播放到100%
+                    // Hover 進入：播放動畫
                     navLogo.addEventListener('mouseenter', () => {
-                        if (isReady && !isAnimating) {
-                            isAnimating = true;
-                            navAnimation.goToAndStop(0, true); // 重置到0%
-                            navAnimation.setDirection(1); // 正向播放
+                        if (isReady && !isPlaying) {
+                            isPlaying = true;
                             navAnimation.play();
                         }
                     });
 
-                    // Hover 離開：從當前進度倒播到0%
+                    // Hover 離開：從當前幀倒播
                     navLogo.addEventListener('mouseleave', () => {
-                        if (isReady && !isAnimating) {
-                            isAnimating = true;
-                            navAnimation.setDirection(-1); // 逆向播放
+                        if (isReady && !isPlaying) {
+                            isPlaying = true;
+                            navAnimation.setDirection(-1); // 設為逆向
                             navAnimation.play();
                         }
                     });
