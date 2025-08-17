@@ -1640,7 +1640,7 @@
             });
         }
 
-        // 導航 Logo 動畫 - 顛倒播放邏輯
+        // 導航 Logo 動畫 - 修正為正常播放邏輯
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1657,20 +1657,20 @@
 
                     const navLogo = document.getElementById('nav-logo');
                     
-                    // 動畫載入完成後設置初始狀態為100%
+                    // 動畫載入完成後保持初始狀態為0%（正常邏輯）
                     navAnimation.addEventListener('DOMLoaded', () => {
-                        navAnimation.goToAndStop(navAnimation.totalFrames - 1, true); // 設置為100%
+                        navAnimation.goToAndStop(0, true); // 設置為0%
                     });
                     
-                    // 滑鼠進入：從100%逆向播放到0%
+                    // 滑鼠進入：從0%正向播放到100%
                     navLogo.addEventListener('mouseenter', () => {
-                        navAnimation.setDirection(-1); // 逆向播放
+                        navAnimation.setDirection(1); // 正向播放
                         navAnimation.play();
                     });
 
-                    // 滑鼠離開：從0%正向播放回100%
+                    // 滑鼠離開：從100%逆向播放回0%
                     navLogo.addEventListener('mouseleave', () => {
-                        navAnimation.setDirection(1); // 正向播放
+                        navAnimation.setDirection(-1); // 逆向播放
                         navAnimation.play();
                     });
 
