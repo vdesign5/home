@@ -255,16 +255,16 @@
             z-index: 1;
         }
 
-        /* 創建輕微交叠效果，以第3個圓為中心 */
+        /* 創建輕微交叠效果，以第3個圓為中心 - 減少50%交疊 */
         .v-word:nth-child(1) {
             grid-column: 1;
-            transform: translateX(40px);
+            transform: translateX(20px);
             z-index: 1;
         }
 
         .v-word:nth-child(2) {
             grid-column: 2;
-            transform: translateX(20px);
+            transform: translateX(10px);
             z-index: 2;
         }
 
@@ -276,13 +276,13 @@
 
         .v-word:nth-child(4) {
             grid-column: 4;
-            transform: translateX(-20px);
+            transform: translateX(-10px);
             z-index: 2;
         }
 
         .v-word:nth-child(5) {
             grid-column: 5;
-            transform: translateX(-40px);
+            transform: translateX(-20px);
             z-index: 1;
         }
 
@@ -313,13 +313,13 @@
             z-index: 10;
         }
 
-        /* 保持各自的transform在hover時 */
+        /* 保持各自的transform在hover時 - 調整為新的交疊比例 */
         .v-word:nth-child(1):hover {
-            transform: translateX(40px) scale(1.1);
+            transform: translateX(20px) scale(1.1);
         }
 
         .v-word:nth-child(2):hover {
-            transform: translateX(20px) scale(1.1);
+            transform: translateX(10px) scale(1.1);
         }
 
         .v-word:nth-child(3):hover {
@@ -327,16 +327,16 @@
         }
 
         .v-word:nth-child(4):hover {
-            transform: translateX(-20px) scale(1.1);
+            transform: translateX(-10px) scale(1.1);
         }
 
         .v-word:nth-child(5):hover {
-            transform: translateX(-40px) scale(1.1);
+            transform: translateX(-20px) scale(1.1);
         }
 
         .v-word .english {
-            font-size: 0.7rem;
-            color: var(--text-dark);
+            font-size: 0.98rem; /* 放大40%: 0.7rem * 1.4 = 0.98rem */
+            color: #333333; /* 調整英文顏色 */
             font-weight: 600;
             font-family: 'Futura PT', sans-serif;
             margin-bottom: 2px;
@@ -349,7 +349,7 @@
         }
 
         .v-word .chinese {
-            font-size: 0.55rem;
+            font-size: 0.77rem; /* 放大40%: 0.55rem * 1.4 = 0.77rem */
             color: var(--text-muted);
             font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
             text-align: center;
@@ -502,9 +502,16 @@
         .service-title {
             font-size: 1.1rem;
             font-weight: 500;
-            color: var(--text-dark);
+            color: #333333; /* 英文顏色調整 */
             font-family: 'Futura PT', sans-serif;
             letter-spacing: 0.3px;
+        }
+
+        .service-title-cn {
+            font-size: 0.8rem;
+            color: #cccccc; /* 中文顏色調整 */
+            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
+            margin-top: 2px;
         }
 
         @keyframes serviceScroll {
@@ -839,16 +846,16 @@
                 overflow: visible;
             }
 
-            /* 小螢幕垂直交叠，以第3個圓為中心 */
+            /* 小螢幕垂直交叠，以第3個圓為中心 - 調整為新的交疊比例 */
             .v-word:nth-child(1) {
                 grid-row: 1;
-                transform: translateY(25px);
+                transform: translateY(12px);
                 z-index: 1;
             }
 
             .v-word:nth-child(2) {
                 grid-row: 2;
-                transform: translateY(12px);
+                transform: translateY(6px);
                 z-index: 2;
             }
 
@@ -860,22 +867,22 @@
 
             .v-word:nth-child(4) {
                 grid-row: 4;
-                transform: translateY(-12px);
+                transform: translateY(-6px);
                 z-index: 2;
             }
 
             .v-word:nth-child(5) {
                 grid-row: 5;
-                transform: translateY(-25px);
+                transform: translateY(-12px);
                 z-index: 1;
             }
 
             .v-word:nth-child(1):hover {
-                transform: translateY(25px) scale(1.1);
+                transform: translateY(12px) scale(1.1);
             }
 
             .v-word:nth-child(2):hover {
-                transform: translateY(12px) scale(1.1);
+                transform: translateY(6px) scale(1.1);
             }
 
             .v-word:nth-child(3):hover {
@@ -883,19 +890,19 @@
             }
 
             .v-word:nth-child(4):hover {
-                transform: translateY(-12px) scale(1.1);
+                transform: translateY(-6px) scale(1.1);
             }
 
             .v-word:nth-child(5):hover {
-                transform: translateY(-25px) scale(1.1);
+                transform: translateY(-12px) scale(1.1);
             }
 
             .v-word .english {
-                font-size: 0.6rem;
+                font-size: 0.84rem; /* 小螢幕版本：0.6rem * 1.4 = 0.84rem */
             }
 
             .v-word .chinese {
-                font-size: 0.48rem;
+                font-size: 0.67rem; /* 小螢幕版本：0.48rem * 1.4 = 0.67rem */
             }
 
             .nav-menu {
@@ -1060,8 +1067,8 @@
                     <div class="service-item">
                         <div class="service-icon"></div>
                         <div class="service-title-group">
-                            <div class="service-title">Digital Design</div>
-                            <div class="service-title-cn">數位設計</div>
+                            <div class="service-title">Packaging Design</div>
+                            <div class="service-title-cn">包裝設計</div>
                         </div>
                     </div>
                     <div class="service-item">
@@ -1081,15 +1088,15 @@
                     <div class="service-item">
                         <div class="service-icon"></div>
                         <div class="service-title-group">
-                            <div class="service-title">Photography</div>
-                            <div class="service-title-cn">攝影</div>
+                            <div class="service-title">Low-Code Web Design</div>
+                            <div class="service-title-cn">低代碼網頁設計</div>
                         </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
                         <div class="service-title-group">
-                            <div class="service-title">Web Development</div>
-                            <div class="service-title-cn">網頁開發</div>
+                            <div class="service-title">Photography</div>
+                            <div class="service-title-cn">攝影</div>
                         </div>
                     </div>
                     <!-- 第二组，实现无缝循环 -->
@@ -1110,8 +1117,8 @@
                     <div class="service-item">
                         <div class="service-icon"></div>
                         <div class="service-title-group">
-                            <div class="service-title">Digital Design</div>
-                            <div class="service-title-cn">數位設計</div>
+                            <div class="service-title">Packaging Design</div>
+                            <div class="service-title-cn">包裝設計</div>
                         </div>
                     </div>
                     <div class="service-item">
@@ -1131,15 +1138,15 @@
                     <div class="service-item">
                         <div class="service-icon"></div>
                         <div class="service-title-group">
-                            <div class="service-title">Photography</div>
-                            <div class="service-title-cn">攝影</div>
+                            <div class="service-title">Low-Code Web Design</div>
+                            <div class="service-title-cn">低代碼網頁設計</div>
                         </div>
                     </div>
                     <div class="service-item">
                         <div class="service-icon"></div>
                         <div class="service-title-group">
-                            <div class="service-title">Web Development</div>
-                            <div class="service-title-cn">網頁開發</div>
+                            <div class="service-title">Photography</div>
+                            <div class="service-title-cn">攝影</div>
                         </div>
                     </div>
                 </div>
