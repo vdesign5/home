@@ -438,29 +438,13 @@
         }
 
         .v-word::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border: 1px solid var(--primary-color);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: var(--transition-medium);
-            opacity: 0;
-        }
-
-        .v-word:hover::before {
-            width: 90%;
-            height: 90%;
-            opacity: 0.4;
+            display: none; /* 移除紅色特效 */
         }
 
         .v-word:hover {
             transform: scale(1.1);
             box-shadow: var(--shadow-medium);
-            border-color: var(--primary-color);
+            border-color: rgba(0, 0, 0, 0.25); /* 改為較深的灰色邊框 */
             z-index: 10;
         }
 
