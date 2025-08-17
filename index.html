@@ -1362,7 +1362,7 @@
             }
         }
 
-        // 導航 Logo 動畫
+        // 導航 Logo 動畫 - 修正版，使用滑順播放
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
             
@@ -1383,26 +1383,37 @@
 
                     const navLogo = document.getElementById('nav-logo');
                     let isReady = false;
+                    let isAnimating = false;
                     
                     // 確保動畫載入完成
                     navAnimation.addEventListener('DOMLoaded', () => {
                         if (navAnimation.totalFrames > 0) {
                             isReady = true;
+                            // 初始狀態設為動畫結束（100%）
                             navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
                         }
                     });
 
-                    // Hover 進入：直接跳到0%
+                    // 動畫完成事件監聽
+                    navAnimation.addEventListener('complete', () => {
+                        isAnimating = false;
+                    });
+
+                    // Hover 進入：從100%逆向播放到0%
                     navLogo.addEventListener('mouseenter', () => {
-                        if (isReady) {
-                            navAnimation.goToAndStop(0, true);
+                        if (isReady && !isAnimating) {
+                            isAnimating = true;
+                            navAnimation.setDirection(-1); // 逆向播放
+                            navAnimation.play();
                         }
                     });
 
-                    // Hover 離開：直接跳回100%
+                    // Hover 離開：從當前位置正向播放到100%
                     navLogo.addEventListener('mouseleave', () => {
-                        if (isReady) {
-                            navAnimation.goToAndStop(navAnimation.totalFrames - 1, true);
+                        if (isReady && !isAnimating) {
+                            isAnimating = true;
+                            navAnimation.setDirection(1); // 正向播放
+                            navAnimation.play();
                         }
                     });
 
@@ -1412,6 +1423,7 @@
                     });
 
                 } catch (error) {
+                    console.log('Lottie animation failed to load, using fallback image');
                     // 備用方案
                     navLogoContainer.innerHTML = `
                         <img src="https://vdesign5.github.io/home/assets/logo.png" 
