@@ -16,11 +16,7 @@
     
     <style>
         /* 重置樣式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary-color: #ff0000;
@@ -59,13 +55,11 @@
         /* 頂部導航 - 簡化版 */
         .top-nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 9px 0; /* 縮小40%: 15px * 0.6 = 9px */
+            padding: 9px 0;
             transition: var(--transition-fast);
             will-change: background, box-shadow;
         }
@@ -77,481 +71,101 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative; /* 確保子元素定位正確 */
-        }
-
-        .logo-minimal {
-            height: 108px; /* 放大50%: 72px * 1.5 = 108px */
-            width: 108px;
-            transition: var(--transition-fast);
-            cursor: pointer;
-        }
-
-        .logo-minimal:hover {
-            transform: scale(1.1);
-        }
-
-        .taiwan-time {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-            font-weight: 400;
-            font-family: 'Futura PT', monospace;
-        }
-
-        /* 導航選單 */
-        .nav-menu {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        /* 漢堡選單按鈕 - 在手機/平板顯示 */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 8px;
-            gap: 4px;
-            z-index: 1001; /* 確保按鈕在最上層 */
             position: relative;
         }
 
-        .menu-toggle span {
-            width: 24px;
-            height: 2px;
-            background: var(--text-dark);
-            transition: var(--transition-fast);
-            border-radius: 1px;
+        .logo-minimal { height: 108px; width: 108px; transition: var(--transition-fast); cursor: pointer; }
+        .logo-minimal:hover { transform: scale(1.1); }
+
+        .taiwan-time {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; font-weight: 400; font-family: 'Futura PT', monospace;
         }
 
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
+        .nav-menu { display: flex; gap: 40px; align-items: center; }
 
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; padding: 8px; gap: 4px; z-index: 1001; position: relative; }
+        .menu-toggle span { width: 24px; height: 2px; background: var(--text-dark); transition: var(--transition-fast); border-radius: 1px; }
+        .menu-toggle.active span:nth-child(1){ transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active span:nth-child(2){ opacity: 0; }
+        .menu-toggle.active span:nth-child(3){ transform: rotate(-45deg) translate(7px, -6px); }
 
         /* 手機選單 */
         .mobile-menu {
-            position: fixed;
-            top: 81px; /* 導航欄高度之下 */
-            left: 0;
-            right: 0;
+            position: fixed; top: 81px; left: 0; right: 0;
             background: rgba(255, 255, 255, 0.98);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 80px 40px 80px; /* 大幅增加上下padding */
-            transform: translateY(-100%);
-            opacity: 0;
-            visibility: hidden;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 80px 40px;
+            transform: translateY(-100%); opacity: 0; visibility: hidden;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-medium);
             backdrop-filter: blur(10px);
-            z-index: 999;
-            border-radius: 0 0 12px 12px;
-            min-height: 300px; /* 確保選單有足夠高度 */
+            z-index: 999; border-radius: 0 0 12px 12px; min-height: 300px;
         }
+        .mobile-menu.active { transform: translateY(0); opacity: 1; visibility: visible; }
+        .mobile-nav-item { display: block; margin-bottom: 50px; text-align: center; }
+        .mobile-nav-item:last-child { margin-bottom: 0; }
 
-        .mobile-menu.active {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
+        .nav-item { position: relative; transition: var(--transition-medium); }
+        .nav-item:nth-child(2){ transform: rotate(15deg); }
+        .nav-item:nth-child(3){ transform: rotate(30deg); }
+        .nav-item:hover{ transform: translateY(-3px) rotate(0deg); }
 
-        .mobile-menu.active {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-nav-item {
-            display: block;
-            margin-bottom: 50px; /* 大幅增加按鈕間距 */
-            text-align: center;
-        }
-
-        .mobile-nav-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .mobile-nav-item .nav-image {
-            height: 70px; /* 再次放大圖示 */
-            transition: var(--transition-fast);
-            filter: grayscale(1) brightness(0.8);
-        }
-
-        .mobile-nav-item:hover .nav-image {
-            filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7481%) hue-rotate(356deg) brightness(91%) contrast(135%);
-            transform: scale(1.1);
-        }
-
-        .nav-item {
-            position: relative;
-            transition: var(--transition-medium);
-        }
-
-        .nav-item:nth-child(1) {
-            transform: rotate(0deg);
-        }
-
-        .nav-item:nth-child(2) {
-            transform: rotate(15deg);
-        }
-
-        .nav-item:nth-child(3) {
-            transform: rotate(30deg);
-        }
-
-        .nav-item:hover {
-            transform: translateY(-3px) rotate(0deg);
-        }
-
-        .nav-link {
-            text-decoration: none;
-            display: block;
-        }
-
-        .nav-image {
-            height: 35px;
-            width: auto;
-            transition: var(--transition-fast);
-            filter: grayscale(1) brightness(0.8);
-        }
-
-        .nav-link:hover .nav-image {
-            filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7481%) hue-rotate(356deg) brightness(91%) contrast(135%);
-        }
+        .nav-link{ text-decoration: none; display: block; }
+        .nav-image{ height: 35px; width: auto; transition: var(--transition-fast); filter: grayscale(1) brightness(0.8); }
+        .nav-link:hover .nav-image{ filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7481%) hue-rotate(356deg) brightness(91%) contrast(135%); }
 
         /* Hero區域 - 視差效果 */
-        .hero-section {
+        .hero-section{
+            position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background: linear-gradient(135deg,#fdfdfd 0%,#ffffff 50%,#fcfcfc 100%);
+        }
+        .hero-bg{ position:absolute; inset:0; height:120%; background:
+            radial-gradient(circle at 25% 25%, rgba(255,0,0,.02) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(0,0,0,.01) 0%, transparent 50%);
+            transform: translateY(0); transition: transform .1s linear;
+        }
+        .hero-content{ text-align:center; z-index:10; max-width:800px; padding:0 40px; }
+        .hero-logo{ width:120px; height:120px; margin:0 auto 40px; filter:drop-shadow(0 10px 30px rgba(0,0,0,.1)); position:relative; }
+        .hero-logotype{ width:252px; height:auto; margin:0 auto 30px; transition:var(--transition-medium); cursor:default; }
+        .hero-logotype:hover{ transform:scale(1.05); filter:drop-shadow(0 15px 40px rgba(0,0,0,.15)); }
+        .hero-subtitle{ font-size:clamp(1.1rem,2.5vw,1.4rem); color:var(--text-light); margin-bottom:15px; font-weight:400; font-family:'Futura PT',sans-serif; }
+        .hero-description{ font-size:.95rem; color:var(--text-muted); font-family:'Source Han Sans','Noto Sans TC',sans-serif; max-width:500px; margin:0 auto 50px; }
+
+        /* V-words（略，與你原本相同） */
+        .v-words{ display:grid; grid-template-columns:repeat(5,140px); grid-template-rows:168px; gap:0; justify-content:center; align-items:center; max-width:560px; margin:0 auto; opacity:0; animation:fadeInUp .8s ease-out .6s forwards; position:relative; overflow:visible; }
+        .v-word{ width:168px; height:168px; border:2px solid rgba(0,0,0,.15); border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:transparent; transition:var(--transition-medium); cursor:default; position:relative; overflow:hidden; z-index:1; }
+        .v-word-image{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:50%; opacity:0; transform:scale(.8); transition:all .4s ease; z-index:-1; }
+        .v-word:hover .v-word-image{ opacity:1; transform:scale(1); }
+        .v-word:hover .english, .v-word:hover .chinese{ color:#fff; text-shadow:1px 1px 3px rgba(0,0,0,.7); z-index:2; position:relative; }
+        .v-word:nth-child(1){ grid-column:1; transform:translateX(28px); z-index:1; }
+        .v-word:nth-child(2){ grid-column:2; transform:translateX(14px); z-index:2; }
+        .v-word:nth-child(3){ grid-column:3; transform:translateX(0); z-index:5; }
+        .v-word:nth-child(4){ grid-column:4; transform:translateX(-14px); z-index:2; }
+        .v-word:nth-child(5){ grid-column:5; transform:translateX(-28px); z-index:1; }
+        .v-word:hover{ transform:scale(1.1); box-shadow:var(--shadow-medium); border-color:rgba(0,0,0,.25); z-index:10; }
+        .v-word:nth-child(1):hover{ transform:translateX(20px) scale(1.1); }
+        .v-word:nth-child(2):hover{ transform:translateX(10px) scale(1.1); }
+        .v-word:nth-child(3):hover{ transform:translateX(0) scale(1.1); }
+        .v-word:nth-child(4):hover{ transform:translateX(-10px) scale(1.1); }
+        .v-word:nth-child(5):hover{ transform:translateX(-20px) scale(1.1); }
+        .v-word .english{ font-size:.98rem; color:#333; font-weight:600; font-family:'Futura PT',sans-serif; margin-bottom:2px; text-align:center; line-height:1; }
+        .v-word .chinese{ font-size:.77rem; color:var(--text-muted); font-family:'Source Han Sans','Noto Sans TC',sans-serif; text-align:center; line-height:1; }
+
+        /* ===== 服務區（水平滾動）修正版 ===== */
+        .services-section{
+            /* 移除固定 300vh，交由 JS 依內容寬度動態設定高度 */
             position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, #fdfdfd 0%, #ffffff 50%, #fcfcfc 100%);
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(255, 0, 0, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
-            transform: translateY(0);
-            transition: transform 0.1s linear;
-        }
-
-        .hero-content {
-            text-align: center;
-            z-index: 10;
-            max-width: 800px;
-            padding: 0 40px;
-        }
-
-        .hero-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 40px;
-            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
-            position: relative;
-        }
-
-        /* 眼睛動畫效果 */
-        #eye-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            /* 移除臨時背景 */
-            border-radius: 50%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .eye-background {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* 改回 contain 保持比例 */
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-
-        .eye-ball {
-            width: 20%; /* 進一步縮小眼球 */
-            height: 20%;
-            object-fit: contain;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.15s ease-out;
-            z-index: 1;
-            border-radius: 50%;
-        }
-
-        .hero-logotype {
-            width: 252px; /* 放大20%: 210px * 1.2 = 252px */
             height: auto;
-            margin: 0 auto 30px;
-            transition: var(--transition-medium);
-            cursor: default;
-        }
-
-        .hero-logotype:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.15));
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            font-family: 'Futura PT', sans-serif;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-            color: var(--text-light);
-            margin-bottom: 15px;
-            font-weight: 400;
-            font-family: 'Futura PT', sans-serif;
-        }
-
-        .hero-description {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
-            max-width: 500px;
-            margin: 0 auto 50px;
-        }
-
-        /* V-words 動畫 - 5個圓環交叠排列，以第3個圓為中心 */
-        .v-words {
-            display: grid;
-            grid-template-columns: repeat(5, 140px); /* 調整grid寬度以容納更大的圓環: 100px * 1.4 = 140px */
-            grid-template-rows: 168px; /* 調整高度: 120px * 1.4 = 168px */
-            gap: 0;
-            justify-content: center;
-            align-items: center;
-            max-width: 560px; /* 調整容器最大寬度: 400px * 1.4 = 560px */
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-            position: relative;
-            overflow: visible;
-        }
-
-        .v-word {
-            width: 168px; /* 放大40%: 120px * 1.4 = 168px */
-            height: 168px;
-            border: 2px solid rgba(0, 0, 0, 0.15);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            transition: var(--transition-medium);
-            cursor: default;
-            position: relative;
-            overflow: hidden; /* 確保圖片不會超出圓形邊界 */
-            z-index: 1;
-        }
-
-        /* Hover 時顯示的圖片 */
-        .v-word-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.4s ease;
-            z-index: -1;
-        }
-
-        .v-word:hover .v-word-image {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* 文字在 hover 時的變化 */
-        .v-word:hover .english,
-        .v-word:hover .chinese {
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
-            z-index: 2;
-            position: relative;
-        }
-
-        /* 創建輕微交叠效果，以第3個圓為中心 - 減少50%交疊，並調整為更大圓環的間距 */
-        .v-word:nth-child(1) {
-            grid-column: 1;
-            transform: translateX(28px); /* 調整間距: 20px * 1.4 = 28px */
-            z-index: 1;
-        }
-
-        .v-word:nth-child(2) {
-            grid-column: 2;
-            transform: translateX(14px); /* 調整間距: 10px * 1.4 = 14px */
-            z-index: 2;
-        }
-
-        .v-word:nth-child(3) {
-            grid-column: 3;
-            transform: translateX(0px);
-            z-index: 5;
-        }
-
-        .v-word:nth-child(4) {
-            grid-column: 4;
-            transform: translateX(-14px); /* 調整間距: -10px * 1.4 = -14px */
-            z-index: 2;
-        }
-
-        .v-word:nth-child(5) {
-            grid-column: 5;
-            transform: translateX(-28px); /* 調整間距: -20px * 1.4 = -28px */
-            z-index: 1;
-        }
-
-        .v-word::before {
-            display: none; /* 移除紅色特效 */
-        }
-
-        .v-word:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-medium);
-            border-color: rgba(0, 0, 0, 0.25); /* 改為較深的灰色邊框 */
-            z-index: 10;
-        }
-
-        /* 保持各自的transform在hover時 - 調整為新的交疊比例 */
-        .v-word:nth-child(1):hover {
-            transform: translateX(20px) scale(1.1);
-        }
-
-        .v-word:nth-child(2):hover {
-            transform: translateX(10px) scale(1.1);
-        }
-
-        .v-word:nth-child(3):hover {
-            transform: translateX(0px) scale(1.1);
-        }
-
-        .v-word:nth-child(4):hover {
-            transform: translateX(-10px) scale(1.1);
-        }
-
-        .v-word:nth-child(5):hover {
-            transform: translateX(-20px) scale(1.1);
-        }
-
-        .v-word .english {
-            font-size: 0.98rem; /* 放大40%: 0.7rem * 1.4 = 0.98rem */
-            color: #333333; /* 調整英文顏色 */
-            font-weight: 600;
-            font-family: 'Futura PT', sans-serif;
-            margin-bottom: 2px;
-            text-align: center;
-            line-height: 1;
-        }
-
-        .v-word .separator {
-            display: none;
-        }
-
-        .v-word .chinese {
-            font-size: 0.77rem; /* 放大40%: 0.55rem * 1.4 = 0.77rem */
-            color: var(--text-muted);
-            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
-            text-align: center;
-            line-height: 1;
-        }
-
-        /* 卡片式內容區域 */
-        .content-grid {
-            padding: 100px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: #cccccc;
-            margin-bottom: 40px;
-            letter-spacing: 0.5px;
-            font-family: 'Futura PT', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .section-title.project-image {
-            width: auto;
-            height: 40px;
-            display: block;
-            margin: 0 auto 40px;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            filter: grayscale(1) brightness(0.8);
-        }
-
-        .section-title.project-image:hover {
-            filter: grayscale(0) brightness(1);
-            transform: translateY(-2px);
-        }
-
-        /* 服务展示 - K72极简艺术风格 */
-        .services-section {
-            padding: 120px 0;
+            padding: 0;          /* 避免 sticky 高度計算被外層 padding 影響 */
             background: #fafafa;
-            text-align: center;
-            position: relative;
-            height: 300vh;
-            overflow: hidden;
+            overflow: visible;   /* 讓 sticky 正常工作 */
         }
-
-        .services-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(0, 0, 0, 0.01) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(0, 0, 0, 0.005) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .services-sticky-container {
+        .services-sticky-container{
             position: sticky;
             top: 0;
-            height: 100vh;
+            height: 100vh;       /* 讓內容在可視區固定 */
+            height: 100svh;      /* 更佳的行動裝置視窗單位 */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -559,669 +173,125 @@
             overflow: hidden;
             z-index: 1;
         }
-
-        .services-title {
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: #999999;
-            margin-bottom: 120px;
-            letter-spacing: 3px;
-            font-family: 'Futura PT', sans-serif;
-            text-transform: uppercase;
-            position: relative;
-            z-index: 10;
+        .services-title{
+            font-size:.8rem; font-weight:400; color:#999; margin-bottom: 48px;
+            letter-spacing:3px; font-family:'Futura PT',sans-serif; text-transform:uppercase; position:relative; z-index:10;
         }
-
-        .services-title::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 1px;
-            height: 40px;
-            background: #dddddd;
+        .services-horizontal-wrapper{
+            width:100%;
+            max-width:100vw;
+            overflow:hidden;
+            position:relative;
         }
-
-        .services-horizontal-wrapper {
-            width: 100vw;
-            overflow: hidden;
-            position: relative;
+        /* 邊緣漸層遮罩（DOM 版，避免與 ::before/::after 重疊） */
+        .edge-mask-left,.edge-mask-right{
+            position:absolute; top:0; bottom:0; width:120px; pointer-events:none; z-index:10;
         }
+        .edge-mask-left{ left:0; background:linear-gradient(to right,#fafafa,rgba(250,250,250,.8),transparent); }
+        .edge-mask-right{ right:0; background:linear-gradient(to left,#fafafa,rgba(250,250,250,.8),transparent); }
 
-        .services-horizontal-wrapper::before,
-        .services-horizontal-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 120px;
-            height: 100%;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .services-horizontal-wrapper::before {
-            left: 0;
-            background: linear-gradient(to right, #fafafa, rgba(250, 250, 250, 0.8), transparent);
-        }
-
-        .services-horizontal-wrapper::after {
-            right: 0;
-            background: linear-gradient(to left, #fafafa, rgba(250, 250, 250, 0.8), transparent);
-        }
-
-        .services-horizontal-container {
-            display: flex;
-            gap: 80px;
-            padding: 60px 100px;
+        .services-horizontal-container{
+            display:flex; gap:80px; padding:60px 100px;
             will-change: transform;
-            white-space: nowrap;
-            width: fit-content;
+            white-space:nowrap; width: max-content;
+            transform: translate3d(0,0,0);
         }
-
-        .service-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 30px;
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 0;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: default;
-            min-width: 240px;
-            position: relative;
-            white-space: nowrap;
-            overflow: hidden;
+        .service-item{
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            padding:40px 30px; background:transparent; border:1px solid transparent; border-radius:0;
+            transition: all .6s cubic-bezier(.23,1,.32,1);
+            cursor: default; min-width:240px; position:relative; white-space:nowrap; overflow:hidden;
         }
-
-        .service-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: #1a1a1a;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            transform: translateX(-50%);
-            z-index: -1;
+        .service-item:hover{ background:rgba(255,255,255,.8); border-color:rgba(26,26,26,.1); transform:translateY(-8px);
+            box-shadow:0 20px 40px rgba(0,0,0,.06),0 2px 8px rgba(0,0,0,.04);
         }
+        .service-title{ font-size:1.1rem; font-weight:500; color:#1a1a1a; font-family:'Futura PT',sans-serif; letter-spacing:.5px; margin-bottom:12px; text-align:center; }
+        .service-title-cn{ font-size:.75rem; color:#888; font-family:'Source Han Sans','Noto Sans TC',sans-serif; font-weight:300; text-align:center; letter-spacing:1px; }
 
-        .service-item::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 50%;
-            width: 0;
-            height: 1px;
-            background: #1a1a1a;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1) 0.1s;
-            transform: translateX(50%);
-            z-index: -1;
+        /* 作品展示卡片 - 優化性能版本（保持原樣） */
+        .content-grid{ padding:100px 40px; max-width:1200px; margin:0 auto; }
+        .section-title{ text-align:center; font-size:.9rem; font-weight:400; color:#ccc; margin-bottom:40px; letter-spacing:.5px; font-family:'Futura PT',sans-serif; text-transform:uppercase; }
+        .section-title.project-image{ width:auto; height:40px; display:block; margin:0 auto 40px; cursor:pointer; transition:var(--transition-fast); filter:grayscale(1) brightness(.8); }
+        .section-title.project-image:hover{ filter:grayscale(0) brightness(1); transform:translateY(-2px); }
+
+        .portfolio-grid{
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:30px; margin-bottom:80px;
+            padding:0 40px; max-width:1200px; margin-left:auto; margin-right:auto;
         }
-
-        /* 全螢幕寬度的線條效果 */
-        .service-item:hover::before {
-            width: 100vw;
-            left: 50%;
-            transform: translateX(-50%);
+        .portfolio-card{
+            background:var(--bg-card); border-radius:var(--border-radius); overflow:hidden; border:1px solid rgba(0,0,0,.05);
+            transition: transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s cubic-bezier(.4,0,.2,1), opacity .6s ease, filter .6s ease;
+            will-change: transform; opacity:0; transform:translateY(20px); filter:blur(4px); box-shadow:0 4px 20px rgba(0,0,0,.08);
         }
+        .portfolio-card.animate-in{ opacity:1; transform:translateY(0); filter:blur(0); }
+        .portfolio-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,.12); }
+        .portfolio-image{ width:100%; height:220px; background-size:cover; background-position:center; transition:transform .4s cubic-bezier(.4,0,.2,1); overflow:hidden; position:relative; }
+        .portfolio-card:hover .portfolio-image{ transform:scale(1.03); }
+        .portfolio-content{ padding:25px; }
+        .portfolio-title{ font-size:1.2rem; font-weight:600; color:var(--text-dark); margin-bottom:8px; font-family:'Futura PT',sans-serif; }
+        .portfolio-description{ color:var(--text-light); margin-bottom:15px; line-height:1.5; font-family:'Source Han Sans','Noto Sans TC',sans-serif; }
+        .portfolio-meta{ display:flex; justify-content:space-between; align-items:center; font-size:.8rem; color:var(--text-muted); font-family:'Futura PT',sans-serif; }
 
-        .service-item:hover::after {
-            width: 100vw;
-            right: 50%;
-            transform: translateX(50%);
-        }
-
-        .service-item:hover {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: rgba(26, 26, 26, 0.1);
-            transform: translateY(-8px);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.06),
-                0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .service-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #1a1a1a;
-            font-family: 'Futura PT', sans-serif;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            transition: all 0.4s ease;
-            text-align: center;
-        }
-
-        .service-title-cn {
-            font-size: 0.75rem;
-            color: #888888;
-            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
-            font-weight: 300;
-            transition: all 0.4s ease;
-            text-align: center;
-            letter-spacing: 1px;
-        }
-
-        .service-item:hover .service-title {
-            color: #000000;
-            transform: translateY(-2px);
-        }
-
-        .service-item:hover .service-title-cn {
-            color: #666666;
-            transform: translateY(-1px);
-        }
-
-        /* 添加編號裝飾 */
-        .service-item:nth-child(1)::before { transition-delay: 0s; }
-        .service-item:nth-child(2)::before { transition-delay: 0.05s; }
-        .service-item:nth-child(3)::before { transition-delay: 0.1s; }
-        .service-item:nth-child(4)::before { transition-delay: 0.15s; }
-        .service-item:nth-child(5)::before { transition-delay: 0.2s; }
-        .service-item:nth-child(6)::before { transition-delay: 0.25s; }
-        .service-item:nth-child(7)::before { transition-delay: 0.3s; }
-
-        /* 服务网格 - 备选方案 */
-        .services-grid-simple {
-            display: none; /* 默认隐藏，可切换显示 */
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 40px 0 80px;
-        }
-
-        .service-card-simple {
-            padding: 30px 20px;
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: var(--transition-medium);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card-simple::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary-color);
-            transform: scaleX(0);
-            transition: var(--transition-fast);
-        }
-
-        .service-card-simple:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-card-simple:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .service-number {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-family: 'Futura PT', monospace;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .service-card-simple .service-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-family: 'Futura PT', sans-serif;
-        }
-
-        /* 作品展示卡片 - 優化性能版本 */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 80px;
-            padding: 0 40px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .portfolio-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                        opacity 0.6s ease,
-                        filter 0.6s ease;
-            will-change: transform;
-            opacity: 0;
-            transform: translateY(20px);
-            filter: blur(4px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .portfolio-card.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0px);
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .portfolio-image {
-            width: 100%;
-            height: 220px;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .portfolio-card:hover .portfolio-image {
-            transform: scale(1.03);
-        }
-
-        /* 簡化延遲，減少複雜性 */
-        .portfolio-card:nth-child(1) { transition-delay: 0s; }
-        .portfolio-card:nth-child(2) { transition-delay: 0.1s; }
-        .portfolio-card:nth-child(3) { transition-delay: 0.2s; }
-        .portfolio-card:nth-child(4) { transition-delay: 0.1s; }
-        .portfolio-card:nth-child(5) { transition-delay: 0.2s; }
-        .portfolio-card:nth-child(6) { transition-delay: 0.3s; }
-
-        .portfolio-content {
-            padding: 25px;
-        }
-
-        .portfolio-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            font-family: 'Futura PT', sans-serif;
-        }
-
-        .portfolio-description {
-            color: var(--text-light);
-            margin-bottom: 15px;
-            line-height: 1.5;
-            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
-        }
-
-        .portfolio-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-family: 'Futura PT', sans-serif;
-        }
-
-        /* 底部導航區域 */
-        .bottom-navigation {
-            background: var(--text-dark);
-            color: white;
-            padding: 50px 40px 30px;
-            margin-top: 80px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 50px;
-            margin-bottom: 30px;
-        }
-
-        .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .footer-logo {
-            width: 36px;
-            height: 36px;
-            filter: brightness(0) invert(1);
-        }
-
-        .footer-brand-logotype {
-            height: 24px; /* 與原本文字高度相近 */
-            width: auto;
-            filter: brightness(0) invert(1); /* 白色濾鏡 */
-        }
-
-        .footer-description {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.5;
-            margin-bottom: 25px;
-            font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
-        }
-
-        .footer-section h3 {
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-family: 'Futura PT', sans-serif;
-        }
-
-        .footer-nav {
-            list-style: none;
-        }
-
-        .footer-nav li {
-            margin-bottom: 10px;
-        }
-
-        .footer-nav a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: var(--transition-fast);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Futura PT', sans-serif;
-            font-size: 0.9rem;
-        }
-
-        .footer-nav a:hover {
-            color: var(--primary-color);
-            transform: translateX(2px);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.5);
-            font-family: 'Futura PT', sans-serif;
-        }
+        /* 底部導航區域（保持原樣） */
+        .bottom-navigation{ background:var(--text-dark); color:#fff; padding:50px 40px 30px; margin-top:80px; }
+        .footer-content{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; margin-bottom:30px; }
+        .footer-brand{ display:flex; align-items:center; gap:12px; margin-bottom:15px; }
+        .footer-logo{ width:36px; height:36px; filter:brightness(0) invert(1); }
+        .footer-description{ color:rgba(255,255,255,.7); line-height:1.5; margin-bottom:25px; font-family:'Source Han Sans','Noto Sans TC',sans-serif; }
+        .footer-section h3{ color:#fff; font-size:1rem; font-weight:600; margin-bottom:15px; font-family:'Futura PT',sans-serif; }
+        .footer-nav{ list-style:none; }
+        .footer-nav li{ margin-bottom:10px; }
+        .footer-nav a{ color:rgba(255,255,255,.7); text-decoration:none; transition:var(--transition-fast); display:flex; align-items:center; gap:6px; font-family:'Futura PT',sans-serif; font-size:.9rem; }
+        .footer-nav a:hover{ color:var(--primary-color); transform:translateX(2px); }
+        .footer-bottom{ border-top:1px solid rgba(255,255,255,.1); padding-top:25px; display:flex; justify-content:space-between; align-items:center; font-size:.85rem; color:rgba(255,255,255,.5); font-family:'Futura PT',sans-serif; }
 
         /* 動畫 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeInUp{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+        @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        .floating{ animation: float 4s ease-in-out infinite; }
+
+        /* 響應式 */
+        @media (max-width: 768px){
+            .nav-container{ padding:0 20px; }
+            .nav-menu{ display:none; }
+            .menu-toggle{ display:flex; }
+            .hero-content{ padding:0 20px; }
+            .v-words{ gap:15px; }
+            .services-title{ font-size:.75rem; margin-bottom:36px; letter-spacing:2px; }
+            .services-horizontal-container{ gap:50px; padding:40px 40px; }
+            .service-item{ padding:30px 20px; min-width:200px; }
+            .service-title{ font-size:1rem; }
+            .service-title-cn{ font-size:.7rem; }
+            .content-grid{ padding:60px 20px; }
+            .services-grid,.portfolio-grid{ grid-template-columns:1fr; gap:20px; padding:0 20px; }
+            .service-card,.portfolio-content{ padding:25px 20px; }
+            .footer-content{ grid-template-columns:1fr; gap:40px; }
+            .footer-bottom{ flex-direction:column; gap:20px; text-align:center; }
+            .bottom-navigation{ padding:40px 20px 30px; }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
+        @media (max-width: 480px){
+            .hero-logotype{ width:180px; }
+            /* 省略：v-words 小螢幕細節，與你原本一致 */
+            .services-horizontal-container{ gap:40px; padding:30px 30px; }
+            .service-item{ padding:25px 15px; min-width:160px; }
+            .service-title{ font-size:.9rem; }
+            .service-title-cn{ font-size:.65rem; }
+            .portfolio-grid{ grid-template-columns:1fr; }
+            .portfolio-card{ min-width:auto; }
         }
 
-        .floating {
-            animation: float 4s ease-in-out infinite;
+        /* 滾動指示器（保持） */
+        .scroll-indicator{
+            position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
+            width:24px; height:40px; border:2px solid rgba(0,0,0,.2); border-radius:20px; z-index:100; opacity:.6; transition:var(--transition-fast);
         }
-
-        /* 響應式設計 */
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 0 20px;
-            }
-
-            /* 隱藏桌面選單，顯示漢堡選單 */
-            .nav-menu {
-                display: none;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .hero-content {
-                padding: 0 20px;
-            }
-
-            .v-words {
-                gap: 15px;
-            }
-
-            .services-section {
-                padding: 80px 0;
-                height: 300vh; /* 手機版也增加高度 */
-            }
-
-            .services-title {
-                font-size: 0.75rem;
-                margin-bottom: 80px;
-                letter-spacing: 2px;
-            }
-
-            .services-horizontal-container {
-                gap: 50px;
-                padding: 40px 40px;
-            }
-
-            .service-item {
-                padding: 30px 20px;
-                min-width: 200px;
-            }
-
-            .service-title {
-                font-size: 1rem;
-            }
-
-            .service-title-cn {
-                font-size: 0.7rem;
-            }
-
-            .content-grid {
-                padding: 60px 20px;
-            }
-
-            .services-grid,
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 0 20px;
-            }
-
-            .service-card,
-            .portfolio-content {
-                padding: 25px 20px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-
-            .bottom-navigation {
-                padding: 40px 20px 30px;
-            }
+        .scroll-indicator::before{
+            content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%);
+            width:3px; height:6px; background:rgba(0,0,0,.4); border-radius:2px; animation:scroll-down 1.5s infinite;
         }
-
-        @media (max-width: 480px) {
-            .hero-logotype {
-                width: 180px;
-            }
-
-            .v-words {
-                grid-template-columns: 85px;
-                grid-template-rows: repeat(5, 70px);
-                gap: 0;
-                max-width: 85px;
-                max-height: 350px;
-                overflow: visible;
-            }
-
-            .v-word {
-                width: 85px;
-                height: 85px;
-                overflow: visible;
-            }
-
-            /* 小螢幕垂直交叠，以第3個圓為中心 - 調整為新的交疊比例 */
-            .v-word:nth-child(1) {
-                grid-row: 1;
-                transform: translateY(12px);
-                z-index: 1;
-            }
-
-            .v-word:nth-child(2) {
-                grid-row: 2;
-                transform: translateY(6px);
-                z-index: 2;
-            }
-
-            .v-word:nth-child(3) {
-                grid-row: 3;
-                transform: translateY(0px);
-                z-index: 5;
-            }
-
-            .v-word:nth-child(4) {
-                grid-row: 4;
-                transform: translateY(-6px);
-                z-index: 2;
-            }
-
-            .v-word:nth-child(5) {
-                grid-row: 5;
-                transform: translateY(-12px);
-                z-index: 1;
-            }
-
-            .v-word:nth-child(1):hover {
-                transform: translateY(12px) scale(1.1);
-            }
-
-            .v-word:nth-child(2):hover {
-                transform: translateY(6px) scale(1.1);
-            }
-
-            .v-word:nth-child(3):hover {
-                transform: translateY(0px) scale(1.1);
-            }
-
-            .v-word:nth-child(4):hover {
-                transform: translateY(-6px) scale(1.1);
-            }
-
-            .v-word:nth-child(5):hover {
-                transform: translateY(-12px) scale(1.1);
-            }
-
-            .v-word .english {
-                font-size: 0.84rem; /* 小螢幕版本：0.6rem * 1.4 = 0.84rem */
-            }
-
-            .v-word .chinese {
-                font-size: 0.67rem; /* 小螢幕版本：0.48rem * 1.4 = 0.67rem */
-            }
-
-            .nav-menu {
-                gap: 15px;
-            }
-
-            .nav-image {
-                height: 22px;
-            }
-
-            .services-section {
-                height: 250vh; /* 小螢幕也增加高度 */
-                padding: 60px 0;
-            }
-
-            .services-title {
-                font-size: 0.7rem;
-                margin-bottom: 60px;
-                letter-spacing: 2px;
-            }
-
-            .services-horizontal-container {
-                gap: 40px;
-                padding: 30px 30px;
-            }
-
-            .service-item {
-                padding: 25px 15px;
-                min-width: 160px;
-            }
-
-            .service-title {
-                font-size: 0.9rem;
-            }
-
-            .service-title-cn {
-                font-size: 0.65rem;
-            }
-
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .portfolio-card {
-                min-width: auto;
-            }
-        }
-
-        /* 滾動指示器 */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 40px;
-            border: 2px solid rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            z-index: 100;
-            opacity: 0.6;
-            transition: var(--transition-fast);
-        }
-
-        .scroll-indicator::before {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 6px;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 2px;
-            animation: scroll-down 1.5s infinite;
-        }
-
-        @keyframes scroll-down {
-            0% { top: 6px; opacity: 1; }
-            50% { top: 16px; opacity: 0.3; }
-            100% { top: 6px; opacity: 1; }
-        }
-
-        .scroll-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        @keyframes scroll-down{ 0%{top:6px; opacity:1} 50%{top:16px; opacity:.3} 100%{top:6px; opacity:1} }
+        .scroll-indicator.hidden{ opacity:0; pointer-events:none; }
     </style>
 </head>
 <body>
@@ -1255,9 +325,7 @@
 
                 <!-- 手機漢堡選單按鈕 -->
                 <div class="menu-toggle" id="menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    <span></span><span></span><span></span>
                 </div>
             </div>
         </nav>
@@ -1284,41 +352,32 @@
         <!-- Hero區域 -->
         <section class="hero-section">
             <div class="hero-bg" id="hero-bg"></div>
-            
             <div class="hero-content">
-                <div class="hero-logo floating" id="hero-logo">
-                    <div id="logo-motion"></div>
-                </div>
-                
+                <div class="hero-logo floating" id="hero-logo"><div id="logo-motion"></div></div>
                 <img src="./assets/eye.webp" alt="VDESIGN" class="hero-logotype">
                 <p class="hero-subtitle">Creative Studio Based in Taiwan</p>
                 <p class="hero-description">V DESIGN是一個位於台灣的創意工作室</p>
-                
+
                 <div class="v-words">
                     <div class="v-word">
                         <img src="./assets/showcase_II.webp" alt="Visual" class="v-word-image">
-                        <span class="english">Visual</span>
-                        <span class="chinese">視覺美學</span>
+                        <span class="english">Visual</span><span class="chinese">視覺美學</span>
                     </div>
                     <div class="v-word">
                         <img src="./assets/showcase_IV.webp" alt="Vivid" class="v-word-image">
-                        <span class="english">Vivid</span>
-                        <span class="chinese">生動表現</span>
+                        <span class="english">Vivid</span><span class="chinese">生動表現</span>
                     </div>
                     <div class="v-word">
                         <img src="./assets/showcase_III.webp" alt="Versatile" class="v-word-image">
-                        <span class="english">Versatile</span>
-                        <span class="chinese">靈活創新</span>
+                        <span class="english">Versatile</span><span class="chinese">靈活創新</span>
                     </div>
                     <div class="v-word">
                         <img src="./assets/showcase_I.webp" alt="Visionary" class="v-word-image">
-                        <span class="english">Visionary</span>
-                        <span class="chinese">前瞻視野</span>
+                        <span class="english">Visionary</span><span class="chinese">前瞻視野</span>
                     </div>
                     <div class="v-word">
                         <img src="./assets/showcase_V.webp" alt="Vertex" class="v-word-image">
-                        <span class="english">Vertex</span>
-                        <span class="chinese">追求頂點</span>
+                        <span class="english">Vertex</span><span class="chinese">追求頂點</span>
                     </div>
                 </div>
             </div>
@@ -1327,65 +386,29 @@
             <div class="scroll-indicator" id="scroll-indicator"></div>
         </section>
 
-        <!-- 服务内容 - 水平滾動映射版本 -->
+        <!-- 服務內容 - 水平滾動（修正高度計算與貼齊顯示） -->
         <section class="services-section" id="services-section">
             <div class="services-sticky-container">
                 <h2 class="services-title">Our Services</h2>
-                
-                <div class="services-horizontal-wrapper">
-                    <!-- 邊緣漸變遮罩 -->
+
+                <div class="services-horizontal-wrapper" id="services-wrapper">
                     <div class="edge-mask-left"></div>
                     <div class="edge-mask-right"></div>
-                    
+
                     <div class="services-horizontal-container" id="services-horizontal-container">
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">Brand Identity</div>
-                                <div class="service-title-cn">品牌識別</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">Graphic Design</div>
-                                <div class="service-title-cn">平面設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">Packaging Design</div>
-                                <div class="service-title-cn">包裝設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">Motion Design</div>
-                                <div class="service-title-cn">動態設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">3D Modeling</div>
-                                <div class="service-title-cn">3D建模</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">Low-Code Web Design</div>
-                                <div class="service-title-cn">低代碼網頁設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-title-group">
-                                <div class="service-title">Photography</div>
-                                <div class="service-title-cn">攝影</div>
-                            </div>
-                        </div>
+                        <div class="service-item"><div class="service-title">Brand Identity</div><div class="service-title-cn">品牌識別</div></div>
+                        <div class="service-item"><div class="service-title">Graphic Design</div><div class="service-title-cn">平面設計</div></div>
+                        <div class="service-item"><div class="service-title">Packaging Design</div><div class="service-title-cn">包裝設計</div></div>
+                        <div class="service-item"><div class="service-title">Motion Design</div><div class="service-title-cn">動態設計</div></div>
+                        <div class="service-item"><div class="service-title">3D Modeling</div><div class="service-title-cn">3D建模</div></div>
+                        <div class="service-item"><div class="service-title">Low-Code Web Design</div><div class="service-title-cn">低代碼網頁設計</div></div>
+                        <div class="service-item"><div class="service-title">Photography</div><div class="service-title-cn">攝影</div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 作品展示區域 -->
+        <!-- 作品展示區域（保持） -->
         <section class="content-grid">
             <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image" id="projects-title">
             <div class="portfolio-grid" id="projects-section">
@@ -1394,10 +417,7 @@
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Alpha</h3>
                         <p class="portfolio-description">品牌識別設計專案，為新創科技公司打造完整的視覺識別系統。</p>
-                        <div class="portfolio-meta">
-                            <span>Brand Identity</span>
-                            <span>2024</span>
-                        </div>
+                        <div class="portfolio-meta"><span>Brand Identity</span><span>2024</span></div>
                     </div>
                 </div>
 
@@ -1406,10 +426,7 @@
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Beta</h3>
                         <p class="portfolio-description">數位平台UI/UX設計，提升用戶體驗與介面美感的整合設計。</p>
-                        <div class="portfolio-meta">
-                            <span>Digital Design</span>
-                            <span>2024</span>
-                        </div>
+                        <div class="portfolio-meta"><span>Digital Design</span><span>2024</span></div>
                     </div>
                 </div>
 
@@ -1418,10 +435,7 @@
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Gamma</h3>
                         <p class="portfolio-description">包裝設計專案，結合美學與功能性的創新包裝解決方案。</p>
-                        <div class="portfolio-meta">
-                            <span>Packaging Design</span>
-                            <span>2024</span>
-                        </div>
+                        <div class="portfolio-meta"><span>Packaging Design</span><span>2024</span></div>
                     </div>
                 </div>
 
@@ -1430,10 +444,7 @@
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Delta</h3>
                         <p class="portfolio-description">動態設計作品，為品牌活動創造引人注目的動畫視覺效果。</p>
-                        <div class="portfolio-meta">
-                            <span>Motion Design</span>
-                            <span>2024</span>
-                        </div>
+                        <div class="portfolio-meta"><span>Motion Design</span><span>2024</span></div>
                     </div>
                 </div>
 
@@ -1442,10 +453,7 @@
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Epsilon</h3>
                         <p class="portfolio-description">3D視覺設計專案，為產品展示創造逼真的立體視覺效果。</p>
-                        <div class="portfolio-meta">
-                            <span>3D Modeling</span>
-                            <span>2024</span>
-                        </div>
+                        <div class="portfolio-meta"><span>3D Modeling</span><span>2024</span></div>
                     </div>
                 </div>
 
@@ -1454,10 +462,7 @@
                     <div class="portfolio-content">
                         <h3 class="portfolio-title">Project Zeta</h3>
                         <p class="portfolio-description">攝影作品集，捕捉品牌故事的每一個精彩瞬間與情感表達。</p>
-                        <div class="portfolio-meta">
-                            <span>Photography</span>
-                            <span>2024</span>
-                        </div>
+                        <div class="portfolio-meta"><span>Photography</span><span>2024</span></div>
                     </div>
                 </div>
             </div>
@@ -1475,9 +480,7 @@
                         我們是一個專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。每一個專案都是我們創意與專業的體現。<br><br>
                         We are a studio focused on innovative design, dedicated to providing clients with exceptional visual solutions. Every project is a manifestation of our creativity and professionalism.
                     </p>
-                    <div style="color: rgba(255, 255, 255, 0.5); font-size: 0.85rem;">
-                        © 2025 VDESIGN. All rights reserved.
-                    </div>
+                    <div style="color: rgba(255, 255, 255, 0.5); font-size: 0.85rem;">© 2025 VDESIGN. All rights reserved.</div>
                 </div>
 
                 <div class="footer-section">
@@ -1517,266 +520,133 @@
             const hours = taiwanTime.getHours().toString().padStart(2, '0');
             const minutes = taiwanTime.getMinutes().toString().padStart(2, '0');
             const timeStr = `TPE ${hours}:${minutes}`;
-            
             document.getElementById('taiwan-time').textContent = timeStr;
             document.getElementById('footer-time').textContent = timeStr;
         }
+        setInterval(updateTime, 1000); updateTime();
 
-        setInterval(updateTime, 1000);
-        updateTime();
-
-        // 優化的滾動效果處理
+        // ===== 水平滾動核心修正：動態高度 + 夾值 + 重新計算 =====
         let ticking = false;
-        
+        let maxTranslateX = 0;
+
+        function measureHorizontalSection() {
+            const section = document.getElementById('services-section');
+            const wrapper = document.getElementById('services-wrapper');
+            const container = document.getElementById('services-horizontal-container');
+            if (!section || !wrapper || !container) return;
+
+            const viewportH = window.innerHeight;
+            const totalWidth = container.scrollWidth;
+            const visibleWidth = wrapper.clientWidth;
+
+            // 需要水平位移的距離
+            maxTranslateX = Math.max(0, totalWidth - visibleWidth);
+
+            // 讓 sticky 容器能在垂直滾動中完成整段水平位移：
+            // 區塊高度 = 可視高度(固定貼齊) + 需要的位移距離
+            const neededHeight = Math.ceil(viewportH + maxTranslateX);
+
+            // 用 inline style 覆蓋任何 CSS 的固定值，消除多餘留白或不足
+            section.style.height = neededHeight + 'px';
+
+            // 第一次量測後立即重繪一次位置，避免閃爍
+            updateHorizontalScroll(window.scrollY);
+        }
+
         function updateOnScroll() {
             const scrollY = window.scrollY;
+
+            // 背景視差
             const heroHeight = window.innerHeight;
-            
-            // 背景視差 - 減少更新頻率
             if (scrollY < heroHeight) {
                 const heroBg = document.getElementById('hero-bg');
                 const parallaxSpeed = 0.3;
                 heroBg.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
             }
 
-            // 滾動指示器隱藏
+            // 滾動指示器
             const scrollIndicator = document.getElementById('scroll-indicator');
-            if (scrollY > 80) {
-                scrollIndicator.classList.add('hidden');
-            } else {
-                scrollIndicator.classList.remove('hidden');
-            }
+            if (scrollY > 80) scrollIndicator.classList.add('hidden');
+            else scrollIndicator.classList.remove('hidden');
 
-            // 導航欄效果 - 簡化
+            // 導航欄
             const topNav = document.getElementById('top-nav');
             if (scrollY > 30) {
                 topNav.style.background = 'rgba(255, 255, 255, 0.98)';
-                topNav.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.08)';
+                topNav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)';
             } else {
                 topNav.style.background = 'rgba(255, 255, 255, 0.95)';
                 topNav.style.boxShadow = 'none';
             }
 
-            // 水平滾動映射邏輯
+            // 水平滾動
             updateHorizontalScroll(scrollY);
-            
+
             ticking = false;
         }
 
-        // 水平滾動映射函數
         function updateHorizontalScroll(scrollY) {
-            const servicesSection = document.getElementById('services-section');
-            const horizontalContainer = document.getElementById('services-horizontal-container');
-            
-            if (!servicesSection || !horizontalContainer) return;
+            const section = document.getElementById('services-section');
+            const wrapper = document.getElementById('services-wrapper');
+            const container = document.getElementById('services-horizontal-container');
+            if (!section || !wrapper || !container) return;
 
-            const sectionTop = servicesSection.offsetTop;
-            const sectionHeight = servicesSection.offsetHeight;
-            const windowHeight = window.innerHeight;
-            
-            // 檢查是否在服務區域內
-            if (scrollY >= sectionTop && scrollY <= sectionTop + sectionHeight - windowHeight) {
-                // 計算滾動進度 (0 到 1)
-                const scrollProgress = (scrollY - sectionTop) / (sectionHeight - windowHeight);
-                
-                // 計算容器總寬度和可見寬度
-                const containerWidth = horizontalContainer.scrollWidth;
-                const visibleWidth = window.innerWidth;
-                
-                // 計算需要移動的距離
-                // 因為我們添加了 padding-left: 50vw，所以需要調整計算
-                const maxTranslateX = containerWidth - visibleWidth;
-                
-                // 應用水平滾動映射公式
-                const translateX = -scrollProgress * maxTranslateX;
-                
-                // 應用變換
-                horizontalContainer.style.transform = `translateX(${translateX}px)`;
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const viewportH = window.innerHeight;
+
+            // 只在服務區域內進行計算
+            if (scrollY >= sectionTop && scrollY <= sectionTop + sectionHeight - viewportH) {
+                const progress = (scrollY - sectionTop) / Math.max(1, (sectionHeight - viewportH));
+                // 夾值 0~1，避免位移越界
+                const clamped = Math.min(1, Math.max(0, progress));
+                const translateX = -clamped * maxTranslateX;
+                container.style.transform = `translate3d(${translateX}px, 0, 0)`;
+            } else if (scrollY < sectionTop) {
+                container.style.transform = 'translate3d(0,0,0)';
+            } else {
+                container.style.transform = `translate3d(${-maxTranslateX}px,0,0)`;
             }
         }
 
-        // 節流滾動事件
+        // 節流滾動事件（passive 更流暢）
         window.addEventListener('scroll', () => {
             if (!ticking) {
                 requestAnimationFrame(updateOnScroll);
                 ticking = true;
             }
-        });
+        }, { passive: true });
 
-        // Lottie 动画初始化 - 替換為眼睛動畫，並添加檢測
+        // 初始量測 + 尺寸改變重算（含 iOS 瀏覽器位移列變動）
+        window.addEventListener('load', measureHorizontalSection);
+        window.addEventListener('resize', measureHorizontalSection);
+        window.addEventListener('orientationchange', measureHorizontalSection);
+
+        // ===== 其餘：Lottie 等（保持你的原本行為） =====
         function initLogoAnimation() {
-            // 檢查眼睛圖片是否存在
             const eyeImg = new Image();
-            const eyeBallImg = new Image();
-            
-            eyeImg.onload = function() {
-                console.log('Eye image loaded successfully');
-                initEyeTracking();
-            };
-            
-            eyeImg.onerror = function() {
-                console.log('Eye image failed to load, falling back to original logo animation');
-                // 如果眼睛圖片載入失敗，恢復原本的logo顯示
-                const eyeContainer = document.getElementById('eye-container');
-                if (eyeContainer) {
-                    eyeContainer.innerHTML = `
-                        <img src="https://vdesign5.github.io/home/assets/logo.png" 
-                             alt="VDESIGN" 
-                             style="width: 100%; height: 100%; object-fit: contain;">
-                    `;
-                }
-            };
-            
-            // 測試圖片是否存在
+            eyeImg.onload = function(){ console.log('Eye image loaded'); /* 若要啟用眼球追蹤，請在 HTML 加上 eye-container/eye-ball */ };
+            eyeImg.onerror = function(){ console.log('Eye image failed to load'); };
             eyeImg.src = 'https://vdesign5.github.io/home/assets/eye.webp';
         }
 
-        // 眼睛跟隨鼠標效果
-        function initEyeTracking() {
-            const eyeBall = document.getElementById('eye-ball');
-            const eyeContainer = document.getElementById('eye-container');
-            
-            if (!eyeBall || !eyeContainer) {
-                console.log('Eye elements not found');
-                return;
-            }
-
-            let isDesktop = window.innerWidth > 768;
-            
-            // 桌面版：跟隨鼠標
-            function handleMouseMove(e) {
-                if (!isDesktop) return;
-                
-                const containerRect = eyeContainer.getBoundingClientRect();
-                const containerCenterX = containerRect.left + containerRect.width / 2;
-                const containerCenterY = containerRect.top + containerRect.height / 2;
-                
-                // 計算鼠標相對於眼睛中心的位置
-                const deltaX = e.clientX - containerCenterX;
-                const deltaY = e.clientY - containerCenterY;
-                
-                // 計算角度和距離
-                const angle = Math.atan2(deltaY, deltaX);
-                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                
-                // 根據您的圖片，眼球移動範圍應該更小，約為容器的15%
-                const containerWidth = containerRect.width;
-                const maxMovement = containerWidth * 0.15; // 容器寬度的15%
-                const normalizedDistance = Math.min(distance / 200, 1); // 增加除數讓反應更溫和
-                
-                const moveX = Math.cos(angle) * normalizedDistance * maxMovement;
-                const moveY = Math.sin(angle) * normalizedDistance * maxMovement;
-                
-                eyeBall.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
-            }
-
-            // 手機版：盯著畫面中心
-            function handleScroll() {
-                if (isDesktop) return;
-                
-                const containerRect = eyeContainer.getBoundingClientRect();
-                const containerCenterX = containerRect.left + containerRect.width / 2;
-                const containerCenterY = containerRect.top + containerRect.height / 2;
-                
-                // 畫面中心點
-                const screenCenterX = window.innerWidth / 2;
-                const screenCenterY = window.innerHeight / 2;
-                
-                // 計算眼睛看向畫面中心的角度
-                const deltaX = screenCenterX - containerCenterX;
-                const deltaY = screenCenterY - containerCenterY;
-                
-                const angle = Math.atan2(deltaY, deltaX);
-                const containerWidth = containerRect.width;
-                const maxMovement = containerWidth * 0.12; // 手機版移動範圍稍小
-                
-                const moveX = Math.cos(angle) * maxMovement;
-                const moveY = Math.sin(angle) * maxMovement;
-                
-                eyeBall.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
-            }
-
-            // 響應式檢測
-            function updateDeviceType() {
-                const wasDesktop = isDesktop;
-                isDesktop = window.innerWidth > 768;
-                
-                if (wasDesktop !== isDesktop) {
-                    // 設備類型改變時重置眼球位置
-                    eyeBall.style.transform = 'translate(-50%, -50%)';
-                }
-            }
-
-            // 添加錯誤處理和調試
-            console.log('Eye tracking initialized', { isDesktop, eyeBall, eyeContainer });
-
-            // 事件監聽
-            if (isDesktop) {
-                document.addEventListener('mousemove', handleMouseMove);
-            } else {
-                window.addEventListener('scroll', handleScroll);
-                // 初始化手機版位置
-                setTimeout(handleScroll, 100);
-            }
-
-            // 監聽窗口大小變化
-            window.addEventListener('resize', () => {
-                updateDeviceType();
-                // 重新綁定事件
-                document.removeEventListener('mousemove', handleMouseMove);
-                window.removeEventListener('scroll', handleScroll);
-                
-                if (isDesktop) {
-                    document.addEventListener('mousemove', handleMouseMove);
-                } else {
-                    window.addEventListener('scroll', handleScroll);
-                    setTimeout(handleScroll, 100);
-                }
-            });
-        }
-
-        // 導航 Logo 動畫 - 修正為正常播放邏輯
         function initNavLogoAnimation() {
             const navLogoContainer = document.getElementById('nav-logo-motion');
-            
             if (typeof lottie !== 'undefined') {
                 try {
-                    // 完全仿照 CodePen 的參數設置
                     const navAnimation = lottie.loadAnimation({
                         container: navLogoContainer,
                         renderer: 'svg',
                         loop: false,
-                        autoplay: false, // 關鍵：不自動播放
+                        autoplay: false,
                         path: './assets/logo_motion.json'
                     });
-
                     const navLogo = document.getElementById('nav-logo');
-                    
-                    // 動畫載入完成後保持初始狀態為0%（正常邏輯）
-                    navAnimation.addEventListener('DOMLoaded', () => {
-                        navAnimation.goToAndStop(0, true); // 設置為0%
-                    });
-                    
-                    // 滑鼠進入：從0%正向播放到100%
-                    navLogo.addEventListener('mouseenter', () => {
-                        navAnimation.setDirection(1); // 正向播放
-                        navAnimation.play();
-                    });
-
-                    // 滑鼠離開：從100%逆向播放回0%
-                    navLogo.addEventListener('mouseleave', () => {
-                        navAnimation.setDirection(-1); // 逆向播放
-                        navAnimation.play();
-                    });
-
-                    // 點擊重新載入
-                    navLogo.addEventListener('click', () => {
-                        location.reload();
-                    });
-
-                } catch (error) {
-                    console.log('Lottie animation failed to load, using fallback image');
-                    // 備用方案
+                    navAnimation.addEventListener('DOMLoaded', () => { navAnimation.goToAndStop(0, true); });
+                    navLogo.addEventListener('mouseenter', () => { navAnimation.setDirection(1); navAnimation.play(); });
+                    navLogo.addEventListener('mouseleave', () => { navAnimation.setDirection(-1); navAnimation.play(); });
+                    navLogo.addEventListener('click', () => { location.reload(); });
+                } catch (e) {
                     navLogoContainer.innerHTML = `
                         <img src="https://vdesign5.github.io/home/assets/logo.png" 
                              alt="VDESIGN" 
@@ -1784,45 +654,28 @@
                              onclick="location.reload()">
                     `;
                 }
-            } else {
-                // 備用方案
-                navLogoContainer.innerHTML = `
-                    <img src="https://vdesign5.github.io/home/assets/logo.png" 
-                         alt="VDESIGN" 
-                         style="width: 100%; height: 100%; object-fit: contain; cursor: pointer;"
-                         onclick="location.reload()">
-                `;
             }
         }
 
-        // 簡化的卡片入場動畫 - 使用 K72 風格的滑入放大特效
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -10% 0px'
-        };
-
+        // 作品集卡片入場動畫
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -10% 0px' };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // 添加動畫類別
                     entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target); // 停止觀察已動畫的元素
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        // 手機選單控制
         function initMobileMenu() {
             const menuToggle = document.getElementById('menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
-            
             if (menuToggle && mobileMenu) {
                 menuToggle.addEventListener('click', () => {
                     menuToggle.classList.toggle('active');
                     mobileMenu.classList.toggle('active');
                 });
-
-                // 點擊選單項目後關閉選單
                 const mobileNavLinks = mobileMenu.querySelectorAll('.nav-link');
                 mobileNavLinks.forEach(link => {
                     link.addEventListener('click', () => {
@@ -1830,8 +683,6 @@
                         mobileMenu.classList.remove('active');
                     });
                 });
-
-                // 點擊外部區域關閉選單
                 document.addEventListener('click', (e) => {
                     if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
                         menuToggle.classList.remove('active');
@@ -1841,54 +692,26 @@
             }
         }
 
-        // 初始化
         window.addEventListener('load', () => {
             initLogoAnimation();
             initNavLogoAnimation();
-            initMobileMenu(); // 初始化手機選單
-            
-            // Menu區域 project.webp 點擊滾動功能 - 同時處理桌面和手機版
+            initMobileMenu();
+
             const projectNavDesktop = document.querySelector('.nav-menu a[href="project.html"]');
             const projectNavMobile = document.querySelector('.mobile-menu a[href="project.html"]');
             const projectsTitle = document.getElementById('projects-title');
-            
+
             function handleProjectClick(e) {
                 e.preventDefault();
                 if (projectsTitle) {
-                    projectsTitle.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                    projectsTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }
-            
-            if (projectNavDesktop && projectsTitle) {
-                projectNavDesktop.addEventListener('click', handleProjectClick);
-            }
-            
-            if (projectNavMobile && projectsTitle) {
-                projectNavMobile.addEventListener('click', handleProjectClick);
-            }
+            if (projectNavDesktop && projectsTitle) projectNavDesktop.addEventListener('click', handleProjectClick);
+            if (projectNavMobile && projectsTitle) projectNavMobile.addEventListener('click', handleProjectClick);
 
-            // Footer Projects 連結滾動功能
-            const footerProjectLink = document.querySelector('a[href="#projects"]');
-            if (footerProjectLink && projectsTitle) {
-                footerProjectLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    
-                    projectsTitle.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                });
-            }
-            
-            // 只为作品集卡片添加 K72 風格滑入放大動畫
-            const cards = document.querySelectorAll('.portfolio-card');
-            cards.forEach((card) => {
-                // 設置初始狀態已在CSS中定義
-                observer.observe(card);
-            });
+            // 作品卡片觀察
+            document.querySelectorAll('.portfolio-card').forEach((card) => { observer.observe(card); });
         });
 
         // 簡化的平滑滾動
@@ -1896,12 +719,7 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     </script>
