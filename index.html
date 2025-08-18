@@ -779,7 +779,7 @@
             font-family: 'Futura PT', sans-serif;
         }
 
-        /* 作品展示卡片 - 加入滑入放大特效 */
+        /* 作品展示卡片 - 優化性能版本 */
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -796,12 +796,15 @@
             border-radius: var(--border-radius);
             overflow: hidden;
             border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform, box-shadow, opacity, filter;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.6s ease,
+                        filter 0.6s ease;
+            will-change: transform;
             opacity: 0;
-            transform: translateY(24px);
-            filter: blur(6px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(20px);
+            filter: blur(4px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .portfolio-card.animate-in {
@@ -811,8 +814,8 @@
         }
 
         .portfolio-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
         }
 
         .portfolio-image {
@@ -820,21 +823,21 @@
             height: 220px;
             background-size: cover;
             background-position: center;
-            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
             position: relative;
         }
 
         .portfolio-card:hover .portfolio-image {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
-        /* 為每個卡片添加不同的延遲 */
+        /* 簡化延遲，減少複雜性 */
         .portfolio-card:nth-child(1) { transition-delay: 0s; }
-        .portfolio-card:nth-child(2) { transition-delay: 0.06s; }
-        .portfolio-card:nth-child(3) { transition-delay: 0.12s; }
-        .portfolio-card:nth-child(4) { transition-delay: 0.18s; }
-        .portfolio-card:nth-child(5) { transition-delay: 0.24s; }
+        .portfolio-card:nth-child(2) { transition-delay: 0.1s; }
+        .portfolio-card:nth-child(3) { transition-delay: 0.2s; }
+        .portfolio-card:nth-child(4) { transition-delay: 0.1s; }
+        .portfolio-card:nth-child(5) { transition-delay: 0.2s; }
         .portfolio-card:nth-child(6) { transition-delay: 0.3s; }
 
         .portfolio-content {
@@ -1330,6 +1333,10 @@
                 <h2 class="services-title">Our Services</h2>
                 
                 <div class="services-horizontal-wrapper">
+                    <!-- 邊緣漸變遮罩 -->
+                    <div class="edge-mask-left"></div>
+                    <div class="edge-mask-right"></div>
+                    
                     <div class="services-horizontal-container" id="services-horizontal-container">
                         <div class="service-item">
                             <div class="service-title-group">
@@ -1788,17 +1795,17 @@
             }
         }
 
-        // 簡化的卡片入場動畫
+        // 簡化的卡片入場動畫 - 使用 K72 風格的滑入放大特效
         const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -30px 0px'
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    // 添加動畫類別
+                    entry.target.classList.add('animate-in');
                     observer.unobserve(entry.target); // 停止觀察已動畫的元素
                 }
             });
@@ -1876,12 +1883,10 @@
                 });
             }
             
-            // 只为作品集卡片添加简化动画
+            // 只为作品集卡片添加 K72 風格滑入放大動畫
             const cards = document.querySelectorAll('.portfolio-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = `opacity 0.4s ease ${index * 0.1}s, transform 0.4s ease ${index * 0.1}s`;
+            cards.forEach((card) => {
+                // 設置初始狀態已在CSS中定義
                 observer.observe(card);
             });
         });
