@@ -524,13 +524,12 @@
             transform: translateY(-2px);
         }
 
-        /* 服务展示 - 简洁版 */
+        /* 服务展示 - 水平滾動映射版本 */
         .services-section {
-            padding: 80px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 80px 0;
             text-align: center;
             position: relative;
+            height: 300vh; /* 增加高度讓滾動有足夠空間 */
         }
 
         .services-section::before {
@@ -546,43 +545,43 @@
             z-index: -1;
         }
 
-        .services-container {
+        .services-sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .services-title {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #cccccc;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+            font-family: 'Futura PT', sans-serif;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 10;
+        }
+
+        .services-horizontal-wrapper {
+            width: 100vw;
             overflow: hidden;
             position: relative;
-            margin: 40px 0 80px;
         }
 
-        .services-container::before,
-        .services-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 60px;
-            height: 100%;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        .services-container::before {
-            left: 0;
-            background: linear-gradient(to right, var(--bg-white), transparent);
-        }
-
-        .services-container::after {
-            right: 0;
-            background: linear-gradient(to left, var(--bg-white), transparent);
-        }
-
-        .services-scroll {
+        .services-horizontal-container {
             display: flex;
-            animation: serviceScroll 25s linear infinite;
             gap: 60px;
-            white-space: nowrap;
+            padding: 40px;
             will-change: transform;
-        }
-
-        .services-scroll:hover {
-            animation-play-state: paused;
+            white-space: nowrap;
+            width: fit-content;
         }
 
         .service-item {
@@ -598,6 +597,7 @@
             min-width: fit-content;
             box-shadow: var(--shadow-light);
             position: relative;
+            white-space: nowrap;
         }
 
         .service-item::before {
@@ -647,15 +647,6 @@
             color: #cccccc; /* 中文顏色調整 */
             font-family: 'Source Han Sans', 'Noto Sans TC', sans-serif;
             margin-top: 2px;
-        }
-
-        @keyframes serviceScroll {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
         }
 
         /* 服务网格 - 备选方案 */
@@ -719,6 +710,10 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
             margin-bottom: 80px;
+            padding: 0 40px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .portfolio-card {
@@ -907,17 +902,13 @@
             }
 
             .services-section {
-                padding: 60px 20px;
+                padding: 60px 0;
+                height: 200vh; /* 手機版減少高度 */
             }
 
-            .services-scroll {
+            .services-horizontal-container {
                 gap: 30px;
-                animation-duration: 18s; /* 手機版滾動速度增加40% */
-            }
-
-            .services-container::before,
-            .services-container::after {
-                width: 30px;
+                padding: 20px;
             }
 
             .service-item {
@@ -946,6 +937,7 @@
             .portfolio-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
+                padding: 0 20px;
             }
 
             .service-card,
@@ -1070,6 +1062,10 @@
             
             .portfolio-card {
                 min-width: auto;
+            }
+
+            .services-section {
+                height: 150vh; /* 小螢幕進一步減少高度 */
             }
         }
 
@@ -1216,116 +1212,90 @@
             <div class="scroll-indicator" id="scroll-indicator"></div>
         </section>
 
-        <!-- 服务内容 - 简化版 -->
-        <section class="services-section">
-            <h2 class="section-title">Our Services</h2>
-            
-            <!-- 水平滚动服务展示 -->
-            <div class="services-container">
-                <div class="services-scroll">
-                    <!-- 第一组 -->
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Brand Identity</div>
-                            <div class="service-title-cn">品牌識別</div>
+        <!-- 服务内容 - 水平滾動映射版本 -->
+        <section class="services-section" id="services-section">
+            <div class="services-sticky-container">
+                <h2 class="services-title">Our Services</h2>
+                
+                <div class="services-horizontal-wrapper">
+                    <div class="services-horizontal-container" id="services-horizontal-container">
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Brand Identity</div>
+                                <div class="service-title-cn">品牌識別</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Graphic Design</div>
-                            <div class="service-title-cn">平面設計</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Graphic Design</div>
+                                <div class="service-title-cn">平面設計</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Packaging Design</div>
-                            <div class="service-title-cn">包裝設計</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Packaging Design</div>
+                                <div class="service-title-cn">包裝設計</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Motion Design</div>
-                            <div class="service-title-cn">動態設計</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Motion Design</div>
+                                <div class="service-title-cn">動態設計</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">3D Modeling</div>
-                            <div class="service-title-cn">3D建模</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">3D Modeling</div>
+                                <div class="service-title-cn">3D建模</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Low-Code Web Design</div>
-                            <div class="service-title-cn">低代碼網頁設計</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Low-Code Web Design</div>
+                                <div class="service-title-cn">低代碼網頁設計</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Photography</div>
-                            <div class="service-title-cn">攝影</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Photography</div>
+                                <div class="service-title-cn">攝影</div>
+                            </div>
                         </div>
-                    </div>
-                    <!-- 第二组，实现无缝循环 -->
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Brand Identity</div>
-                            <div class="service-title-cn">品牌識別</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">UI/UX Design</div>
+                                <div class="service-title-cn">介面設計</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Graphic Design</div>
-                            <div class="service-title-cn">平面設計</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Creative Direction</div>
+                                <div class="service-title-cn">創意指導</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Packaging Design</div>
-                            <div class="service-title-cn">包裝設計</div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Motion Design</div>
-                            <div class="service-title-cn">動態設計</div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">3D Modeling</div>
-                            <div class="service-title-cn">3D建模</div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Low-Code Web Design</div>
-                            <div class="service-title-cn">低代碼網頁設計</div>
-                        </div>
-                    </div>
-                    <div class="service-item">
-                        <div class="service-icon"></div>
-                        <div class="service-title-group">
-                            <div class="service-title">Photography</div>
-                            <div class="service-title-cn">攝影</div>
+                        <div class="service-item">
+                            <div class="service-icon"></div>
+                            <div class="service-title-group">
+                                <div class="service-title">Digital Marketing</div>
+                                <div class="service-title-cn">數位行銷</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
+        <!-- 作品展示區域 -->
+        <section class="content-grid">
             <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image" id="projects-title">
             <div class="portfolio-grid" id="projects-section">
                 <div class="portfolio-card">
@@ -1464,7 +1434,7 @@
         setInterval(updateTime, 1000);
         updateTime();
 
-        // 優化的視差滾動效果
+        // 優化的滾動效果處理
         let ticking = false;
         
         function updateOnScroll() {
@@ -1495,8 +1465,42 @@
                 topNav.style.background = 'rgba(255, 255, 255, 0.95)';
                 topNav.style.boxShadow = 'none';
             }
+
+            // 水平滾動映射邏輯
+            updateHorizontalScroll(scrollY);
             
             ticking = false;
+        }
+
+        // 水平滾動映射函數
+        function updateHorizontalScroll(scrollY) {
+            const servicesSection = document.getElementById('services-section');
+            const horizontalContainer = document.getElementById('services-horizontal-container');
+            
+            if (!servicesSection || !horizontalContainer) return;
+
+            const sectionTop = servicesSection.offsetTop;
+            const sectionHeight = servicesSection.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            // 檢查是否在服務區域內
+            if (scrollY >= sectionTop && scrollY <= sectionTop + sectionHeight - windowHeight) {
+                // 計算滾動進度 (0 到 1)
+                const scrollProgress = (scrollY - sectionTop) / (sectionHeight - windowHeight);
+                
+                // 計算容器總寬度和可見寬度
+                const containerWidth = horizontalContainer.scrollWidth;
+                const visibleWidth = window.innerWidth;
+                
+                // 計算需要移動的距離
+                const maxTranslateX = containerWidth - visibleWidth;
+                
+                // 應用水平滾動映射公式: translateX = -progress * (totalWidth - visibleWidth)
+                const translateX = -scrollProgress * maxTranslateX;
+                
+                // 應用變換
+                horizontalContainer.style.transform = `translateX(${translateX}px)`;
+            }
         }
 
         // 節流滾動事件
