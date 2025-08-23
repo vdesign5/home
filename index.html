@@ -209,7 +209,7 @@
             transition: color 0.3s 0.5s cubic-bezier(.85,0,.15,1);
         }
         
-        /* 中文副标题滑出效果 */
+        /* 中文副标题滑出效果 + Open Link */
         .v-word .chinese{ 
             font-size:.77rem; 
             color:var(--text-muted); 
@@ -221,14 +221,39 @@
             position: relative;
         }
         
-        .v-word .chinese span {
+        .v-word .chinese .chinese-text {
             display: block;
             transition: transform 0.3s cubic-bezier(.85,0,.15,1);
             transform: translateY(0);
         }
         
-        /* Hover 时中文向上滑出，显示隐藏的内容 */
-        .v-word:hover .chinese span {
+        .v-word .chinese .open-link {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            color: #fff;
+            font-size: .75rem;
+            font-family: 'Futura PT', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(.85,0,.15,1);
+            transform: translateY(0);
+            z-index: 3;
+        }
+        
+        .v-word .chinese .open-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Hover 时中文向上滑出，Open Link 向上滑入 */
+        .v-word:hover .chinese .chinese-text {
+            transform: translateY(-100%);
+            transition: transform 0.3s 0.8s cubic-bezier(.85,0,.15,1);
+        }
+        
+        .v-word:hover .chinese .open-link {
             transform: translateY(-100%);
             transition: transform 0.3s 0.8s cubic-bezier(.85,0,.15,1);
         }
@@ -547,7 +572,8 @@
                         </div>
                         <span class="english">Visual</span>
                         <div class="chinese">
-                            <span>視覺美學</span>
+                            <span class="chinese-text">視覺美學</span>
+                            <a href="#visual-projects" class="open-link">Open Link</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -556,7 +582,8 @@
                         </div>
                         <span class="english">Vivid</span>
                         <div class="chinese">
-                            <span>生動表現</span>
+                            <span class="chinese-text">生動表現</span>
+                            <a href="#vivid-projects" class="open-link">Open Link</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -565,7 +592,8 @@
                         </div>
                         <span class="english">Versatile</span>
                         <div class="chinese">
-                            <span>靈活創新</span>
+                            <span class="chinese-text">靈活創新</span>
+                            <a href="#versatile-projects" class="open-link">Open Link</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -574,7 +602,8 @@
                         </div>
                         <span class="english">Visionary</span>
                         <div class="chinese">
-                            <span>前瞻視野</span>
+                            <span class="chinese-text">前瞻視野</span>
+                            <a href="#visionary-projects" class="open-link">Open Link</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -583,7 +612,8 @@
                         </div>
                         <span class="english">Vertex</span>
                         <div class="chinese">
-                            <span>追求頂點</span>
+                            <span class="chinese-text">追求頂點</span>
+                            <a href="#vertex-projects" class="open-link">Open Link</a>
                         </div>
                     </div>
                 </div>
