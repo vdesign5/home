@@ -460,22 +460,107 @@
         .section-title.project-image:hover{ filter:grayscale(0) brightness(1); transform:translateY(-2px); }
 
         .portfolio-grid{
-            display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:30px; margin-bottom:80px;
-            padding:0 40px; max-width:1200px; margin-left:auto; margin-right:auto;
+            display:grid; 
+            grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); 
+            gap:30px; 
+            margin-bottom:80px;
+            padding:0 40px; 
+            max-width:1200px; 
+            margin-left:auto; 
+            margin-right:auto;
         }
+        
         .portfolio-card{
-            background:var(--bg-card); border-radius:var(--border-radius); overflow:hidden; border:1px solid rgba(0,0,0,.05);
-            transition: transform .4s cubic-bezier(.4,0,.2,1), box-shadow .4s cubic-bezier(.4,0,.2,1), opacity .6s ease, filter .6s ease;
-            will-change: transform; opacity:0; transform:translateY(20px); filter:blur(4px); box-shadow:0 4px 20px rgba(0,0,0,.08);
+            background: transparent; /* 移除卡牌背景 */
+            border-radius: 0; /* 移除圓角 */
+            overflow:hidden; 
+            border: none; /* 移除邊框 */
+            transition: transform .56s cubic-bezier(.4,0,.2,1), opacity .84s ease, filter .84s ease; /* 慢40% */
+            will-change: transform; 
+            opacity:0; 
+            transform:translateY(20px); 
+            filter:blur(4px); 
+            box-shadow: none; /* 移除陰影 */
+            cursor: pointer;
         }
+        
         .portfolio-card.animate-in{ opacity:1; transform:translateY(0); filter:blur(0); }
-        .portfolio-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,.12); }
-        .portfolio-image{ width:100%; height:220px; background-size:cover; background-position:center; transition:transform .4s cubic-bezier(.4,0,.2,1); overflow:hidden; position:relative; }
+        .portfolio-card:hover{ transform:translateY(-6px); box-shadow: none; } /* 移除 hover 陰影 */
+        
+        .portfolio-image{ 
+            width:100%; 
+            height:220px; 
+            background-size:cover; 
+            background-position:center; 
+            transition:transform .56s cubic-bezier(.4,0,.2,1); /* 慢40% */
+            overflow:hidden; 
+            position:relative; 
+            border-radius: var(--border-radius); /* 只有圖片有圓角 */
+        }
+        
         .portfolio-card:hover .portfolio-image{ transform:scale(1.03); }
-        .portfolio-content{ padding:25px; }
-        .portfolio-title{ font-size:1.2rem; font-weight:600; color:var(--text-dark); margin-bottom:8px; font-family:'Futura PT',sans-serif; }
-        .portfolio-description{ color:var(--text-light); margin-bottom:15px; line-height:1.5; font-family:'Source Han Sans','Noto Sans TC',sans-serif; }
-        .portfolio-meta{ display:flex; justify-content:space-between; align-items:center; font-size:.8rem; color:var(--text-muted); font-family:'Futura PT',sans-serif; }
+        
+        .portfolio-content{ 
+            padding: 20px 0 0 0; /* 移除左右和下方 padding，只保留上方間距 */
+            background: transparent;
+        }
+        
+        .portfolio-title{ 
+            font-size:1.2rem; 
+            font-weight:600; 
+            color:var(--text-dark); 
+            margin-bottom:8px; 
+            font-family:'Futura PT',sans-serif; 
+        }
+        
+        .portfolio-description{ 
+            color:var(--text-light); 
+            margin-bottom:15px; 
+            line-height:1.5; 
+            font-family:'Source Han Sans','Noto Sans TC',sans-serif; 
+        }
+        
+        .portfolio-meta{ 
+            display:flex; 
+            justify-content:space-between; 
+            align-items:center; 
+            font-size:.8rem; 
+            color:var(--text-muted); 
+            font-family:'Futura PT',sans-serif; 
+            height: 20px; /* 固定高度以避免布局跳動 */
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 分類和年份項目 */
+        .portfolio-meta span {
+            display: block;
+            transition: transform 0.42s cubic-bezier(.85,0,.15,1); /* 慢40%：0.3s * 1.4 = 0.42s */
+            transform: translateY(100%); /* 初始隱藏在下方 */
+        }
+        
+        /* Hover 時向下滑入 */
+        .portfolio-card:hover .portfolio-meta span {
+            transform: translateY(0);
+            transition: transform 0.42s 0.28s cubic-bezier(.85,0,.15,1); /* 慢40%：0.2s * 1.4 = 0.28s */
+        }
+        
+        /* 為兩個 span 設置不同的延遲 */
+        .portfolio-meta span:first-child {
+            transition-delay: 0.28s; /* 慢40% */
+        }
+        
+        .portfolio-meta span:last-child {
+            transition-delay: 0.35s; /* 慢40%：0.25s * 1.4 = 0.35s */
+        }
+        
+        .portfolio-card:hover .portfolio-meta span:first-child {
+            transition-delay: 0.28s; /* 慢40% */
+        }
+        
+        .portfolio-card:hover .portfolio-meta span:last-child {
+            transition-delay: 0.35s; /* 慢40% */
+        }
 
         /* 底部導航區域（保持原樣） */
         .bottom-navigation{ background:var(--text-dark); color:#fff; padding:50px 40px 30px; margin-top:80px; }
