@@ -570,6 +570,7 @@
         .footer-content{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; margin-bottom:30px; }
         .footer-brand{ display:flex; align-items:center; gap:12px; margin-bottom:15px; }
         .footer-logo{ width:36px; height:36px; filter:brightness(0) invert(1); }
+        .footer-brand-logotype{ height:24px; width:auto; filter:brightness(0) invert(1); }
         .footer-description{ color:rgba(255,255,255,.7); line-height:1.5; margin-bottom:25px; font-family:'Source Han Sans','Noto Sans TC',sans-serif; }
         .footer-section h3{ color:#fff; font-size:1rem; font-weight:600; margin-bottom:15px; font-family:'Futura PT',sans-serif; }
         .footer-nav{ list-style:none; }
@@ -650,7 +651,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="contact.html" class="nav-link">
+                        <a href="#bottom-navigation" class="nav-link">
                             <img src="./assets/contact.webp" alt="Contact" class="nav-image">
                         </a>
                     </div>
@@ -676,7 +677,7 @@
                 </a>
             </div>
             <div class="mobile-nav-item">
-                <a href="contact.html" class="nav-link">
+                <a href="#bottom-navigation" class="nav-link">
                     <img src="./assets/contact.webp" alt="Contact" class="nav-image">
                 </a>
             </div>
@@ -704,7 +705,7 @@
                         <span class="english">Visual</span>
                         <div class="chinese">
                             <span class="chinese-text">視覺美學</span>
-                            <a href="#visual-projects" class="open-link">Open Link</a>
+                            <a href="#visual-projects" class="open-link">View</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -714,7 +715,7 @@
                         <span class="english">Vivid</span>
                         <div class="chinese">
                             <span class="chinese-text">生動表現</span>
-                            <a href="#vivid-projects" class="open-link">Open Link</a>
+                            <a href="#vivid-projects" class="open-link">View</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -724,7 +725,7 @@
                         <span class="english">Versatile</span>
                         <div class="chinese">
                             <span class="chinese-text">靈活創新</span>
-                            <a href="#versatile-projects" class="open-link">Open Link</a>
+                            <a href="#versatile-projects" class="open-link">View</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -734,7 +735,7 @@
                         <span class="english">Visionary</span>
                         <div class="chinese">
                             <span class="chinese-text">前瞻視野</span>
-                            <a href="#visionary-projects" class="open-link">Open Link</a>
+                            <a href="#visionary-projects" class="open-link">View</a>
                         </div>
                     </div>
                     <div class="v-word">
@@ -744,7 +745,7 @@
                         <span class="english">Vertex</span>
                         <div class="chinese">
                             <span class="chinese-text">追求頂點</span>
-                            <a href="#vertex-projects" class="open-link">Open Link</a>
+                            <a href="#vertex-projects" class="open-link">View</a>
                         </div>
                     </div>
                 </div>
@@ -872,12 +873,12 @@
         </section>
 
         <!-- 底部導航 -->
-        <footer class="bottom-navigation">
+        <footer class="bottom-navigation" id="bottom-navigation">
             <div class="footer-content">
                 <div>
                     <div class="footer-brand">
                         <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="footer-logo">
-                        <span class="footer-brand-text">VDESIGN</span>
+                        <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="footer-brand-logotype">
                     </div>
                     <p class="footer-description">
                         我們是一個專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。每一個專案都是我們創意與專業的體現。<br><br>
@@ -1097,7 +1098,7 @@
                 // 相對於整個 logotype 圖片的百分比位置
                 centerX: 0.92, // 綠色區域水平中心（大幅向右移動：84% → 92%）
                 centerY: 0.42, // 綠色區域垂直中心（上方約42%處）
-                radiusX: 0.08, // 眼球可移動的水平範圍（縮小範圍）
+                radiusX: 0.12, // 眼球可移動的水平範圍（向右擴大：8% → 12%）
                 radiusY: 0.08  // 眼球可移動的垂直範圍（縮小範圍）
             };
             
@@ -1130,7 +1131,7 @@
                 const moveY = eyeBallY / logotypeHeight * 100;
                 
                 // 額外的邊界檢查，確保不超出白色區域
-                const clampedMoveX = Math.max(-4, Math.min(4, moveX)); // 限制在 ±4% 範圍內
+                const clampedMoveX = Math.max(-6, Math.min(6, moveX)); // 向右擴大限制：±4% → ±6%
                 const clampedMoveY = Math.max(-4, Math.min(4, moveY)); // 限制在 ±4% 範圍內
                 
                 // 應用變換
