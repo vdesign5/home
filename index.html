@@ -152,8 +152,8 @@
         /* 眼球元素 */
         .eye-ball {
             position: absolute;
-            width: 80px; /* 放大眼球：40px → 80px */
-            height: 80px;
+            width: 240px; /* 再放大3倍：80px → 240px */
+            height: 240px;
             background-image: url('./assets/eye_ball.webp');
             background-size: contain;
             background-repeat: no-repeat;
@@ -1056,14 +1056,22 @@
                 // 限制眼球移動範圍
                 const maxDistanceX = logotypeWidth * eyeArea.radiusX;
                 const maxDistanceY = logotypeHeight * eyeArea.radiusY;
-                const constrainedDistance = Math.min(distance * 0.3, Math.min(maxDistanceX, maxDistanceY));
+                const constrainedDistance = Math.min(distance * 0.2, Math.min(maxDistanceX, maxDistanceY)); // 降低靈敏度
                 
                 // 計算眼球的新位置
                 const eyeBallX = constrainedDistance * Math.cos(angle);
                 const eyeBallY = constrainedDistance * Math.sin(angle);
                 
+                // 應用變換，更精確地限制在白色區域
+                const moveX = eyeBallX / logotypeWidth * 100;
+                const moveY = eyeBallY / logotypeHeight * 100;
+                
+                // 額外的邊界檢查，確保不超出白色區域
+                const clampedMoveX = Math.max(-4, Math.min(4, moveX)); // 限制在 ±4% 範圍內
+                const clampedMoveY = Math.max(-4, Math.min(4, moveY)); // 限制在 ±4% 範圍內
+                
                 // 應用變換
-                eyeBall.style.transform = `translate(${-50 + (eyeBallX / logotypeWidth * 100)}%, ${-50 + (eyeBallY / logotypeHeight * 100)}%)`;
+                eyeBall.style.transform = `translate(${-50 + clampedMoveX}%, ${-50 + clampedMoveY}%)`;
             }
             
             // 監聽鼠標移動
