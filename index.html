@@ -127,30 +127,44 @@
         }
         .hero-content{ text-align:center; z-index:10; max-width:800px; padding:0 40px; }
         .hero-logo{ width:120px; height:120px; margin:0 auto 40px; filter:drop-shadow(0 10px 30px rgba(0,0,0,.1)); position:relative; }
-        
-        /* 眼球追隨鼠標效果 */
-        .eye-container {
+        .hero-logotype-container {
             position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            cursor: none;
+            display: inline-block;
+            width: 252px;
+            margin: 0 auto 30px;
         }
         
+        .hero-logotype{ 
+            width: 100%; height: auto;
+            transition:var(--transition-medium); cursor: default; 
+            display: block;
+        }
+        .hero-logotype:hover{ transform:scale(1.05); filter:drop-shadow(0 15px 40px rgba(0,0,0,.15)); }
+        
+        /* 眼球追蹤容器 */
+        .eye-tracking-container {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none; /* 不影響原有的hover效果 */
+            z-index: 1;
+        }
+        
+        /* 眼球元素 */
         .eye-ball {
             position: absolute;
-            width: 30px;
-            height: 60px;
-            background: url('./assets/eye_ball.webp') no-repeat center;
+            width: 40px; /* 眼球大小 */
+            height: 40px;
+            background-image: url('./assets/eye_ball.webp');
             background-size: contain;
-            transform: skewX(-15deg); /* 創造平行四邊形效果 */
-            transition: transform 0.1s ease-out;
-            pointer-events: none;
-            z-index: 10;
-            opacity: 0.8;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: transform 0.1s ease-out; /* 平滑的移動動畫 */
+            transform-origin: center;
+            /* 初始位置設在綠色區域的中心 */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
-        .hero-logotype{ width:252px; height:auto; margin:0 auto 30px; transition:var(--transition-medium); cursor:default; }
-        .hero-logotype:hover{ transform:scale(1.05); filter:drop-shadow(0 15px 40px rgba(0,0,0,.15)); }
         .hero-subtitle{ font-size:clamp(1.1rem,2.5vw,1.4rem); color:var(--text-light); margin-bottom:15px; font-weight:400; font-family:'Futura PT',sans-serif; }
         .hero-description{ font-size:.95rem; color:var(--text-muted); font-family:'Source Han Sans','Noto Sans TC',sans-serif; max-width:500px; margin:0 auto 50px; }
 
@@ -583,13 +597,13 @@
         <section class="hero-section">
             <div class="hero-bg" id="hero-bg"></div>
             <div class="hero-content">
-                <div class="hero-logo floating" id="hero-logo">
-                    <div id="logo-motion"></div>
-                    <div class="eye-container" id="eye-container">
+                <div class="hero-logo floating" id="hero-logo"><div id="logo-motion"></div></div>
+                <div class="hero-logotype-container">
+                    <img src="./assets/eye.webp" alt="VDESIGN" class="hero-logotype" id="hero-logotype">
+                    <div class="eye-tracking-container">
                         <div class="eye-ball" id="eye-ball"></div>
                     </div>
                 </div>
-                <img src="./assets/eye.webp" alt="VDESIGN" class="hero-logotype">
                 <p class="hero-subtitle">Creative Studio Based in Taiwan</p>
                 <p class="hero-description">V DESIGN是一個位於台灣的創意工作室</p>
 
@@ -922,48 +936,67 @@
         window.addEventListener('resize', measureHorizontalSection);
         window.addEventListener('orientationchange', measureHorizontalSection);
 
-        // ===== 眼球追隨鼠標效果 =====
+        // ===== 眼球追蹤鼠標效果 =====
         function initEyeTracking() {
-            const eyeContainer = document.getElementById('eye-container');
             const eyeBall = document.getElementById('eye-ball');
+            const heroLogotype = document.getElementById('hero-logotype');
             
-            if (!eyeContainer || !eyeBall) return;
+            if (!eyeBall || !heroLogotype) return;
             
-            eyeContainer.addEventListener('mousemove', (e) => {
-                const rect = eyeContainer.getBoundingClientRect();
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+            // 綠色區域的大概位置（根據你的 eye.webp 圖片調整這些數值）
+            const eyeArea = {
+                // 相對於整個 logotype 圖片的百分比位置
+                centerX: 0.75, // 綠色區域水平中心（右側約75%處）
+                centerY: 0.45, // 綠色區域垂直中心（上方約45%處）
+                radiusX: 0.15, // 眼球可移動的水平範圍
+                radiusY: 0.15  // 眼球可移動的垂直範圍
+            };
+            
+            function updateEyeBallPosition(mouseX, mouseY) {
+                const rect = heroLogotype.getBoundingClientRect();
+                const logotypeWidth = rect.width;
+                const logotypeHeight = rect.height;
                 
-                // 計算鼠標相對於容器中心的位置
-                const mouseX = e.clientX - rect.left - centerX;
-                const mouseY = e.clientY - rect.top - centerY;
+                // 計算綠色區域的實際位置
+                const eyeCenterX = rect.left + logotypeWidth * eyeArea.centerX;
+                const eyeCenterY = rect.top + logotypeHeight * eyeArea.centerY;
                 
-                // 限制眼球移動範圍（在綠色區域內）
-                const maxMoveX = centerX * 0.3; // 30% 的容器寬度
-                const maxMoveY = centerY * 0.3; // 30% 的容器高度
+                // 計算鼠標相對於眼部中心的角度和距離
+                const deltaX = mouseX - eyeCenterX;
+                const deltaY = mouseY - eyeCenterY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const angle = Math.atan2(deltaY, deltaX);
                 
-                // 計算眼球應該移動的距離
-                const moveX = Math.max(-maxMoveX, Math.min(maxMoveX, mouseX * 0.1));
-                const moveY = Math.max(-maxMoveY, Math.min(maxMoveY, mouseY * 0.1));
+                // 限制眼球移動範圍
+                const maxDistanceX = logotypeWidth * eyeArea.radiusX;
+                const maxDistanceY = logotypeHeight * eyeArea.radiusY;
+                const constrainedDistance = Math.min(distance * 0.3, Math.min(maxDistanceX, maxDistanceY));
+                
+                // 計算眼球的新位置
+                const eyeBallX = constrainedDistance * Math.cos(angle);
+                const eyeBallY = constrainedDistance * Math.sin(angle);
                 
                 // 應用變換
-                eyeBall.style.transform = `translate(${moveX}px, ${moveY}px) skewX(-15deg)`;
+                eyeBall.style.transform = `translate(${-50 + (eyeBallX / logotypeWidth * 100)}%, ${-50 + (eyeBallY / logotypeHeight * 100)}%)`;
+            }
+            
+            // 監聽鼠標移動
+            document.addEventListener('mousemove', (e) => {
+                requestAnimationFrame(() => {
+                    updateEyeBallPosition(e.clientX, e.clientY);
+                });
             });
             
-            // 鼠標離開時眼球回到中心
-            eyeContainer.addEventListener('mouseleave', () => {
-                eyeBall.style.transform = 'translate(0px, 0px) skewX(-15deg)';
+            // 當鼠標離開頁面時，眼球回到中心
+            document.addEventListener('mouseleave', () => {
+                eyeBall.style.transform = 'translate(-50%, -50%)';
             });
         }
 
         // ===== 其餘：Lottie 等（保持你的原本行為） =====
         function initLogoAnimation() {
             const eyeImg = new Image();
-            eyeImg.onload = function(){ 
-                console.log('Eye image loaded'); 
-                // 初始化眼球追隨效果
-                initEyeTracking();
-            };
+            eyeImg.onload = function(){ console.log('Eye image loaded'); /* 若要啟用眼球追蹤，請在 HTML 加上 eye-container/eye-ball */ };
             eyeImg.onerror = function(){ console.log('Eye image failed to load'); };
             eyeImg.src = 'https://vdesign5.github.io/home/assets/eye.webp';
         }
@@ -1034,6 +1067,7 @@
             initLogoAnimation();
             initNavLogoAnimation();
             initMobileMenu();
+            initEyeTracking(); // 初始化眼球追蹤
 
             const projectNavDesktop = document.querySelector('.nav-menu a[href="project.html"]');
             const projectNavMobile = document.querySelector('.mobile-menu a[href="project.html"]');
