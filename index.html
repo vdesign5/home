@@ -152,18 +152,19 @@
         /* 眼球元素 */
         .eye-ball {
             position: absolute;
-            width: 40px; /* 眼球大小 */
-            height: 40px;
+            width: 80px; /* 放大眼球：40px → 80px */
+            height: 80px;
             background-image: url('./assets/eye_ball.webp');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            transition: transform 0.1s ease-out; /* 平滑的移動動畫 */
+            transition: transform 0.08s ease-out; /* 稍微加快響應速度 */
             transform-origin: center;
             /* 初始位置設在綠色區域的中心 */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 2; /* 確保在最上層 */
         }
         .hero-subtitle{ font-size:clamp(1.1rem,2.5vw,1.4rem); color:var(--text-light); margin-bottom:15px; font-weight:400; font-family:'Futura PT',sans-serif; }
         .hero-description{ font-size:.95rem; color:var(--text-muted); font-family:'Source Han Sans','Noto Sans TC',sans-serif; max-width:500px; margin:0 auto 50px; }
@@ -1031,10 +1032,10 @@
             // 綠色區域的大概位置（根據你的 eye.webp 圖片調整這些數值）
             const eyeArea = {
                 // 相對於整個 logotype 圖片的百分比位置
-                centerX: 0.75, // 綠色區域水平中心（右側約75%處）
-                centerY: 0.45, // 綠色區域垂直中心（上方約45%處）
-                radiusX: 0.15, // 眼球可移動的水平範圍
-                radiusY: 0.15  // 眼球可移動的垂直範圍
+                centerX: 0.72, // 綠色區域水平中心（右側約72%處）
+                centerY: 0.42, // 綠色區域垂直中心（上方約42%處）
+                radiusX: 0.08, // 眼球可移動的水平範圍（縮小範圍）
+                radiusY: 0.08  // 眼球可移動的垂直範圍（縮小範圍）
             };
             
             function updateEyeBallPosition(mouseX, mouseY) {
