@@ -136,10 +136,11 @@
         
         .hero-logotype{ 
             width: 100%; height: auto;
-            transition:var(--transition-medium); cursor: default; 
+            transition: none; /* 移除過渡效果 */
+            cursor: default; 
             display: block;
         }
-        .hero-logotype:hover{ transform:scale(1.05); filter:drop-shadow(0 15px 40px rgba(0,0,0,.15)); }
+        /* 移除 hover 效果 */
         
         /* 眼球追蹤容器 */
         .eye-tracking-container {
@@ -1091,7 +1092,7 @@
             // 綠色區域的大概位置（根據你的 eye.webp 圖片調整這些數值）
             const eyeArea = {
                 // 相對於整個 logotype 圖片的百分比位置
-                centerX: 0.78, // 綠色區域水平中心（向右移動：72% → 78%）
+                centerX: 0.84, // 綠色區域水平中心（再向右移動：78% → 84%）
                 centerY: 0.42, // 綠色區域垂直中心（上方約42%處）
                 radiusX: 0.08, // 眼球可移動的水平範圍（縮小範圍）
                 radiusY: 0.08  // 眼球可移動的垂直範圍（縮小範圍）
