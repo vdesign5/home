@@ -152,8 +152,8 @@
         /* 眼球元素 */
         .eye-ball {
             position: absolute;
-            width: 160px; /* 縮小150%：240px ÷ 1.5 = 160px */
-            height: 160px;
+            width: 107px; /* 縮小三分之一：160px × (2/3) = 107px */
+            height: 107px;
             background-image: url('./assets/eye_ball.webp');
             background-size: contain;
             background-repeat: no-repeat;
@@ -491,9 +491,9 @@
         .portfolio-image{ 
             width:100%; 
             height:220px; 
-            background-size:cover; 
+            background-size: 120%; /* 放大背景圖片以產生視差裁切空間 */
             background-position:center; 
-            background-attachment: fixed; /* 視差效果 */
+            background-attachment: scroll; /* 改為 scroll */
             transition:transform .56s cubic-bezier(.4,0,.2,1); /* 慢40% */
             overflow:hidden; 
             position:relative; 
@@ -1023,7 +1023,7 @@
         window.addEventListener('resize', measureHorizontalSection);
         window.addEventListener('orientationchange', measureHorizontalSection);
 
-        // ===== Project 圖片視差效果 =====
+        // ===== Project 圖片視差效果（參考 Olivier Larose 的方法）=====
         function initProjectParallax() {
             const portfolioImages = document.querySelectorAll('.portfolio-image');
             
@@ -1032,18 +1032,32 @@
                     const rect = image.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
                     
-                    // 計算元素在視窗中的位置（-1 到 1）
-                    const elementCenter = rect.top + rect.height / 2;
-                    const viewportCenter = windowHeight / 2;
-                    const distanceFromCenter = (elementCenter - viewportCenter) / windowHeight;
-                    
-                    // 視差強度（可調整）
-                    const parallaxStrength = 20;
-                    const translateY = distanceFromCenter * parallaxStrength;
-                    
-                    // 只在元素接近或在視窗內時應用視差
-                    if (rect.bottom > 0 && rect.top < windowHeight) {
-                        image.style.backgroundPosition = `center ${50 + translateY}%`;
+                    // 只處理在視窗範圍內或接近的元素
+                    if (rect.bottom >= -100 && rect.top <= windowHeight + 100) {
+                        // 計算元素在視窗中的進度（0 到 1）
+                        // 當元素從底部進入到頂部離開
+                        const elementTop = rect.top;
+                        const elementHeight = rect.height;
+                        
+                        // 視差進度計算：從元素底部接觸視窗底部開始，到頂部離開視窗頂部結束
+                        const startOffset = windowHeight;
+                        const endOffset = -elementHeight;
+                        const totalDistance = startOffset - endOffset;
+                        const currentDistance = startOffset - elementTop;
+                        
+                        // 進度值 (0 到 1)
+                        let progress = currentDistance / totalDistance;
+                        progress = Math.max(0, Math.min(1, progress));
+                        
+                        // 視差強度：背景圖片移動範圍
+                        // 當 progress = 0 時，背景位置在上方（-10%）
+                        // 當 progress = 1 時，背景位置在下方（110%）
+                        const parallaxRange = 120; // 總移動範圍
+                        const startPosition = -10; // 起始位置
+                        const backgroundPositionY = startPosition + (progress * parallaxRange);
+                        
+                        // 應用視差效果
+                        image.style.backgroundPosition = `center ${backgroundPositionY}%`;
                     }
                 });
             }
@@ -1051,7 +1065,7 @@
             // 初始執行
             updateParallax();
             
-            // 滾動時更新視差
+            // 滾動時更新視差（使用 requestAnimationFrame 優化性能）
             let ticking = false;
             window.addEventListener('scroll', () => {
                 if (!ticking) {
@@ -1062,6 +1076,9 @@
                     ticking = true;
                 }
             }, { passive: true });
+            
+            // 視窗大小改變時重新計算
+            window.addEventListener('resize', updateParallax);
         }
 
         // ===== 眼球追蹤鼠標效果 =====
