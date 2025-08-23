@@ -493,6 +493,7 @@
             height:220px; 
             background-size:cover; 
             background-position:center; 
+            background-attachment: fixed; /* 視差效果 */
             transition:transform .56s cubic-bezier(.4,0,.2,1); /* 慢40% */
             overflow:hidden; 
             position:relative; 
@@ -1022,6 +1023,47 @@
         window.addEventListener('resize', measureHorizontalSection);
         window.addEventListener('orientationchange', measureHorizontalSection);
 
+        // ===== Project 圖片視差效果 =====
+        function initProjectParallax() {
+            const portfolioImages = document.querySelectorAll('.portfolio-image');
+            
+            function updateParallax() {
+                portfolioImages.forEach(image => {
+                    const rect = image.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    
+                    // 計算元素在視窗中的位置（-1 到 1）
+                    const elementCenter = rect.top + rect.height / 2;
+                    const viewportCenter = windowHeight / 2;
+                    const distanceFromCenter = (elementCenter - viewportCenter) / windowHeight;
+                    
+                    // 視差強度（可調整）
+                    const parallaxStrength = 20;
+                    const translateY = distanceFromCenter * parallaxStrength;
+                    
+                    // 只在元素接近或在視窗內時應用視差
+                    if (rect.bottom > 0 && rect.top < windowHeight) {
+                        image.style.backgroundPosition = `center ${50 + translateY}%`;
+                    }
+                });
+            }
+            
+            // 初始執行
+            updateParallax();
+            
+            // 滾動時更新視差
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        updateParallax();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        }
+
         // ===== 眼球追蹤鼠標效果 =====
         function initEyeTracking() {
             const eyeBall = document.getElementById('eye-ball');
@@ -1162,6 +1204,7 @@
             initNavLogoAnimation();
             initMobileMenu();
             initEyeTracking(); // 初始化眼球追蹤
+            initProjectParallax(); // 初始化作品集視差效果
 
             const projectNavDesktop = document.querySelector('.nav-menu a[href="project.html"]');
             const projectNavMobile = document.querySelector('.mobile-menu a[href="project.html"]');
