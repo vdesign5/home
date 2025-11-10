@@ -3,1254 +3,814 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VDESIGN - Creative Studio</title>
-    <link rel="icon" type="image/png" href="https://vdesign5.github.io/home/assets/logo.png">
+    <title>Vdesign - Creative Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/futura-pt" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Han+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Lottie動畫庫 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 重置樣式 */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @font-face {
+            font-family: 'DIN 2014';
+            src: url('data:text/css;base64,') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-        :root {
-            --primary-color: #ff0000;
-            --text-dark: #1a1a1a;
-            --text-light: #666666;
-            --text-muted: #CCCCCC;
-            --bg-light: #fafafa;
-            --bg-white: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.95);
-            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.04);
-            --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.08);
-            --shadow-heavy: 0 8px 25px rgba(0, 0, 0, 0.12);
-            --border-radius: 12px;
-            --transition-fast: all 0.2s ease;
-            --transition-medium: all 0.3s ease;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Futura PT', 'Source Han Sans', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #f8f8f8 100%);
-            color: var(--text-dark);
-            line-height: 1.6;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #333333;
+            background-color: #ffffff;
             overflow-x: hidden;
         }
 
-        /* 主要容器 */
-        .main-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            background: var(--bg-white);
-            position: relative;
-            box-shadow: var(--shadow-light);
-            min-height: 100vh;
+        .english {
+            font-family: 'DIN 2014', 'Arial', sans-serif;
         }
 
-        /* 頂部導航 - 簡化版 */
-        .top-nav {
+        /* Navigation Menu */
+        .navbar {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            width: 100%;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 9px 0;
-            transition: var(--transition-fast);
-            will-change: background, box-shadow;
-        }
-
-        .nav-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0 40px;
+            background-color: rgba(51, 51, 51, 0.95);
+            padding: 20px 60px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
+        }
+
+        .menu-desktop {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .menu-item {
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .logo-minimal { height: 108px; width: 108px; transition: var(--transition-fast); cursor: pointer; }
-        .logo-minimal:hover { transform: scale(1.1); }
-
-        .taiwan-time {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.5px; font-weight: 400; font-family: 'Futura PT', monospace;
+        .menu-item img {
+            height: 40px;
+            filter: brightness(0) saturate(100%) invert(84%) sepia(0%) saturate(0%) hue-rotate(180deg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .nav-menu { display: flex; gap: 40px; align-items: center; }
+        .menu-item:nth-child(1) {
+            transform: rotate(0deg);
+        }
 
-        .menu-toggle { display: none; flex-direction: column; cursor: pointer; padding: 8px; gap: 4px; z-index: 1001; position: relative; }
-        .menu-toggle span { width: 24px; height: 2px; background: var(--text-dark); transition: var(--transition-fast); border-radius: 1px; }
-        .menu-toggle.active span:nth-child(1){ transform: rotate(45deg) translate(5px, 5px); }
-        .menu-toggle.active span:nth-child(2){ opacity: 0; }
-        .menu-toggle.active span:nth-child(3){ transform: rotate(-45deg) translate(7px, -6px); }
+        .menu-item:nth-child(2) {
+            transform: rotate(15deg);
+        }
 
-        /* 手機選單 */
-        .mobile-menu {
-            position: fixed; top: 81px; left: 0; right: 0;
-            background: rgba(255, 255, 255, 0.98);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 80px 40px;
-            transform: translateY(-100%); opacity: 0; visibility: hidden;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-medium);
-            backdrop-filter: blur(10px);
-            z-index: 999; border-radius: 0 0 12px 12px; min-height: 300px;
+        .menu-item:nth-child(3) {
+            transform: rotate(30deg);
         }
-        .mobile-menu.active { transform: translateY(0); opacity: 1; visibility: visible; }
-        .mobile-nav-item { display: block; margin-bottom: 50px; text-align: center; }
-        .mobile-nav-item:last-child { margin-bottom: 0; }
 
-        .nav-item { position: relative; transition: var(--transition-medium); }
-        .nav-item:nth-child(2){ transform: rotate(15deg); }
-        .nav-item:nth-child(3){ transform: rotate(30deg); }
-        .nav-item:hover{ transform: translateY(-3px) rotate(0deg); }
+        .menu-item:hover img {
+            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
+        }
 
-        .nav-link{ text-decoration: none; display: block; }
-        .nav-image{ height: 35px; width: auto; transition: var(--transition-fast); filter: grayscale(1) brightness(0.8); }
-        .nav-link:hover .nav-image{ filter: brightness(0) saturate(100%) invert(13%) sepia(94%) saturate(7481%) hue-rotate(356deg) brightness(91%) contrast(135%); }
+        .menu-item.active img {
+            filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg);
+        }
 
-        /* Hero區域 - 視差效果 */
-        .hero-section{
-            position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; background: linear-gradient(135deg,#fdfdfd 0%,#ffffff 50%,#fcfcfc 100%);
+        /* Mobile Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
         }
-        .hero-bg{ position:absolute; inset:0; height:120%; background:
-            radial-gradient(circle at 25% 25%, rgba(255,0,0,.02) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(0,0,0,.01) 0%, transparent 50%);
-            transform: translateY(0); transition: transform .1s linear;
-        }
-        .hero-content{ text-align:center; z-index:10; max-width:800px; padding:0 40px; }
-        .hero-logo{ width:120px; height:120px; margin:0 auto 40px; filter:drop-shadow(0 10px 30px rgba(0,0,0,.1)); position:relative; }
-        .hero-logotype-container {
-            position: relative;
-            display: inline-block;
-            width: 252px;
-            margin: 0 auto 30px;
-        }
-        
-        .hero-logotype{ 
-            width: 100%; height: auto;
-            transition: none; /* 移除過渡效果 */
-            cursor: default; 
-            display: block;
-        }
-        /* 移除 hover 效果 */
-        
-        /* 眼球追蹤容器 */
-        .eye-tracking-container {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none; /* 不影響原有的hover效果 */
-            z-index: 1;
-        }
-        
-        /* 眼球元素 */
-        .eye-ball {
-            position: absolute;
-            width: 107px; /* 縮小三分之一：160px × (2/3) = 107px */
-            height: 107px;
-            background-image: url('./assets/eye_ball.webp');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            transition: transform 0.08s ease-out; /* 稍微加快響應速度 */
-            transform-origin: center;
-            /* 初始位置設在綠色區域的中心 */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2; /* 確保在最上層 */
-        }
-        .hero-subtitle{ font-size:clamp(1.1rem,2.5vw,1.4rem); color:var(--text-light); margin-bottom:15px; font-weight:400; font-family:'Futura PT',sans-serif; }
-        .hero-description{ font-size:.95rem; color:var(--text-muted); font-family:'Source Han Sans','Noto Sans TC',sans-serif; max-width:500px; margin:0 auto 50px; }
 
-        /* V-words - 重写为滑入动画效果 */
-        .v-words{ display:grid; grid-template-columns:repeat(5,140px); grid-template-rows:168px; gap:0; justify-content:center; align-items:center; max-width:560px; margin:0 auto; opacity:0; animation:fadeInUp .8s ease-out .6s forwards; position:relative; overflow:visible; }
-        
-        .v-word{ 
-            width:168px; height:168px; 
-            border:1px solid rgba(0,0,0,.15); 
-            border-radius:50%; 
-            display:flex; flex-direction:column; align-items:center; justify-content:center; 
-            background:transparent; 
-            cursor:default; 
-            position:relative; 
-            overflow:hidden; 
-            z-index:1;
-            /* 移除原本的 transition，让每个元素独立控制 */
+        .hamburger span {
+            width: 30px;
+            height: 3px;
+            background-color: #cccccc;
+            transition: all 0.3s;
         }
-        
-        /* 背景图片容器 - 初始状态向左偏移 */
-        .v-word-image-container{
-            position:absolute; 
-            inset:0; 
-            border-radius:50%; 
-            overflow:hidden;
-            transform: translateX(-100%);
-            transition: transform 0.5s cubic-bezier(.85,0,.15,1);
+
+        .hamburger:hover span {
+            background-color: #FF0000;
         }
-        
-        /* 背景图片 - 初始状态向右偏移，与容器相反 */
-        .v-word-image{ 
-            width:100%; height:100%; 
-            object-fit:cover; 
+
+        .menu-mobile {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 0;
+            background-color: rgba(51, 51, 51, 0.98);
+            width: 250px;
+            padding: 30px;
+            flex-direction: column;
+            gap: 30px;
             transform: translateX(100%);
-            transition: transform 0.5s cubic-bezier(.85,0,.15,1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        /* Hover 时图片和容器同时归位 */
-        .v-word:hover .v-word-image-container,
-        .v-word:hover .v-word-image {
+
+        .menu-mobile.open {
             transform: translateX(0);
         }
-        
-        /* 英文标题背景扩展效果 */
-        .v-word .english{ 
-            font-size:.98rem; 
-            color:#333; 
-            font-weight:600; 
-            font-family:'Futura PT',sans-serif; 
-            margin-bottom:2px; 
-            text-align:center; 
-            line-height:1;
+
+        .menu-mobile .menu-item {
+            transform: rotate(0deg) !important;
+        }
+
+        /* Hero Section */
+        .hero {
             position: relative;
-            padding: 2px 8px;
-            transition: color 0.3s cubic-bezier(.85,0,.15,1);
-            z-index: 2;
-        }
-        
-        /* 英文标题背景色伪元素 */
-        .v-word .english::before {
-            content: '';
-            position: absolute;
-            left: 0; right: 100%; top: 0; bottom: 0;
-            background-color: #333;
-            border-radius: 12px;
-            transition: right 0.4s cubic-bezier(.85,0,.15,1);
-            z-index: -1;
-        }
-        
-        /* Hover 时背景扩展 + 文字变色 */
-        .v-word:hover .english::before {
-            right: 0;
-            transition: right 0.4s 0.5s cubic-bezier(.85,0,.15,1);
-        }
-        
-        .v-word:hover .english {
-            color: #fff;
-            transition: color 0.3s 0.5s cubic-bezier(.85,0,.15,1);
-        }
-        
-        /* 中文副标题滑出效果 + Open Link */
-        .v-word .chinese{ 
-            font-size:.77rem; 
-            color:var(--text-muted); 
-            font-family:'Source Han Sans','Noto Sans TC',sans-serif; 
-            text-align:center; 
-            line-height:1;
-            height: 16px;
+            height: 85vh;
+            margin-top: 70px;
             overflow: hidden;
+        }
+
+        .hero-slider {
             position: relative;
-        }
-        
-        .v-word .chinese .chinese-text {
-            display: block;
-            transition: transform 0.3s cubic-bezier(.85,0,.15,1);
-            transform: translateY(0);
-        }
-        
-        .v-word .chinese .open-link {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            color: #fff;
-            font-size: .75rem;
-            font-family: 'Futura PT', sans-serif;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.3s cubic-bezier(.85,0,.15,1);
-            transform: translateY(0);
-            z-index: 3;
-            white-space: nowrap; /* 防止斷行 */
-        }
-        
-        .v-word .chinese .open-link:hover {
-            text-decoration: underline;
-        }
-        
-        /* Hover 时中文向上滑出，Open Link 向上滑入 */
-        .v-word:hover .chinese .chinese-text {
-            transform: translateY(-100%);
-            transition: transform 0.3s 0.8s cubic-bezier(.85,0,.15,1);
-        }
-        
-        .v-word:hover .chinese .open-link {
-            transform: translateY(-100%);
-            transition: transform 0.3s 0.8s cubic-bezier(.85,0,.15,1);
-        }
-        
-        /* 圆形位置保持原样 */
-        .v-word:nth-child(1){ grid-column:1; transform:translateX(28px); z-index:1; }
-        .v-word:nth-child(2){ grid-column:2; transform:translateX(14px); z-index:2; }
-        .v-word:nth-child(3){ grid-column:3; transform:translateX(0); z-index:5; }
-        .v-word:nth-child(4){ grid-column:4; transform:translateX(-14px); z-index:2; }
-        .v-word:nth-child(5){ grid-column:5; transform:translateX(-28px); z-index:1; }
-        
-        /* Hover 时的位置和缩放调整 */
-        .v-word:hover{ 
-            transform: scale(1.05); 
-            box-shadow:var(--shadow-medium); 
-            border-color:rgba(0,0,0,.25); 
-            z-index:10; 
-            transition: all 0.3s ease;
-        }
-        .v-word:nth-child(1):hover{ transform:translateX(20px) scale(1.05); }
-        .v-word:nth-child(2):hover{ transform:translateX(10px) scale(1.05); }
-        .v-word:nth-child(3):hover{ transform:translateX(0) scale(1.05); }
-        .v-word:nth-child(4):hover{ transform:translateX(-10px) scale(1.05); }
-        .v-word:nth-child(5):hover{ transform:translateX(-20px) scale(1.05); }
-
-        /* ===== 服務區（水平滾動）修正版 + 十字遮罩效果 ===== */
-        .services-section{
-            position: relative;
-            height: auto;
-            padding: 0;
-            background: #fafafa;
-            overflow: visible;
-        }
-        .services-sticky-container{
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            height: 100svh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .services-title{
-            font-size:.8rem; font-weight:400; color:#999; margin-bottom: 48px;
-            letter-spacing:3px; font-family:'Futura PT',sans-serif; text-transform:uppercase; position:relative; z-index:10;
-        }
-        .services-horizontal-wrapper{
-            width:100%;
-            max-width:100vw;
-            overflow:hidden;
-            position:relative;
-        }
-        
-        /* 邊緣漸層遮罩 */
-        .edge-mask-left,.edge-mask-right{
-            position:absolute; top:0; bottom:0; width:120px; pointer-events:none; z-index:10;
-        }
-        .edge-mask-left{ left:0; background:linear-gradient(to right,#fafafa,rgba(250,250,250,.8),transparent); }
-        .edge-mask-right{ right:0; background:linear-gradient(to left,#fafafa,rgba(250,250,250,.8),transparent); }
-
-        .services-horizontal-container{
-            display:flex; gap:30px; padding:60px 100px; /* 增加 30px 間距 */
-            will-change: transform;
-            white-space:nowrap; width: max-content;
-            transform: translate3d(0,0,0);
-        }
-
-        /* ===== 十字遮罩效果的服務項目 ===== */
-        .service-item{
-            display: inline-block;
-            width: 200px;
-            height: 200px;
-            position: relative;
-            border: 1px solid rgba(26, 26, 26, 0.2);
-            z-index: 0;
-            transition: all 0.3s ease;
-            opacity: 1;
-            background: transparent;
-            cursor: default;
-            
-            /* Flex 容器用於內容居中 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .service-item:hover {
-            z-index: 10;
-        }
-
-        /* 十字遮罩：水平和垂直偽元素 */
-        .service-item::before,
-        .service-item::after {
-            content: "";
-            display: block;
-            position: absolute;
-            background: #fafafa; /* 與背景色相同 */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 1;
-            z-index: 1;
-        }
-
-        /* 水平遮罩條 */
-        .service-item::before {
-            width: calc(100% + 2px);
-            height: 100%;
-            transition: height 1s ease, opacity 0.8s ease;
-        }
-
-        /* 垂直遮罩條 */
-        .service-item::after {
-            height: calc(100% + 2px);
             width: 100%;
-            transition: width 1s ease, opacity 0.8s ease;
+            height: 100%;
         }
 
-        /* Hover 狀態：收縮遮罩，露出內容 */
-        .service-item:hover::before {
-            transition: height 0.2s ease, opacity 0.3s ease;
-            height: 85%;
-            opacity: 0.7;
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
         }
 
-        .service-item:hover::after {
-            transition: width 0.2s ease, opacity 0.3s ease;
-            width: 85%;
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .hero-nav-left,
+        .hero-nav-right {
+            flex: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .hero-nav-left:hover,
+        .hero-nav-right:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-nav-left::before {
+            content: '←';
+            font-size: 48px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .hero-nav-right::before {
+            content: '→';
+            font-size: 48px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .hero-nav-left:hover::before,
+        .hero-nav-right:hover::before {
             opacity: 0.8;
         }
 
-        /* 服務項目內容 */
-        .service-content {
-            position: relative;
-            z-index: 2; /* 在遮罩之上 */
+        .hero-info {
+            position: absolute;
+            bottom: 30px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            color: white;
+            z-index: 10;
+        }
+
+        .hero-info-left {
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .hero-info-center {
+            flex: 1;
             text-align: center;
-            pointer-events: none; /* 避免影響 hover */
+            font-size: 16px;
+            padding: 0 20px;
         }
 
-        .service-title{ 
-            font-size:1.1rem; 
-            font-weight:500; 
-            color:#1a1a1a; 
-            font-family:'Futura PT',sans-serif; 
-            letter-spacing:.5px; 
-            margin-bottom:12px; 
-            text-align:center; 
-        }
-        
-        .service-title-cn{ 
-            font-size:.75rem; 
-            color:#888; 
-            font-family:'Source Han Sans','Noto Sans TC',sans-serif; 
-            font-weight:300; 
-            text-align:center; 
-            letter-spacing:1px; 
+        .hero-info-right {
+            display: flex;
+            align-items: center;
         }
 
-        /* 作品展示卡片 - 優化性能版本（保持原樣） */
-        .content-grid{ padding:100px 40px; max-width:1200px; margin:0 auto; }
-        .section-title{ text-align:center; font-size:.9rem; font-weight:400; color:#ccc; margin-bottom:40px; letter-spacing:.5px; font-family:'Futura PT',sans-serif; text-transform:uppercase; }
-        .section-title.project-image{ width:auto; height:40px; display:block; margin:0 auto 40px; cursor:pointer; transition:var(--transition-fast); filter:grayscale(1) brightness(.8); }
-        .section-title.project-image:hover{ filter:grayscale(0) brightness(1); transform:translateY(-2px); }
+        .view-button {
+            background-color: white;
+            color: #333333;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
 
-        .portfolio-grid{
-            display:grid; 
-            grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); 
-            gap:30px; 
-            margin-bottom:80px;
-            padding:0 40px; 
-            max-width:1200px; 
-            margin-left:auto; 
-            margin-right:auto;
+        .view-button:hover {
+            background-color: #FF0000;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
         }
-        
-        .portfolio-card{
-            background: transparent; /* 移除卡牌背景 */
-            border-radius: 0; /* 移除圓角 */
-            overflow:hidden; 
-            border: none; /* 移除邊框 */
-            transition: transform .56s cubic-bezier(.4,0,.2,1), opacity .84s ease, filter .84s ease; /* 慢40% */
-            will-change: transform; 
-            opacity:0; 
-            transform:translateY(20px); 
-            filter:blur(4px); 
-            box-shadow: none; /* 移除陰影 */
-            cursor: pointer;
-        }
-        
-        .portfolio-card.animate-in{ opacity:1; transform:translateY(0); filter:blur(0); }
-        .portfolio-card:hover{ transform:translateY(-6px); box-shadow: none; } /* 移除 hover 陰影 */
-        
-        .portfolio-image{ 
-            width:100%; 
-            height:220px; 
-            background-size: 120%; /* 放大背景圖片以產生視差裁切空間 */
-            background-position:center; 
-            background-attachment: scroll; /* 改為 scroll */
-            transition:transform .56s cubic-bezier(.4,0,.2,1); /* 慢40% */
-            overflow:hidden; 
-            position:relative; 
-            border-radius: var(--border-radius); /* 只有圖片有圓角 */
-        }
-        
-        .portfolio-card:hover .portfolio-image{ transform:scale(1.03); }
-        
-        .portfolio-content{ 
-            padding: 20px 0 0 0; /* 移除左右和下方 padding，只保留上方間距 */
-            background: transparent;
-        }
-        
-        .portfolio-title{ 
-            font-size:1.2rem; 
-            font-weight:600; 
-            color:var(--text-dark); 
-            margin-bottom:8px; 
-            font-family:'Futura PT',sans-serif; 
-        }
-        
-        .portfolio-description{ 
-            color:var(--text-light); 
-            margin-bottom:15px; 
-            line-height:1.5; 
-            font-family:'Source Han Sans','Noto Sans TC',sans-serif; 
-        }
-        
-        .portfolio-meta{ 
-            display:flex; 
-            justify-content:space-between; 
-            align-items:center; 
-            font-size:.8rem; 
-            color:var(--text-muted); 
-            font-family:'Futura PT',sans-serif; 
-            height: 20px; /* 固定高度以避免布局跳動 */
-            overflow: hidden;
+
+        /* Dynamic Island */
+        .dynamic-island {
+            background-color: white;
+            margin: 0 auto;
+            padding: 30px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            max-width: 1200px;
             position: relative;
+            top: -30px;
         }
-        
-        /* 分類和年份項目 */
-        .portfolio-meta span {
+
+        .island-left {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF0000, #ff4444);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .island-center {
+            flex-shrink: 0;
+        }
+
+        .island-center img {
+            height: 60px;
+        }
+
+        .island-right {
+            flex: 1;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .island-right .chinese {
             display: block;
-            transition: transform 0.42s cubic-bezier(.85,0,.15,1); /* 慢40%：0.3s * 1.4 = 0.42s */
-            transform: translateY(100%); /* 初始隱藏在下方 */
-        }
-        
-        /* Hover 時向下滑入 */
-        .portfolio-card:hover .portfolio-meta span {
-            transform: translateY(0);
-            transition: transform 0.42s 0.28s cubic-bezier(.85,0,.15,1); /* 慢40%：0.2s * 1.4 = 0.28s */
-        }
-        
-        /* 為兩個 span 設置不同的延遲 */
-        .portfolio-meta span:first-child {
-            transition-delay: 0.28s; /* 慢40% */
-        }
-        
-        .portfolio-meta span:last-child {
-            transition-delay: 0.35s; /* 慢40%：0.25s * 1.4 = 0.35s */
-        }
-        
-        .portfolio-card:hover .portfolio-meta span:first-child {
-            transition-delay: 0.28s; /* 慢40% */
-        }
-        
-        .portfolio-card:hover .portfolio-meta span:last-child {
-            transition-delay: 0.35s; /* 慢40% */
+            font-size: 15px;
+            color: #333333;
         }
 
-        /* 底部導航區域（保持原樣） */
-        .bottom-navigation{ background:var(--text-dark); color:#fff; padding:50px 40px 30px; margin-top:80px; }
-        .footer-content{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; margin-bottom:30px; }
-        .footer-brand{ display:flex; align-items:center; gap:12px; margin-bottom:15px; }
-        .footer-logo{ width:36px; height:36px; filter:brightness(0) invert(1); }
-        .footer-brand-logotype{ height:24px; width:auto; filter:brightness(0) invert(1); }
-        .footer-description{ color:rgba(255,255,255,.7); line-height:1.5; margin-bottom:25px; font-family:'Source Han Sans','Noto Sans TC',sans-serif; }
-        .footer-section h3{ color:#fff; font-size:1rem; font-weight:600; margin-bottom:15px; font-family:'Futura PT',sans-serif; }
-        .footer-nav{ list-style:none; }
-        .footer-nav li{ margin-bottom:10px; }
-        .footer-nav a{ color:rgba(255,255,255,.7); text-decoration:none; transition:var(--transition-fast); display:flex; align-items:center; gap:6px; font-family:'Futura PT',sans-serif; font-size:.9rem; }
-        .footer-nav a{ color:rgba(255,255,255,.7); text-decoration:none; transition:var(--transition-fast); display:flex; align-items:center; gap:6px; font-family:'Futura PT',sans-serif; font-size:.9rem; }
-        .footer-nav a:hover{ color:var(--primary-color); transform:translateX(2px); }
-        .footer-bottom{ border-top:1px solid rgba(255,255,255,.1); padding-top:25px; display:flex; justify-content:space-between; align-items:center; font-size:.85rem; color:rgba(255,255,255,.5); font-family:'Futura PT',sans-serif; }
-
-        /* 動畫 */
-        @keyframes fadeInUp{ from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
-        @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-        .floating{ animation: float 4s ease-in-out infinite; }
-
-        /* 響應式 */
-        @media (max-width: 768px){
-            .nav-container{ padding:0 20px; }
-            .nav-menu{ display:none; }
-            .menu-toggle{ display:flex; }
-            .hero-content{ padding:0 20px; }
-            .v-words{ gap:15px; }
-            .services-title{ font-size:.75rem; margin-bottom:36px; letter-spacing:2px; }
-            .services-horizontal-container{ gap:20px; padding:40px 40px; } /* 手機版增加間距 */
-            .service-item{ width: 160px; height: 160px; }
-            .service-title{ font-size:1rem; }
-            .service-title-cn{ font-size:.7rem; }
-            .content-grid{ padding:60px 20px; }
-            .portfolio-grid{ grid-template-columns:1fr; gap:20px; padding:0 20px; }
-            .portfolio-content{ padding:25px 20px; }
-            .footer-content{ grid-template-columns:1fr; gap:40px; }
-            .footer-bottom{ flex-direction:column; gap:20px; text-align:center; }
-            .bottom-navigation{ padding:40px 20px 30px; }
+        .island-right .english {
+            display: block;
+            font-size: 13px;
+            color: #666666;
+            margin-top: 4px;
         }
 
-        @media (max-width: 480px){
-            .hero-logotype{ width:180px; }
-            .services-horizontal-container{ gap:15px; padding:30px 30px; } /* 小螢幕增加間距 */
-            .service-item{ width: 140px; height: 140px; }
-            .service-title{ font-size:.9rem; }
-            .service-title-cn{ font-size:.65rem; }
-            .portfolio-grid{ grid-template-columns:1fr; }
-            .portfolio-card{ min-width:auto; }
+        /* Projects Grid */
+        .projects {
+            padding: 80px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        /* 滾動指示器（保持） */
-        .scroll-indicator{
-            position:fixed; bottom:30px; left:50%; transform:translateX(-50%);
-            width:24px; height:40px; border:2px solid rgba(0,0,0,.2); border-radius:20px; z-index:100; opacity:.6; transition:var(--transition-fast);
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
         }
-        .scroll-indicator::before{
-            content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%);
-            width:3px; height:6px; background:rgba(0,0,0,.4); border-radius:2px; animation:scroll-down 1.5s infinite;
+
+        .project-item {
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        @keyframes scroll-down{ 0%{top:6px; opacity:1} 50%{top:16px; opacity:.3} 100%{top:6px; opacity:1} }
-        .scroll-indicator.hidden{ opacity:0; pointer-events:none; }
+
+        .project-item:hover {
+            transform: translateY(-8px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-item:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            padding: 20px 0;
+        }
+
+        .project-category {
+            font-size: 12px;
+            color: #cccccc;
+            margin-bottom: 8px;
+        }
+
+        .project-title {
+            font-size: 16px;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            color: #cccccc;
+            padding: 60px 60px 30px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-description {
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h3 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .footer-section ul li a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #FF0000;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333333;
+            font-size: 12px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .menu-desktop {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .menu-mobile {
+                display: flex;
+            }
+
+            .navbar {
+                padding: 20px 30px;
+            }
+
+            .hero-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                left: 20px;
+                right: 20px;
+            }
+
+            .hero-info-center {
+                text-align: left;
+                padding: 0;
+            }
+
+            .dynamic-island {
+                flex-direction: column;
+                padding: 30px;
+                margin: 20px;
+                top: 0;
+                border-radius: 30px;
+            }
+
+            .island-right {
+                text-align: center;
+            }
+
+            .projects {
+                padding: 60px 30px;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            footer {
+                padding: 40px 30px 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .hero {
+                height: 70vh;
+            }
+
+            .hero-info-left,
+            .hero-info-center {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <!-- 頂部導航 -->
-        <nav class="top-nav" id="top-nav">
-            <div class="nav-container">
-                <div class="logo-minimal" id="nav-logo">
-                    <div id="nav-logo-motion"></div>
-                </div>
-                <div class="taiwan-time" id="taiwan-time">TPE 00:00</div>
-                
-                <!-- 桌面導航選單 -->
-                <div class="nav-menu">
-                    <div class="nav-item">
-                        <a href="project.html" class="nav-link">
-                            <img src="./assets/project.webp" alt="Project" class="nav-image">
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="about.html" class="nav-link">
-                            <img src="./assets/about.webp" alt="About" class="nav-image">
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#bottom-navigation" class="nav-link">
-                            <img src="./assets/contact.webp" alt="Contact" class="nav-image">
-                        </a>
-                    </div>
-                </div>
-
-                <!-- 手機漢堡選單按鈕 -->
-                <div class="menu-toggle" id="menu-toggle">
-                    <span></span><span></span><span></span>
-                </div>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="menu-desktop">
+            <div class="menu-item active">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eproject%3C/text%3E%3C/svg%3E" alt="project">
             </div>
-        </nav>
-
-        <!-- 手機選單 -->
-        <div class="mobile-menu" id="mobile-menu">
-            <div class="mobile-nav-item">
-                <a href="project.html" class="nav-link">
-                    <img src="./assets/project.webp" alt="Project" class="nav-image">
-                </a>
+            <div class="menu-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eabout%3C/text%3E%3C/svg%3E" alt="about">
             </div>
-            <div class="mobile-nav-item">
-                <a href="about.html" class="nav-link">
-                    <img src="./assets/about.webp" alt="About" class="nav-image">
-                </a>
-            </div>
-            <div class="mobile-nav-item">
-                <a href="#bottom-navigation" class="nav-link">
-                    <img src="./assets/contact.webp" alt="Contact" class="nav-image">
-                </a>
+            <div class="menu-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Econtact%3C/text%3E%3C/svg%3E" alt="contact">
             </div>
         </div>
-
-        <!-- Hero區域 -->
-        <section class="hero-section">
-            <div class="hero-bg" id="hero-bg"></div>
-            <div class="hero-content">
-                <div class="hero-logo floating" id="hero-logo"><div id="logo-motion"></div></div>
-                <div class="hero-logotype-container">
-                    <img src="./assets/eye.webp" alt="VDESIGN" class="hero-logotype" id="hero-logotype">
-                    <div class="eye-tracking-container">
-                        <div class="eye-ball" id="eye-ball"></div>
-                    </div>
-                </div>
-                <p class="hero-subtitle">Creative Studio Based in Taiwan</p>
-                <p class="hero-description">V DESIGN是一個位於台灣的創意工作室</p>
-
-                <div class="v-words">
-                    <div class="v-word">
-                        <div class="v-word-image-container">
-                            <img src="./assets/showcase_II.webp" alt="Visual" class="v-word-image">
-                        </div>
-                        <span class="english">Visual</span>
-                        <div class="chinese">
-                            <span class="chinese-text">視覺美學</span>
-                            <a href="#visual-projects" class="open-link">View</a>
-                        </div>
-                    </div>
-                    <div class="v-word">
-                        <div class="v-word-image-container">
-                            <img src="./assets/showcase_IV.webp" alt="Vivid" class="v-word-image">
-                        </div>
-                        <span class="english">Vivid</span>
-                        <div class="chinese">
-                            <span class="chinese-text">生動表現</span>
-                            <a href="#vivid-projects" class="open-link">View</a>
-                        </div>
-                    </div>
-                    <div class="v-word">
-                        <div class="v-word-image-container">
-                            <img src="./assets/showcase_III.webp" alt="Versatile" class="v-word-image">
-                        </div>
-                        <span class="english">Versatile</span>
-                        <div class="chinese">
-                            <span class="chinese-text">靈活創新</span>
-                            <a href="#versatile-projects" class="open-link">View</a>
-                        </div>
-                    </div>
-                    <div class="v-word">
-                        <div class="v-word-image-container">
-                            <img src="./assets/showcase_I.webp" alt="Visionary" class="v-word-image">
-                        </div>
-                        <span class="english">Visionary</span>
-                        <div class="chinese">
-                            <span class="chinese-text">前瞻視野</span>
-                            <a href="#visionary-projects" class="open-link">View</a>
-                        </div>
-                    </div>
-                    <div class="v-word">
-                        <div class="v-word-image-container">
-                            <img src="./assets/showcase_V.webp" alt="Vertex" class="v-word-image">
-                        </div>
-                        <span class="english">Vertex</span>
-                        <div class="chinese">
-                            <span class="chinese-text">追求頂點</span>
-                            <a href="#vertex-projects" class="open-link">View</a>
-                        </div>
-                    </div>
-                </div>
+        
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="menu-mobile" id="menuMobile">
+            <div class="menu-item active">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eproject%3C/text%3E%3C/svg%3E" alt="project">
             </div>
-
-            <!-- 滾動指示器 -->
-            <div class="scroll-indicator" id="scroll-indicator"></div>
-        </section>
-
-        <!-- 服務內容 - 水平滾動（十字遮罩效果） -->
-        <section class="services-section" id="services-section">
-            <div class="services-sticky-container">
-                <h2 class="services-title">Our Services</h2>
-
-                <div class="services-horizontal-wrapper" id="services-wrapper">
-                    <div class="edge-mask-left"></div>
-                    <div class="edge-mask-right"></div>
-
-                    <div class="services-horizontal-container" id="services-horizontal-container">
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">Brand Identity</div>
-                                <div class="service-title-cn">品牌識別</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">Graphic Design</div>
-                                <div class="service-title-cn">平面設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">Packaging Design</div>
-                                <div class="service-title-cn">包裝設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">Motion Design</div>
-                                <div class="service-title-cn">動態設計</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">3D Modeling</div>
-                                <div class="service-title-cn">3D建模</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">Web Design Planning</div>
-                                <div class="service-title-cn">網頁設計規劃</div>
-                            </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-content">
-                                <div class="service-title">Photography</div>
-                                <div class="service-title-cn">攝影</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="menu-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eabout%3C/text%3E%3C/svg%3E" alt="about">
             </div>
-        </section>
-
-        <!-- 作品展示區域（保持） -->
-        <section class="content-grid">
-            <img src="./assets/project.webp" alt="Featured Projects" class="section-title project-image" id="projects-title">
-            <div class="portfolio-grid" id="projects-section">
-                <div class="portfolio-card">
-                    <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
-                    <div class="portfolio-content">
-                        <h3 class="portfolio-title">Project Alpha</h3>
-                        <p class="portfolio-description">品牌識別設計專案，為新創科技公司打造完整的視覺識別系統。</p>
-                        <div class="portfolio-meta"><span>Brand Identity</span><span>2024</span></div>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <div class="portfolio-image" style="background-image: url('./assets/showcase_II.webp')"></div>
-                    <div class="portfolio-content">
-                        <h3 class="portfolio-title">Project Beta</h3>
-                        <p class="portfolio-description">數位平台UI/UX設計，提升用戶體驗與介面美感的整合設計。</p>
-                        <div class="portfolio-meta"><span>Digital Design</span><span>2024</span></div>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <div class="portfolio-image" style="background-image: url('./assets/showcase_III.webp')"></div>
-                    <div class="portfolio-content">
-                        <h3 class="portfolio-title">Project Gamma</h3>
-                        <p class="portfolio-description">包裝設計專案，結合美學與功能性的創新包裝解決方案。</p>
-                        <div class="portfolio-meta"><span>Packaging Design</span><span>2024</span></div>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <div class="portfolio-image" style="background-image: url('./assets/showcase_IV.webp')"></div>
-                    <div class="portfolio-content">
-                        <h3 class="portfolio-title">Project Delta</h3>
-                        <p class="portfolio-description">動態設計作品，為品牌活動創造引人注目的動畫視覺效果。</p>
-                        <div class="portfolio-meta"><span>Motion Design</span><span>2024</span></div>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <div class="portfolio-image" style="background-image: url('./assets/showcase_V.webp')"></div>
-                    <div class="portfolio-content">
-                        <h3 class="portfolio-title">Project Epsilon</h3>
-                        <p class="portfolio-description">3D視覺設計專案，為產品展示創造逼真的立體視覺效果。</p>
-                        <div class="portfolio-meta"><span>3D Modeling</span><span>2024</span></div>
-                    </div>
-                </div>
-
-                <div class="portfolio-card">
-                    <div class="portfolio-image" style="background-image: url('./assets/showcase_I.webp')"></div>
-                    <div class="portfolio-content">
-                        <h3 class="portfolio-title">Project Zeta</h3>
-                        <p class="portfolio-description">攝影作品集，捕捉品牌故事的每一個精彩瞬間與情感表達。</p>
-                        <div class="portfolio-meta"><span>Photography</span><span>2024</span></div>
-                    </div>
-                </div>
+            <div class="menu-item">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Econtact%3C/text%3E%3C/svg%3E" alt="contact">
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <!-- 底部導航 -->
-        <footer class="bottom-navigation" id="bottom-navigation">
-            <div class="footer-content">
-                <div>
-                    <div class="footer-brand">
-                        <img src="https://vdesign5.github.io/home/assets/logo.png" alt="VDESIGN" class="footer-logo">
-                        <img src="./assets/logotype_vdesign.png" alt="VDESIGN" class="footer-brand-logotype">
-                    </div>
-                    <p class="footer-description">
-                        我們是一個專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。每一個專案都是我們創意與專業的體現。<br><br>
-                        We are a studio focused on innovative design, dedicated to providing clients with exceptional visual solutions. Every project is a manifestation of our creativity and professionalism.
-                    </p>
-                    <div style="color: rgba(255, 255, 255, 0.5); font-size: 0.85rem;">© 2025 VDESIGN. All rights reserved.</div>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Services</h3>
-                    <ul class="footer-nav">
-                        <li><span class="footer-service">Brand Identity</span></li>
-                        <li><span class="footer-service">Graphic Design</span></li>
-                        <li><span class="footer-service">Packaging Design</span></li>
-                        <li><span class="footer-service">Motion Design</span></li>
-                        <li><span class="footer-service">3D Modeling</span></li>
-                        <li><span class="footer-service">Web Design Planning</span></li>
-                        <li><span class="footer-service">Photography</span></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <ul class="footer-nav">
-                        <li><a href="https://www.instagram.com/5_sheng_yao?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener">Instagram</a></li>
-                        <li><a href="https://www.behance.net/69a7fe1c" target="_blank" rel="noopener">Behance</a></li>
-                        <li><a href="mailto:bruce20020822@gmail.com">bruce20020822@gmail.com</a></li>
-                        <li><a href="tel:+886905592930">(+886) 905-592-930</a></li>
-                    </ul>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Taiwan International Roller Skating Open">
             </div>
-
-            <div class="footer-bottom">
-                <div>Made with ❤️ in Taiwan</div>
-                <div id="footer-time">TPE 00:00</div>
+            <div class="hero-slide">
+                <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Slide 2">
             </div>
-        </footer>
+            <div class="hero-slide">
+                <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Slide 3">
+            </div>
+            <div class="hero-slide">
+                <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Slide 4">
+            </div>
+        </div>
+        
+        <div class="hero-nav">
+            <div class="hero-nav-left" id="prevSlide"></div>
+            <div class="hero-nav-right" id="nextSlide"></div>
+        </div>
+        
+        <div class="hero-info">
+            <div class="hero-info-left english">
+                202511 | Key Vision | VI | Event
+            </div>
+            <div class="hero-info-center">
+                台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open
+            </div>
+            <div class="hero-info-right">
+                <a href="#" class="view-button english">view →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Island -->
+    <div class="dynamic-island">
+        <div class="island-left"></div>
+        <div class="island-center">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Ctext x='5' y='40' font-family='Arial' font-size='32' font-weight='bold' fill='%23333333'%3EVD%3C/text%3E%3C/svg%3E" alt="Vdesign Logo">
+        </div>
+        <div class="island-right">
+            <span class="chinese">Vdesign 是一個位於台灣的創意工作室</span>
+            <span class="english">Vdesign is a Creative Studio Based in Taiwan</span>
+        </div>
     </div>
 
+    <!-- Projects Grid -->
+    <section class="projects">
+        <div class="projects-grid">
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 1">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 2">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 3">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 4">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 5">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 6">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 7">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 8">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="project-image">
+                    <img src="/mnt/user-data/uploads/Vdesign_figma_202511.jpg" alt="Project 9">
+                </div>
+                <div class="project-info">
+                    <div class="project-category english">Key Vision | VI | Event</div>
+                    <div class="project-title">
+                        台灣國際滑輪溜冰公開賽<br>
+                        <span class="english">Taiwan International Roller Skating Open</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo english">VD</div>
+                <div class="footer-description">
+                    我們是一間專注於創新設計的工作室，致力於為客戶提供卓越的視覺解決方案。<br>
+                    每一個專案都是我們創意與專業的展現。
+                </div>
+                <div class="footer-description english">
+                    We are a studio focused on innovative design, dedicated to providing<br>
+                    clients with exceptional visual solutions. Every project is a manifestation<br>
+                    of our creativity and professionalism.
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="english">Services</h3>
+                <ul>
+                    <li><a href="#">Brand Identity</a></li>
+                    <li><a href="#">Graphic Design</a></li>
+                    <li><a href="#">Packaging Design</a></li>
+                    <li><a href="#">Motion Design</a></li>
+                    <li><a href="#">3D Modeling</a></li>
+                    <li><a href="#">Web Design Planning</a></li>
+                    <li><a href="#">Photography</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="english">Contact</h3>
+                <ul>
+                    <li>Instagram</li>
+                    <li>Behance</li>
+                    <li>tenes202282@gmail.com</li>
+                    <li>(+886) 905-307-930</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 VDESIGN. All rights reserved. | Made with ❤️ in Taiwan | TPE 02 026</p>
+        </div>
+    </footer>
+
     <script>
-        // 時間更新
-        function updateTime() {
-            const now = new Date();
-            const taiwanTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Taipei"}));
-            const hours = taiwanTime.getHours().toString().padStart(2, '0');
-            const minutes = taiwanTime.getMinutes().toString().padStart(2, '0');
-            const timeStr = `TPE ${hours}:${minutes}`;
-            document.getElementById('taiwan-time').textContent = timeStr;
-            document.getElementById('footer-time').textContent = timeStr;
-        }
-        setInterval(updateTime, 1000); updateTime();
+        // Hero Slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const totalSlides = slides.length;
 
-        // ===== 水平滾動核心修正：動態高度 + 夾值 + 重新計算 =====
-        let ticking = false;
-        let maxTranslateX = 0;
-
-        function measureHorizontalSection() {
-            const section = document.getElementById('services-section');
-            const wrapper = document.getElementById('services-wrapper');
-            const container = document.getElementById('services-horizontal-container');
-            if (!section || !wrapper || !container) return;
-
-            const viewportH = window.innerHeight;
-            const totalWidth = container.scrollWidth;
-            const visibleWidth = wrapper.clientWidth;
-
-            // 需要水平位移的距離
-            maxTranslateX = Math.max(0, totalWidth - visibleWidth);
-
-            // 讓 sticky 容器能在垂直滾動中完成整段水平位移：
-            // 區塊高度 = 可視高度(固定貼齊) + 需要的位移距離
-            const neededHeight = Math.ceil(viewportH + maxTranslateX);
-
-            // 用 inline style 覆蓋任何 CSS 的固定值，消除多餘留白或不足
-            section.style.height = neededHeight + 'px';
-
-            // 第一次量測後立即重繪一次位置，避免閃爍
-            updateHorizontalScroll(window.scrollY);
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
         }
 
-        function updateOnScroll() {
-            const scrollY = window.scrollY;
-
-            // 背景視差
-            const heroHeight = window.innerHeight;
-            if (scrollY < heroHeight) {
-                const heroBg = document.getElementById('hero-bg');
-                const parallaxSpeed = 0.3;
-                heroBg.style.transform = `translateY(${scrollY * parallaxSpeed}px)`;
-            }
-
-            // 滾動指示器
-            const scrollIndicator = document.getElementById('scroll-indicator');
-            if (scrollY > 80) scrollIndicator.classList.add('hidden');
-            else scrollIndicator.classList.remove('hidden');
-
-            // 導航欄
-            const topNav = document.getElementById('top-nav');
-            if (scrollY > 30) {
-                topNav.style.background = 'rgba(255, 255, 255, 0.98)';
-                topNav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)';
-            } else {
-                topNav.style.background = 'rgba(255, 255, 255, 0.95)';
-                topNav.style.boxShadow = 'none';
-            }
-
-            // 水平滾動
-            updateHorizontalScroll(scrollY);
-
-            ticking = false;
-        }
-
-        function updateHorizontalScroll(scrollY) {
-            const section = document.getElementById('services-section');
-            const wrapper = document.getElementById('services-wrapper');
-            const container = document.getElementById('services-horizontal-container');
-            if (!section || !wrapper || !container) return;
-
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const viewportH = window.innerHeight;
-
-            // 只在服務區域內進行計算
-            if (scrollY >= sectionTop && scrollY <= sectionTop + sectionHeight - viewportH) {
-                const progress = (scrollY - sectionTop) / Math.max(1, (sectionHeight - viewportH));
-                // 夾值 0~1，避免位移越界
-                const clamped = Math.min(1, Math.max(0, progress));
-                const translateX = -clamped * maxTranslateX;
-                container.style.transform = `translate3d(${translateX}px, 0, 0)`;
-            } else if (scrollY < sectionTop) {
-                container.style.transform = 'translate3d(0,0,0)';
-            } else {
-                container.style.transform = `translate3d(${-maxTranslateX}px,0,0)`;
-            }
-        }
-
-        // 節流滾動事件（passive 更流暢）
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateOnScroll);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        // 初始量測 + 尺寸改變重算（含 iOS 瀏覽器位移列變動）
-        window.addEventListener('load', measureHorizontalSection);
-        window.addEventListener('resize', measureHorizontalSection);
-        window.addEventListener('orientationchange', measureHorizontalSection);
-
-        // ===== Project 圖片視差效果（參考 Olivier Larose 的方法）=====
-        function initProjectParallax() {
-            const portfolioImages = document.querySelectorAll('.portfolio-image');
-            
-            function updateParallax() {
-                portfolioImages.forEach(image => {
-                    const rect = image.getBoundingClientRect();
-                    const windowHeight = window.innerHeight;
-                    
-                    // 只處理在視窗範圍內或接近的元素
-                    if (rect.bottom >= -100 && rect.top <= windowHeight + 100) {
-                        // 計算元素在視窗中的進度（0 到 1）
-                        // 當元素從底部進入到頂部離開
-                        const elementTop = rect.top;
-                        const elementHeight = rect.height;
-                        
-                        // 視差進度計算：從元素底部接觸視窗底部開始，到頂部離開視窗頂部結束
-                        const startOffset = windowHeight;
-                        const endOffset = -elementHeight;
-                        const totalDistance = startOffset - endOffset;
-                        const currentDistance = startOffset - elementTop;
-                        
-                        // 進度值 (0 到 1)
-                        let progress = currentDistance / totalDistance;
-                        progress = Math.max(0, Math.min(1, progress));
-                        
-                        // 視差強度：背景圖片移動範圍
-                        // 當 progress = 0 時，背景位置在上方（-10%）
-                        // 當 progress = 1 時，背景位置在下方（110%）
-                        const parallaxRange = 120; // 總移動範圍
-                        const startPosition = -10; // 起始位置
-                        const backgroundPositionY = startPosition + (progress * parallaxRange);
-                        
-                        // 應用視差效果
-                        image.style.backgroundPosition = `center ${backgroundPositionY}%`;
-                    }
-                });
-            }
-            
-            // 初始執行
-            updateParallax();
-            
-            // 滾動時更新視差（使用 requestAnimationFrame 優化性能）
-            let ticking = false;
-            window.addEventListener('scroll', () => {
-                if (!ticking) {
-                    requestAnimationFrame(() => {
-                        updateParallax();
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            }, { passive: true });
-            
-            // 視窗大小改變時重新計算
-            window.addEventListener('resize', updateParallax);
-        }
-
-        // ===== 眼球追蹤鼠標效果 =====
-        function initEyeTracking() {
-            const eyeBall = document.getElementById('eye-ball');
-            const heroLogotype = document.getElementById('hero-logotype');
-            
-            if (!eyeBall || !heroLogotype) return;
-            
-            // 綠色區域的大概位置（根據你的 eye.webp 圖片調整這些數值）
-            const eyeArea = {
-                // 相對於整個 logotype 圖片的百分比位置
-                centerX: 0.92, // 綠色區域水平中心（大幅向右移動：84% → 92%）
-                centerY: 0.42, // 綠色區域垂直中心（上方約42%處）
-                radiusX: 0.12, // 眼球可移動的水平範圍（向右擴大：8% → 12%）
-                radiusY: 0.08  // 眼球可移動的垂直範圍（縮小範圍）
-            };
-            
-            function updateEyeBallPosition(mouseX, mouseY) {
-                const rect = heroLogotype.getBoundingClientRect();
-                const logotypeWidth = rect.width;
-                const logotypeHeight = rect.height;
-                
-                // 計算綠色區域的實際位置
-                const eyeCenterX = rect.left + logotypeWidth * eyeArea.centerX;
-                const eyeCenterY = rect.top + logotypeHeight * eyeArea.centerY;
-                
-                // 計算鼠標相對於眼部中心的角度和距離
-                const deltaX = mouseX - eyeCenterX;
-                const deltaY = mouseY - eyeCenterY;
-                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                const angle = Math.atan2(deltaY, deltaX);
-                
-                // 限制眼球移動範圍
-                const maxDistanceX = logotypeWidth * eyeArea.radiusX;
-                const maxDistanceY = logotypeHeight * eyeArea.radiusY;
-                const constrainedDistance = Math.min(distance * 0.2, Math.min(maxDistanceX, maxDistanceY)); // 降低靈敏度
-                
-                // 計算眼球的新位置
-                const eyeBallX = constrainedDistance * Math.cos(angle);
-                const eyeBallY = constrainedDistance * Math.sin(angle);
-                
-                // 應用變換，更精確地限制在白色區域
-                const moveX = eyeBallX / logotypeWidth * 100;
-                const moveY = eyeBallY / logotypeHeight * 100;
-                
-                // 額外的邊界檢查，確保不超出白色區域
-                const clampedMoveX = Math.max(-6, Math.min(6, moveX)); // 向右擴大限制：±4% → ±6%
-                const clampedMoveY = Math.max(-4, Math.min(4, moveY)); // 限制在 ±4% 範圍內
-                
-                // 應用變換
-                eyeBall.style.transform = `translate(${-50 + clampedMoveX}%, ${-50 + clampedMoveY}%)`;
-            }
-            
-            // 監聽鼠標移動
-            document.addEventListener('mousemove', (e) => {
-                requestAnimationFrame(() => {
-                    updateEyeBallPosition(e.clientX, e.clientY);
-                });
-            });
-            
-            // 當鼠標離開頁面時，眼球回到中心
-            document.addEventListener('mouseleave', () => {
-                eyeBall.style.transform = 'translate(-50%, -50%)';
-            });
-        }
-
-        // ===== 其餘：Lottie 等（保持你的原本行為） =====
-        function initLogoAnimation() {
-            const eyeImg = new Image();
-            eyeImg.onload = function(){ console.log('Eye image loaded'); /* 若要啟用眼球追蹤，請在 HTML 加上 eye-container/eye-ball */ };
-            eyeImg.onerror = function(){ console.log('Eye image failed to load'); };
-            eyeImg.src = 'https://vdesign5.github.io/home/assets/eye.webp';
-        }
-
-        function initNavLogoAnimation() {
-            const navLogoContainer = document.getElementById('nav-logo-motion');
-            if (typeof lottie !== 'undefined') {
-                try {
-                    const navAnimation = lottie.loadAnimation({
-                        container: navLogoContainer,
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: false,
-                        path: './assets/logo_motion.json'
-                    });
-                    const navLogo = document.getElementById('nav-logo');
-                    navAnimation.addEventListener('DOMLoaded', () => { navAnimation.goToAndStop(0, true); });
-                    navLogo.addEventListener('mouseenter', () => { navAnimation.setDirection(1); navAnimation.play(); });
-                    navLogo.addEventListener('mouseleave', () => { navAnimation.setDirection(-1); navAnimation.play(); });
-                    navLogo.addEventListener('click', () => { location.reload(); });
-                } catch (e) {
-                    navLogoContainer.innerHTML = `
-                        <img src="https://vdesign5.github.io/home/assets/logo.png" 
-                             alt="VDESIGN" 
-                             style="width: 100%; height: 100%; object-fit: contain; cursor: pointer;"
-                             onclick="location.reload()">
-                    `;
-                }
-            }
-        }
-
-        // 作品集卡片入場動畫
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -10% 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        function initMobileMenu() {
-            const menuToggle = document.getElementById('menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (menuToggle && mobileMenu) {
-                menuToggle.addEventListener('click', () => {
-                    menuToggle.classList.toggle('active');
-                    mobileMenu.classList.toggle('active');
-                });
-                const mobileNavLinks = mobileMenu.querySelectorAll('.nav-link');
-                mobileNavLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        menuToggle.classList.remove('active');
-                        mobileMenu.classList.remove('active');
-                    });
-                });
-                document.addEventListener('click', (e) => {
-                    if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
-                        menuToggle.classList.remove('active');
-                        mobileMenu.classList.remove('active');
-                    }
-                });
-            }
-        }
-
-        window.addEventListener('load', () => {
-            initLogoAnimation();
-            initNavLogoAnimation();
-            initMobileMenu();
-            initEyeTracking(); // 初始化眼球追蹤
-            initProjectParallax(); // 初始化作品集視差效果
-
-            const projectNavDesktop = document.querySelector('.nav-menu a[href="project.html"]');
-            const projectNavMobile = document.querySelector('.mobile-menu a[href="project.html"]');
-            const projectsTitle = document.getElementById('projects-title');
-
-            function handleProjectClick(e) {
-                e.preventDefault();
-                if (projectsTitle) {
-                    projectsTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-            if (projectNavDesktop && projectsTitle) projectNavDesktop.addEventListener('click', handleProjectClick);
-            if (projectNavMobile && projectsTitle) projectNavMobile.addEventListener('click', handleProjectClick);
-
-            // 作品卡片觀察
-            document.querySelectorAll('.portfolio-card').forEach((card) => { observer.observe(card); });
+        document.getElementById('prevSlide').addEventListener('click', () => {
+            showSlide(currentSlide - 1);
         });
 
-        // 簡化的平滑滾動
+        document.getElementById('nextSlide').addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const menuMobile = document.getElementById('menuMobile');
+
+        hamburger.addEventListener('click', () => {
+            menuMobile.classList.toggle('open');
+        });
+
+        // Menu Item Click Handler
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                menuItems.forEach(mi => mi.classList.remove('active'));
+                item.classList.add('active');
+                
+                // Close mobile menu after selection
+                if (window.innerWidth <= 968) {
+                    menuMobile.classList.remove('open');
+                }
+            });
+        });
+
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
     </script>
