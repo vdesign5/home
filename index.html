@@ -38,7 +38,7 @@
             top: 0;
             width: 100%;
             z-index: 1000;
-            background-color: rgba(51, 51, 51, 0.95);
+            background-color: transparent;
             padding: 20px 60px;
             display: flex;
             justify-content: flex-end;
@@ -167,37 +167,17 @@
         .hero-nav-left,
         .hero-nav-right {
             flex: 1;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s;
         }
 
-        .hero-nav-left:hover,
-        .hero-nav-right:hover {
-            background-color: rgba(0, 0, 0, 0.1);
+        .hero-nav-left {
+            cursor: w-resize;
         }
 
-        .hero-nav-left::before {
-            content: '←';
-            font-size: 48px;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .hero-nav-right::before {
-            content: '→';
-            font-size: 48px;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .hero-nav-left:hover::before,
-        .hero-nav-right:hover::before {
-            opacity: 0.8;
+        .hero-nav-right {
+            cursor: e-resize;
         }
 
         .hero-info {
@@ -251,17 +231,13 @@
         /* Dynamic Island */
         .dynamic-island {
             background-color: white;
-            margin: 0 auto;
+            margin: 0;
             padding: 30px 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 40px;
-            border-radius: 50px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            max-width: 1200px;
-            position: relative;
-            top: -30px;
+            width: 100%;
         }
 
         .island-left {
@@ -281,7 +257,9 @@
         }
 
         .island-center {
-            flex-shrink: 0;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .island-center img {
@@ -333,8 +311,6 @@
             width: 100%;
             height: 300px;
             overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .project-image img {
@@ -459,9 +435,7 @@
             .dynamic-island {
                 flex-direction: column;
                 padding: 30px;
-                margin: 20px;
-                top: 0;
-                border-radius: 30px;
+                width: 100%;
             }
 
             .island-right {
@@ -509,13 +483,13 @@
     <nav class="navbar">
         <div class="menu-desktop">
             <div class="menu-item active">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eproject%3C/text%3E%3C/svg%3E" alt="project">
+                <img src="menu-project.png" alt="project">
             </div>
             <div class="menu-item">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eabout%3C/text%3E%3C/svg%3E" alt="about">
+                <img src="menu-about.png" alt="about">
             </div>
             <div class="menu-item">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Econtact%3C/text%3E%3C/svg%3E" alt="contact">
+                <img src="menu-contact.png" alt="contact">
             </div>
         </div>
         
@@ -527,13 +501,13 @@
         
         <div class="menu-mobile" id="menuMobile">
             <div class="menu-item active">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eproject%3C/text%3E%3C/svg%3E" alt="project">
+                <img src="menu-project.png" alt="project">
             </div>
             <div class="menu-item">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Eabout%3C/text%3E%3C/svg%3E" alt="about">
+                <img src="menu-about.png" alt="about">
             </div>
             <div class="menu-item">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Ctext x='10' y='28' font-family='Arial' font-size='20' fill='%23cccccc'%3Econtact%3C/text%3E%3C/svg%3E" alt="contact">
+                <img src="menu-contact.png" alt="contact">
             </div>
         </div>
     </nav>
