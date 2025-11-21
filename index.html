@@ -59,7 +59,9 @@
 
         .menu-item img {
             height: 40px;
-            filter: brightness(0) saturate(100%) invert(84%) sepia(0%) saturate(0%) hue-rotate(180deg);
+            /* Apply blend mode for negative effect */
+            mix-blend-mode: difference;
+            filter: brightness(0) saturate(100%) invert(100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -77,10 +79,12 @@
 
         .menu-item:hover img {
             filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
+            mix-blend-mode: normal;
         }
 
         .menu-item.active img {
             filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg);
+            mix-blend-mode: normal;
         }
 
         /* Mobile Menu */
@@ -122,6 +126,10 @@
 
         .menu-mobile .menu-item {
             transform: rotate(0deg) !important;
+        }
+
+        .menu-mobile .menu-item img {
+            mix-blend-mode: normal;
         }
 
         /* Hero Section */
@@ -184,28 +192,49 @@
             bottom: 30px;
             left: 40px;
             right: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
             color: white;
             z-index: 10;
         }
 
-        .hero-info-left {
+        .hero-info-meta {
             font-size: 14px;
             font-weight: 300;
+            margin-bottom: 12px;
         }
 
-        .hero-info-center {
-            flex: 1;
-            text-align: center;
-            font-size: 16px;
-            padding: 0 20px;
+        .hero-info-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .hero-info-right {
+        .hero-info-title.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-info-bottom {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-right: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: white;
+            width: 0%;
+            transition: width 0.1s linear;
         }
 
         .view-button {
@@ -218,6 +247,7 @@
             font-weight: 500;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-block;
+            flex-shrink: 0;
         }
 
         .view-button:hover {
@@ -227,7 +257,7 @@
             box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* Dynamic Island */
+        /* Dynamic Island with Maximum Rounded Corners */
         .dynamic-island {
             position: fixed;
             bottom: 0;
@@ -241,6 +271,8 @@
             gap: 40px;
             width: 100%;
             z-index: 999;
+            /* Maximum border radius for top corners */
+            border-radius: 50% 50% 0 0 / 30px 30px 0 0;
         }
 
         .island-left {
@@ -412,22 +444,15 @@
             }
 
             .hero-info {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
                 left: 20px;
                 right: 20px;
-            }
-
-            .hero-info-center {
-                text-align: left;
-                padding: 0;
             }
 
             .dynamic-island {
                 flex-direction: column;
                 padding: 30px;
                 width: 100%;
+                border-radius: 40% 40% 0 0 / 25px 25px 0 0;
             }
 
             .island-right {
@@ -463,9 +488,19 @@
                 height: 70vh;
             }
 
-            .hero-info-left,
-            .hero-info-center {
+            .hero-info-meta,
+            .hero-info-title {
                 font-size: 12px;
+            }
+
+            .hero-info-bottom {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .progress-container {
+                margin-right: 0;
             }
         }
     </style>
@@ -527,13 +562,16 @@
         </div>
         
         <div class="hero-info">
-            <div class="hero-info-left english">
+            <div class="hero-info-meta english">
                 202511 | Key Vision | VI | Event
             </div>
-            <div class="hero-info-center">
+            <div class="hero-info-title active" id="heroTitle">
                 台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open
             </div>
-            <div class="hero-info-right">
+            <div class="hero-info-bottom">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
                 <a href="#" class="view-button english">view →</a>
             </div>
         </div>
@@ -719,29 +757,100 @@
     </footer>
 
     <script>
-        // Hero Slider
+        // Project titles data for each slide
+        const projectTitles = [
+            '台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open',
+            '創意視覺設計專案 | Creative Visual Design Project',
+            '品牌識別系統 | Brand Identity System',
+            '活動主視覺設計 | Event Key Visual Design'
+        ];
+
+        // Hero Slider with Progress Bar
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
         const totalSlides = slides.length;
+        const heroTitle = document.getElementById('heroTitle');
+        const progressBar = document.getElementById('progressBar');
+        
+        const slideDuration = 5000; // 5 seconds
+        let autoSlideInterval;
+        let progressInterval;
+        let startTime;
 
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            currentSlide = (n + totalSlides) % totalSlides;
-            slides[currentSlide].classList.add('active');
+        function updateProgressBar() {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min((elapsed / slideDuration) * 100, 100);
+            progressBar.style.width = progress + '%';
+            
+            if (progress >= 100) {
+                clearInterval(progressInterval);
+            }
         }
 
+        function startProgress() {
+            startTime = Date.now();
+            progressBar.style.width = '0%';
+            
+            if (progressInterval) {
+                clearInterval(progressInterval);
+            }
+            
+            progressInterval = setInterval(updateProgressBar, 50);
+        }
+
+        function showSlide(n) {
+            // Remove active class from all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Remove active class from title for transition
+            heroTitle.classList.remove('active');
+            
+            // Calculate new slide index
+            currentSlide = (n + totalSlides) % totalSlides;
+            
+            // Add active class to new slide
+            slides[currentSlide].classList.add('active');
+            
+            // Update title with transition after a brief delay
+            setTimeout(() => {
+                heroTitle.textContent = projectTitles[currentSlide];
+                heroTitle.classList.add('active');
+            }, 300);
+            
+            // Reset and start progress bar
+            startProgress();
+        }
+
+        function startAutoSlide() {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+            }
+            
+            autoSlideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, slideDuration);
+        }
+
+        function resetAutoSlide() {
+            startAutoSlide();
+            startProgress();
+        }
+
+        // Previous slide
         document.getElementById('prevSlide').addEventListener('click', () => {
             showSlide(currentSlide - 1);
+            resetAutoSlide();
         });
 
+        // Next slide
         document.getElementById('nextSlide').addEventListener('click', () => {
             showSlide(currentSlide + 1);
+            resetAutoSlide();
         });
 
-        // Auto slide every 5 seconds
-        setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 5000);
+        // Initialize slider
+        startAutoSlide();
+        startProgress();
 
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
