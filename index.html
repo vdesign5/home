@@ -59,9 +59,9 @@
 
         .menu-item img {
             height: 40px;
-            /* Apply blend mode for negative effect */
+            /* Apply blend mode for negative effect with white filter */
             mix-blend-mode: difference;
-            filter: brightness(0) saturate(100%) invert(100%);
+            filter: invert(1) brightness(2);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -151,6 +151,7 @@
             height: 100%;
             opacity: 0;
             transition: opacity 0.6s ease-in-out;
+            will-change: opacity;
         }
 
         .hero-slide.active {
@@ -161,6 +162,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* Preload optimization */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
         }
 
         .hero-nav {
@@ -223,17 +227,43 @@
 
         .progress-container {
             flex: 1;
-            height: 3px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 12px;
             margin-right: 20px;
         }
 
-        .progress-bar {
+        .progress-dot {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .progress-dot:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .progress-dot.active {
+            width: 60px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+        }
+
+        .progress-dot.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 100%;
-            background-color: white;
             width: 0%;
+            background-color: white;
+            border-radius: 4px;
             transition: width 0.1s linear;
         }
 
@@ -257,22 +287,24 @@
             box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* Dynamic Island with Maximum Rounded Corners */
+        /* Dynamic Island with Apple-style Design */
         .dynamic-island {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background-color: white;
-            padding: 30px 60px;
+            padding: 35px 60px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 40px;
             width: 100%;
             z-index: 999;
-            /* Maximum border radius for top corners */
-            border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+            /* Smooth rounded top corners - elliptical border radius */
+            border-top-left-radius: 32px;
+            border-top-right-radius: 32px;
+            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
         }
 
         .island-left {
@@ -450,9 +482,10 @@
 
             .dynamic-island {
                 flex-direction: column;
-                padding: 30px;
+                padding: 30px 30px 25px;
                 width: 100%;
-                border-radius: 40% 40% 0 0 / 25px 25px 0 0;
+                border-top-left-radius: 28px;
+                border-top-right-radius: 28px;
             }
 
             .island-right {
@@ -570,7 +603,10 @@
             </div>
             <div class="hero-info-bottom">
                 <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-dot active" data-slide="0"></div>
+                    <div class="progress-dot" data-slide="1"></div>
+                    <div class="progress-dot" data-slide="2"></div>
+                    <div class="progress-dot" data-slide="3"></div>
                 </div>
                 <a href="#" class="view-button english">view →</a>
             </div>
@@ -745,7 +781,7 @@
                 <ul>
                     <li>Instagram</li>
                     <li>Behance</li>
-                    <li>tenes202282@gmail.com</li>
+                    <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f387969d9680c1c3c1c1cbc1b3949e929a9fdd909c9e">[email&#160;protected]</a></li>
                     <li>(+886) 905-307-930</li>
                 </ul>
             </div>
@@ -756,7 +792,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Project titles data for each slide
         const projectTitles = [
             '台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open',
@@ -765,22 +801,39 @@
             '活動主視覺設計 | Event Key Visual Design'
         ];
 
-        // Hero Slider with Progress Bar
+        // Hero Slider with Dot Progress Indicators
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
         const totalSlides = slides.length;
         const heroTitle = document.getElementById('heroTitle');
-        const progressBar = document.getElementById('progressBar');
+        const progressDots = document.querySelectorAll('.progress-dot');
         
         const slideDuration = 5000; // 5 seconds
         let autoSlideInterval;
         let progressInterval;
         let startTime;
 
-        function updateProgressBar() {
+        function updateProgressDot() {
             const elapsed = Date.now() - startTime;
             const progress = Math.min((elapsed / slideDuration) * 100, 100);
-            progressBar.style.width = progress + '%';
+            
+            const activeDot = progressDots[currentSlide];
+            if (activeDot && activeDot.classList.contains('active')) {
+                activeDot.style.setProperty('--progress', progress + '%');
+                // Update the ::after pseudo-element width via inline style
+                const afterElement = activeDot.querySelector('::after');
+                activeDot.style.setProperty('width', progress < 100 ? '60px' : '8px');
+                
+                // Use CSS custom property for the progress
+                activeDot.querySelector('::after')?.style.setProperty('width', progress + '%');
+                // Better approach: set it directly on the pseudo-element via a data attribute
+                const sheet = document.styleSheets[0];
+                const rules = Array.from(sheet.cssRules);
+                const rule = rules.find(r => r.selectorText === `.progress-dot.active::after`);
+                if (rule) {
+                    rule.style.width = progress + '%';
+                }
+            }
             
             if (progress >= 100) {
                 clearInterval(progressInterval);
@@ -789,13 +842,41 @@
 
         function startProgress() {
             startTime = Date.now();
-            progressBar.style.width = '0%';
+            
+            // Reset all dots
+            progressDots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+            
+            // Create dynamic style for the active dot's progress
+            let styleElement = document.getElementById('progress-style');
+            if (!styleElement) {
+                styleElement = document.createElement('style');
+                styleElement.id = 'progress-style';
+                document.head.appendChild(styleElement);
+            }
             
             if (progressInterval) {
                 clearInterval(progressInterval);
             }
             
-            progressInterval = setInterval(updateProgressBar, 50);
+            progressInterval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min((elapsed / slideDuration) * 100, 100);
+                
+                styleElement.textContent = `
+                    .progress-dot.active::after {
+                        width: ${progress}% !important;
+                    }
+                `;
+                
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                }
+            }, 50);
         }
 
         function showSlide(n) {
@@ -852,6 +933,14 @@
         startAutoSlide();
         startProgress();
 
+        // Add click handlers for progress dots
+        progressDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+                resetAutoSlide();
+            });
+        });
+
         // Mobile Menu Toggle
         const hamburger = document.getElementById('hamburger');
         const menuMobile = document.getElementById('menuMobile');
@@ -880,14 +969,5 @@
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                if (targe
+                
