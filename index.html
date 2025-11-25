@@ -7,6 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="./assets/showcase_I.webp" as="image">
+    <link rel="preload" href="./assets/logo.png" as="image">
+    
     <style>
         @font-face {
             font-family: 'DIN 2014';
@@ -26,6 +31,17 @@
             color: #333333;
             background-color: #ffffff;
             overflow-x: hidden;
+        }
+
+        /* Preload first hero image */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            z-index: -1;
+            background-image: url('./assets/showcase_I.webp');
         }
 
         .english {
@@ -251,7 +267,7 @@
         .progress-dot.active {
             width: 60px;
             border-radius: 4px;
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.3);
             overflow: hidden;
         }
 
@@ -263,6 +279,7 @@
             width: 0%;
             background-color: white;
             border-radius: 4px;
+            will-change: width;
         }
 
         .view-button {
@@ -285,24 +302,24 @@
             box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* Dynamic Island with Apple-style Design */
+        /* Dynamic Island with Improved Design */
         .dynamic-island {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background-color: white;
-            padding: 35px 60px 30px;
+            padding: 40px 60px 35px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 40px;
             width: 100%;
             z-index: 999;
-            /* Smooth rounded top corners - elliptical border radius */
-            border-top-left-radius: 32px;
-            border-top-right-radius: 32px;
-            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+            /* Maximum rounded top corners */
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.06);
         }
 
         .island-left {
