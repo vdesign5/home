@@ -246,12 +246,64 @@
             gap: 30px;
             align-items: center;
             flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Hamburger Menu Button */
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background-color: #cccccc;
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-toggle:hover span {
+            background-color: #FF0000;
+        }
+
+        .menu-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Menu Container */
+        .menu-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            max-width: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-container.open {
+            max-width: 400px;
+            opacity: 1;
         }
 
         .menu-item {
             position: relative;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
         }
 
         .menu-item img {
@@ -444,6 +496,10 @@
                 gap: 25px;
             }
 
+            .menu-container {
+                gap: 25px;
+            }
+
             .menu-item img {
                 height: 32px;
             }
@@ -497,6 +553,10 @@
             }
 
             .island-left {
+                gap: 20px;
+            }
+
+            .menu-container {
                 gap: 20px;
             }
 
@@ -563,14 +623,21 @@
     <!-- Dynamic Island with Navigation Menu -->
     <div class="dynamic-island">
         <div class="island-left">
-            <div class="menu-item active">
-                <img src="./assets/project.webp" alt="project">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            <div class="menu-item">
-                <img src="./assets/about.webp" alt="about">
-            </div>
-            <div class="menu-item">
-                <img src="./assets/contact.webp" alt="contact">
+            <div class="menu-container" id="menuContainer">
+                <div class="menu-item active">
+                    <img src="./assets/project.webp" alt="project">
+                </div>
+                <div class="menu-item">
+                    <img src="./assets/about.webp" alt="about">
+                </div>
+                <div class="menu-item">
+                    <img src="./assets/contact.webp" alt="contact">
+                </div>
             </div>
         </div>
         <div class="island-center">
@@ -738,7 +805,7 @@
                 <ul>
                     <li>Instagram</li>
                     <li>Behance</li>
-                    <li>hello@vdesign.tw</li>
+                    <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87efe2ebebe8c7f1e3e2f4eee0e9a9f3f0">[email&#160;protected]</a></li>
                     <li>(+886) 905-307-930</li>
                 </ul>
             </div>
@@ -749,7 +816,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Project titles and metadata for each slide
         const slideData = [
             {
@@ -886,6 +953,15 @@
             });
         });
 
+        // Menu Toggle Functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const menuContainer = document.getElementById('menuContainer');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('open');
+            menuContainer.classList.toggle('open');
+        });
+
         // Menu Item Click Handler
         const menuItems = document.querySelectorAll('.menu-item');
         
@@ -900,14 +976,4 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                const target = document.querySelector(this.getAttribute(
