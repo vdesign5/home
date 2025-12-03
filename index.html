@@ -78,7 +78,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Preload optimization */
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
@@ -89,6 +88,7 @@
             width: 100%;
             height: 100%;
             display: flex;
+            z-index: 5;
         }
 
         .hero-nav-left,
@@ -166,7 +166,6 @@
             margin-right: 20px;
         }
 
-        /* Updated Progress Dot Styles */
         .progress-dot {
             position: relative;
             width: 8px;
@@ -235,7 +234,6 @@
             gap: 40px;
             width: 100%;
             z-index: 999;
-            /* Maximum rounded top corners */
             border-top-left-radius: 40px;
             border-top-right-radius: 40px;
             box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.06);
@@ -247,7 +245,6 @@
             align-items: center;
             flex-shrink: 0;
             position: relative;
-            z-index: 10;
         }
 
         /* Hamburger Menu Button */
@@ -258,8 +255,7 @@
             cursor: pointer;
             padding: 8px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 11;
-            position: relative;
+            user-select: none;
         }
 
         .menu-toggle span {
@@ -268,6 +264,7 @@
             background-color: #cccccc;
             border-radius: 2px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
 
         .menu-toggle:hover span {
@@ -295,8 +292,6 @@
             overflow: hidden;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
-            position: relative;
         }
 
         .menu-container.open {
@@ -341,7 +336,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 5;
+            pointer-events: none;
         }
 
         .island-center img {
@@ -811,7 +806,7 @@
                 <ul>
                     <li>Instagram</li>
                     <li>Behance</li>
-                    <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87efe2ebebe8c7f1e3e2f4eee0e9a9f3f0">[email&#160;protected]</a></li>
+                    <li>hello@vdesign.tw</li>
                     <li>(+886) 905-307-930</li>
                 </ul>
             </div>
@@ -822,7 +817,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Project titles and metadata for each slide
         const slideData = [
             {
@@ -854,7 +849,6 @@
         
         const slideDuration = 5000; // 5 seconds
         let autoSlideInterval;
-        let progressInterval;
         let progressStartTime;
 
         function updateProgress() {
@@ -894,13 +888,13 @@
             heroTitle.classList.add('slide-up');
             heroMeta.classList.add('slide-up');
             
-            // After animation completes (500ms), update text and remove class
+            // After animation completes, update text and remove class
             setTimeout(() => {
                 heroTitle.textContent = data.title;
                 heroMeta.textContent = data.meta;
                 heroTitle.classList.remove('slide-up');
                 heroMeta.classList.remove('slide-up');
-            }, 250); // Half of transition duration for smoother effect
+            }, 250);
         }
 
         function showSlide(n) {
@@ -963,7 +957,8 @@
         const menuToggle = document.getElementById('menuToggle');
         const menuContainer = document.getElementById('menuContainer');
 
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             menuToggle.classList.toggle('open');
             menuContainer.classList.toggle('open');
         });
@@ -982,4 +977,14 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute(
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
