@@ -48,106 +48,6 @@
             font-family: 'DIN 2014', 'Arial', sans-serif;
         }
 
-        /* Navigation Menu */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background-color: transparent;
-            padding: 20px 60px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        .menu-desktop {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .menu-item {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .menu-item img {
-            height: 40px;
-            /* Apply blend mode for negative effect with white filter */
-            mix-blend-mode: difference;
-            filter: invert(1) brightness(2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .menu-item:nth-child(1) {
-            transform: rotate(0deg);
-        }
-
-        .menu-item:nth-child(2) {
-            transform: rotate(15deg);
-        }
-
-        .menu-item:nth-child(3) {
-            transform: rotate(30deg);
-        }
-
-        .menu-item:hover img {
-            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
-            mix-blend-mode: normal;
-        }
-
-        .menu-item.active img {
-            filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg);
-            mix-blend-mode: normal;
-        }
-
-        /* Mobile Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 6px;
-        }
-
-        .hamburger span {
-            width: 30px;
-            height: 3px;
-            background-color: #cccccc;
-            transition: all 0.3s;
-        }
-
-        .hamburger:hover span {
-            background-color: #FF0000;
-        }
-
-        .menu-mobile {
-            display: none;
-            position: fixed;
-            top: 70px;
-            right: 0;
-            background-color: rgba(51, 51, 51, 0.98);
-            width: 250px;
-            padding: 30px;
-            flex-direction: column;
-            gap: 30px;
-            transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .menu-mobile.open {
-            transform: translateX(0);
-        }
-
-        .menu-mobile .menu-item {
-            transform: rotate(0deg) !important;
-        }
-
-        .menu-mobile .menu-item img {
-            mix-blend-mode: normal;
-        }
-
         /* Hero Section */
         .hero {
             position: relative;
@@ -321,7 +221,7 @@
             box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
         }
 
-        /* Dynamic Island with Improved Design */
+        /* Dynamic Island with Menu */
         .dynamic-island {
             position: fixed;
             bottom: 0;
@@ -342,8 +242,42 @@
         }
 
         .island-left {
-            width: 80px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
             flex-shrink: 0;
+        }
+
+        .menu-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-item img {
+            height: 36px;
+            filter: brightness(0) saturate(100%) invert(80%) sepia(0%) saturate(0%) hue-rotate(0deg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-item:nth-child(1) {
+            transform: rotate(0deg);
+        }
+
+        .menu-item:nth-child(2) {
+            transform: rotate(15deg);
+        }
+
+        .menu-item:nth-child(3) {
+            transform: rotate(30deg);
+        }
+
+        .menu-item:hover img {
+            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
+        }
+
+        .menu-item.active img {
+            filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg);
         }
 
         .island-center {
@@ -493,22 +427,6 @@
 
         /* Responsive Design */
         @media (max-width: 968px) {
-            .menu-desktop {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .menu-mobile {
-                display: flex;
-            }
-
-            .navbar {
-                padding: 20px 30px;
-            }
-
             .hero-info {
                 left: 20px;
                 right: 20px;
@@ -520,6 +438,14 @@
                 width: 100%;
                 border-top-left-radius: 28px;
                 border-top-right-radius: 28px;
+            }
+
+            .island-left {
+                gap: 25px;
+            }
+
+            .menu-item img {
+                height: 32px;
             }
 
             .island-right {
@@ -569,43 +495,18 @@
             .progress-container {
                 margin-right: 0;
             }
+
+            .island-left {
+                gap: 20px;
+            }
+
+            .menu-item img {
+                height: 28px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="menu-desktop">
-            <div class="menu-item active">
-                <img src="./assets/project.webp" alt="project">
-            </div>
-            <div class="menu-item">
-                <img src="./assets/about.webp" alt="about">
-            </div>
-            <div class="menu-item">
-                <img src="./assets/contact.webp" alt="contact">
-            </div>
-        </div>
-        
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        
-        <div class="menu-mobile" id="menuMobile">
-            <div class="menu-item active">
-                <img src="./assets/project.webp" alt="project">
-            </div>
-            <div class="menu-item">
-                <img src="./assets/about.webp" alt="about">
-            </div>
-            <div class="menu-item">
-                <img src="./assets/contact.webp" alt="contact">
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-slider">
@@ -659,9 +560,19 @@
         </div>
     </section>
 
-    <!-- Dynamic Island -->
+    <!-- Dynamic Island with Navigation Menu -->
     <div class="dynamic-island">
-        <div class="island-left"></div>
+        <div class="island-left">
+            <div class="menu-item active">
+                <img src="./assets/project.webp" alt="project">
+            </div>
+            <div class="menu-item">
+                <img src="./assets/about.webp" alt="about">
+            </div>
+            <div class="menu-item">
+                <img src="./assets/contact.webp" alt="contact">
+            </div>
+        </div>
         <div class="island-center">
             <img src="./assets/logo.png" alt="Vdesign Logo">
         </div>
@@ -975,14 +886,6 @@
             });
         });
 
-        // Mobile Menu Toggle
-        const hamburger = document.getElementById('hamburger');
-        const menuMobile = document.getElementById('menuMobile');
-
-        hamburger.addEventListener('click', () => {
-            menuMobile.classList.toggle('open');
-        });
-
         // Menu Item Click Handler
         const menuItems = document.querySelectorAll('.menu-item');
         
@@ -990,11 +893,6 @@
             item.addEventListener('click', () => {
                 menuItems.forEach(mi => mi.classList.remove('active'));
                 item.classList.add('active');
-                
-                // Close mobile menu after selection
-                if (window.innerWidth <= 968) {
-                    menuMobile.classList.remove('open');
-                }
             });
         });
 
