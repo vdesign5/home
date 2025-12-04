@@ -7,666 +7,215 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            color: #333333;
-            background-color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        .english {
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            height: 85vh;
-            overflow: hidden;
-        }
-
-        .hero-slider {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .hero-slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out;
-        }
-
-        .hero-slide.active {
-            opacity: 1;
-        }
-
-        .hero-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-nav {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            z-index: 5;
-        }
-
-        .hero-nav-left,
-        .hero-nav-right {
-            flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-nav-left {
-            cursor: w-resize;
-        }
-
-        .hero-nav-right {
-            cursor: e-resize;
-        }
-
-        .hero-info {
-            position: absolute;
-            bottom: 30px;
-            left: 40px;
-            right: 40px;
-            color: white;
-            z-index: 10;
-        }
-
-        .hero-info-meta {
-            font-size: 14px;
-            font-weight: 300;
-            margin-bottom: 12px;
-        }
-
-        .hero-info-title {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .hero-info-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .progress-container {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-right: 20px;
-        }
-
-        .progress-dot {
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .progress-dot.active {
-            width: 60px;
-            border-radius: 4px;
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .progress-dot-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background-color: white;
-            border-radius: 4px;
-        }
-
-        .view-button {
-            background-color: white;
-            color: #333333;
-            padding: 12px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .view-button:hover {
-            background-color: #FF0000;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Dynamic Island */
-        .dynamic-island {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: white;
-            padding: 40px 60px 35px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            z-index: 999;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
-            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.06);
-        }
-
-        .island-left {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-
-        /* Hamburger Menu */
-        .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 28px;
-            height: 3px;
-            background-color: #cccccc;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle:hover span {
-            background-color: #FF0000;
-        }
-
-        .menu-toggle.open span:nth-child(1) {
-            transform: rotate(45deg) translate(6px, 6px);
-        }
-
-        .menu-toggle.open span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.open span:nth-child(3) {
-            transform: rotate(-45deg) translate(6px, -6px);
-        }
-
-        /* Menu Container */
-        .menu-container {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            max-width: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .menu-container.open {
-            max-width: 400px;
-            opacity: 1;
-        }
-
-        .menu-item {
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-        }
-
-        .menu-item img {
-            height: 36px;
-            filter: brightness(0) saturate(100%) invert(80%);
-            transition: all 0.3s ease;
-        }
-
-        .menu-item:hover img {
-            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
-        }
-
-        .menu-item.active img {
-            filter: brightness(0) saturate(100%) invert(20%);
-        }
-
-        .island-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
-        }
-
-        .island-center img {
-            height: 60px;
-        }
-
-        .island-right {
-            flex: 1;
-            text-align: right;
-            line-height: 1.6;
-        }
-
-        .island-right .chinese {
-            display: block;
-            font-size: 15px;
-            color: #333333;
-            transition: opacity 0.3s ease;
-        }
-
-        .island-right .english {
-            display: block;
-            font-size: 13px;
-            color: #666666;
-            margin-top: 4px;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Projects Grid */
-        .projects {
-            padding: 80px 60px 180px 60px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .project-item {
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .project-item:hover {
-            transform: translateY(-8px);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 300px;
-            overflow: hidden;
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .project-item:hover .project-image img {
-            transform: scale(1.05);
-        }
-
-        .project-info {
-            padding: 20px 0;
-        }
-
-        .project-category {
-            font-size: 12px;
-            color: #cccccc;
-            margin-bottom: 8px;
-        }
-
-        .project-title {
-            font-size: 16px;
-            color: #333333;
-            line-height: 1.5;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #1a1a1a;
-            color: #cccccc;
-            padding: 60px 60px 150px;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 60px;
-            margin-bottom: 40px;
-        }
-
-        .footer-logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .footer-description {
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .footer-section h3 {
-            color: white;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .footer-section ul li a {
-            color: #cccccc;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section ul li a:hover {
-            color: #FF0000;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid #333333;
-            font-size: 12px;
-        }
-
-        /* Responsive */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; }
+        .english { font-family: Arial, sans-serif; }
+        
+        .hero { position: relative; height: 85vh; overflow: hidden; }
+        .hero-slider { position: relative; width: 100%; height: 100%; }
+        .hero-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s; }
+        .hero-slide.active { opacity: 1; }
+        .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .hero-nav { position: absolute; top: 0; width: 100%; height: 100%; display: flex; z-index: 5; }
+        .hero-nav-left, .hero-nav-right { flex: 1; }
+        .hero-nav-left { cursor: w-resize; }
+        .hero-nav-right { cursor: e-resize; }
+        
+        .hero-info { position: absolute; bottom: 30px; left: 40px; right: 40px; color: white; z-index: 10; }
+        .hero-info-meta { font-size: 14px; margin-bottom: 12px; }
+        .hero-info-title { font-size: 18px; margin-bottom: 20px; }
+        .hero-info-bottom { display: flex; justify-content: space-between; align-items: center; }
+        
+        .progress-container { flex: 1; display: flex; gap: 12px; margin-right: 20px; }
+        .progress-dot { position: relative; width: 8px; height: 8px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; cursor: pointer; }
+        .progress-dot.active { width: 60px; border-radius: 4px; background: rgba(255,255,255,0.3); }
+        .progress-dot-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; border-radius: 4px; }
+        
+        .view-button { background: white; color: #333; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-size: 14px; transition: all 0.3s; }
+        .view-button:hover { background: #FF0000; color: white; transform: translateY(-2px); }
+        
+        .dynamic-island { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 40px 60px 35px; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 999; border-top-left-radius: 40px; border-top-right-radius: 40px; box-shadow: 0 -8px 32px rgba(0,0,0,0.06); }
+        .island-left { display: flex; gap: 30px; align-items: center; }
+        
+        .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
+        .menu-toggle span { width: 28px; height: 3px; background: #ccc; border-radius: 2px; transition: all 0.3s; }
+        .menu-toggle:hover span { background: #FF0000; }
+        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .menu-toggle.open span:nth-child(2) { opacity: 0; }
+        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+        
+        .menu-container { display: flex; gap: 30px; align-items: center; max-width: 0; overflow: hidden; opacity: 0; transition: all 0.4s; }
+        .menu-container.open { max-width: 400px; opacity: 1; }
+        .menu-item { cursor: pointer; transition: all 0.3s; flex-shrink: 0; }
+        .menu-item img { height: 36px; filter: brightness(0) saturate(100%) invert(80%); transition: all 0.3s; }
+        .menu-item:hover img { filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg); }
+        .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
+        
+        .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none; }
+        .island-center img { height: 60px; }
+        .island-right { flex: 1; text-align: right; line-height: 1.6; }
+        .island-right .chinese { display: block; font-size: 15px; color: #333; transition: opacity 0.3s; }
+        .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; transition: opacity 0.3s; }
+        
+        .projects { padding: 80px 60px 180px; max-width: 1400px; margin: 0 auto; }
+        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .project-item { cursor: pointer; transition: transform 0.3s; }
+        .project-item:hover { transform: translateY(-8px); }
+        .project-image { width: 100%; height: 300px; overflow: hidden; }
+        .project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .project-item:hover .project-image img { transform: scale(1.05); }
+        .project-info { padding: 20px 0; }
+        .project-category { font-size: 12px; color: #ccc; margin-bottom: 8px; }
+        .project-title { font-size: 16px; color: #333; line-height: 1.5; }
+        
+        footer { background: #1a1a1a; color: #ccc; padding: 60px 60px 150px; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 40px; }
+        .footer-logo { font-size: 24px; font-weight: bold; color: white; margin-bottom: 20px; }
+        .footer-description { font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
+        .footer-section h3 { color: white; font-size: 16px; margin-bottom: 20px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; font-size: 14px; }
+        .footer-section ul li a { color: #ccc; text-decoration: none; transition: color 0.3s; }
+        .footer-section ul li a:hover { color: #FF0000; }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 12px; }
+        
         @media (max-width: 968px) {
-            .hero-info {
-                left: 20px;
-                right: 20px;
-            }
-
-            .dynamic-island {
-                flex-direction: column;
-                padding: 30px;
-                border-top-left-radius: 28px;
-                border-top-right-radius: 28px;
-            }
-
-            .island-right {
-                text-align: center;
-            }
-
-            .projects {
-                padding: 60px 30px 180px;
-            }
-
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            footer {
-                padding: 40px 30px 150px;
-            }
+            .hero-info { left: 20px; right: 20px; }
+            .dynamic-island { flex-direction: column; padding: 30px; border-top-left-radius: 28px; border-top-right-radius: 28px; }
+            .island-right { text-align: center; }
+            .projects { padding: 60px 30px 180px; }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+            .footer-content { grid-template-columns: 1fr; gap: 40px; }
+            footer { padding: 40px 30px 150px; }
         }
-
         @media (max-width: 640px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero {
-                height: 70vh;
-            }
+            .projects-grid { grid-template-columns: 1fr; }
+            .hero { height: 70vh; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-slider">
-            <div class="hero-slide active">
-                <img src="./assets/202511_showcase_I.webp" alt="Slide 1">
-            </div>
-            <div class="hero-slide">
-                <img src="./assets/202511_showcase_II.webp" alt="Slide 2">
-            </div>
-            <div class="hero-slide">
-                <img src="./assets/202511_showcase_III.webp" alt="Slide 3">
-            </div>
-            <div class="hero-slide">
-                <img src="./assets/202511_showcase_IV.webp" alt="Slide 4">
-            </div>
+            <div class="hero-slide active"><img src="./assets/202511_showcase_I.webp" alt="Slide 1"></div>
+            <div class="hero-slide"><img src="./assets/202511_showcase_II.webp" alt="Slide 2"></div>
+            <div class="hero-slide"><img src="./assets/202511_showcase_III.webp" alt="Slide 3"></div>
+            <div class="hero-slide"><img src="./assets/202511_showcase_IV.webp" alt="Slide 4"></div>
         </div>
-        
         <div class="hero-nav">
             <div class="hero-nav-left" id="prevSlide"></div>
             <div class="hero-nav-right" id="nextSlide"></div>
         </div>
-        
         <div class="hero-info">
-            <div class="hero-info-meta english" id="heroMeta">
-                202511 | Key Vision | VI | Event
-            </div>
-            <div class="hero-info-title" id="heroTitle">
-                台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open
-            </div>
+            <div class="hero-info-meta english" id="heroMeta">202511 | Key Vision | VI | Event</div>
+            <div class="hero-info-title" id="heroTitle">台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open</div>
             <div class="hero-info-bottom">
                 <div class="progress-container">
-                    <div class="progress-dot active" data-slide="0">
-                        <div class="progress-dot-fill"></div>
-                    </div>
-                    <div class="progress-dot" data-slide="1">
-                        <div class="progress-dot-fill"></div>
-                    </div>
-                    <div class="progress-dot" data-slide="2">
-                        <div class="progress-dot-fill"></div>
-                    </div>
-                    <div class="progress-dot" data-slide="3">
-                        <div class="progress-dot-fill"></div>
-                    </div>
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
                 </div>
                 <a href="#" class="view-button english">view →</a>
             </div>
         </div>
     </section>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
-                    <img src="./assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
-                    <img src="./assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
-                    <img src="./assets/contact.webp" alt="contact">
-                </div>
+                <div class="menu-item active"><img src="./assets/project.webp" alt="project"></div>
+                <div class="menu-item"><img src="./assets/about.webp" alt="about"></div>
+                <div class="menu-item"><img src="./assets/contact.webp" alt="contact"></div>
             </div>
         </div>
-        <div class="island-center">
-            <img src="./assets/logo.png" alt="Vdesign Logo">
-        </div>
+        <div class="island-center"><img src="./assets/logo.png" alt="Vdesign Logo"></div>
         <div class="island-right">
             <span class="chinese">Vdesign 是一個位於台灣的創意工作室</span>
             <span class="english">Vdesign is a Creative Studio Based in Taiwan</span>
         </div>
     </div>
 
-    <!-- Projects Grid -->
     <section class="projects">
         <div class="projects-grid">
             <div class="project-item" data-title-zh="台灣國際滑輪溜冰公開賽 - 主視覺設計" data-title-en="Taiwan International Roller Skating Open - Key Visual">
-                <div class="project-image">
-                    <img src="./assets/project_I.webp" alt="Project 1">
-                </div>
+                <div class="project-image"><img src="./assets/project_I.webp" alt="Project 1"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="品牌識別系統設計" data-title-en="Brand Identity System Design">
-                <div class="project-image">
-                    <img src="./assets/project_II.webp" alt="Project 2">
-                </div>
+                <div class="project-image"><img src="./assets/project_II.webp" alt="Project 2"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="企業形象視覺規劃" data-title-en="Corporate Visual Identity Planning">
-                <div class="project-image">
-                    <img src="./assets/project_III.webp" alt="Project 3">
-                </div>
+                <div class="project-image"><img src="./assets/project_III.webp" alt="Project 3"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="活動主視覺設計專案" data-title-en="Event Key Visual Design Project">
-                <div class="project-image">
-                    <img src="./assets/project_IV.webp" alt="Project 4">
-                </div>
+                <div class="project-image"><img src="./assets/project_IV.webp" alt="Project 4"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="包裝設計與視覺整合" data-title-en="Packaging Design & Visual Integration">
-                <div class="project-image">
-                    <img src="./assets/project_V.webp" alt="Project 5">
-                </div>
+                <div class="project-image"><img src="./assets/project_V.webp" alt="Project 5"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="動態圖像設計" data-title-en="Motion Graphics Design">
-                <div class="project-image">
-                    <img src="./assets/project_VI.webp" alt="Project 6">
-                </div>
+                <div class="project-image"><img src="./assets/project_VI.webp" alt="Project 6"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="3D 視覺與建模設計" data-title-en="3D Visual & Modeling Design">
-                <div class="project-image">
-                    <img src="./assets/project_VII.webp" alt="Project 7">
-                </div>
+                <div class="project-image"><img src="./assets/project_VII.webp" alt="Project 7"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="網站設計與規劃" data-title-en="Web Design & Planning">
-                <div class="project-image">
-                    <img src="./assets/project_VIII.webp" alt="Project 8">
-                </div>
+                <div class="project-image"><img src="./assets/project_VIII.webp" alt="Project 8"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
-
             <div class="project-item" data-title-zh="商業攝影與視覺呈現" data-title-en="Commercial Photography & Visual Presentation">
-                <div class="project-image">
-                    <img src="./assets/project_IX.webp" alt="Project 9">
-                </div>
+                <div class="project-image"><img src="./assets/project_IX.webp" alt="Project 9"></div>
                 <div class="project-info">
                     <div class="project-category english">Key Vision | VI | Event</div>
-                    <div class="project-title">
-                        台灣國際滑輪溜冰公開賽<br>
-                        <span class="english">Taiwan International Roller Skating Open</span>
-                    </div>
+                    <div class="project-title">台灣國際滑輪溜冰公開賽<br><span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-about">
                 <div class="footer-logo english">VD</div>
-                <div class="footer-description">
-                    我們是一間專注於創新設計的工作室,致力於為客戶提供卓越的視覺解決方案。<br>
-                    每一個專案都是我們創意與專業的展現。
-                </div>
-                <div class="footer-description english">
-                    We are a studio focused on innovative design, dedicated to providing<br>
-                    clients with exceptional visual solutions. Every project is a manifestation<br>
-                    of our creativity and professionalism.
-                </div>
+                <div class="footer-description">我們是一間專注於創新設計的工作室,致力於為客戶提供卓越的視覺解決方案。<br>每一個專案都是我們創意與專業的展現。</div>
+                <div class="footer-description english">We are a studio focused on innovative design, dedicated to providing<br>clients with exceptional visual solutions. Every project is a manifestation<br>of our creativity and professionalism.</div>
             </div>
-            
             <div class="footer-section">
                 <h3 class="english">Services</h3>
                 <ul>
@@ -679,163 +228,39 @@
                     <li><a href="#">Photography</a></li>
                 </ul>
             </div>
-            
             <div class="footer-section">
                 <h3 class="english">Contact</h3>
                 <ul>
                     <li>Instagram</li>
                     <li>Behance</li>
-                    <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3058555c5c5f704654554359575e1e4447">[email&#160;protected]</a></li>
+                    <li>hello@vdesign.tw</li>
                     <li>(+886) 905-307-930</li>
                 </ul>
             </div>
         </div>
-        
         <div class="footer-bottom">
             <p>&copy; 2025 VDESIGN. All rights reserved. | Made with ❤️ in Taiwan | TPE 02 026</p>
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        console.log('Script starting...');
-        
-        // Slide data
-        const slideData = [
-            { meta: '202511 | Key Vision | VI | Event', title: '台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open' },
-            { meta: '202510 | Brand Identity | Design', title: '創意視覺設計專案 | Creative Visual Design Project' },
-            { meta: '202509 | Corporate Design | VI', title: '品牌識別系統 | Brand Identity System' },
-            { meta: '202508 | Event Design | Key Vision', title: '活動主視覺設計 | Event Key Visual Design' }
-        ];
-
-        // Hero Slider
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        const heroTitle = document.getElementById('heroTitle');
-        const heroMeta = document.getElementById('heroMeta');
-        const progressDots = document.querySelectorAll('.progress-dot');
-        const progressFills = document.querySelectorAll('.progress-dot-fill');
-        const slideDuration = 5000;
-        let autoSlideInterval;
-        let progressStartTime;
-
-        console.log('Slides found:', slides.length);
-
-        function updateProgress() {
-            const elapsed = Date.now() - progressStartTime;
-            const progress = Math.min((elapsed / slideDuration) * 100, 100);
-            const activeFill = progressFills[currentSlide];
-            if (activeFill) activeFill.style.width = progress + '%';
-            if (progress < 100) requestAnimationFrame(updateProgress);
-        }
-
-        function startProgress() {
-            progressDots.forEach((dot, index) => {
-                dot.classList.remove('active');
-                progressFills[index].style.width = '0%';
-            });
-            progressDots[currentSlide].classList.add('active');
-            progressStartTime = Date.now();
-            requestAnimationFrame(updateProgress);
-        }
-
-        function showSlide(n) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            currentSlide = (n + slides.length) % slides.length;
-            slides[currentSlide].classList.add('active');
-            heroTitle.textContent = slideData[currentSlide].title;
-            heroMeta.textContent = slideData[currentSlide].meta;
-            startProgress();
-            console.log('Showing slide:', currentSlide);
-        }
-
-        function startAutoSlide() {
-            if (autoSlideInterval) clearInterval(autoSlideInterval);
-            autoSlideInterval = setInterval(() => showSlide(currentSlide + 1), slideDuration);
-        }
-
-        // Navigation
-        const prevBtn = document.getElementById('prevSlide');
-        const nextBtn = document.getElementById('nextSlide');
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                console.log('Previous clicked');
-                showSlide(currentSlide - 1);
-                startAutoSlide();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                console.log('Next clicked');
-                showSlide(currentSlide + 1);
-                startAutoSlide();
-            });
-        }
-
-        // Progress dots
-        progressDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                console.log('Dot clicked:', index);
-                showSlide(index);
-                startAutoSlide();
-            });
-        });
-
-        // Start slider
-        startAutoSlide();
-        startProgress();
-        console.log('Slider initialized');
-
-        // Menu Toggle
-        const menuToggle = document.getElementById('menuToggle');
-        const menuContainer = document.getElementById('menuContainer');
-
-        if (menuToggle && menuContainer) {
-            menuToggle.addEventListener('click', () => {
-                console.log('Menu toggle clicked');
-                menuToggle.classList.toggle('open');
-                menuContainer.classList.toggle('open');
-            });
-        }
-
-        // Menu Items
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                menuItems.forEach(mi => mi.classList.remove('active'));
-                item.classList.add('active');
-            });
-        });
-
-        // Project Hover - Update Island Text
-        const projectItems = document.querySelectorAll('.project-item');
-        const islandTextChinese = document.querySelector('.island-right .chinese');
-        const islandTextEnglish = document.querySelector('.island-right .english');
-        const defaultTextChinese = 'Vdesign 是一個位於台灣的創意工作室';
-        const defaultTextEnglish = 'Vdesign is a Creative Studio Based in Taiwan';
-
-        console.log('Project items found:', projectItems.length);
-
-        projectItems.forEach(project => {
-            project.addEventListener('mouseenter', function() {
-                const titleZh = this.getAttribute('data-title-zh');
-                const titleEn = this.getAttribute('data-title-en');
-                console.log('Hovering project:', titleZh);
-                islandTextChinese.style.opacity = '0';
-                islandTextEnglish.style.opacity = '0';
-                setTimeout(() => {
-                    islandTextChinese.textContent = titleZh;
-                    islandTextEnglish.textContent = titleEn;
-                    islandTextChinese.style.opacity = '1';
-                    islandTextEnglish.style.opacity = '1';
-                }, 150);
-            });
-
-            project.addEventListener('mouseleave', function() {
-                islandTextChinese.style.opacity = '0';
-                islandTextEnglish.style.opacity = '0';
-                setTimeout(() => {
-                    islandTextChinese.textContent = defaultTextChinese;
-                    islandTextEnglish.textContent = defaultTextEnglish;
-                    islandTextC
+    <script>
+(function(){
+var D=[{meta:'202511 | Key Vision | VI | Event',title:'台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open'},{meta:'202510 | Brand Identity | Design',title:'創意視覺設計專案 | Creative Visual Design Project'},{meta:'202509 | Corporate Design | VI',title:'品牌識別系統 | Brand Identity System'},{meta:'202508 | Event Design | Key Vision',title:'活動主視覺設計 | Event Key Visual Design'}];
+var c=0,s=document.querySelectorAll('.hero-slide'),t=document.getElementById('heroTitle'),m=document.getElementById('heroMeta'),p=document.querySelectorAll('.progress-dot'),f=document.querySelectorAll('.progress-dot-fill'),d=5000,I,T;
+function U(){var e=Date.now()-T,r=Math.min(e/d*100,100),a=f[c];a&&(a.style.width=r+'%');r<100&&requestAnimationFrame(U)}
+function S(){p.forEach(function(e,i){e.classList.remove('active');f[i].style.width='0%'});p[c].classList.add('active');T=Date.now();requestAnimationFrame(U)}
+function w(n){s.forEach(function(e){e.classList.remove('active')});c=(n+s.length)%s.length;s[c].classList.add('active');t.textContent=D[c].title;m.textContent=D[c].meta;S()}
+function A(){I&&clearInterval(I);I=setInterval(function(){w(c+1)},d)}
+document.getElementById('prevSlide').addEventListener('click',function(){w(c-1);A()});
+document.getElementById('nextSlide').addEventListener('click',function(){w(c+1);A()});
+p.forEach(function(e,i){e.addEventListener('click',function(){w(i);A()})});
+A();S();
+var g=document.getElementById('menuToggle'),h=document.getElementById('menuContainer');
+g.addEventListener('click',function(){g.classList.toggle('open');h.classList.toggle('open')});
+document.querySelectorAll('.menu-item').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.menu-item').forEach(function(i){i.classList.remove('active')});e.classList.add('active')})});
+var j=document.querySelectorAll('.project-item'),k=document.querySelector('.island-right .chinese'),l=document.querySelector('.island-right .english'),C='Vdesign 是一個位於台灣的創意工作室',E='Vdesign is a Creative Studio Based in Taiwan';
+j.forEach(function(e){e.addEventListener('mouseenter',function(){var z=this.getAttribute('data-title-zh'),n=this.getAttribute('data-title-en');k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=z;l.textContent=n;k.style.opacity='1';l.style.opacity='1'},150)});e.addEventListener('mouseleave',function(){k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=C;l.textContent=E;k.style.opacity='1';l.style.opacity='1'},150)})});
+})();
+    </script>
+</body>
+</html>
