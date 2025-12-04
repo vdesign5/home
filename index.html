@@ -9,10 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; }
+        body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 450px; }
         .english { font-family: Arial, sans-serif; }
         
-        .hero { position: relative; height: 85vh; overflow: hidden; }
+        .hero { position: relative; height: 85vh; overflow: hidden; background: #000; z-index: 1; }
         .hero-slider { position: relative; width: 100%; height: 100%; }
         .hero-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s; }
         .hero-slide.active { opacity: 1; }
@@ -36,7 +36,7 @@
         .view-button { background: white; color: #333; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-size: 14px; transition: all 0.3s; }
         .view-button:hover { background: #FF0000; color: white; transform: translateY(-2px); }
         
-        .dynamic-island { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 40px 60px 35px; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 999; border-top-left-radius: 40px; border-top-right-radius: 40px; box-shadow: 0 -8px 32px rgba(0,0,0,0.06); transition: transform 0.3s ease; }
+        .dynamic-island { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 40px 60px 35px; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 10; border-top-left-radius: 40px; border-top-right-radius: 40px; box-shadow: 0 -8px 32px rgba(0,0,0,0.06); }
         .island-left { display: flex; gap: 30px; align-items: center; }
         
         .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
@@ -59,7 +59,7 @@
         .island-right .chinese { display: block; font-size: 15px; color: #333; transition: opacity 0.3s; }
         .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; transition: opacity 0.3s; }
         
-        .projects { padding: 80px 60px 140px; max-width: 1400px; margin: 0 auto; }
+        .projects { padding: 80px 60px 80px; max-width: 1400px; margin: 0 auto; position: relative; background: #fff; z-index: 1; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
         .project-item { cursor: pointer; transition: transform 0.3s; }
         .project-item:hover { transform: translateY(-8px); }
@@ -71,7 +71,7 @@
         .project-title { font-size: 16px; color: #333; line-height: 1.6; }
         .project-title .english { font-size: 13px; opacity: 0.7; display: block; margin-top: 4px; }
         
-        footer { background: #1a1a1a; color: #ccc; padding: 60px 60px 40px; }
+        footer { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; color: #ccc; padding: 60px 60px 40px; z-index: -1; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 40px; }
         .footer-logo { font-size: 24px; font-weight: bold; color: white; margin-bottom: 20px; }
         .footer-description { font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
@@ -83,15 +83,17 @@
         .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 12px; }
         
         @media (max-width: 968px) {
+            body { padding-bottom: 600px; }
             .hero-info { left: 20px; right: 20px; }
             .dynamic-island { flex-direction: column; padding: 30px; border-top-left-radius: 28px; border-top-right-radius: 28px; }
             .island-right { text-align: center; }
-            .projects { padding: 60px 30px 140px; }
+            .projects { padding: 60px 30px 60px; }
             .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
             .footer-content { grid-template-columns: 1fr; gap: 40px; }
             footer { padding: 40px 30px 40px; }
         }
         @media (max-width: 640px) {
+            body { padding-bottom: 700px; }
             .projects-grid { grid-template-columns: 1fr; }
             .hero { height: 70vh; }
         }
@@ -279,44 +281,6 @@ g.addEventListener('click',function(){g.classList.toggle('open');h.classList.tog
 document.querySelectorAll('.menu-item').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.menu-item').forEach(function(i){i.classList.remove('active')});e.classList.add('active')})});
 var j=document.querySelectorAll('.project-item'),k=document.querySelector('.island-right .chinese'),l=document.querySelector('.island-right .english'),C='Vdesign 是一個位於台灣的創意工作室',E='Vdesign is a Creative Studio Based in Taiwan';
 j.forEach(function(e){e.addEventListener('mouseenter',function(){var z=this.getAttribute('data-title-zh'),n=this.getAttribute('data-title-en');k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=z;l.textContent=n;k.style.opacity='1';l.style.opacity='1'},150)});e.addEventListener('mouseleave',function(){k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=C;l.textContent=E;k.style.opacity='1';l.style.opacity='1'},150)})});
-
-// Footer scroll animation
-var island = document.querySelector('.dynamic-island');
-var footer = document.querySelector('footer');
-var islandHeight = 0;
-
-function updateIslandHeight() {
-    islandHeight = island.offsetHeight;
-}
-
-function handleScroll() {
-    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    var windowHeight = window.innerHeight;
-    var documentHeight = document.documentElement.scrollHeight;
-    
-    // Calculate how much the user has scrolled from the bottom
-    var scrollFromBottom = documentHeight - (scrollTop + windowHeight);
-    
-    // Start moving the island when we're within footer height from the bottom
-    var footerHeight = footer.offsetHeight;
-    
-    if (scrollFromBottom < footerHeight) {
-        // Calculate how much to move the island up
-        var moveUp = footerHeight - scrollFromBottom;
-        // Cap the movement to the island height so it doesn't go off screen
-        moveUp = Math.min(moveUp, footerHeight);
-        island.style.transform = 'translateY(-' + moveUp + 'px)';
-    } else {
-        island.style.transform = 'translateY(0)';
-    }
-}
-
-// Initialize
-updateIslandHeight();
-window.addEventListener('resize', updateIslandHeight);
-window.addEventListener('scroll', handleScroll);
-handleScroll(); // Initial check
-
 })();
     </script>
 </body>
