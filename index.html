@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 450px; }
@@ -23,7 +24,12 @@
         .hero-nav-left { cursor: w-resize; }
         .hero-nav-right { cursor: e-resize; }
         
-        .hero-info { position: absolute; bottom: 30px; left: 40px; right: 40px; color: white; z-index: 10; }
+        .hero-info { position: absolute; bottom: 30px; left: 40px; right: 40px; color: white; z-index: 10; opacity: 0; animation: fadeIn 1s ease 0.5s forwards; }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
         .hero-info-meta { font-size: 14px; margin-bottom: 12px; }
         .hero-info-title { font-size: 18px; margin-bottom: 20px; }
         .hero-info-bottom { display: flex; justify-content: space-between; align-items: center; }
@@ -36,7 +42,12 @@
         .view-button { background: white; color: #333; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-size: 14px; transition: all 0.3s; }
         .view-button:hover { background: #FF0000; color: white; transform: translateY(-2px); }
         
-        .dynamic-island { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 40px 60px 35px; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 10; border-top-left-radius: 40px; border-top-right-radius: 40px; box-shadow: 0 -8px 32px rgba(0,0,0,0.06); }
+        .dynamic-island { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 40px 60px 35px; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 10; border-top-left-radius: 40px; border-top-right-radius: 40px; box-shadow: 0 -8px 32px rgba(0,0,0,0.06); transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards; }
+        @keyframes slideUpIsland {
+            to {
+                transform: translateY(0);
+            }
+        }
         .island-left { display: flex; gap: 30px; align-items: center; }
         
         .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
@@ -61,11 +72,21 @@
         
         .projects { padding: 80px 60px 80px; max-width: 1400px; margin: 0 auto; position: relative; background: #fff; z-index: 1; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .project-item { cursor: pointer; transition: transform 0.3s; }
-        .project-item:hover { transform: translateY(-8px); }
-        .project-image { width: 100%; height: 300px; overflow: hidden; }
-        .project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-        .project-item:hover .project-image img { transform: scale(1.05); }
+        .project-item { cursor: pointer; transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0; transform: translateY(60px); }
+        .project-item.in-view { opacity: 1; transform: translateY(0); }
+        .project-item.in-view:nth-child(1) { transition-delay: 0.1s; }
+        .project-item.in-view:nth-child(2) { transition-delay: 0.15s; }
+        .project-item.in-view:nth-child(3) { transition-delay: 0.2s; }
+        .project-item.in-view:nth-child(4) { transition-delay: 0.25s; }
+        .project-item.in-view:nth-child(5) { transition-delay: 0.3s; }
+        .project-item.in-view:nth-child(6) { transition-delay: 0.35s; }
+        .project-item.in-view:nth-child(7) { transition-delay: 0.4s; }
+        .project-item.in-view:nth-child(8) { transition-delay: 0.45s; }
+        .project-item.in-view:nth-child(9) { transition-delay: 0.5s; }
+        .project-item:hover { transform: translateY(-8px) scale(1.02); transition-delay: 0s !important; }
+        .project-image { width: 100%; height: 300px; overflow: hidden; border-radius: 8px; }
+        .project-image img { width: 100%; height: 115%; object-fit: cover; transition: transform 0.3s ease-out; will-change: transform; }
+        .project-item:hover .project-image img { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .project-info { padding: 20px 0; }
         .project-category { font-size: 12px; color: #ccc; margin-bottom: 8px; }
         .project-title { font-size: 16px; color: #333; line-height: 1.6; }
@@ -264,6 +285,28 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+// Initialize Lenis smooth scroll
+var lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+});
+
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+
+requestAnimationFrame(raf);
+</script>
     <script>
 (function(){
 var D=[{meta:'202511 | Key Vision | VI | Event',title:'台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open'},{meta:'202510 | Brand Identity | Design',title:'創意視覺設計專案 | Creative Visual Design Project'},{meta:'202509 | Corporate Design | VI',title:'品牌識別系統 | Brand Identity System'},{meta:'202508 | Event Design | Key Vision',title:'活動主視覺設計 | Event Key Visual Design'}];
@@ -281,6 +324,62 @@ g.addEventListener('click',function(){g.classList.toggle('open');h.classList.tog
 document.querySelectorAll('.menu-item').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.menu-item').forEach(function(i){i.classList.remove('active')});e.classList.add('active')})});
 var j=document.querySelectorAll('.project-item'),k=document.querySelector('.island-right .chinese'),l=document.querySelector('.island-right .english'),C='Vdesign 是一個位於台灣的創意工作室',E='Vdesign is a Creative Studio Based in Taiwan';
 j.forEach(function(e){e.addEventListener('mouseenter',function(){var z=this.getAttribute('data-title-zh'),n=this.getAttribute('data-title-en');k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=z;l.textContent=n;k.style.opacity='1';l.style.opacity='1'},150)});e.addEventListener('mouseleave',function(){k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=C;l.textContent=E;k.style.opacity='1';l.style.opacity='1'},150)})});
+
+// Intersection Observer for project items animation
+var observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+};
+
+var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+j.forEach(function(item) {
+    observer.observe(item);
+});
+
+// Parallax effect for project images
+function updateParallax() {
+    var windowHeight = window.innerHeight;
+    
+    j.forEach(function(item) {
+        var rect = item.getBoundingClientRect();
+        
+        // Only apply parallax to visible items
+        if (rect.top < windowHeight && rect.bottom > 0) {
+            var img = item.querySelector('.project-image img');
+            if (img) {
+                // Calculate how far through the viewport the item is
+                var relativePos = (windowHeight - rect.top) / (windowHeight + rect.height);
+                var parallaxAmount = (relativePos - 0.5) * 30; // -15 to +15
+                
+                var isHovered = item.matches(':hover');
+                var scale = isHovered ? 1.08 : 1;
+                
+                img.style.transform = 'translateY(' + parallaxAmount + 'px) scale(' + scale + ')';
+            }
+        }
+    });
+}
+
+var rafId;
+function onScroll() {
+    if (rafId) {
+        cancelAnimationFrame(rafId);
+    }
+    rafId = requestAnimationFrame(updateParallax);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+updateParallax();
+
 })();
     </script>
 </body>
