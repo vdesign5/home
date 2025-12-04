@@ -69,52 +69,18 @@
         .hero-nav-left,
         .hero-nav-right {
             flex: 1;
-            cursor: pointer;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .hero-nav-left::before,
-        .hero-nav-right::before {
-            content: '';
-            width: 50px;
-            height: 50px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            position: absolute;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .hero-nav-left {
+            cursor: w-resize;
         }
 
-        .hero-nav-left::after,
-        .hero-nav-right::after {
-            content: '';
-            width: 12px;
-            height: 12px;
-            border-left: 2px solid rgba(255, 255, 255, 0.8);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
-            position: absolute;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .hero-nav-left::after {
-            transform: rotate(45deg);
-            margin-right: -5px;
-        }
-
-        .hero-nav-right::after {
-            transform: rotate(-135deg);
-            margin-left: -5px;
-        }
-
-        .hero-nav-left:hover::before,
-        .hero-nav-left:hover::after,
-        .hero-nav-right:hover::before,
-        .hero-nav-right:hover::after {
-            opacity: 1;
+        .hero-nav-right {
+            cursor: e-resize;
         }
 
         .hero-info {
@@ -719,7 +685,7 @@
                 <ul>
                     <li>Instagram</li>
                     <li>Behance</li>
-                    <li>hello@vdesign.tw</li>
+                    <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3058555c5c5f704654554359575e1e4447">[email&#160;protected]</a></li>
                     <li>(+886) 905-307-930</li>
                 </ul>
             </div>
@@ -730,7 +696,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         console.log('Script starting...');
         
         // Slide data
@@ -872,13 +838,4 @@
                 setTimeout(() => {
                     islandTextChinese.textContent = defaultTextChinese;
                     islandTextEnglish.textContent = defaultTextEnglish;
-                    islandTextChinese.style.opacity = '1';
-                    islandTextEnglish.style.opacity = '1';
-                }, 150);
-            });
-        });
-
-        console.log('All scripts loaded successfully');
-    </script>
-</body>
-</html>
+                    islandTextC
