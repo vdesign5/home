@@ -9,13 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        @font-face {
-            font-family: 'DIN 2014';
-            src: url('data:text/css;base64,') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -30,7 +23,7 @@
         }
 
         .english {
-            font-family: 'DIN 2014', 'Arial', sans-serif;
+            font-family: 'Arial', sans-serif;
         }
 
         /* Hero Section */
@@ -77,6 +70,51 @@
         .hero-nav-right {
             flex: 1;
             cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-nav-left::before,
+        .hero-nav-right::before {
+            content: '';
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-nav-left::after,
+        .hero-nav-right::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border-left: 2px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hero-nav-left::after {
+            transform: rotate(45deg);
+            margin-right: -5px;
+        }
+
+        .hero-nav-right::after {
+            transform: rotate(-135deg);
+            margin-left: -5px;
+        }
+
+        .hero-nav-left:hover::before,
+        .hero-nav-left:hover::after,
+        .hero-nav-right:hover::before,
+        .hero-nav-right:hover::after {
+            opacity: 1;
         }
 
         .hero-info {
@@ -693,6 +731,8 @@
     </footer>
 
     <script>
+        console.log('Script starting...');
+        
         // Slide data
         const slideData = [
             { meta: '202511 | Key Vision | VI | Event', title: '台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open' },
@@ -711,6 +751,8 @@
         const slideDuration = 5000;
         let autoSlideInterval;
         let progressStartTime;
+
+        console.log('Slides found:', slides.length);
 
         function updateProgress() {
             const elapsed = Date.now() - progressStartTime;
@@ -737,6 +779,7 @@
             heroTitle.textContent = slideData[currentSlide].title;
             heroMeta.textContent = slideData[currentSlide].meta;
             startProgress();
+            console.log('Showing slide:', currentSlide);
         }
 
         function startAutoSlide() {
@@ -744,34 +787,51 @@
             autoSlideInterval = setInterval(() => showSlide(currentSlide + 1), slideDuration);
         }
 
-        document.getElementById('prevSlide').addEventListener('click', () => {
-            showSlide(currentSlide - 1);
-            startAutoSlide();
-        });
+        // Navigation
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
 
-        document.getElementById('nextSlide').addEventListener('click', () => {
-            showSlide(currentSlide + 1);
-            startAutoSlide();
-        });
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                console.log('Previous clicked');
+                showSlide(currentSlide - 1);
+                startAutoSlide();
+            });
+        }
 
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                console.log('Next clicked');
+                showSlide(currentSlide + 1);
+                startAutoSlide();
+            });
+        }
+
+        // Progress dots
         progressDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
+                console.log('Dot clicked:', index);
                 showSlide(index);
                 startAutoSlide();
             });
         });
 
+        // Start slider
         startAutoSlide();
         startProgress();
+        console.log('Slider initialized');
 
         // Menu Toggle
         const menuToggle = document.getElementById('menuToggle');
         const menuContainer = document.getElementById('menuContainer');
 
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('open');
-            menuContainer.classList.toggle('open');
-        });
+        if (menuToggle && menuContainer) {
+            menuToggle.addEventListener('click', () => {
+                console.log('Menu toggle clicked');
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            });
+        }
 
         // Menu Items
         const menuItems = document.querySelectorAll('.menu-item');
@@ -789,10 +849,13 @@
         const defaultTextChinese = 'Vdesign 是一個位於台灣的創意工作室';
         const defaultTextEnglish = 'Vdesign is a Creative Studio Based in Taiwan';
 
+        console.log('Project items found:', projectItems.length);
+
         projectItems.forEach(project => {
             project.addEventListener('mouseenter', function() {
                 const titleZh = this.getAttribute('data-title-zh');
                 const titleEn = this.getAttribute('data-title-en');
+                console.log('Hovering project:', titleZh);
                 islandTextChinese.style.opacity = '0';
                 islandTextEnglish.style.opacity = '0';
                 setTimeout(() => {
@@ -814,6 +877,8 @@
                 }, 150);
             });
         });
+
+        console.log('All scripts loaded successfully');
     </script>
 </body>
 </html>
