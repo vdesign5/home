@@ -66,9 +66,11 @@
         
         .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none; }
         .island-center img { height: 60px; }
-        .island-right { flex: 1; text-align: right; line-height: 1.6; }
-        .island-right .chinese { display: block; font-size: 15px; color: #333; transition: opacity 0.3s; }
-        .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; transition: opacity 0.3s; }
+        .island-right { flex: 1; text-align: right; line-height: 1.6; position: relative; height: 50px; }
+        .island-right .chinese { display: block; font-size: 15px; color: #333; transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; right: 0; top: 0; width: 100%; }
+        .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; right: 0; top: 24px; width: 100%; }
+        .island-right .fade-out { opacity: 0; transform: translateY(-12px); }
+        .island-right .fade-in { opacity: 1; transform: translateY(0); }
         
         .projects { padding: 80px 60px 80px; position: relative; background: #fff; z-index: 1; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
@@ -84,24 +86,24 @@
         .project-item.in-view:nth-child(8) { transition-delay: 0.45s; }
         .project-item.in-view:nth-child(9) { transition-delay: 0.5s; }
         .project-item:hover { transform: translateY(-8px) scale(1.02); transition-delay: 0s !important; }
-        .project-image { width: 100%; height: 300px; overflow: hidden; border-radius: 8px; }
-        .project-image img { width: 100%; height: 115%; object-fit: cover; transition: transform 0.3s ease-out; will-change: transform; }
-        .project-item:hover .project-image img { transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .project-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; }
+        .project-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
+        .project-item:hover .project-image img { transform: scale(1.1) !important; }
         .project-info { padding: 20px 0; }
         .project-category { font-size: 12px; color: #ccc; margin-bottom: 8px; }
         .project-title { font-size: 16px; color: #333; line-height: 1.6; }
         .project-title .english { font-size: 13px; opacity: 0.7; display: block; margin-top: 4px; }
         
-        footer { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; color: #ccc; padding: 60px 60px 40px; z-index: -1; }
+        footer { position: fixed; bottom: 0; left: 0; right: 0; background: #cccccc; color: #333; padding: 60px 60px 40px; z-index: -1; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 40px; }
-        .footer-logo { font-size: 24px; font-weight: bold; color: white; margin-bottom: 20px; }
-        .footer-description { font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
-        .footer-section h3 { color: white; font-size: 16px; margin-bottom: 20px; }
+        .footer-logo { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 20px; }
+        .footer-description { font-size: 14px; line-height: 1.8; margin-bottom: 20px; color: #555; }
+        .footer-section h3 { color: #333; font-size: 16px; margin-bottom: 20px; }
         .footer-section ul { list-style: none; }
-        .footer-section ul li { margin-bottom: 12px; font-size: 14px; }
-        .footer-section ul li a { color: #ccc; text-decoration: none; transition: color 0.3s; }
+        .footer-section ul li { margin-bottom: 12px; font-size: 14px; color: #555; }
+        .footer-section ul li a { color: #555; text-decoration: none; transition: color 0.3s; }
         .footer-section ul li a:hover { color: #FF0000; }
-        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 12px; }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #aaa; font-size: 12px; color: #666; }
         
         @media (max-width: 968px) {
             body { padding-bottom: 600px; }
@@ -323,7 +325,52 @@ var g=document.getElementById('menuToggle'),h=document.getElementById('menuConta
 g.addEventListener('click',function(){g.classList.toggle('open');h.classList.toggle('open')});
 document.querySelectorAll('.menu-item').forEach(function(e){e.addEventListener('click',function(){document.querySelectorAll('.menu-item').forEach(function(i){i.classList.remove('active')});e.classList.add('active')})});
 var j=document.querySelectorAll('.project-item'),k=document.querySelector('.island-right .chinese'),l=document.querySelector('.island-right .english'),C='Vdesign 是一個位於台灣的創意工作室',E='Vdesign is a Creative Studio Based in Taiwan';
-j.forEach(function(e){e.addEventListener('mouseenter',function(){var z=this.getAttribute('data-title-zh'),n=this.getAttribute('data-title-en');k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=z;l.textContent=n;k.style.opacity='1';l.style.opacity='1'},150)});e.addEventListener('mouseleave',function(){k.style.opacity='0';l.style.opacity='0';setTimeout(function(){k.textContent=C;l.textContent=E;k.style.opacity='1';l.style.opacity='1'},150)})});
+
+// Initialize with fade-in state
+k.classList.add('fade-in');
+l.classList.add('fade-in');
+
+j.forEach(function(e){
+    e.addEventListener('mouseenter',function(){
+        var z=this.getAttribute('data-title-zh'),n=this.getAttribute('data-title-en');
+        
+        // Fade out
+        k.classList.remove('fade-in');
+        l.classList.remove('fade-in');
+        k.classList.add('fade-out');
+        l.classList.add('fade-out');
+        
+        setTimeout(function(){
+            k.textContent=z;
+            l.textContent=n;
+            
+            // Fade in
+            k.classList.remove('fade-out');
+            l.classList.remove('fade-out');
+            k.classList.add('fade-in');
+            l.classList.add('fade-in');
+        }, 250);
+    });
+    
+    e.addEventListener('mouseleave',function(){
+        // Fade out
+        k.classList.remove('fade-in');
+        l.classList.remove('fade-in');
+        k.classList.add('fade-out');
+        l.classList.add('fade-out');
+        
+        setTimeout(function(){
+            k.textContent=C;
+            l.textContent=E;
+            
+            // Fade in
+            k.classList.remove('fade-out');
+            l.classList.remove('fade-out');
+            k.classList.add('fade-in');
+            l.classList.add('fade-in');
+        }, 250);
+    });
+});
 
 // Intersection Observer for project items animation
 var observerOptions = {
@@ -343,6 +390,20 @@ var observer = new IntersectionObserver(function(entries) {
 
 j.forEach(function(item) {
     observer.observe(item);
+    
+    // Add hover listeners to ensure hover effect takes priority
+    item.addEventListener('mouseenter', function() {
+        var img = this.querySelector('.project-image img');
+        if (img) {
+            // Clear any parallax transform on hover
+            img.style.transform = 'scale(1.1)';
+        }
+    });
+    
+    item.addEventListener('mouseleave', function() {
+        // Reapply parallax on mouse leave
+        updateParallax();
+    });
 });
 
 // Parallax effect for project images
@@ -352,18 +413,15 @@ function updateParallax() {
     j.forEach(function(item) {
         var rect = item.getBoundingClientRect();
         
-        // Only apply parallax to visible items
-        if (rect.top < windowHeight && rect.bottom > 0) {
+        // Only apply parallax to visible items and not hovered items
+        if (rect.top < windowHeight && rect.bottom > 0 && !item.matches(':hover')) {
             var img = item.querySelector('.project-image img');
             if (img) {
                 // Calculate how far through the viewport the item is
                 var relativePos = (windowHeight - rect.top) / (windowHeight + rect.height);
-                var parallaxAmount = (relativePos - 0.5) * 30; // -15 to +15
+                var parallaxAmount = (relativePos - 0.5) * 20; // -10 to +10
                 
-                var isHovered = item.matches(':hover');
-                var scale = isHovered ? 1.08 : 1;
-                
-                img.style.transform = 'translateY(' + parallaxAmount + 'px) scale(' + scale + ')';
+                img.style.transform = 'translateY(' + parallaxAmount + 'px)';
             }
         }
     });
@@ -378,6 +436,7 @@ function onScroll() {
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', updateParallax);
 updateParallax();
 
 })();
