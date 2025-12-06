@@ -13,7 +13,7 @@
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 320px; }
         .english { font-family: Arial, sans-serif; }
         
-        .hero { position: relative; height: 85vh; overflow: hidden; background: #000; z-index: 1; }
+        .hero { position: relative; height: 85vh; overflow: hidden; background: #000; z-index: 6; }
         .hero-slider { position: relative; width: 100%; height: 100%; }
         .hero-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s; }
         .hero-slide.active { opacity: 1; }
@@ -72,7 +72,7 @@
         .island-right .fade-out { opacity: 0; transform: translateY(-12px); }
         .island-right .fade-in { opacity: 1; transform: translateY(0); }
         
-        .projects { padding: 80px 60px 80px; position: relative; background: #fff; z-index: 1; }
+        .projects { padding: 80px 60px 80px; position: relative; background: #fff; z-index: 6; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
         .project-item { cursor: pointer; transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0; transform: translateY(60px); }
         .project-item.in-view { opacity: 1; transform: translateY(0); }
@@ -94,22 +94,22 @@
         .project-title { font-size: 16px; color: #333; line-height: 1.6; }
         .project-title .english { font-size: 13px; opacity: 0.7; display: block; margin-top: 4px; }
         
-        footer { position: fixed; bottom: 0; left: 0; right: 0; background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: -1; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; position: relative; z-index: 2; }
+        footer { position: fixed; bottom: 0; left: 0; right: 0; background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: 5; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; }
         .footer-left { flex: 1; display: flex; align-items: center; gap: 20px; }
         .footer-logo-img { height: 50px; filter: brightness(0) saturate(100%) invert(1); }
         .footer-logotype-img { height: 50px; filter: brightness(0) saturate(100%) invert(1); }
         .footer-right { flex: 1; text-align: right; }
         .footer-nav { margin-bottom: 30px; }
-        .footer-nav-item { font-size: 14px; color: #666; margin-bottom: 8px; transition: color 0.3s; position: relative; z-index: 2; }
+        .footer-nav-item { font-size: 14px; color: #666; margin-bottom: 8px; transition: color 0.3s; }
         .footer-nav-item a { color: #666; text-decoration: none; }
         .footer-nav-item a:hover { color: #333; }
         .footer-social { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
-        .footer-social-item { font-size: 14px; position: relative; z-index: 2; }
+        .footer-social-item { font-size: 14px; }
         .footer-social-item a { color: #666; text-decoration: none; transition: color 0.3s; }
         .footer-social-item a:hover { color: #333; }
-        .footer-bottom { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid #ddd; position: relative; z-index: 2; }
-        .back-to-top { font-size: 13px; color: #999; cursor: pointer; transition: color 0.3s; display: flex; align-items: center; gap: 5px; position: relative; z-index: 2; }
+        .footer-bottom { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid #ddd; }
+        .back-to-top { font-size: 13px; color: #999; cursor: pointer; transition: color 0.3s; display: flex; align-items: center; gap: 5px; }
         .back-to-top:hover { color: #333; }
         .footer-copyright { font-size: 11px; color: #999; letter-spacing: 0.5px; }
         
@@ -272,7 +272,7 @@
         <div class="footer-content">
             <div class="footer-left">
                 <img src="./assets/logo.png" alt="Vdesign Logo" class="footer-logo-img">
-                <img src="./assets/__logotype_vdesign.png" alt="Vdesign Logotype" class="footer-logotype-img">
+                <img src="./assets/logotype_vdesign.png" alt="Vdesign Logotype" class="footer-logotype-img">
             </div>
             <div class="footer-right">
                 <div class="footer-nav">
