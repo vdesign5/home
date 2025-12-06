@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 320px; }
+        body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 350px; }
         .english { font-family: Arial, sans-serif; }
         
         .hero { position: relative; height: 85vh; overflow: hidden; background: #000; z-index: 6; }
@@ -96,12 +96,12 @@
         .project-title .english { font-size: 13px; opacity: 0.7; display: block; margin-top: 4px; }
         
         footer { position: fixed; bottom: 0; left: 0; right: 0; background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: 5; }
-        .footer-content { max-width: 1400px; margin: 0 auto; margin-bottom: 50px; }
-        .footer-left { display: flex; align-items: flex-start; gap: 60px; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 80px; }
+        .footer-left { display: flex; align-items: flex-start; }
         .footer-logo-img { height: 28px; filter: brightness(0) saturate(100%) invert(80%); flex-shrink: 0; }
         .footer-contact-info { display: flex; gap: 60px; }
         .footer-logotype-img { height: 50px; filter: brightness(0) saturate(100%) invert(1); }
-        .footer-right { flex: 1; text-align: right; }
+        .footer-right { display: flex; justify-content: flex-end; }
         .footer-nav { display: flex; flex-direction: column; gap: 8px; }
         .footer-nav-item { font-size: 14px; color: #666; transition: color 0.3s; }
         .footer-nav-item a { color: #666; text-decoration: none; }
@@ -116,23 +116,24 @@
         .footer-copyright { font-size: 11px; color: #999; letter-spacing: 0.5px; }
         
         @media (max-width: 968px) {
-            body { padding-bottom: 450px; }
+            body { padding-bottom: 480px; }
             .hero-info { left: 20px; right: 20px; }
             .dynamic-island { flex-direction: column; padding: 30px; border-top-left-radius: 28px; border-top-right-radius: 28px; }
             .island-right { text-align: center; }
             .projects { padding: 60px 30px 60px; }
             .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
             footer { padding: 50px 40px 35px; }
-            .footer-left { flex-direction: column; gap: 30px; align-items: flex-start; }
+            .footer-content { flex-direction: column; gap: 30px; align-items: flex-start; margin-bottom: 60px; }
+            .footer-right { justify-content: flex-start; }
             .footer-contact-info { flex-direction: column; gap: 30px; }
             .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
         }
         @media (max-width: 640px) {
-            body { padding-bottom: 500px; }
+            body { padding-bottom: 530px; }
             .projects-grid { grid-template-columns: 1fr; }
             .hero { height: 70vh; }
             footer { padding: 40px 30px 30px; }
-            .footer-left { gap: 25px; }
+            .footer-content { gap: 25px; margin-bottom: 50px; }
             .footer-contact-info { gap: 25px; }
             .footer-bottom { gap: 15px; }
         }
@@ -273,6 +274,8 @@
         <div class="footer-content">
             <div class="footer-left">
                 <img src="./assets/contact.webp" alt="Contact" class="footer-logo-img">
+            </div>
+            <div class="footer-right">
                 <div class="footer-contact-info">
                     <div class="footer-nav">
                         <div class="footer-nav-item"><a href="mailto:bruce20020822@gmail.com">bruce20020822@gmail.com</a></div>
