@@ -100,7 +100,7 @@
         .slider-container {
             position: relative;
             width: 100%;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             border-radius: 12px;
             overflow: hidden;
         }
@@ -156,6 +156,45 @@
         .slider-nav-right {
             justify-content: flex-end;
             cursor: e-resize;
+        }
+        
+        /* Progress Dots Container */
+        .progress-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .progress-dot {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .progress-dot:hover {
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .progress-dot.active {
+            width: 60px;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.15);
+        }
+        
+        .progress-dot-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: rgba(0,0,0,0.6);
+            border-radius: 4px;
+            transition: width 0.1s linear;
         }
         
         /* Single Image */
@@ -312,8 +351,6 @@
             margin-top: 4px;
         }
         
-
-        
         /* Responsive */
         @media (max-width: 968px) {
             body {
@@ -399,7 +436,7 @@
 
         <!-- Gallery Section 1 -->
         <div class="gallery-section">
-            <div class="slider-container">
+            <div class="slider-container" data-slider="slider1">
                 <div class="slider-wrapper">
                     <div class="slider-slide active">
                         <img src="../assets/Sung%20hospital/VDesign_workII_1.webp" alt="Logo Design 1">
@@ -412,13 +449,14 @@
                     </div>
                 </div>
                 <div class="slider-nav">
-                    <div class="slider-nav-left">
-                        <div class="nav-arrow">←</div>
-                    </div>
-                    <div class="slider-nav-right">
-                        <div class="nav-arrow">→</div>
-                    </div>
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
                 </div>
+            </div>
+            <div class="progress-container" data-progress="slider1">
+                <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
             </div>
         </div>
 
@@ -429,7 +467,7 @@
 
         <!-- Gallery Section 2 -->
         <div class="gallery-section">
-            <div class="slider-container">
+            <div class="slider-container" data-slider="slider2">
                 <div class="slider-wrapper">
                     <div class="slider-slide active">
                         <img src="../assets/Sung%20hospital/VDesign_workII_4.webp" alt="Typography Design 1">
@@ -445,13 +483,15 @@
                     </div>
                 </div>
                 <div class="slider-nav">
-                    <div class="slider-nav-left">
-                        <div class="nav-arrow">←</div>
-                    </div>
-                    <div class="slider-nav-right">
-                        <div class="nav-arrow">→</div>
-                    </div>
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
                 </div>
+            </div>
+            <div class="progress-container" data-progress="slider2">
+                <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
             </div>
         </div>
 
@@ -469,7 +509,7 @@
 
         <!-- Gallery Section 3 -->
         <div class="gallery-section">
-            <div class="slider-container">
+            <div class="slider-container" data-slider="slider3">
                 <div class="slider-wrapper">
                     <div class="slider-slide active">
                         <img src="../assets/Sung%20hospital/VDesign_workII_9.webp" alt="Application 1">
@@ -479,13 +519,13 @@
                     </div>
                 </div>
                 <div class="slider-nav">
-                    <div class="slider-nav-left">
-                        <div class="nav-arrow">←</div>
-                    </div>
-                    <div class="slider-nav-right">
-                        <div class="nav-arrow">→</div>
-                    </div>
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
                 </div>
+            </div>
+            <div class="progress-container" data-progress="slider3">
+                <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
             </div>
         </div>
     </div>
@@ -560,34 +600,117 @@
             });
         });
 
-        // Slider Functionality
-        function initSlider(container) {
-            const slides = container.querySelectorAll('.slider-slide');
-            const navLeft = container.querySelector('.slider-nav-left');
-            const navRight = container.querySelector('.slider-nav-right');
-            let currentSlide = 0;
-
-            function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active'));
-                currentSlide = (index + slides.length) % slides.length;
-                slides[currentSlide].classList.add('active');
+        // Enhanced Slider Functionality with Auto-play
+        class AutoSlider {
+            constructor(container, progressContainer) {
+                this.container = container;
+                this.slides = container.querySelectorAll('.slider-slide');
+                this.navLeft = container.querySelector('.slider-nav-left');
+                this.navRight = container.querySelector('.slider-nav-right');
+                this.progressDots = progressContainer.querySelectorAll('.progress-dot');
+                this.progressFills = progressContainer.querySelectorAll('.progress-dot-fill');
+                this.currentSlide = 0;
+                this.autoPlayDuration = 5000; // 5 seconds
+                this.autoPlayInterval = null;
+                this.progressStartTime = null;
+                this.progressAnimationFrame = null;
+                
+                this.init();
             }
-
-            if (navLeft) {
-                navLeft.addEventListener('click', () => {
-                    showSlide(currentSlide - 1);
+            
+            init() {
+                // Navigation events
+                if (this.navLeft) {
+                    this.navLeft.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide - 1);
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                if (this.navRight) {
+                    this.navRight.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide + 1);
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                // Progress dot clicks
+                this.progressDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.showSlide(index);
+                        this.resetAutoPlay();
+                    });
                 });
+                
+                // Start auto-play
+                this.startAutoPlay();
+                this.startProgressAnimation();
             }
-
-            if (navRight) {
-                navRight.addEventListener('click', () => {
-                    showSlide(currentSlide + 1);
+            
+            showSlide(index) {
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                this.currentSlide = (index + this.slides.length) % this.slides.length;
+                this.slides[this.currentSlide].classList.add('active');
+                
+                // Update progress dots
+                this.progressDots.forEach((dot, i) => {
+                    dot.classList.remove('active');
+                    this.progressFills[i].style.width = '0%';
                 });
+                this.progressDots[this.currentSlide].classList.add('active');
+                
+                // Restart progress animation
+                this.startProgressAnimation();
+            }
+            
+            startProgressAnimation() {
+                this.progressStartTime = Date.now();
+                
+                const animate = () => {
+                    const elapsed = Date.now() - this.progressStartTime;
+                    const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
+                    
+                    const currentFill = this.progressFills[this.currentSlide];
+                    if (currentFill) {
+                        currentFill.style.width = progress + '%';
+                    }
+                    
+                    if (progress < 100) {
+                        this.progressAnimationFrame = requestAnimationFrame(animate);
+                    }
+                };
+                
+                if (this.progressAnimationFrame) {
+                    cancelAnimationFrame(this.progressAnimationFrame);
+                }
+                
+                animate();
+            }
+            
+            startAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                }
+                
+                this.autoPlayInterval = setInterval(() => {
+                    this.showSlide(this.currentSlide + 1);
+                }, this.autoPlayDuration);
+            }
+            
+            resetAutoPlay() {
+                this.startAutoPlay();
             }
         }
-
-        // Initialize all sliders
-        document.querySelectorAll('.slider-container').forEach(initSlider);
+        
+        // Initialize all sliders with auto-play
+        document.querySelectorAll('.slider-container').forEach(container => {
+            const sliderId = container.getAttribute('data-slider');
+            const progressContainer = document.querySelector(`[data-progress="${sliderId}"]`);
+            
+            if (progressContainer) {
+                new AutoSlider(container, progressContainer);
+            }
+        });
 
         // Intersection Observer for gallery sections
         const observerOptions = {
