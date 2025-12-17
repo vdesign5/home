@@ -912,4 +912,918 @@
         });
     </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宋俊宏婦幼醫院 - Vdesign</title>
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            color: #333; 
+            background: #fff; 
+            overflow-x: hidden; 
+            padding-bottom: 180px; 
+        }
+        .english { font-family: Arial, sans-serif; }
+        
+        /* Hero Image */
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            z-index: 6;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.3s forwards;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Content Container */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            position: relative;
+            z-index: 6;
+        }
+        
+        /* Title */
+        .project-title {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.5s forwards;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Description */
+        .description {
+            font-size: 16px;
+            line-height: 2;
+            color: #666;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.7s forwards;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        /* Image Gallery Section */
+        .gallery-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .gallery-section.in-view {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        /* Slider Container */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1200 / 750;
+            overflow: hidden;
+        }
+        
+        .slider-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        
+        .slider-slide.active {
+            opacity: 1;
+        }
+        
+        .slider-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Slider Navigation */
+        .slider-nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            z-index: 5;
+        }
+        
+        .slider-nav-left,
+        .slider-nav-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .slider-nav-left {
+            justify-content: flex-start;
+            cursor: w-resize;
+        }
+        
+        .slider-nav-right {
+            justify-content: flex-end;
+            cursor: e-resize;
+        }
+        
+        /* Progress Dots Container */
+        .progress-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .progress-dot {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .progress-dot:hover {
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .progress-dot.active {
+            width: 60px;
+            border-radius: 4px;
+            background: rgba(0,0,0,0.15);
+        }
+        
+        .progress-dot-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: rgba(0,0,0,0.6);
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+        
+        /* Single Image */
+        .single-image {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .single-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Caption */
+        .caption {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        
+        /* Dynamic Island */
+        .dynamic-island {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 40px 60px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            z-index: 10;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.06);
+            transform: translateY(100%);
+            animation: slideUpIsland 0.8s ease 0.3s forwards;
+        }
+        
+        @keyframes slideUpIsland {
+            to { transform: translateY(0); }
+        }
+        
+        .island-left {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+            position: relative;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #ccc;
+            border-radius: 2px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        
+        .menu-toggle:hover span {
+            background: #FF0000;
+        }
+        
+        .menu-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        .menu-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            max-width: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s;
+        }
+        
+        .menu-container.open {
+            max-width: 400px;
+            opacity: 1;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .menu-item img {
+            height: 28px;
+            filter: brightness(0) saturate(100%) invert(80%);
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover img {
+            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
+        }
+        
+        .menu-item.active img {
+            filter: brightness(0) saturate(100%) invert(20%);
+        }
+        
+        .island-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* 桌面版不使用 shifted 效果 */
+        @media (min-width: 969px) {
+            .island-center.shifted {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .island-center img {
+            height: 60px;
+        }
+        
+        .island-right {
+            flex: 1;
+            text-align: right;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        .island-right .chinese {
+            display: block;
+            font-size: 15px;
+            color: #333;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-right .english {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-right .fade-out {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+        
+        .island-right .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            body {
+                padding-bottom: 140px;
+            }
+            
+            .content {
+                padding: 60px 30px;
+            }
+            
+            .project-title,
+            .description,
+            .caption {
+                max-width: 100%;
+            }
+            
+            .project-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+            
+            .description {
+                font-size: 15px;
+                margin-bottom: 60px;
+            }
+            
+            .gallery-section {
+                margin-bottom: 60px;
+            }
+            
+            .dynamic-island {
+                padding: 25px 30px;
+                border-top-left-radius: 28px;
+                border-top-right-radius: 28px;
+                gap: 20px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .island-left {
+                order: 1;
+                gap: 8px;
+                flex: 0 0 auto;
+                z-index: 100;
+            }
+            
+            .menu-container {
+                gap: 8px;
+            }
+            
+            .menu-container.open {
+                max-width: 165px;
+            }
+            
+            .island-center {
+                order: 2;
+                position: relative;
+                left: 0;
+                transform: none;
+                pointer-events: none;
+                flex: 0 0 auto;
+                margin-left: auto;
+                z-index: 1;
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .island-center.shifted {
+                transform: translateX(-100px);
+            }
+            
+            .island-center img {
+                height: 50px;
+            }
+            
+            .island-right {
+                display: none;
+            }
+            
+            .menu-toggle {
+                padding: 10px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-toggle span {
+                width: 24px;
+            }
+            
+            .menu-item img {
+                height: 18px;
+            }
+            
+            .progress-container {
+                gap: 10px;
+                padding: 18px 0;
+            }
+            
+            .progress-dot.active {
+                width: 55px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding-bottom: 120px;
+            }
+            
+            .hero-image {
+                height: 250px;
+            }
+            
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .project-title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+            
+            .description {
+                font-size: 14px;
+                line-height: 1.8;
+            }
+            
+            .dynamic-island {
+                padding: 20px 25px;
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+            }
+            
+            .island-left {
+                gap: 6px;
+                z-index: 100;
+            }
+            
+            .menu-container {
+                gap: 6px;
+            }
+            
+            .menu-toggle {
+                padding: 8px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-container.open {
+                max-width: 150px;
+            }
+            
+            .menu-item img {
+                height: 16px;
+            }
+            
+            .island-center img {
+                height: 44px;
+            }
+            
+            .island-center.shifted {
+                transform: translateX(-90px);
+            }
+            
+            .progress-container {
+                gap: 8px;
+                padding: 16px 0;
+            }
+            
+            .progress-dot.active {
+                width: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Image -->
+    <div class="hero-image">
+        <img src="../assets/202511_showcase_II.webp" alt="宋俊宏婦幼醫院">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Title -->
+        <h1 class="project-title">宋俊宏婦幼醫院</h1>
+
+        <!-- Description 1 -->
+        <p class="description">
+            Logo以「花朵」象徵呵護與綻放,外層花瓣如同醫院溫柔的護持,承托中心的孕婦與孩子,構成一朵正在盛開生命的花。結合圓潤的曲線結構,傳達婦幼醫院的溫度與安心感:在孕育與成長的每一刻,母嬰都能被細緻照料、守護。不只醫療的承諾,是對家庭與新生命的陪伴。
+        </p>
+
+        <!-- Gallery Section 1 -->
+        <div class="gallery-section">
+            <div class="slider-container" data-slider="slider1">
+                <div class="slider-wrapper">
+                    <div class="slider-slide active">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_1.webp" alt="Logo Design 1">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_2.webp" alt="Logo Design 2">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_3.webp" alt="Logo Design 3">
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
+                </div>
+            </div>
+            <div class="progress-container" data-progress="slider1">
+                <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+            </div>
+        </div>
+
+        <!-- Description 2 -->
+        <p class="caption">
+            標準字呼應 Logo 長型的比例,結合核心理念溫柔的圓潤曲線,優化字寬、筆畫精簡與留白,確保小尺寸亦清晰、整體視覺平衡。
+        </p>
+
+        <!-- Gallery Section 2 -->
+        <div class="gallery-section">
+            <div class="slider-container" data-slider="slider2">
+                <div class="slider-wrapper">
+                    <div class="slider-slide active">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_4.webp" alt="Typography Design 1">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_5.webp" alt="Typography Design 2">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_6.webp" alt="Typography Design 3">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_7.webp" alt="Typography Design 4">
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
+                </div>
+            </div>
+            <div class="progress-container" data-progress="slider2">
+                <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
+            </div>
+        </div>
+
+        <!-- Description 3 -->
+        <p class="caption">
+            以 Logo 核心元素打造一致性的圖標延伸
+        </p>
+
+        <!-- Single Image -->
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/Sung%20hospital/VDesign_workII_8.webp" alt="Icon System">
+            </div>
+        </div>
+
+        <!-- Gallery Section 3 -->
+        <div class="gallery-section">
+            <div class="slider-container" data-slider="slider3">
+                <div class="slider-wrapper">
+                    <div class="slider-slide active">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_9.webp" alt="Application 1">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Sung%20hospital/VDesign_workII_10.webp" alt="Application 2">
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
+                </div>
+            </div>
+            <div class="progress-container" data-progress="slider3">
+                <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Island -->
+    <div class="dynamic-island">
+        <div class="island-left">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu-container" id="menuContainer">
+                <div class="menu-item active">
+                    <img src="../assets/project.webp" alt="project">
+                </div>
+                <div class="menu-item">
+                    <img src="../assets/about.webp" alt="about">
+                </div>
+                <div class="menu-item">
+                    <img src="../assets/contact.webp" alt="contact">
+                </div>
+            </div>
+        </div>
+        <div class="island-center">
+            <img src="../assets/logo.png" alt="Vdesign Logo">
+        </div>
+        <div class="island-right">
+            <span class="chinese">宋俊宏婦幼醫院 品牌識別設計</span>
+            <span class="english">Sung Women and Children's Hospital - Brand Identity</span>
+        </div>
+    </div>
+
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menuContainer = document.getElementById('menuContainer');
+        const islandCenter = document.querySelector('.island-center');
+
+        console.log('Menu toggle element:', menuToggle);
+        console.log('Menu container element:', menuContainer);
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                console.log('Menu toggle clicked!');
+                e.stopPropagation();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+                
+                // 在手機版上移動 Logo
+                if (window.innerWidth <= 968) {
+                    islandCenter.classList.toggle('shifted');
+                }
+            });
+            
+            // 額外的觸控事件支持（移動設備）
+            menuToggle.addEventListener('touchstart', (e) => {
+                console.log('Menu toggle touched!');
+                e.preventDefault();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+                
+                // 在手機版上移動 Logo
+                if (window.innerWidth <= 968) {
+                    islandCenter.classList.toggle('shifted');
+                }
+            }, { passive: false });
+            
+            // 監聽視窗大小變化，重置 Logo 位置
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 968) {
+                    islandCenter.classList.remove('shifted');
+                }
+            });
+        }
+
+        // Menu Items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Enhanced Slider Functionality with Auto-play
+        class AutoSlider {
+            constructor(container, progressContainer) {
+                this.container = container;
+                this.slides = container.querySelectorAll('.slider-slide');
+                this.navLeft = container.querySelector('.slider-nav-left');
+                this.navRight = container.querySelector('.slider-nav-right');
+                this.progressDots = progressContainer.querySelectorAll('.progress-dot');
+                this.progressFills = progressContainer.querySelectorAll('.progress-dot-fill');
+                this.currentSlide = 0;
+                this.autoPlayDuration = 5000; // 5 seconds
+                this.autoPlayInterval = null;
+                this.progressStartTime = null;
+                this.progressAnimationFrame = null;
+                
+                this.init();
+            }
+            
+            init() {
+                // Navigation events
+                if (this.navLeft) {
+                    this.navLeft.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide - 1);
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                if (this.navRight) {
+                    this.navRight.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide + 1);
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                // Progress dot clicks
+                this.progressDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.showSlide(index);
+                        this.resetAutoPlay();
+                    });
+                });
+                
+                // Start auto-play
+                this.startAutoPlay();
+                this.startProgressAnimation();
+            }
+            
+            showSlide(index) {
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                this.currentSlide = (index + this.slides.length) % this.slides.length;
+                this.slides[this.currentSlide].classList.add('active');
+                
+                // Update progress dots
+                this.progressDots.forEach((dot, i) => {
+                    dot.classList.remove('active');
+                    this.progressFills[i].style.width = '0%';
+                });
+                this.progressDots[this.currentSlide].classList.add('active');
+                
+                // Restart progress animation
+                this.startProgressAnimation();
+            }
+            
+            startProgressAnimation() {
+                this.progressStartTime = Date.now();
+                
+                const animate = () => {
+                    const elapsed = Date.now() - this.progressStartTime;
+                    const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
+                    
+                    const currentFill = this.progressFills[this.currentSlide];
+                    if (currentFill) {
+                        currentFill.style.width = progress + '%';
+                    }
+                    
+                    if (progress < 100) {
+                        this.progressAnimationFrame = requestAnimationFrame(animate);
+                    }
+                };
+                
+                if (this.progressAnimationFrame) {
+                    cancelAnimationFrame(this.progressAnimationFrame);
+                }
+                
+                animate();
+            }
+            
+            startAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                }
+                
+                this.autoPlayInterval = setInterval(() => {
+                    this.showSlide(this.currentSlide + 1);
+                }, this.autoPlayDuration);
+            }
+            
+            resetAutoPlay() {
+                this.startAutoPlay();
+            }
+        }
+        
+        // Initialize all sliders with auto-play
+        document.querySelectorAll('.slider-container').forEach(container => {
+            const sliderId = container.getAttribute('data-slider');
+            const progressContainer = document.querySelector(`[data-progress="${sliderId}"]`);
+            
+            if (progressContainer) {
+                new AutoSlider(container, progressContainer);
+            }
+        });
+
+        // Intersection Observer for gallery sections
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gallery-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
 </html>
