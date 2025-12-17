@@ -220,7 +220,7 @@
             max-width: 680px;
             margin-left: auto;
             margin-right: auto;
-            text-align: left;
+            text-align: center;
         }
         
         /* Dynamic Island */
@@ -251,6 +251,8 @@
             display: flex;
             gap: 30px;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
         
         .menu-toggle {
@@ -260,6 +262,12 @@
             cursor: pointer;
             padding: 8px;
             z-index: 1001;
+            position: relative;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         
         .menu-toggle span {
@@ -268,6 +276,7 @@
             background: #ccc;
             border-radius: 2px;
             transition: all 0.3s;
+            pointer-events: none;
         }
         
         .menu-toggle:hover span {
@@ -326,6 +335,7 @@
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
+            z-index: 1;
         }
         
         .island-center img {
@@ -336,12 +346,14 @@
             flex: 1;
             text-align: right;
             line-height: 1.6;
+            position: relative;
         }
         
         .island-right .chinese {
             display: block;
             font-size: 15px;
             color: #333;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .island-right .english {
@@ -349,12 +361,23 @@
             font-size: 13px;
             color: #666;
             margin-top: 4px;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-right .fade-out {
+            opacity: 0;
+            transform: translateY(-12px);
+        }
+        
+        .island-right .fade-in {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* Responsive */
         @media (max-width: 968px) {
             body {
-                padding-bottom: 180px;
+                padding-bottom: 140px;
             }
             
             .content {
@@ -382,20 +405,72 @@
             }
             
             .dynamic-island {
-                flex-direction: column;
-                padding: 30px;
+                padding: 25px 30px;
                 border-top-left-radius: 28px;
                 border-top-right-radius: 28px;
+                gap: 20px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .island-left {
+                order: 1;
+                gap: 20px;
+                flex: 0 0 auto;
+                z-index: 100;
+            }
+            
+            .island-center {
+                order: 2;
+                position: relative;
+                left: 0;
+                transform: none;
+                pointer-events: none;
+                flex: 0 0 auto;
+                margin-left: auto;
+                z-index: 1;
+            }
+            
+            .island-center img {
+                height: 50px;
             }
             
             .island-right {
-                text-align: center;
+                display: none;
+            }
+            
+            .menu-toggle {
+                padding: 10px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-toggle span {
+                width: 24px;
+            }
+            
+            .menu-item img {
+                height: 24px;
+            }
+            
+            .progress-container {
+                gap: 10px;
+                padding: 18px 0;
+            }
+            
+            .progress-dot.active {
+                width: 55px;
             }
         }
         
         @media (max-width: 640px) {
             body {
-                padding-bottom: 200px;
+                padding-bottom: 120px;
             }
             
             .hero-image {
@@ -414,6 +489,44 @@
             .description {
                 font-size: 14px;
                 line-height: 1.8;
+            }
+            
+            .dynamic-island {
+                padding: 20px 25px;
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+            }
+            
+            .island-left {
+                gap: 15px;
+                z-index: 100;
+            }
+            
+            .menu-toggle {
+                padding: 8px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-container.open {
+                max-width: 250px;
+            }
+            
+            .island-center img {
+                height: 44px;
+            }
+            
+            .progress-container {
+                gap: 8px;
+                padding: 16px 0;
+            }
+            
+            .progress-dot.active {
+                width: 45px;
             }
         }
     </style>
@@ -587,10 +700,25 @@
         const menuToggle = document.getElementById('menuToggle');
         const menuContainer = document.getElementById('menuContainer');
 
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('open');
-            menuContainer.classList.toggle('open');
-        });
+        console.log('Menu toggle element:', menuToggle);
+        console.log('Menu container element:', menuContainer);
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                console.log('Menu toggle clicked!');
+                e.stopPropagation();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            });
+            
+            // 額外的觸控事件支持（移動設備）
+            menuToggle.addEventListener('touchstart', (e) => {
+                console.log('Menu toggle touched!');
+                e.preventDefault();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            }, { passive: false });
+        }
 
         // Menu Items
         document.querySelectorAll('.menu-item').forEach(item => {
