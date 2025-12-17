@@ -336,6 +336,14 @@
             transform: translateX(-50%);
             pointer-events: none;
             z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* 桌面版不使用 shifted 效果 */
+        @media (min-width: 969px) {
+            .island-center.shifted {
+                transform: translateX(-50%);
+            }
         }
         
         .island-center img {
@@ -438,6 +446,11 @@
                 flex: 0 0 auto;
                 margin-left: auto;
                 z-index: 1;
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .island-center.shifted {
+                transform: translateX(-100px);
             }
             
             .island-center img {
@@ -534,6 +547,10 @@
             
             .island-center img {
                 height: 44px;
+            }
+            
+            .island-center.shifted {
+                transform: translateX(-90px);
             }
             
             .progress-container {
@@ -715,6 +732,7 @@
         // Menu Toggle
         const menuToggle = document.getElementById('menuToggle');
         const menuContainer = document.getElementById('menuContainer');
+        const islandCenter = document.querySelector('.island-center');
 
         console.log('Menu toggle element:', menuToggle);
         console.log('Menu container element:', menuContainer);
@@ -725,6 +743,11 @@
                 e.stopPropagation();
                 menuToggle.classList.toggle('open');
                 menuContainer.classList.toggle('open');
+                
+                // 在手機版上移動 Logo
+                if (window.innerWidth <= 968) {
+                    islandCenter.classList.toggle('shifted');
+                }
             });
             
             // 額外的觸控事件支持（移動設備）
@@ -733,7 +756,19 @@
                 e.preventDefault();
                 menuToggle.classList.toggle('open');
                 menuContainer.classList.toggle('open');
+                
+                // 在手機版上移動 Logo
+                if (window.innerWidth <= 968) {
+                    islandCenter.classList.toggle('shifted');
+                }
             }, { passive: false });
+            
+            // 監聽視窗大小變化，重置 Logo 位置
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 968) {
+                    islandCenter.classList.remove('shifted');
+                }
+            });
         }
 
         // Menu Items
