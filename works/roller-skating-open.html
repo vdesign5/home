@@ -158,6 +158,44 @@
             cursor: e-resize;
         }
         
+        /* Progress Dots */
+        .progress-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .progress-dot {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .progress-dot.active {
+            width: 60px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .progress-dot-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+        
         /* Single Image */
         .single-image {
             width: 100%;
@@ -170,6 +208,45 @@
             width: 100%;
             height: auto;
             display: block;
+        }
+        
+        /* Progress Dots */
+        .progress-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .progress-dot {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .progress-dot:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        .progress-dot.active {
+            width: 60px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.15);
+        }
+        
+        .progress-dot-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #333;
+            border-radius: 4px;
+            transition: width 0.1s linear;
         }
         
         /* Caption */
@@ -413,6 +490,11 @@
                     <div class="slider-nav-left"></div>
                     <div class="slider-nav-right"></div>
                 </div>
+                <div class="progress-container">
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                </div>
             </div>
         </div>
 
@@ -437,6 +519,12 @@
                     <div class="slider-nav-left"></div>
                     <div class="slider-nav-right"></div>
                 </div>
+                <div class="progress-container">
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
+                </div>
             </div>
         </div>
 
@@ -454,6 +542,10 @@
                 <div class="slider-nav">
                     <div class="slider-nav-left"></div>
                     <div class="slider-nav-right"></div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
                 </div>
             </div>
         </div>
@@ -540,30 +632,92 @@
             });
         });
 
-        // Slider Functionality
+        // Slider Functionality with Auto-play and Progress
         function initSlider(container) {
             const slides = container.querySelectorAll('.slider-slide');
             const navLeft = container.querySelector('.slider-nav-left');
             const navRight = container.querySelector('.slider-nav-right');
+            const progressDots = container.querySelectorAll('.progress-dot');
+            const progressFills = container.querySelectorAll('.progress-dot-fill');
+            
             let currentSlide = 0;
+            let autoplayInterval;
+            let progressInterval;
+            let startTime;
+            const duration = 5000; // 5 seconds per slide
+
+            function updateProgress() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration * 100, 100);
+                const activeFill = progressFills[currentSlide];
+                
+                if (activeFill) {
+                    activeFill.style.width = progress + '%';
+                }
+                
+                if (progress < 100) {
+                    requestAnimationFrame(updateProgress);
+                }
+            }
+
+            function resetProgress() {
+                progressDots.forEach((dot, i) => {
+                    dot.classList.remove('active');
+                    if (progressFills[i]) {
+                        progressFills[i].style.width = '0%';
+                    }
+                });
+                progressDots[currentSlide].classList.add('active');
+                startTime = Date.now();
+                requestAnimationFrame(updateProgress);
+            }
 
             function showSlide(index) {
                 slides.forEach(slide => slide.classList.remove('active'));
                 currentSlide = (index + slides.length) % slides.length;
                 slides[currentSlide].classList.add('active');
+                resetProgress();
             }
 
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, duration);
+            }
+
+            function stopAutoplay() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                }
+            }
+
+            // Navigation clicks
             if (navLeft) {
                 navLeft.addEventListener('click', () => {
                     showSlide(currentSlide - 1);
+                    startAutoplay();
                 });
             }
 
             if (navRight) {
                 navRight.addEventListener('click', () => {
                     showSlide(currentSlide + 1);
+                    startAutoplay();
                 });
             }
+
+            // Progress dot clicks
+            progressDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    startAutoplay();
+                });
+            });
+
+            // Start autoplay and progress
+            startAutoplay();
+            resetProgress();
         }
 
         // Initialize all sliders
