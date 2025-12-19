@@ -52,7 +52,7 @@
         /* Title */
         .project-title {
             font-size: 32px;
-            font-weight: 700;
+            font-weight: 400;
             margin-bottom: 60px;
             opacity: 0;
             transform: translateY(30px);
@@ -60,7 +60,7 @@
             max-width: 680px;
             margin-left: auto;
             margin-right: auto;
-            text-align: left;
+            text-align: center;
         }
         
         @keyframes slideUp {
@@ -210,45 +210,6 @@
             display: block;
         }
         
-        /* Progress Dots */
-        .progress-container {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .progress-dot {
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 50%;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .progress-dot:hover {
-            background: rgba(0, 0, 0, 0.4);
-        }
-        
-        .progress-dot.active {
-            width: 60px;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.15);
-        }
-        
-        .progress-dot-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: #333;
-            border-radius: 4px;
-            transition: width 0.1s linear;
-        }
-        
         /* Caption */
         .caption {
             font-size: 15px;
@@ -289,6 +250,8 @@
             display: flex;
             gap: 30px;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
         
         .menu-toggle {
@@ -298,6 +261,12 @@
             cursor: pointer;
             padding: 8px;
             z-index: 1001;
+            position: relative;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
         
         .menu-toggle span {
@@ -306,6 +275,7 @@
             background: #ccc;
             border-radius: 2px;
             transition: all 0.3s;
+            pointer-events: none;
         }
         
         .menu-toggle:hover span {
@@ -347,6 +317,7 @@
         
         .menu-item img {
             height: 28px;
+            width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
         }
@@ -364,6 +335,8 @@
             left: 50%;
             transform: translateX(-50%);
             pointer-events: none;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .island-center img {
@@ -374,12 +347,14 @@
             flex: 1;
             text-align: right;
             line-height: 1.6;
+            position: relative;
         }
         
         .island-right .chinese {
             display: block;
             font-size: 15px;
             color: #333;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .island-right .english {
@@ -387,12 +362,13 @@
             font-size: 13px;
             color: #666;
             margin-top: 4px;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         /* Responsive */
         @media (max-width: 968px) {
             body {
-                padding-bottom: 180px;
+                padding-bottom: 120px;
             }
             
             .content {
@@ -420,20 +396,81 @@
             }
             
             .dynamic-island {
-                flex-direction: column;
-                padding: 30px;
+                padding: 20px 25px;
                 border-top-left-radius: 28px;
                 border-top-right-radius: 28px;
+                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .island-left {
+                order: 1;
+                gap: 8px;
+                flex: 0 0 auto;
+                z-index: 100;
+            }
+            
+            .menu-container {
+                gap: 8px;
+            }
+            
+            .menu-container.open {
+                max-width: 220px;
+            }
+            
+            .island-center {
+                order: 2;
+                position: relative;
+                left: 0;
+                transform: none;
+                pointer-events: none;
+                flex: 0 0 auto;
+                margin-left: auto;
+                z-index: 1;
+            }
+            
+            .island-center img {
+                height: 42px;
             }
             
             .island-right {
-                text-align: center;
+                display: none;
+            }
+            
+            .menu-toggle {
+                padding: 10px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-toggle span {
+                width: 24px;
+            }
+            
+            .menu-item img {
+                height: 20px;
+                width: auto;
+            }
+            
+            .progress-container {
+                gap: 10px;
+                bottom: 18px;
+            }
+            
+            .progress-dot.active {
+                width: 55px;
             }
         }
         
         @media (max-width: 640px) {
             body {
-                padding-bottom: 200px;
+                padding-bottom: 110px;
             }
             
             .hero-image {
@@ -453,6 +490,53 @@
                 font-size: 14px;
                 line-height: 1.8;
             }
+            
+            .dynamic-island {
+                padding: 18px 20px;
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+            }
+            
+            .island-left {
+                gap: 6px;
+                z-index: 100;
+            }
+            
+            .menu-container {
+                gap: 6px;
+            }
+            
+            .menu-toggle {
+                padding: 8px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-container.open {
+                max-width: 200px;
+            }
+            
+            .menu-item img {
+                height: 18px;
+                width: auto;
+            }
+            
+            .island-center img {
+                height: 38px;
+            }
+            
+            .progress-container {
+                gap: 8px;
+                bottom: 16px;
+            }
+            
+            .progress-dot.active {
+                width: 45px;
+            }
         }
     </style>
 </head>
@@ -469,7 +553,7 @@
 
         <!-- Description 1 -->
         <p class="description">
-            本設計聚焦於競速滑輪的『速度性』進行延伸發想。透過高速行進間的視線模糊，重現選手專注的第一人稱觀感；結合競速運動標誌性的終點線元素，同時應用幾何線條重塑選手的運動軌跡，藉由具象體驗與抽象形式的結合，營造出精準契合本次賽事的主視覺意象。
+            本設計聚焦於競速滑輪的『速度性』進行延伸發想。透過高速行進間的視線模糊,重現選手專注的第一人稱觀感;結合競速運動標誌性的終點線元素,同時應用幾何線條重塑選手的運動軌跡,藉由具象體驗與抽象形式的結合,營造出精準契合本次賽事的主視覺意象。
         </p>
 
         <!-- Gallery Section 1 -->
@@ -552,7 +636,7 @@
 
         <!-- Description 2 -->
         <p class="caption">
-            獎牌設計延續「速度感」的核心概念，突破傳統圓形框架，外型採用滑輪高速運轉下斜橢圓的物理變形，並結合象徵運動軌跡的幾何線條進行環繞，在建立獎牌獨特識別度的同時，呼應賽事的競速氛圍。
+            獎牌設計延續「速度感」的核心概念,突破傳統圓形框架,外型採用滑輪高速運轉下斜橢圓的物理變形,並結合象徵運動軌跡的幾何線條進行環繞,在建立獎牌獨特識別度的同時,呼應賽事的競速氛圍。
         </p>
 
         <!-- Single Image -->
@@ -619,10 +703,20 @@
         const menuToggle = document.getElementById('menuToggle');
         const menuContainer = document.getElementById('menuContainer');
 
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('open');
-            menuContainer.classList.toggle('open');
-        });
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            });
+            
+            // 額外的觸控事件支持（移動設備）
+            menuToggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            }, { passive: false });
+        }
 
         // Menu Items
         document.querySelectorAll('.menu-item').forEach(item => {
