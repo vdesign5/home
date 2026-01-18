@@ -237,31 +237,99 @@
             display: block;
         }
         
-        /* Volume Control */
-        .volume-control {
+        /* Video Controls */
+        .video-controls {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            padding: 40px 20px 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
             z-index: 10;
         }
         
-        .volume-control:hover {
-            background: rgba(0, 0, 0, 0.8);
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+        
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* Play/Pause Button */
+        .play-pause-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        
+        .play-pause-btn:hover {
             transform: scale(1.1);
         }
         
-        .volume-control svg {
+        .play-pause-btn svg {
             width: 24px;
             height: 24px;
+            fill: white;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar:hover {
+            height: 6px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+        
+        /* Volume Button */
+        .volume-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        
+        .volume-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .volume-btn svg {
+            width: 22px;
+            height: 22px;
             fill: white;
         }
         
@@ -532,14 +600,18 @@
                 width: 55px;
             }
             
-            .volume-control {
-                width: 40px;
-                height: 40px;
-                bottom: 16px;
-                right: 16px;
+            .video-controls {
+                padding: 30px 16px 14px;
             }
             
-            .volume-control svg {
+            .play-pause-btn,
+            .volume-btn {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .play-pause-btn svg,
+            .volume-btn svg {
                 width: 20px;
                 height: 20px;
             }
@@ -619,16 +691,32 @@
                 width: 45px;
             }
             
-            .volume-control {
-                width: 36px;
-                height: 36px;
-                bottom: 12px;
-                right: 12px;
+            .video-controls {
+                padding: 24px 12px 12px;
             }
             
-            .volume-control svg {
+            .controls-wrapper {
+                gap: 8px;
+            }
+            
+            .play-pause-btn,
+            .volume-btn {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .play-pause-btn svg,
+            .volume-btn svg {
                 width: 18px;
                 height: 18px;
+            }
+            
+            .progress-bar {
+                height: 3px;
+            }
+            
+            .progress-bar:hover {
+                height: 4px;
             }
             
             .video-container.square {
@@ -666,13 +754,28 @@
                 <video id="video2" autoplay loop muted playsinline>
                     <source src="../assets/Error/VDesign_work_VII_2.mp4" type="video/mp4">
                 </video>
-                <div class="volume-control" data-video="video2">
-                    <svg class="icon-muted" viewBox="0 0 24 24">
-                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                    </svg>
-                    <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                    </svg>
+                <div class="video-controls">
+                    <div class="controls-wrapper">
+                        <button class="play-pause-btn" data-video="video2">
+                            <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="progress-bar" data-video="video2">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <button class="volume-btn" data-video="video2">
+                            <svg class="icon-muted" viewBox="0 0 24 24">
+                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                            </svg>
+                            <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -727,13 +830,28 @@
                 <video id="video1" autoplay loop muted playsinline>
                     <source src="../assets/Error/VDesign_work_VII_1.mp4" type="video/mp4">
                 </video>
-                <div class="volume-control" data-video="video1">
-                    <svg class="icon-muted" viewBox="0 0 24 24">
-                        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                    </svg>
-                    <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                    </svg>
+                <div class="video-controls">
+                    <div class="controls-wrapper">
+                        <button class="play-pause-btn" data-video="video1">
+                            <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="progress-bar" data-video="video1">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <button class="volume-btn" data-video="video1">
+                            <svg class="icon-muted" viewBox="0 0 24 24">
+                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                            </svg>
+                            <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -817,25 +935,73 @@
             });
         });
 
-        // Video Volume Control
-        document.querySelectorAll('.volume-control').forEach(control => {
-            control.addEventListener('click', function() {
-                const videoId = this.getAttribute('data-video');
-                const video = document.getElementById(videoId);
-                const mutedIcon = this.querySelector('.icon-muted');
-                const unmutedIcon = this.querySelector('.icon-unmuted');
+        // Video Controls
+        class VideoPlayer {
+            constructor(videoId) {
+                this.video = document.getElementById(videoId);
+                this.container = this.video.closest('.video-container');
+                this.playPauseBtn = this.container.querySelector('.play-pause-btn');
+                this.progressBar = this.container.querySelector('.progress-bar');
+                this.progressFill = this.container.querySelector('.progress-fill');
+                this.volumeBtn = this.container.querySelector('.volume-btn');
+                this.iconPlay = this.playPauseBtn.querySelector('.icon-play');
+                this.iconPause = this.playPauseBtn.querySelector('.icon-pause');
+                this.iconMuted = this.volumeBtn.querySelector('.icon-muted');
+                this.iconUnmuted = this.volumeBtn.querySelector('.icon-unmuted');
                 
-                if (video.muted) {
-                    video.muted = false;
-                    mutedIcon.style.display = 'none';
-                    unmutedIcon.style.display = 'block';
-                } else {
-                    video.muted = true;
-                    mutedIcon.style.display = 'block';
-                    unmutedIcon.style.display = 'none';
-                }
-            });
-        });
+                this.init();
+            }
+            
+            init() {
+                // Play/Pause
+                this.playPauseBtn.addEventListener('click', () => {
+                    if (this.video.paused) {
+                        this.video.play();
+                        this.iconPlay.style.display = 'none';
+                        this.iconPause.style.display = 'block';
+                    } else {
+                        this.video.pause();
+                        this.iconPlay.style.display = 'block';
+                        this.iconPause.style.display = 'none';
+                    }
+                });
+                
+                // Progress Bar Update
+                this.video.addEventListener('timeupdate', () => {
+                    const progress = (this.video.currentTime / this.video.duration) * 100;
+                    this.progressFill.style.width = progress + '%';
+                });
+                
+                // Progress Bar Click
+                this.progressBar.addEventListener('click', (e) => {
+                    const rect = this.progressBar.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    this.video.currentTime = pos * this.video.duration;
+                });
+                
+                // Volume Control
+                this.volumeBtn.addEventListener('click', () => {
+                    if (this.video.muted) {
+                        this.video.muted = false;
+                        this.iconMuted.style.display = 'none';
+                        this.iconUnmuted.style.display = 'block';
+                    } else {
+                        this.video.muted = true;
+                        this.iconMuted.style.display = 'block';
+                        this.iconUnmuted.style.display = 'none';
+                    }
+                });
+                
+                // Video Click to Play/Pause
+                this.video.addEventListener('click', () => {
+                    this.playPauseBtn.click();
+                });
+            }
+        }
+        
+        // Initialize video players
+        new VideoPlayer('video1');
+        new VideoPlayer('video2');
 
         // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
