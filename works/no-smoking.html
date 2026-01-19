@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>制菸所 - Vdesign</title>
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            color: #333; 
+            background: #fff; 
+            overflow-x: hidden; 
+            padding-bottom: 180px; 
+        }
+        .english { font-family: Arial, sans-serif; }
+        
+        /* Hero Image */
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            z-index: 6;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.3s forwards;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* Content Container */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            position: relative;
+            z-index: 6;
+        }
+        
+        /* Title */
+        .project-title {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.5s forwards;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+        
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Description */
+        .description {
+            font-size: 16px;
+            line-height: 2;
+            color: #666;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.7s forwards;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        /* Section Caption with Triangle */
+        .section-caption {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .section-caption::before {
+            content: '▲';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        /* Image Gallery Section */
+        .gallery-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .gallery-section.in-view {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        /* Slider Container */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 40px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1200 / 750;
+            overflow: hidden;
+        }
+        
+        .slider-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        
+        .slider-slide.active {
+            opacity: 1;
+        }
+        
+        .slider-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Slider Navigation */
+        .slider-nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            z-index: 5;
+        }
+        
+        .slider-nav-left,
+        .slider-nav-right {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .slider-nav-left {
+            justify-content: flex-start;
+            cursor: w-resize;
+        }
+        
+        .slider-nav-right {
+            justify-content: flex-end;
+            cursor: e-resize;
+        }
+        
+        /* Progress Dots Container */
+        .progress-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+        
+        .progress-dot {
+            position: relative;
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .progress-dot.active {
+            width: 60px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .progress-dot-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+        
+        /* Single Image */
+        .single-image {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .single-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Video Switcher Section */
+        .video-switcher {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .video-switcher.in-view {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .tab {
+            padding: 16px 40px;
+            background: #e0e0e0;
+            border-radius: 50px;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            outline: none;
+        }
+        
+        .tab:hover {
+            background: #d0d0d0;
+        }
+        
+        .tab.active {
+            background: #333;
+            color: white;
+        }
+        
+        /* Video Grid */
+        .video-grid {
+            display: none;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .video-grid.active {
+            display: grid;
+        }
+        
+        .video-item {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            padding: 40px 12px 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        
+        .video-item:hover .video-controls {
+            opacity: 1;
+        }
+        
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Play/Pause Button */
+        .play-pause-btn {
+            width: 28px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .play-pause-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            flex: 1;
+            height: 3px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar:hover {
+            height: 4px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+        
+        /* Volume Button */
+        .volume-btn {
+            width: 28px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+        
+        .volume-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .volume-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+        
+        /* Dynamic Island */
+        .dynamic-island {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 40px 60px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            z-index: 10;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.06);
+            transform: translateY(100%);
+            animation: slideUpIsland 0.8s ease 0.3s forwards;
+        }
+        
+        @keyframes slideUpIsland {
+            to { transform: translateY(0); }
+        }
+        
+        .island-left {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+            position: relative;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #ccc;
+            border-radius: 2px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        
+        .menu-toggle:hover span {
+            background: #FF0000;
+        }
+        
+        .menu-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        .menu-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            max-width: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s;
+        }
+        
+        .menu-container.open {
+            max-width: 400px;
+            opacity: 1;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .menu-item img {
+            height: 28px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(80%);
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover img {
+            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
+        }
+        
+        .menu-item.active img {
+            filter: brightness(0) saturate(100%) invert(20%);
+        }
+        
+        .island-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-center img {
+            height: 60px;
+        }
+        
+        .island-right {
+            flex: 1;
+            text-align: right;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        .island-right .chinese {
+            display: block;
+            font-size: 15px;
+            color: #333;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-right .english {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            body {
+                padding-bottom: 120px;
+            }
+            
+            .content {
+                padding: 60px 30px;
+            }
+            
+            .project-title,
+            .description,
+            .section-caption {
+                max-width: 100%;
+            }
+            
+            .project-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+            
+            .description {
+                font-size: 15px;
+                margin-bottom: 60px;
+            }
+            
+            .gallery-section {
+                margin-bottom: 60px;
+            }
+            
+            .tabs {
+                gap: 12px;
+            }
+            
+            .tab {
+                padding: 14px 28px;
+                font-size: 15px;
+            }
+            
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            
+            .dynamic-island {
+                padding: 20px 25px;
+                border-top-left-radius: 28px;
+                border-top-right-radius: 28px;
+                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .island-left {
+                order: 1;
+                gap: 8px;
+                flex: 0 0 auto;
+                z-index: 100;
+            }
+            
+            .menu-container {
+                gap: 8px;
+            }
+            
+            .menu-container.open {
+                max-width: 220px;
+            }
+            
+            .island-center {
+                order: 2;
+                position: relative;
+                left: 0;
+                transform: none;
+                pointer-events: none;
+                flex: 0 0 auto;
+                margin-left: auto;
+                z-index: 1;
+            }
+            
+            .island-center img {
+                height: 42px;
+            }
+            
+            .island-right {
+                display: none;
+            }
+            
+            .menu-toggle {
+                padding: 10px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-toggle span {
+                width: 24px;
+            }
+            
+            .menu-item img {
+                height: 20px;
+                width: auto;
+            }
+            
+            .progress-container {
+                gap: 10px;
+                bottom: 18px;
+            }
+            
+            .progress-dot.active {
+                width: 55px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding-bottom: 110px;
+            }
+            
+            .hero-image {
+                height: 250px;
+            }
+            
+            .content {
+                padding: 40px 20px;
+            }
+            
+            .project-title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+            
+            .description {
+                font-size: 14px;
+                line-height: 1.8;
+            }
+            
+            .section-caption {
+                font-size: 14px;
+                padding-left: 24px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .tab {
+                padding: 12px 24px;
+                font-size: 14px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .dynamic-island {
+                padding: 18px 20px;
+                border-top-left-radius: 24px;
+                border-top-right-radius: 24px;
+            }
+            
+            .island-left {
+                gap: 6px;
+                z-index: 100;
+            }
+            
+            .menu-container {
+                gap: 6px;
+            }
+            
+            .menu-toggle {
+                padding: 8px;
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 101;
+            }
+            
+            .menu-container.open {
+                max-width: 200px;
+            }
+            
+            .menu-item img {
+                height: 18px;
+                width: auto;
+            }
+            
+            .island-center img {
+                height: 38px;
+            }
+            
+            .progress-container {
+                gap: 8px;
+                bottom: 16px;
+            }
+            
+            .progress-dot.active {
+                width: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Image -->
+    <div class="hero-image">
+        <img src="../assets/202511_showcase_III.webp" alt="制菸所">
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Title -->
+        <h1 class="project-title">制菸所</h1>
+
+        <!-- Description -->
+        <p class="description">
+            這不是一個為了「好開」而存在的包裝，而是為了「阻礙」而生。<br>
+            「制菸所」是一系列反直覺的菸盒結構設計，我們利用干擾的結構、令人分心的互動，讓抽一根菸變得不再順手，或許就是那短暫的停頓與不便，進而引發使用者對吸菸議題的反思。
+        </p>
+
+        <!-- Single Image 1 -->
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/No_smoking/VDesign_work_VI_1.webp" alt="制菸所設計 1">
+            </div>
+        </div>
+
+        <!-- Single Image 2 -->
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/No_smoking/VDesign_work_VI_2.webp" alt="制菸所設計 2">
+            </div>
+        </div>
+
+        <!-- Gallery Section - 4 Images -->
+        <div class="gallery-section">
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="slider-slide active">
+                        <img src="../assets/No_smoking/VDesign_work_VI_6.webp" alt="菸盒設計 1">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/No_smoking/VDesign_work_VI_7.webp" alt="菸盒設計 2">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/No_smoking/VDesign_work_VI_8.webp" alt="菸盒設計 3">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/No_smoking/VDesign_work_VI_9.webp" alt="菸盒設計 4">
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Single Image 3 -->
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/No_smoking/VDesign_work_VI_3.webp" alt="吵吵菸盒">
+            </div>
+        </div>
+
+        <!-- Section Caption 1 -->
+        <p class="section-caption">
+            「吵吵菸盒」，在開盒瞬間觸發擬真的劇烈咳嗽聲，不僅將旁人吸入二手菸的不適，轉化為對使用者的直接聽覺衝擊，強制喚醒換位思考；更利用聲音打破抽菸的隱蔽性，藉由引來路人側目所產生的尷尬感與公眾壓力，轉化為抑制吸菸頻率的心理阻力。
+        </p>
+
+        <!-- Single Image 4 -->
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/No_smoking/VDesign_work_VI_4.webp" alt="問籤菸盒">
+            </div>
+        </div>
+
+        <!-- Section Caption 2 -->
+        <p class="section-caption">
+            「問籤菸盒」，將取菸行為重塑為充滿不確定性的求籤儀式。透過搖晃動作增加物理上的取用難度，更將菸設計為多數標示「凶」的命運籤。藉由隨機性的負面心理暗示，讓吸菸者在尋求吸菸慰藉時反而獲得運勢警訊，利用潛意識中對厄運的顧慮，達到阻礙吸菸的效果。
+        </p>
+
+        <!-- Single Image 5 -->
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/No_smoking/VDesign_work_VI_5.webp" alt="垂垂菸盒">
+            </div>
+        </div>
+
+        <!-- Section Caption 3 -->
+        <p class="section-caption">
+            「垂垂菸盒」，利用互動式結構，側面的男性性徵符號會隨著開盒產生由筆挺轉為下垂的變化。設計直擊男性對於生理機能衰退的深層焦慮，透過抽菸行為與性功能障礙建立因果聯想，將恐懼具象化，藉此達到阻礙吸菸的目的。
+        </p>
+
+        <!-- Video Switcher Section -->
+        <div class="video-switcher">
+            <div class="tabs">
+                <button class="tab active" data-category="warning">警示提醒</button>
+                <button class="tab" data-category="structure">結構干擾</button>
+                <button class="tab" data-category="distraction">分散注意</button>
+            </div>
+
+            <!-- Warning Category Videos -->
+            <div class="video-grid active" data-category="warning">
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_1.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_3.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_4.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Structure Category Videos -->
+            <div class="video-grid" data-category="structure">
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_5.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_6.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_7.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_8.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distraction Category Videos -->
+            <div class="video-grid" data-category="distraction">
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_9.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_10.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_11.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video autoplay loop muted playsinline>
+                        <source src="../assets/No_smoking/VDesign_work_VI_12.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-controls">
+                        <div class="controls-wrapper">
+                            <button class="play-pause-btn">
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24">
+                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                                </svg>
+                            </button>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <button class="volume-btn">
+                                <svg class="icon-muted" viewBox="0 0 24 24">
+                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                </svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Island -->
+    <div class="dynamic-island">
+        <div class="island-left">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu-container" id="menuContainer">
+                <div class="menu-item active">
+                    <img src="../assets/project.webp" alt="project">
+                </div>
+                <div class="menu-item">
+                    <img src="../assets/about.webp" alt="about">
+                </div>
+                <div class="menu-item">
+                    <img src="../assets/contact.webp" alt="contact">
+                </div>
+            </div>
+        </div>
+        <div class="island-center">
+            <img src="../assets/logo.png" alt="Vdesign Logo">
+        </div>
+        <div class="island-right">
+            <span class="chinese">制菸所 產品結構設計</span>
+            <span class="english">Anti-Smoking Packaging - Product Structure Design</span>
+        </div>
+    </div>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        // Initialize Lenis smooth scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menuContainer = document.getElementById('menuContainer');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            });
+            
+            menuToggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            }, { passive: false });
+        }
+
+        // Menu Items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Tab Switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update video grids
+                document.querySelectorAll('.video-grid').forEach(grid => grid.classList.remove('active'));
+                document.querySelector(`.video-grid[data-category="${category}"]`).classList.add('active');
+            });
+        });
+
+        // Video Player Class
+        class GridVideoPlayer {
+            constructor(videoElement) {
+                this.video = videoElement;
+                this.container = videoElement.closest('.video-item');
+                this.playPauseBtn = this.container.querySelector('.play-pause-btn');
+                this.progressBar = this.container.querySelector('.progress-bar');
+                this.progressFill = this.container.querySelector('.progress-fill');
+                this.volumeBtn = this.container.querySelector('.volume-btn');
+                this.iconPlay = this.playPauseBtn.querySelector('.icon-play');
+                this.iconPause = this.playPauseBtn.querySelector('.icon-pause');
+                this.iconMuted = this.volumeBtn.querySelector('.icon-muted');
+                this.iconUnmuted = this.volumeBtn.querySelector('.icon-unmuted');
+                
+                this.init();
+            }
+            
+            init() {
+                // Play/Pause
+                this.playPauseBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (this.video.paused) {
+                        this.video.play();
+                        this.iconPlay.style.display = 'none';
+                        this.iconPause.style.display = 'block';
+                    } else {
+                        this.video.pause();
+                        this.iconPlay.style.display = 'block';
+                        this.iconPause.style.display = 'none';
+                    }
+                });
+                
+                // Progress Bar Update
+                this.video.addEventListener('timeupdate', () => {
+                    const progress = (this.video.currentTime / this.video.duration) * 100;
+                    this.progressFill.style.width = progress + '%';
+                });
+                
+                // Progress Bar Click
+                this.progressBar.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const rect = this.progressBar.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    this.video.currentTime = pos * this.video.duration;
+                });
+                
+                // Volume Control
+                this.volumeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (this.video.muted) {
+                        this.video.muted = false;
+                        this.iconMuted.style.display = 'none';
+                        this.iconUnmuted.style.display = 'block';
+                    } else {
+                        this.video.muted = true;
+                        this.iconMuted.style.display = 'block';
+                        this.iconUnmuted.style.display = 'none';
+                    }
+                });
+                
+                // Video Click to Play/Pause
+                this.video.addEventListener('click', () => {
+                    this.playPauseBtn.click();
+                });
+            }
+        }
+
+        // Enhanced Slider Functionality
+        class AutoSlider {
+            constructor(container) {
+                this.container = container;
+                this.slides = container.querySelectorAll('.slider-slide');
+                this.navLeft = container.querySelector('.slider-nav-left');
+                this.navRight = container.querySelector('.slider-nav-right');
+                this.progressContainer = container.querySelector('.progress-container');
+                this.progressDots = this.progressContainer.querySelectorAll('.progress-dot');
+                this.progressFills = this.progressContainer.querySelectorAll('.progress-dot-fill');
+                this.currentSlide = 0;
+                this.autoPlayDuration = 5000;
+                this.autoPlayInterval = null;
+                this.progressStartTime = null;
+                this.progressAnimationFrame = null;
+                
+                this.init();
+            }
+            
+            init() {
+                if (this.navLeft) {
+                    this.navLeft.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide - 1);
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                if (this.navRight) {
+                    this.navRight.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide + 1);
+                        this.resetAutoPlay();
+                    });
+                }
+                
+                this.progressDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.showSlide(index);
+                        this.resetAutoPlay();
+                    });
+                });
+                
+                this.startAutoPlay();
+                this.startProgressAnimation();
+            }
+            
+            showSlide(index) {
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                this.currentSlide = (index + this.slides.length) % this.slides.length;
+                this.slides[this.currentSlide].classList.add('active');
+                
+                this.progressDots.forEach((dot, i) => {
+                    dot.classList.remove('active');
+                    this.progressFills[i].style.width = '0%';
+                });
+                this.progressDots[this.currentSlide].classList.add('active');
+                
+                this.startProgressAnimation();
+            }
+            
+            startProgressAnimation() {
+                this.progressStartTime = Date.now();
+                
+                const animate = () => {
+                    const elapsed = Date.now() - this.progressStartTime;
+                    const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
+                    
+                    const currentFill = this.progressFills[this.currentSlide];
+                    if (currentFill) {
+                        currentFill.style.width = progress + '%';
+                    }
+                    
+                    if (progress < 100) {
+                        this.progressAnimationFrame = requestAnimationFrame(animate);
+                    }
+                };
+                
+                if (this.progressAnimationFrame) {
+                    cancelAnimationFrame(this.progressAnimationFrame);
+                }
+                
+                animate();
+            }
+            
+            startAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                }
+                
+                this.autoPlayInterval = setInterval(() => {
+                    this.showSlide(this.currentSlide + 1);
+                }, this.autoPlayDuration);
+            }
+            
+            resetAutoPlay() {
+                this.startAutoPlay();
+            }
+        }
+        
+        // Initialize all sliders
+        document.querySelectorAll('.slider-container').forEach(container => {
+            new AutoSlider(container);
+        });
+
+        // Initialize all video players
+        document.querySelectorAll('.video-item video').forEach(video => {
+            new GridVideoPlayer(video);
+        });
+
+        // Intersection Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gallery-section, .video-switcher').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
