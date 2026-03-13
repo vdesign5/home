@@ -124,10 +124,12 @@
             opacity: 1;
         }
         
-        .slider-slide img {
+        .slider-slide img,
+        .slider-slide video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
         
         /* Slider Navigation */
@@ -196,31 +198,51 @@
             transition: width 0.1s linear;
         }
         
-        /* Single Image & Video */
-        .single-image {
+        /* Single Media (Image/Video) */
+        .media-container {
+            position: relative;
             width: 100%;
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 40px;
         }
         
-        .single-image img,
-        .single-image video {
+        .media-container img,
+        .media-container video {
             width: 100%;
             height: auto;
             display: block;
         }
-        
-        /* Caption */
-        .caption {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #666;
-            margin-bottom: 60px;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
+
+        /* Video Control Button */
+        .video-control-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .video-control-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: scale(1.05);
+        }
+
+        .video-control-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #333;
         }
         
         /* Dynamic Island */
@@ -370,7 +392,7 @@
         @media (max-width: 968px) {
             body { padding-bottom: 120px; }
             .content { padding: 60px 30px; }
-            .project-title, .description, .caption { max-width: 100%; }
+            .project-title, .description { max-width: 100%; }
             .project-title { font-size: 28px; margin-bottom: 40px; }
             .description { font-size: 15px; margin-bottom: 60px; }
             .gallery-section { margin-bottom: 60px; }
@@ -411,6 +433,8 @@
             .island-center img { height: 38px; }
             .progress-container { gap: 8px; bottom: 16px; }
             .progress-dot.active { width: 45px; }
+            .video-control-btn { bottom: 15px; left: 15px; width: 36px; height: 36px; }
+            .video-control-btn svg { width: 14px; height: 14px; }
         }
     </style>
 </head>
@@ -423,8 +447,16 @@
         <h1 class="project-title">OVO 京典衛浴</h1>
 
         <div class="gallery-section">
-            <div class="single-image">
-                <video src="../assets/OVO/VDesign_workIV.webm" autoplay loop muted playsinline></video>
+            <div class="media-container">
+                <video id="mainVideo" src="../assets/OVO/VDesign_workIV.mp4" autoplay loop muted playsinline></video>
+                <button class="video-control-btn" id="playPauseBtn" aria-label="Play/Pause">
+                    <svg class="pause-icon" viewBox="0 0 24 24">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                    <svg class="play-icon" viewBox="0 0 24 24" style="display: none;">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
             </div>
         </div>
 
@@ -506,6 +538,9 @@
                     <div class="slider-slide">
                         <img src="../assets/OVO/VDesign_workIV_9.webp" alt="Social Media 3">
                     </div>
+                    <div class="slider-slide">
+                        <video src="../assets/OVO/VDesign_workIV_2.mp4" autoplay loop muted playsinline></video>
+                    </div>
                 </div>
                 <div class="slider-nav">
                     <div class="slider-nav-left"></div>
@@ -515,6 +550,7 @@
                     <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
                     <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
                     <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
                 </div>
             </div>
         </div>
@@ -619,6 +655,27 @@
                 this.classList.add('active');
             });
         });
+
+        // Main Video Play/Pause Control
+        const mainVideo = document.getElementById('mainVideo');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        
+        if (mainVideo && playPauseBtn) {
+            const pauseIcon = playPauseBtn.querySelector('.pause-icon');
+            const playIcon = playPauseBtn.querySelector('.play-icon');
+
+            playPauseBtn.addEventListener('click', () => {
+                if (mainVideo.paused) {
+                    mainVideo.play();
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                } else {
+                    mainVideo.pause();
+                    pauseIcon.style.display = 'none';
+                    playIcon.style.display = 'block';
+                }
+            });
+        }
 
         // Slider Functionality
         function initSlider(container) {
