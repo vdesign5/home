@@ -313,6 +313,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -320,6 +321,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -330,17 +332,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center for Clickability */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -377,33 +390,12 @@
         
         /* Responsive */
         @media (max-width: 968px) {
-            body {
-                padding-bottom: 120px;
-            }
-            
-            .content {
-                padding: 60px 30px;
-            }
-            
-            .project-title,
-            .description,
-            .caption {
-                max-width: 100%;
-            }
-            
-            .project-title {
-                font-size: 28px;
-                margin-bottom: 40px;
-            }
-            
-            .description {
-                font-size: 15px;
-                margin-bottom: 60px;
-            }
-            
-            .gallery-section {
-                margin-bottom: 60px;
-            }
+            body { padding-bottom: 120px; }
+            .content { padding: 60px 30px; }
+            .project-title, .description, .caption { max-width: 100%; }
+            .project-title { font-size: 28px; margin-bottom: 40px; }
+            .description { font-size: 15px; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
             
             .dynamic-island {
                 padding: 20px 25px;
@@ -414,159 +406,50 @@
                 justify-content: space-between;
                 align-items: center;
             }
-            
-            .island-left {
-                order: 1;
-                gap: 8px;
-                flex: 0 0 auto;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 8px;
-            }
-            
-            .menu-container.open {
-                max-width: 220px;
-            }
-            
-            .island-center {
-                order: 2;
-                position: relative;
-                left: 0;
-                transform: none;
-                pointer-events: none;
-                flex: 0 0 auto;
-                margin-left: auto;
-                z-index: 1;
-            }
-            
-            .island-center img {
-                height: 42px;
-            }
-            
-            .island-right {
-                display: none;
-            }
-            
-            .menu-toggle {
-                padding: 10px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-toggle span {
-                width: 24px;
-            }
-            
-            .menu-item img {
-                height: 20px;
-                width: auto;
-            }
-            
-            .progress-container {
-                gap: 10px;
-                bottom: 18px;
-            }
-            
-            .progress-dot.active {
-                width: 55px;
-            }
+            .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
+            .menu-container { gap: 8px; }
+            .menu-container.open { max-width: 220px; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
+            .island-center img { height: 42px; }
+            .island-right { display: none; }
+            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-toggle span { width: 24px; }
+            .menu-item img { height: 20px; width: auto; }
+            .progress-container { gap: 10px; bottom: 18px; }
+            .progress-dot.active { width: 55px; }
         }
         
         @media (max-width: 640px) {
-            body {
-                padding-bottom: 110px;
-            }
+            body { padding-bottom: 110px; }
+            .hero-image { height: 250px; }
+            .content { padding: 40px 20px; }
+            .project-title { font-size: 24px; margin-bottom: 30px; }
+            .description { font-size: 14px; line-height: 1.8; }
             
-            .hero-image {
-                height: 250px;
-            }
-            
-            .content {
-                padding: 40px 20px;
-            }
-            
-            .project-title {
-                font-size: 24px;
-                margin-bottom: 30px;
-            }
-            
-            .description {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-            
-            .dynamic-island {
-                padding: 18px 20px;
-                border-top-left-radius: 24px;
-                border-top-right-radius: 24px;
-            }
-            
-            .island-left {
-                gap: 6px;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 6px;
-            }
-            
-            .menu-toggle {
-                padding: 8px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-container.open {
-                max-width: 200px;
-            }
-            
-            .menu-item img {
-                height: 18px;
-                width: auto;
-            }
-            
-            .island-center img {
-                height: 38px;
-            }
-            
-            .progress-container {
-                gap: 8px;
-                bottom: 16px;
-            }
-            
-            .progress-dot.active {
-                width: 45px;
-            }
+            .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
+            .island-left { gap: 6px; z-index: 100; }
+            .menu-container { gap: 6px; }
+            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-container.open { max-width: 200px; }
+            .menu-item img { height: 18px; width: auto; }
+            .island-center img { height: 38px; }
+            .progress-container { gap: 8px; bottom: 16px; }
+            .progress-dot.active { width: 45px; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Image -->
     <div class="hero-image">
         <img src="../assets/Jhen_Hao/VDesign_workIII_0.webp" alt="溱好國際有限公司">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        <!-- Title -->
         <h1 class="project-title">溱好國際有限公司</h1>
 
-        <!-- Description -->
         <p class="description">
             溱好為行銷傳播公司，以「溫暖」為品牌核心理念。標誌設計結合「屋簷」與「太陽」意象，以屋簷寓意遮風避雨的歸屬，並藉由太陽象徵溫暖的傳遞，同時將英文縮寫「JH」融入圖形結構。色彩選用紅與橙色系，對應陽光和磚瓦的色調，營造出如家般的樸實溫馨。
         </p>
 
-        <!-- Gallery Section - Multiple Images -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
@@ -592,7 +475,6 @@
             </div>
         </div>
 
-        <!-- Single Image -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/Jhen_Hao/VDesign_workIII_4.webp" alt="Brand Application">
@@ -600,7 +482,6 @@
         </div>
     </div>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
@@ -609,19 +490,21 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">溱好國際有限公司 品牌識別設計</span>
@@ -629,7 +512,6 @@
         </div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // Initialize Lenis smooth scroll
@@ -670,14 +552,6 @@
                 menuContainer.classList.toggle('open');
             }, { passive: false });
         }
-
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
 
         // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
