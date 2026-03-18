@@ -60,9 +60,13 @@
         .menu-item img { height: 28px; display: block; filter: brightness(0) saturate(100%) invert(80%); transition: all 0.3s; }
         .menu-item:hover img { filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg); }
         .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
-        
-        .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: none; }
-        .island-center img { height: 60px; }
+
+        /* ── Logo link ── */
+        .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: auto; }
+        .island-center a { display: block; transition: opacity 0.3s; }
+        .island-center a:hover { opacity: 0.7; }
+        .island-center img { height: 60px; display: block; }
+
         .island-right { flex: 1; text-align: right; line-height: 1.6; position: relative; height: 50px; }
         .island-right .chinese { display: block; font-size: 15px; color: #333; transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; right: 0; top: 0; width: 100%; }
         .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; right: 0; top: 24px; width: 100%; }
@@ -86,7 +90,6 @@
         .project-item:hover { transform: translateY(-8px) scale(1.02); transition-delay: 0s !important; }
         
         .project-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; }
-        /* 確保影片與圖片具備相同的樣式與過渡效果 */
         .project-image img, .project-image video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; display: block; }
         .project-item:hover .project-image img, .project-item:hover .project-image video { transform: scale(1.1) !important; }
         
@@ -174,10 +177,16 @@
             <div class="menu-container" id="menuContainer">
                 <a href="https://vdesign5.github.io/home/" class="menu-item active"><img src="./assets/project.webp" alt="project"></a>
                 <a href="https://vdesign5.github.io/home/works/about" class="menu-item"><img src="./assets/about.webp" alt="about"></a>
-                <a href="https://vdesign5.github.io/home/#contact" class="menu-item js-contact-scroll"><img src="./assets/contact.webp" alt="contact"></a>
+                <!-- ▼ FIX: contact button now always redirects to home#contact -->
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item"><img src="./assets/contact.webp" alt="contact"></a>
             </div>
         </div>
-        <div class="island-center"><img src="./assets/logo.png" alt="Vdesign Logo"></div>
+        <!-- ▼ FIX: logo is now a clickable link -->
+        <div class="island-center">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="./assets/logo.png" alt="Vdesign Logo">
+            </a>
+        </div>
         <div class="island-right">
             <span class="chinese">Vdesign 是一個位於台灣的創意工作室</span>
             <span class="english">Vdesign is a Creative Studio Based in Taiwan</span>
@@ -325,15 +334,8 @@
         }
 
         requestAnimationFrame(raf);
-        
-        // 處理 Contact 按鈕在當前頁面的平滑跳轉
-        const contactBtn = document.querySelector('.js-contact-scroll');
-        if (contactBtn) {
-            contactBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                lenis.scrollTo('#contact');
-            });
-        }
+
+        // js-contact-scroll class 已移除，contact 按鈕改為直接導向 home/#contact
     </script>
     <script>
         (function(){
@@ -439,7 +441,6 @@
                 observer.observe(item);
                 
                 item.addEventListener('mouseenter', function() {
-                    // 同時選取 img 或 video 套用放大特效
                     var media = this.querySelector('.project-image img, .project-image video');
                     if (media) media.style.transform = 'scale(1.1)';
                 });
@@ -456,7 +457,6 @@
                     var rect = item.getBoundingClientRect();
                     
                     if (rect.top < windowHeight && rect.bottom > 0 && !item.matches(':hover')) {
-                        // 同時支援 img 與 video 的視差滾動運算
                         var media = item.querySelector('.project-image img, .project-image video');
                         if (media) {
                             var relativePos = (windowHeight - rect.top) / (windowHeight + rect.height);
