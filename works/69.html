@@ -201,6 +201,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -208,6 +209,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -218,17 +220,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center for Clickability */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -312,10 +325,9 @@
                 position: relative;
                 left: 0;
                 transform: none;
-                pointer-events: none;
                 flex: 0 0 auto;
                 margin-left: auto;
-                z-index: 1;
+                z-index: 20;
             }
             
             .island-center img {
@@ -410,36 +422,29 @@
     </style>
 </head>
 <body>
-    <!-- Hero Image -->
     <div class="hero-image">
         <img src="../assets/69/VDesign_workX_0.webp" alt="高雄師範大學 69 屆校慶">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        <!-- Title -->
         <h1 class="project-title">69 翻轉，高師大好</h1>
 
-        <!-- Description -->
         <p class="description">
             本專案以「翻轉」為核心理念，透過圖形與精神雙重維度重塑高師大校慶視覺。在圖形構成上，巧妙旋轉結合數字「6」與「9」並融入笑臉符號，直觀定調活動的歡樂氛圍；在視覺策略上，則打破歷屆抽象、色塊的設計慣性，提取「糖果」意象與明快色彩，營造出充滿活力、歡快的視覺體驗，從內而外實現對高師大傳統形象的意義「翻轉」。
         </p>
 
-        <!-- Single Image 1 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/69/VDesign_workX_1.webp" alt="校慶視覺設計 1">
             </div>
         </div>
 
-        <!-- Single Image 2 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/69/VDesign_workX_2.webp" alt="校慶視覺設計 2">
             </div>
         </div>
 
-        <!-- Single Image 3 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/69/VDesign_workX_3.webp" alt="校慶視覺設計 3">
@@ -447,7 +452,6 @@
         </div>
     </div>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
@@ -456,19 +460,21 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">高雄師範大學 69 屆校慶 主視覺設計</span>
@@ -476,7 +482,6 @@
         </div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // Initialize Lenis smooth scroll
@@ -517,15 +522,7 @@
             }, { passive: false });
         }
 
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Intersection Observer
+        // Intersection Observer for gallery animations
         const observerOptions = {
             root: null,
             rootMargin: '0px',
