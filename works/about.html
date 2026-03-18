@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - 伍聖耀</title>
+    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Noto Sans TC', sans-serif; 
+            color: #333; 
+            background: #fff; 
+            overflow-x: hidden; 
+            padding-bottom: 180px; 
+        }
+        .english { font-family: Arial, sans-serif; }
+        
+        /* Layout Container */
+        .about-container {
+            max-width: 1000px;
+            margin: 120px auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.3s forwards;
+            position: relative;
+            z-index: 6;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Profile Image */
+        .profile-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Content Sections */
+        .about-section {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-size: 20px;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: 4px;
+            white-space: nowrap;
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .section-content {
+            flex: 1;
+        }
+
+        /* Text Styles */
+        .intro-text {
+            font-size: 15px;
+            line-height: 2;
+            color: #555;
+            margin-bottom: 24px;
+        }
+
+        .experience-item {
+            margin-bottom: 40px;
+        }
+
+        .experience-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .exp-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .exp-desc {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #888;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 40px 60px 35px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            z-index: 10;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            box-shadow: 0 -8px 32px rgba(0,0,0,0.06);
+            transform: translateY(100%);
+            animation: slideUpIsland 0.8s ease 0.3s forwards;
+        }
+        
+        @keyframes slideUpIsland {
+            to { transform: translateY(0); }
+        }
+        
+        .island-left {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+            position: relative;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: #ccc;
+            border-radius: 2px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+        
+        .menu-toggle:hover span {
+            background: #FF0000;
+        }
+        
+        .menu-toggle.open span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        
+        .menu-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            max-width: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s;
+        }
+        
+        .menu-container.open {
+            max-width: 400px;
+            opacity: 1;
+        }
+        
+        .menu-item {
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .menu-item img {
+            height: 28px;
+            width: auto;
+            filter: brightness(0) saturate(100%) invert(80%);
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover img {
+            filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
+        }
+        
+        /* 已將 active 狀態移至 About 選單 */
+        .menu-item.active img {
+            filter: brightness(0) saturate(100%) invert(20%);
+        }
+        
+        .island-center {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-center img {
+            height: 60px;
+        }
+        
+        .island-right {
+            flex: 1;
+            text-align: right;
+            line-height: 1.6;
+            position: relative;
+        }
+        
+        .island-right .chinese {
+            display: block;
+            font-size: 15px;
+            color: #333;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .island-right .english {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                margin: 80px auto;
+            }
+            .profile-wrapper {
+                justify-content: flex-start;
+                margin-bottom: 20px;
+            }
+            .about-section {
+                flex-direction: column;
+                gap: 16px;
+                margin-bottom: 40px;
+            }
+            .section-label {
+                width: auto;
+            }
+            .dynamic-island {
+                padding: 20px 25px;
+                border-top-left-radius: 28px;
+                border-top-right-radius: 28px;
+                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
+            .menu-container { gap: 8px; }
+            .menu-container.open { max-width: 220px; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 1; }
+            .island-center img { height: 42px; }
+            .island-right { display: none; }
+            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; justify-content: center; z-index: 101; }
+            .menu-toggle span { width: 24px; }
+            .menu-item img { height: 20px; }
+        }
+        
+        @media (max-width: 640px) {
+            body { padding-bottom: 110px; }
+            .about-container { padding: 0 24px; margin: 60px auto; }
+            .profile-img { width: 120px; height: 120px; }
+            .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
+            .island-left { gap: 6px; }
+            .menu-container { gap: 6px; }
+            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; }
+            .menu-container.open { max-width: 200px; }
+            .menu-item img { height: 18px; }
+            .island-center img { height: 38px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="about-container">
+        <div class="profile-wrapper">
+            <img src="./assets/me.png" alt="伍聖耀" class="profile-img">
+        </div>
+
+        <div class="about-info">
+            
+            <div class="about-section">
+                <div class="section-label">自介 ｜</div>
+                <div class="section-content">
+                    <p class="intro-text">
+                        嗨，我是伍聖耀，是一個透過優化視覺來解決問題的人。<br>
+                        可能不是什麼神奇的魔法，但我認為設計能夠降低溝通的時間與成本。
+                    </p>
+                    <p class="intro-text">
+                        致力於替那些想把事情講清楚，卻不知道畫面該長什麼樣子的人，<br>
+                        透過平面設計、動態圖像設計、3D 建模、vibe coding、插畫等方式，<br>
+                        整理成你想對話的人看得懂、且看得舒服的樣子。
+                    </p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <div class="section-label">經歷 ｜</div>
+                <div class="section-content">
+                    
+                    <div class="experience-item">
+                        <div class="exp-title">OVO 京典衛浴 ｜ 品牌設計師 (2025 — 2026)</div>
+                        <div class="exp-desc">
+                            官網內容重構－梳理資訊，運用 Vibe Coding 統整網頁內容並完成視覺優化。<br>
+                            品牌插畫系統－制定專屬插畫系統，能呈現攝影較難表現的抽象情境，也提升受眾對複雜資訊接收意願。<br>
+                            產品情境照生成－AI 影像生成與修圖技術產出產品情境照，降低傳統搭景拍攝的時間與資金成本。
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="exp-title">跡地設計 ｜ 設計實習 (2024 — 2025)</div>
+                        <div class="exp-desc">
+                            動態圖像設計－優化原先平面的敘事限制，透過動態更能完整傳達專案概念，同時讓作品較吸睛的呈現。<br>
+                            3D 建模－突破平面圖視角侷限，透過 3D 建模並配合 3D 列印，協助觀看者清晰理解作品的空間概念。
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="exp-title">泰設計 ｜ 平面設計師 (2023 — 2024)</div>
+                        <div class="exp-desc">
+                            品牌標誌設計：分析品牌目標受眾與品牌所想傳遞的感受，將抽象的概念，轉化為具體的視覺標誌。<br>
+                            指標識別系統：延續品牌視覺調性，設計功能圖示代替繁雜文字，讓觀者接收資訊時更直覺、快速。
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="dynamic-island">
+        <div class="island-left">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu-container" id="menuContainer">
+                <div class="menu-item">
+                    <img src="../assets/project.webp" alt="project">
+                </div>
+                <div class="menu-item active">
+                    <img src="../assets/about.webp" alt="about">
+                </div>
+                <div class="menu-item">
+                    <img src="../assets/contact.webp" alt="contact">
+                </div>
+            </div>
+        </div>
+        <div class="island-center">
+            <img src="../assets/logo.png" alt="Vdesign Logo">
+        </div>
+        <div class="island-right">
+            <span class="chinese">關於我</span>
+            <span class="english">About Me</span>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menuContainer = document.getElementById('menuContainer');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            });
+            
+            menuToggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            }, { passive: false });
+        }
+
+        // Menu Items Click Logic (Demo)
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
