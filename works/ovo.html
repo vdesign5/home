@@ -341,6 +341,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -348,6 +349,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -358,17 +360,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center for Clickability */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -397,7 +410,7 @@
         @media (max-width: 968px) {
             body { padding-bottom: 120px; }
             .content { padding: 60px 30px; }
-            .project-title, .description { max-width: 100%; }
+            .project-title, .description, .caption { max-width: 100%; }
             .project-title { font-size: 28px; margin-bottom: 40px; }
             .description { font-size: 15px; margin-bottom: 60px; }
             .gallery-section { margin-bottom: 60px; }
@@ -413,10 +426,10 @@
             .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
             .menu-container { gap: 8px; }
             .menu-container.open { max-width: 220px; }
-            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 1; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
             .island-center img { height: 42px; }
             .island-right { display: none; }
-            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; justify-content: center; z-index: 101; }
+            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
             .menu-toggle span { width: 24px; }
             .menu-item img { height: 20px; }
             .progress-container { gap: 10px; bottom: 18px; }
@@ -430,9 +443,9 @@
             .project-title { font-size: 24px; margin-bottom: 30px; }
             .description { font-size: 14px; line-height: 1.8; }
             .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-            .island-left { gap: 6px; }
+            .island-left { gap: 6px; z-index: 100; }
             .menu-container { gap: 6px; }
-            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; }
+            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
             .menu-container.open { max-width: 200px; }
             .menu-item img { height: 18px; }
             .island-center img { height: 38px; }
@@ -597,19 +610,21 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">OVO 京典衛浴 品牌視覺與網站優化</span>
@@ -656,21 +671,12 @@
             }, { passive: false });
         }
 
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
         // Main Video Controls
         const mainVideo = document.getElementById('mainVideo');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
         
         if (mainVideo) {
-            // Play/Pause Logic
             if (playPauseBtn) {
                 const pauseIcon = playPauseBtn.querySelector('.pause-icon');
                 const playIcon = playPauseBtn.querySelector('.play-icon');
@@ -687,7 +693,6 @@
                     }
                 });
 
-                // 同步影片實際播放狀態與圖示 (避免因瀏覽器政策導致影片未自動播放時，圖示狀態錯誤)
                 mainVideo.addEventListener('play', () => {
                     playIcon.style.display = 'none';
                     pauseIcon.style.display = 'block';
@@ -698,7 +703,6 @@
                 });
             }
 
-            // Mute/Unmute Logic
             if (muteUnmuteBtn) {
                 const volOnIcon = muteUnmuteBtn.querySelector('.volume-on-icon');
                 const volOffIcon = muteUnmuteBtn.querySelector('.volume-off-icon');
@@ -717,91 +721,107 @@
             }
         }
 
-        // Slider Functionality
-        function initSlider(container) {
-            const slides = container.querySelectorAll('.slider-slide');
-            const navLeft = container.querySelector('.slider-nav-left');
-            const navRight = container.querySelector('.slider-nav-right');
-            const progressDots = container.querySelectorAll('.progress-dot');
-            const progressFills = container.querySelectorAll('.progress-dot-fill');
+        // Enhanced Slider Functionality with Auto-play
+        class AutoSlider {
+            constructor(container) {
+                this.container = container;
+                this.slides = container.querySelectorAll('.slider-slide');
+                this.navLeft = container.querySelector('.slider-nav-left');
+                this.navRight = container.querySelector('.slider-nav-right');
+                this.progressContainer = container.querySelector('.progress-container');
+                this.progressDots = this.progressContainer.querySelectorAll('.progress-dot');
+                this.progressFills = this.progressContainer.querySelectorAll('.progress-dot-fill');
+                this.currentSlide = 0;
+                this.autoPlayDuration = 5000;
+                this.autoPlayInterval = null;
+                this.progressStartTime = null;
+                this.progressAnimationFrame = null;
+                
+                this.init();
+            }
             
-            let currentSlide = 0;
-            let autoplayInterval;
-            let startTime;
-            const duration = 5000; 
-
-            function updateProgress() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration * 100, 100);
-                const activeFill = progressFills[currentSlide];
-                
-                if (activeFill) {
-                    activeFill.style.width = progress + '%';
+            init() {
+                if (this.navLeft) {
+                    this.navLeft.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide - 1);
+                        this.resetAutoPlay();
+                    });
                 }
                 
-                if (progress < 100) {
-                    requestAnimationFrame(updateProgress);
+                if (this.navRight) {
+                    this.navRight.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide + 1);
+                        this.resetAutoPlay();
+                    });
                 }
+                
+                this.progressDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.showSlide(index);
+                        this.resetAutoPlay();
+                    });
+                });
+                
+                this.startAutoPlay();
+                this.startProgressAnimation();
             }
-
-            function resetProgress() {
-                progressDots.forEach((dot, i) => {
+            
+            showSlide(index) {
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                this.currentSlide = (index + this.slides.length) % this.slides.length;
+                this.slides[this.currentSlide].classList.add('active');
+                
+                this.progressDots.forEach((dot, i) => {
                     dot.classList.remove('active');
-                    if (progressFills[i]) {
-                        progressFills[i].style.width = '0%';
+                    this.progressFills[i].style.width = '0%';
+                });
+                this.progressDots[this.currentSlide].classList.add('active');
+                
+                this.startProgressAnimation();
+            }
+            
+            startProgressAnimation() {
+                this.progressStartTime = Date.now();
+                
+                const animate = () => {
+                    const elapsed = Date.now() - this.progressStartTime;
+                    const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
+                    
+                    const currentFill = this.progressFills[this.currentSlide];
+                    if (currentFill) {
+                        currentFill.style.width = progress + '%';
                     }
-                });
-                progressDots[currentSlide].classList.add('active');
-                startTime = Date.now();
-                requestAnimationFrame(updateProgress);
-            }
-
-            function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active'));
-                currentSlide = (index + slides.length) % slides.length;
-                slides[currentSlide].classList.add('active');
-                resetProgress();
-            }
-
-            function startAutoplay() {
-                stopAutoplay();
-                autoplayInterval = setInterval(() => {
-                    showSlide(currentSlide + 1);
-                }, duration);
-            }
-
-            function stopAutoplay() {
-                if (autoplayInterval) {
-                    clearInterval(autoplayInterval);
+                    
+                    if (progress < 100) {
+                        this.progressAnimationFrame = requestAnimationFrame(animate);
+                    }
+                };
+                
+                if (this.progressAnimationFrame) {
+                    cancelAnimationFrame(this.progressAnimationFrame);
                 }
+                
+                animate();
             }
-
-            if (navLeft) {
-                navLeft.addEventListener('click', () => {
-                    showSlide(currentSlide - 1);
-                    startAutoplay();
-                });
+            
+            startAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                }
+                
+                this.autoPlayInterval = setInterval(() => {
+                    this.showSlide(this.currentSlide + 1);
+                }, this.autoPlayDuration);
             }
-
-            if (navRight) {
-                navRight.addEventListener('click', () => {
-                    showSlide(currentSlide + 1);
-                    startAutoplay();
-                });
+            
+            resetAutoPlay() {
+                this.startAutoPlay();
             }
-
-            progressDots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    showSlide(index);
-                    startAutoplay();
-                });
-            });
-
-            startAutoplay();
-            resetProgress();
         }
-
-        document.querySelectorAll('.slider-container').forEach(initSlider);
+        
+        document.querySelectorAll('.slider-container').forEach(container => {
+            new AutoSlider(container);
+        });
 
         // Intersection Observer
         const observerOptions = {
