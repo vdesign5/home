@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 台灣國際滑輪溜冰公開賽 - Vdesign</title>
+    <title>Push & Pull - Vdesign</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -158,7 +158,7 @@
             cursor: e-resize;
         }
         
-        /* Progress Dots */
+        /* Progress Dots Container */
         .progress-container {
             position: absolute;
             bottom: 20px;
@@ -208,18 +208,6 @@
             width: 100%;
             height: auto;
             display: block;
-        }
-        
-        /* Caption */
-        .caption {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #666;
-            margin-bottom: 60px;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
         }
         
         /* Dynamic Island */
@@ -313,6 +301,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -320,6 +309,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -330,17 +320,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center for Clickability */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -367,33 +368,12 @@
         
         /* Responsive */
         @media (max-width: 968px) {
-            body {
-                padding-bottom: 120px;
-            }
-            
-            .content {
-                padding: 60px 30px;
-            }
-            
-            .project-title,
-            .description,
-            .caption {
-                max-width: 100%;
-            }
-            
-            .project-title {
-                font-size: 28px;
-                margin-bottom: 40px;
-            }
-            
-            .description {
-                font-size: 15px;
-                margin-bottom: 60px;
-            }
-            
-            .gallery-section {
-                margin-bottom: 60px;
-            }
+            body { padding-bottom: 120px; }
+            .content { padding: 60px 30px; }
+            .project-title, .description { max-width: 100%; }
+            .project-title { font-size: 28px; margin-bottom: 40px; }
+            .description { font-size: 15px; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
             
             .dynamic-island {
                 padding: 20px 25px;
@@ -404,199 +384,70 @@
                 justify-content: space-between;
                 align-items: center;
             }
-            
-            .island-left {
-                order: 1;
-                gap: 8px;
-                flex: 0 0 auto;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 8px;
-            }
-            
-            .menu-container.open {
-                max-width: 220px;
-            }
-            
-            .island-center {
-                order: 2;
-                position: relative;
-                left: 0;
-                transform: none;
-                pointer-events: none;
-                flex: 0 0 auto;
-                margin-left: auto;
-                z-index: 1;
-            }
-            
-            .island-center img {
-                height: 42px;
-            }
-            
-            .island-right {
-                display: none;
-            }
-            
-            .menu-toggle {
-                padding: 10px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-toggle span {
-                width: 24px;
-            }
-            
-            .menu-item img {
-                height: 20px;
-                width: auto;
-            }
-            
-            .progress-container {
-                gap: 10px;
-                bottom: 18px;
-            }
-            
-            .progress-dot.active {
-                width: 55px;
-            }
+            .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
+            .menu-container { gap: 8px; }
+            .menu-container.open { max-width: 220px; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
+            .island-center img { height: 42px; }
+            .island-right { display: none; }
+            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-toggle span { width: 24px; }
+            .menu-item img { height: 20px; width: auto; }
+            .progress-container { gap: 10px; bottom: 18px; }
+            .progress-dot.active { width: 55px; }
         }
         
         @media (max-width: 640px) {
-            body {
-                padding-bottom: 110px;
-            }
+            body { padding-bottom: 110px; }
+            .hero-image { height: 250px; }
+            .content { padding: 40px 20px; }
+            .project-title { font-size: 24px; margin-bottom: 30px; }
+            .description { font-size: 14px; line-height: 1.8; }
             
-            .hero-image {
-                height: 250px;
-            }
-            
-            .content {
-                padding: 40px 20px;
-            }
-            
-            .project-title {
-                font-size: 24px;
-                margin-bottom: 30px;
-            }
-            
-            .description {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-            
-            .dynamic-island {
-                padding: 18px 20px;
-                border-top-left-radius: 24px;
-                border-top-right-radius: 24px;
-            }
-            
-            .island-left {
-                gap: 6px;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 6px;
-            }
-            
-            .menu-toggle {
-                padding: 8px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-container.open {
-                max-width: 200px;
-            }
-            
-            .menu-item img {
-                height: 18px;
-                width: auto;
-            }
-            
-            .island-center img {
-                height: 38px;
-            }
-            
-            .progress-container {
-                gap: 8px;
-                bottom: 16px;
-            }
-            
-            .progress-dot.active {
-                width: 45px;
-            }
+            .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
+            .island-left { gap: 6px; z-index: 100; }
+            .menu-container { gap: 6px; }
+            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-container.open { max-width: 200px; }
+            .menu-item img { height: 18px; width: auto; }
+            .island-center img { height: 38px; }
+            .progress-container { gap: 8px; bottom: 16px; }
+            .progress-dot.active { width: 45px; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Image -->
     <div class="hero-image">
-        <img src="../assets/202511_showcase_I.webp" alt="2025 台灣國際滑輪溜冰公開賽">
+        <img src="../assets/202511_showcase_IV.webp" alt="Push & Pull">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        <!-- Title -->
-        <h1 class="project-title">2025 台灣國際滑輪溜冰公開賽</h1>
+        <h1 class="project-title">Push & Pull</h1>
 
-        <!-- Description 1 -->
         <p class="description">
-            本設計聚焦於競速滑輪的「速度性」進行延伸發想。透過高速行進間的視線模糊，重現選手專注的第一人稱觀感；結合競速運動標誌性的終點線元素，同時應用幾何線條重塑選手的運動軌跡，藉由具象體驗與抽象形式的結合，營造出精準契合本次賽事的主視覺意象。
+            面對畢業交界要從創作的身份轉換，此展覽主題想探討應屆畢業生在「自我主張」與「市場需求」間的心理拉扯。概念上引用「門」為載體，將門上 PUSH & PULL 的雙向力道，探索、磨合出一道能夠共同通過的「門縫」過程。視覺執行採用極致的黑白對立，並運用字體、外型扭曲與打凹凸加工，將無形的心理矛盾轉化為具象的表現。
         </p>
 
-        <!-- Gallery Section 1 -->
         <div class="gallery-section">
-            <div class="slider-container">
-                <div class="slider-wrapper">
-                    <div class="slider-slide active">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_1.webp" alt="Key Visual 1">
-                    </div>
-                    <div class="slider-slide">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_2.webp" alt="Key Visual 2">
-                    </div>
-                    <div class="slider-slide">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_3.webp" alt="Key Visual 3">
-                    </div>
-                </div>
-                <div class="slider-nav">
-                    <div class="slider-nav-left"></div>
-                    <div class="slider-nav-right"></div>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
-                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
-                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
-                </div>
+            <div class="single-image">
+                <img src="../assets/Push_Pull/VDesign_workVIII_1.webp" alt="Push & Pull Key Visual">
             </div>
         </div>
 
-        <!-- Gallery Section 2 -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
                     <div class="slider-slide active">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_5.webp" alt="Application 1">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_2.webp" alt="Exhibition Design 1">
                     </div>
                     <div class="slider-slide">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_6.webp" alt="Application 2">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_3.webp" alt="Exhibition Design 2">
                     </div>
                     <div class="slider-slide">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_7.webp" alt="Application 3">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_4.webp" alt="Exhibition Design 3">
                     </div>
                     <div class="slider-slide">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_8.webp" alt="Application 4">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_5.webp" alt="Exhibition Design 4">
                     </div>
                 </div>
                 <div class="slider-nav">
@@ -612,15 +463,17 @@
             </div>
         </div>
 
-        <!-- Gallery Section 3 -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
                     <div class="slider-slide active">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_9.webp" alt="Detail 1">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_14.webp" alt="Typography Design 1">
                     </div>
                     <div class="slider-slide">
-                        <img src="../assets/Roller_Skating_Open/VDesign_workI_4.webp" alt="Detail 2">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_15.webp" alt="Typography Design 2">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_16.webp" alt="Typography Design 3">
                     </div>
                 </div>
                 <div class="slider-nav">
@@ -630,24 +483,72 @@
                 <div class="progress-container">
                     <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
                     <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
                 </div>
             </div>
         </div>
 
-        <!-- Description 2 -->
-        <p class="caption">
-            獎牌設計延續「速度感」的核心概念，突破傳統圓形框架，外型採用滑輪高速運轉下斜橢圓的物理變形，並結合象徵運動軌跡的幾何線條進行環繞，在建立獎牌獨特識別度的同時，呼應賽事的競速氛圍。
-        </p>
+        <div class="gallery-section">
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="slider-slide active">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_10.webp" alt="Poster Design 1">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_11.webp" alt="Poster Design 2">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_12.webp" alt="Poster Design 3">
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                </div>
+            </div>
+        </div>
 
-        <!-- Single Image -->
+        <div class="gallery-section">
+            <div class="slider-container">
+                <div class="slider-wrapper">
+                    <div class="slider-slide active">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_6.webp" alt="Application Design 1">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_7.webp" alt="Application Design 2">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_8.webp" alt="Application Design 3">
+                    </div>
+                    <div class="slider-slide">
+                        <img src="../assets/Push_Pull/VDesign_workVIII_9.webp" alt="Application Design 4">
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <div class="slider-nav-left"></div>
+                    <div class="slider-nav-right"></div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-dot active" data-slide="0"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
+                    <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
+                </div>
+            </div>
+        </div>
+
         <div class="gallery-section">
             <div class="single-image">
-                <img src="../assets/Roller_Skating_Open/VDesign_workI_10.webp" alt="Medal Design">
+                <img src="../assets/Push_Pull/VDesign_workVIII_13.webp" alt="Exhibition Photo">
             </div>
         </div>
     </div>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
@@ -656,27 +557,28 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
-            <span class="chinese">2025 台灣國際滑輪溜冰公開賽 主視覺設計</span>
-            <span class="english">2025 Taiwan International Roller Skating Open - Key Visual</span>
+            <span class="chinese">Push & Pull 畢業展視覺設計</span>
+            <span class="english">Push & Pull - Graduation Exhibition Visual Design</span>
         </div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // Initialize Lenis smooth scroll
@@ -718,104 +620,113 @@
             }, { passive: false });
         }
 
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Slider Functionality with Auto-play and Progress
-        function initSlider(container) {
-            const slides = container.querySelectorAll('.slider-slide');
-            const navLeft = container.querySelector('.slider-nav-left');
-            const navRight = container.querySelector('.slider-nav-right');
-            const progressDots = container.querySelectorAll('.progress-dot');
-            const progressFills = container.querySelectorAll('.progress-dot-fill');
+        // Enhanced Slider Functionality with Auto-play
+        class AutoSlider {
+            constructor(container) {
+                this.container = container;
+                this.slides = container.querySelectorAll('.slider-slide');
+                this.navLeft = container.querySelector('.slider-nav-left');
+                this.navRight = container.querySelector('.slider-nav-right');
+                this.progressContainer = container.querySelector('.progress-container');
+                this.progressDots = this.progressContainer.querySelectorAll('.progress-dot');
+                this.progressFills = this.progressContainer.querySelectorAll('.progress-dot-fill');
+                this.currentSlide = 0;
+                this.autoPlayDuration = 5000; // 5 seconds
+                this.autoPlayInterval = null;
+                this.progressStartTime = null;
+                this.progressAnimationFrame = null;
+                
+                this.init();
+            }
             
-            let currentSlide = 0;
-            let autoplayInterval;
-            let progressInterval;
-            let startTime;
-            const duration = 5000; // 5 seconds per slide
-
-            function updateProgress() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration * 100, 100);
-                const activeFill = progressFills[currentSlide];
-                
-                if (activeFill) {
-                    activeFill.style.width = progress + '%';
+            init() {
+                // Navigation events
+                if (this.navLeft) {
+                    this.navLeft.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide - 1);
+                        this.resetAutoPlay();
+                    });
                 }
                 
-                if (progress < 100) {
-                    requestAnimationFrame(updateProgress);
+                if (this.navRight) {
+                    this.navRight.addEventListener('click', () => {
+                        this.showSlide(this.currentSlide + 1);
+                        this.resetAutoPlay();
+                    });
                 }
+                
+                // Progress dot clicks
+                this.progressDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.showSlide(index);
+                        this.resetAutoPlay();
+                    });
+                });
+                
+                // Start auto-play
+                this.startAutoPlay();
+                this.startProgressAnimation();
             }
-
-            function resetProgress() {
-                progressDots.forEach((dot, i) => {
+            
+            showSlide(index) {
+                this.slides.forEach(slide => slide.classList.remove('active'));
+                this.currentSlide = (index + this.slides.length) % this.slides.length;
+                this.slides[this.currentSlide].classList.add('active');
+                
+                // Update progress dots
+                this.progressDots.forEach((dot, i) => {
                     dot.classList.remove('active');
-                    if (progressFills[i]) {
-                        progressFills[i].style.width = '0%';
+                    this.progressFills[i].style.width = '0%';
+                });
+                this.progressDots[this.currentSlide].classList.add('active');
+                
+                // Restart progress animation
+                this.startProgressAnimation();
+            }
+            
+            startProgressAnimation() {
+                this.progressStartTime = Date.now();
+                
+                const animate = () => {
+                    const elapsed = Date.now() - this.progressStartTime;
+                    const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
+                    
+                    const currentFill = this.progressFills[this.currentSlide];
+                    if (currentFill) {
+                        currentFill.style.width = progress + '%';
                     }
-                });
-                progressDots[currentSlide].classList.add('active');
-                startTime = Date.now();
-                requestAnimationFrame(updateProgress);
-            }
-
-            function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active'));
-                currentSlide = (index + slides.length) % slides.length;
-                slides[currentSlide].classList.add('active');
-                resetProgress();
-            }
-
-            function startAutoplay() {
-                stopAutoplay();
-                autoplayInterval = setInterval(() => {
-                    showSlide(currentSlide + 1);
-                }, duration);
-            }
-
-            function stopAutoplay() {
-                if (autoplayInterval) {
-                    clearInterval(autoplayInterval);
+                    
+                    if (progress < 100) {
+                        this.progressAnimationFrame = requestAnimationFrame(animate);
+                    }
+                };
+                
+                if (this.progressAnimationFrame) {
+                    cancelAnimationFrame(this.progressAnimationFrame);
                 }
+                
+                animate();
             }
-
-            // Navigation clicks
-            if (navLeft) {
-                navLeft.addEventListener('click', () => {
-                    showSlide(currentSlide - 1);
-                    startAutoplay();
-                });
+            
+            startAutoPlay() {
+                if (this.autoPlayInterval) {
+                    clearInterval(this.autoPlayInterval);
+                }
+                
+                this.autoPlayInterval = setInterval(() => {
+                    this.showSlide(this.currentSlide + 1);
+                }, this.autoPlayDuration);
             }
-
-            if (navRight) {
-                navRight.addEventListener('click', () => {
-                    showSlide(currentSlide + 1);
-                    startAutoplay();
-                });
+            
+            resetAutoPlay() {
+                this.startAutoPlay();
             }
-
-            // Progress dot clicks
-            progressDots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    showSlide(index);
-                    startAutoplay();
-                });
-            });
-
-            // Start autoplay and progress
-            startAutoplay();
-            resetProgress();
         }
-
-        // Initialize all sliders
-        document.querySelectorAll('.slider-container').forEach(initSlider);
+        
+        // Initialize all sliders with auto-play
+        document.querySelectorAll('.slider-container').forEach(container => {
+            new AutoSlider(container);
+        });
 
         // Intersection Observer for gallery sections
         const observerOptions = {
