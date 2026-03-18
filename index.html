@@ -62,10 +62,10 @@
         .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
 
         /* ── Logo link ── */
-        .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: auto; }
-        .island-center a { display: block; transition: opacity 0.3s; }
+        .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: auto; z-index: 20; }
+        .island-center a { display: block; transition: opacity 0.3s; cursor: pointer; }
         .island-center a:hover { opacity: 0.7; }
-        .island-center img { height: 60px; display: block; }
+        .island-center img { height: 60px; display: block; pointer-events: none; }
 
         .island-right { flex: 1; text-align: right; line-height: 1.6; position: relative; height: 50px; }
         .island-right .chinese { display: block; font-size: 15px; color: #333; transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; right: 0; top: 0; width: 100%; }
@@ -178,7 +178,7 @@
                 <a href="https://vdesign5.github.io/home/" class="menu-item active"><img src="./assets/project.webp" alt="project"></a>
                 <a href="https://vdesign5.github.io/home/works/about" class="menu-item"><img src="./assets/about.webp" alt="about"></a>
                 <!-- ▼ FIX: contact button now always redirects to home#contact -->
-                <a href="https://vdesign5.github.io/home/#contact" class="menu-item"><img src="./assets/contact.webp" alt="contact"></a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item js-contact-scroll"><img src="./assets/contact.webp" alt="contact"></a>
             </div>
         </div>
         <!-- ▼ FIX: logo is now a clickable link -->
@@ -297,7 +297,7 @@
             <div class="footer-right">
                 <div class="footer-contact-info">
                     <div class="footer-nav">
-                        <div class="footer-nav-item"><a href="mailto:bruce20020822@gmail.com">bruce20020822@gmail.com</a></div>
+                        <div class="footer-nav-item"><a href="/cdn-cgi/l/email-protection#16746463757324262624262e242456717b777f7a3875797b"><span class="__cf_email__" data-cfemail="0f6d7d7a6c6a3d3f3f3d3f373d3d4f68626e6663216c6062">[email&#160;protected]</span></a></div>
                         <div class="footer-nav-item"><a href="tel:+886905592930">(+886) 905-592-930</a></div>
                     </div>
                     <div class="footer-social">
@@ -313,7 +313,7 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // 初始化平滑滾動
         var lenis = new Lenis({
@@ -335,7 +335,17 @@
 
         requestAnimationFrame(raf);
 
-        // js-contact-scroll class 已移除，contact 按鈕改為直接導向 home/#contact
+        // Contact 按鈕：若 footer#contact 存在於當前頁面則平滑滾動，否則跳轉首頁
+        var contactBtn = document.querySelector('.js-contact-scroll');
+        if (contactBtn) {
+            contactBtn.addEventListener('click', function(e) {
+                var target = document.getElementById('contact');
+                if (target) {
+                    e.preventDefault();
+                    lenis.scrollTo(target, { offset: 0, duration: 1.4 });
+                }
+            });
+        }
     </script>
     <script>
         (function(){
@@ -470,13 +480,4 @@
             var rafId;
             function onScroll() {
                 if (rafId) cancelAnimationFrame(rafId);
-                rafId = requestAnimationFrame(updateParallax);
-            }
-
-            window.addEventListener('scroll', onScroll, { passive: true });
-            window.addEventListener('resize', updateParallax);
-            updateParallax();
-        })();
-    </script>
-</body>
-</html>
+                rafId = requestAnimation
