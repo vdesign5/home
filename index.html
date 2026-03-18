@@ -13,47 +13,43 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 350px; }
         .english { font-family: Arial, sans-serif; }
-        
+
         .hero { position: relative; height: 85vh; overflow: hidden; background: #000; z-index: 6; }
         .hero-slider { position: relative; width: 100%; height: 100%; }
         .hero-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s; }
         .hero-slide.active { opacity: 1; }
         .hero-slide img { width: 100%; height: 100%; object-fit: cover; }
-        
+
         .hero-nav { position: absolute; top: 0; width: 100%; height: 100%; display: flex; z-index: 5; }
         .hero-nav-left, .hero-nav-right { flex: 1; }
         .hero-nav-left { cursor: w-resize; }
         .hero-nav-right { cursor: e-resize; }
-        
+
         .hero-info { position: absolute; bottom: 30px; left: 40px; right: 40px; color: white; z-index: 10; opacity: 0; animation: fadeIn 1s ease 0.5s forwards; }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { to { opacity: 1; } }
         .hero-info-meta { font-size: 14px; margin-bottom: 12px; }
         .hero-info-title { font-size: 18px; margin-bottom: 20px; }
         .hero-info-bottom { display: flex; justify-content: space-between; align-items: center; }
-        
+
         .progress-container { flex: 1; display: flex; gap: 12px; margin-right: 20px; }
         .progress-dot { position: relative; width: 8px; height: 8px; background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; cursor: pointer; }
         .progress-dot.active { width: 60px; border-radius: 4px; background: rgba(255,255,255,0.3); }
         .progress-dot-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: white; border-radius: 4px; }
-        
+
         .view-button { background: white; color: #333; padding: 12px 24px; border-radius: 25px; text-decoration: none; font-size: 14px; transition: all 0.3s; }
         .view-button:hover { background: #FF0000; color: white; transform: translateY(-2px); }
-        
+
         .dynamic-island { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 40px 60px 35px; display: flex; align-items: center; justify-content: space-between; gap: 40px; z-index: 10; border-top-left-radius: 40px; border-top-right-radius: 40px; box-shadow: 0 -8px 32px rgba(0,0,0,0.06); transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards; }
-        @keyframes slideUpIsland {
-            to { transform: translateY(0); }
-        }
+        @keyframes slideUpIsland { to { transform: translateY(0); } }
         .island-left { display: flex; gap: 30px; align-items: center; }
-        
+
         .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
         .menu-toggle span { width: 28px; height: 3px; background: #ccc; border-radius: 2px; transition: all 0.3s; }
         .menu-toggle:hover span { background: #FF0000; }
         .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
         .menu-toggle.open span:nth-child(2) { opacity: 0; }
         .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-        
+
         .menu-container { display: flex; gap: 30px; align-items: center; max-width: 0; overflow: hidden; opacity: 0; transition: all 0.4s; }
         .menu-container.open { max-width: 400px; opacity: 1; }
         .menu-item { cursor: pointer; transition: all 0.3s; flex-shrink: 0; display: block; }
@@ -61,8 +57,8 @@
         .menu-item:hover img { filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg); }
         .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
 
-        /* ── Logo link ── */
-        .island-center { position: absolute; left: 50%; transform: translateX(-50%); pointer-events: auto; z-index: 20; }
+        /* FIX: z-index:20 確保 logo 不被 island-right 遮擋 */
+        .island-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
         .island-center a { display: block; transition: opacity 0.3s; cursor: pointer; }
         .island-center a:hover { opacity: 0.7; }
         .island-center img { height: 60px; display: block; pointer-events: none; }
@@ -72,10 +68,10 @@
         .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; right: 0; top: 24px; width: 100%; }
         .island-right .fade-out { opacity: 0; transform: translateY(-12px); }
         .island-right .fade-in { opacity: 1; transform: translateY(0); }
-        
+
         .projects { padding: 80px 60px 80px; position: relative; background: #fff; z-index: 6; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
-        
+
         .project-item { cursor: pointer; transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0; transform: translateY(60px); display: block; text-decoration: none; }
         .project-item.in-view { opacity: 1; transform: translateY(0); }
         .project-item.in-view:nth-child(1) { transition-delay: 0.1s; }
@@ -88,22 +84,21 @@
         .project-item.in-view:nth-child(8) { transition-delay: 0.45s; }
         .project-item.in-view:nth-child(9) { transition-delay: 0.5s; }
         .project-item:hover { transform: translateY(-8px) scale(1.02); transition-delay: 0s !important; }
-        
+
         .project-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; }
         .project-image img, .project-image video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; display: block; }
         .project-item:hover .project-image img, .project-item:hover .project-image video { transform: scale(1.1) !important; }
-        
+
         .project-info { padding: 20px 0; }
         .project-category { font-size: 12px; color: #ccc; margin-bottom: 8px; }
         .project-title { font-size: 16px; color: #333; line-height: 1.6; }
         .project-title .english { font-size: 13px; opacity: 0.7; display: block; margin-top: 4px; }
-        
+
         footer { position: fixed; bottom: 0; left: 0; right: 0; background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: 5; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 80px; }
         .footer-left { display: flex; align-items: flex-start; }
         .footer-logo-img { height: 28px; filter: brightness(0) saturate(100%) invert(80%); flex-shrink: 0; }
         .footer-contact-info { display: flex; gap: 60px; }
-        .footer-logotype-img { height: 50px; filter: brightness(0) saturate(100%) invert(1); }
         .footer-right { display: flex; justify-content: flex-end; }
         .footer-nav { display: flex; flex-direction: column; gap: 8px; }
         .footer-nav-item { font-size: 14px; color: #666; transition: color 0.3s; }
@@ -117,7 +112,7 @@
         .back-to-top { font-size: 13px; color: #999; cursor: pointer; transition: color 0.3s; display: flex; align-items: center; gap: 5px; }
         .back-to-top:hover { color: #333; }
         .footer-copyright { font-size: 11px; color: #999; letter-spacing: 0.5px; }
-        
+
         @media (max-width: 968px) {
             body { padding-bottom: 480px; }
             .hero-info { left: 20px; right: 20px; }
@@ -143,6 +138,7 @@
     </style>
 </head>
 <body>
+
     <section class="hero">
         <div class="hero-slider">
             <div class="hero-slide active"><img src="./assets/202511_showcase_I.webp" alt="Slide 1"></div>
@@ -164,7 +160,7 @@
                     <div class="progress-dot" data-slide="2"><div class="progress-dot-fill"></div></div>
                     <div class="progress-dot" data-slide="3"><div class="progress-dot-fill"></div></div>
                 </div>
-                <a href="https://vdesign5.github.io/home/works/roller-skating-open" id="heroViewBtn" class="view-button english">view →</a>
+                <a href="https://vdesign5.github.io/home/works/roller-skating-open" id="heroViewBtn" class="view-button english">view &#8594;</a>
             </div>
         </div>
     </section>
@@ -177,11 +173,9 @@
             <div class="menu-container" id="menuContainer">
                 <a href="https://vdesign5.github.io/home/" class="menu-item active"><img src="./assets/project.webp" alt="project"></a>
                 <a href="https://vdesign5.github.io/home/works/about" class="menu-item"><img src="./assets/about.webp" alt="about"></a>
-                <!-- ▼ FIX: contact button now always redirects to home#contact -->
                 <a href="https://vdesign5.github.io/home/#contact" class="menu-item js-contact-scroll"><img src="./assets/contact.webp" alt="contact"></a>
             </div>
         </div>
-        <!-- ▼ FIX: logo is now a clickable link -->
         <div class="island-center">
             <a href="https://vdesign5.github.io/home/">
                 <img src="./assets/logo.png" alt="Vdesign Logo">
@@ -195,97 +189,79 @@
 
     <section class="projects">
         <div class="projects-grid">
-            
+
             <a href="https://vdesign5.github.io/home/works/roller-skating-open" class="project-item" data-title-zh="轉化高速殘影與終點線，具象滑輪競賽速度。" data-title-en="Taiwan International Roller Skating Open">
-                <div class="project-image">
-                    <img src="./assets/project_I.webp" alt="Project 1">
-                </div>
+                <div class="project-image"><img src="./assets/project_I.webp" alt="Project 1"></div>
                 <div class="project-info">
                     <div class="project-category english">Event/Identity</div>
                     <div class="project-title">台灣國際滑輪溜冰公開賽<span class="english">Taiwan International Roller Skating Open</span></div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/sung-hospital" class="project-item" data-title-zh="綻放花瓣承托母嬰，圓潤曲線傳達醫療溫度。" data-title-en="Sung Women and Children's Hospital">
-                <div class="project-image">
-                    <img src="./assets/project_II.webp" alt="Project 2">
-                </div>
+                <div class="project-image"><img src="./assets/project_II.webp" alt="Project 2"></div>
                 <div class="project-info">
                     <div class="project-category english">Identity</div>
                     <div class="project-title">宋俊宏婦幼醫院<span class="english">Sung Women and Children's Hospital</span></div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/jhen-hao" class="project-item" data-title-zh="屋簷與太陽構築JH，暖色調傳遞家的溫暖。" data-title-en="Jhen Hao International Ltd.">
-                <div class="project-image">
-                    <img src="./assets/project_III.webp" alt="Project 3">
-                </div>
+                <div class="project-image"><img src="./assets/project_III.webp" alt="Project 3"></div>
                 <div class="project-info">
                     <div class="project-category english">Identity</div>
                     <div class="project-title">溱好國際有限公司<span class="english">Jhen Hao International Ltd.</span></div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/ovo" class="project-item" data-title-zh="統整網頁、插畫與行銷視覺，傳遞品牌價值。" data-title-en="OVO toilet">
-                <div class="project-image">
-                    <video src="./assets/OVO/VDesign_workIV.mp4" autoplay loop muted playsinline></video>
-                </div>
+                <div class="project-image"><video src="./assets/OVO/VDesign_workIV.mp4" autoplay loop muted playsinline></video></div>
                 <div class="project-info">
                     <div class="project-category english">Vibe coding/Motion graphic/Illustration</div>
                     <div class="project-title">京典衛浴<span class="english">OVO toilet</span></div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/tear-of-war" class="project-item" data-title-zh="以鐵網組成落淚雙眼，凝視戰火下的焦慮。" data-title-en="Tears of war">
-                <div class="project-image">
-                    <img src="./assets/project_V.webp" alt="Project 5">
-                </div>
+                <div class="project-image"><img src="./assets/project_V.webp" alt="Project 5"></div>
                 <div class="project-info">
                     <div class="project-category english">Poster</div>
                     <div class="project-title english">Tears of war</div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/no-smoking" class="project-item" data-title-zh="反直覺的阻礙結構，以不便引發吸菸反思。" data-title-en="No Smoking">
-                <div class="project-image">
-                    <img src="./assets/project_VI.webp" alt="Project 6">
-                </div>
+                <div class="project-image"><img src="./assets/project_VI.webp" alt="Project 6"></div>
                 <div class="project-info">
                     <div class="project-category english">Packaging</div>
                     <div class="project-title">制菸所<span class="english">No Smoking</span></div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/error" class="project-item" data-title-zh="轉化藍屏與雜訊，視覺化當機未存檔的無力。" data-title-en="I haven't saved my files yet.">
-                <div class="project-image">
-                    <video src="./assets/Error/VDesign_work_VII_1.mp4" autoplay loop muted playsinline></video>
-                </div>
+                <div class="project-image"><video src="./assets/Error/VDesign_work_VII_1.mp4" autoplay loop muted playsinline></video></div>
                 <div class="project-info">
                     <div class="project-category english">Event/Motion graphic</div>
                     <div class="project-title">我在當機前未存檔<span class="english">I haven't saved my files yet.</span></div>
                 </div>
             </a>
-            
-            <a href="https://vdesign5.github.io/home/works/push-pull" class="project-item" data-title-zh="黑白扭曲凹凸，表達心裡推拉的矛盾感受。" data-title-en="Push & Pull">
-                <div class="project-image">
-                    <img src="./assets/project_VIII.webp" alt="Project 8">
-                </div>
+
+            <a href="https://vdesign5.github.io/home/works/push-pull" class="project-item" data-title-zh="黑白扭曲凹凸，表達心裡推拉的矛盾感受。" data-title-en="Push &amp; Pull">
+                <div class="project-image"><img src="./assets/project_VIII.webp" alt="Project 8"></div>
                 <div class="project-info">
                     <div class="project-category english">Event/Poster</div>
-                    <div class="project-title english">Push & Pull</div>
+                    <div class="project-title english">Push &amp; Pull</div>
                 </div>
             </a>
-            
+
             <a href="https://vdesign5.github.io/home/works/69" class="project-item" data-title-zh="旋轉69融入笑臉，以明快色彩翻轉校慶視覺。" data-title-en="Flips 69, NKNU Great">
-                <div class="project-image">
-                    <img src="./assets/project_IX.webp" alt="Project 9">
-                </div>
+                <div class="project-image"><img src="./assets/project_IX.webp" alt="Project 9"></div>
                 <div class="project-info">
                     <div class="project-category english">Event/Poster</div>
                     <div class="project-title">69翻轉，高師大好<span class="english">Flips 69, NKNU Great</span></div>
                 </div>
             </a>
-            
+
         </div>
     </section>
 
@@ -297,7 +273,7 @@
             <div class="footer-right">
                 <div class="footer-contact-info">
                     <div class="footer-nav">
-                        <div class="footer-nav-item"><a href="/cdn-cgi/l/email-protection#16746463757324262624262e242456717b777f7a3875797b"><span class="__cf_email__" data-cfemail="0f6d7d7a6c6a3d3f3f3d3f373d3d4f68626e6663216c6062">[email&#160;protected]</span></a></div>
+                        <div class="footer-nav-item"><a href="mailto:bruce20020822@gmail.com">bruce20020822@gmail.com</a></div>
                         <div class="footer-nav-item"><a href="tel:+886905592930">(+886) 905-592-930</a></div>
                     </div>
                     <div class="footer-social">
@@ -308,34 +284,29 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑ Go back to top</div>
+            <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">&#8593; Go back to top</div>
             <div class="footer-copyright">&copy; 2025 VDESIGN. All rights reserved.</div>
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
-        // 初始化平滑滾動
         var lenis = new Lenis({
             duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
             orientation: 'vertical',
             gestureOrientation: 'vertical',
             smoothWheel: true,
             wheelMultiplier: 1,
             smoothTouch: false,
             touchMultiplier: 2,
-            infinite: false,
+            infinite: false
         });
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // Contact 按鈕：若 footer#contact 存在於當前頁面則平滑滾動，否則跳轉首頁
+        // FIX: Contact 按鈕 — 若 #contact 存在於本頁則平滑滾動，否則讓 href 跳轉外部
         var contactBtn = document.querySelector('.js-contact-scroll');
         if (contactBtn) {
             contactBtn.addEventListener('click', function(e) {
@@ -348,96 +319,100 @@
         }
     </script>
     <script>
-        (function(){
-            var D=[
-                { meta:'Event/Identity', title:'台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open', link:'https://vdesign5.github.io/home/works/roller-skating-open' },
-                { meta:'Vibe coding/Motion graphic/Illustration', title:'京典衛浴 | OVO toilet', link:'https://vdesign5.github.io/home/works/ovo' },
-                { meta:'Identity', title:'宋俊宏婦幼醫院 | Sung Women and Children\'s Hospital', link:'https://vdesign5.github.io/home/works/sung-hospital' },
-                { meta:'Packaging', title:'制菸所 | No Smoking', link:'https://vdesign5.github.io/home/works/no-smoking' }
+        (function() {
+            var D = [
+                { meta: 'Event/Identity',                          title: '台灣國際滑輪溜冰公開賽 | Taiwan International Roller Skating Open', link: 'https://vdesign5.github.io/home/works/roller-skating-open' },
+                { meta: 'Vibe coding/Motion graphic/Illustration', title: '京典衛浴 | OVO toilet',                                              link: 'https://vdesign5.github.io/home/works/ovo' },
+                { meta: 'Identity',                                title: '宋俊宏婦幼醫院 | Sung Women and Children\'s Hospital',                link: 'https://vdesign5.github.io/home/works/sung-hospital' },
+                { meta: 'Packaging',                               title: '制菸所 | No Smoking',                                                link: 'https://vdesign5.github.io/home/works/no-smoking' }
             ];
-            var c=0, s=document.querySelectorAll('.hero-slide'), t=document.getElementById('heroTitle'), m=document.getElementById('heroMeta'), btn=document.getElementById('heroViewBtn'), p=document.querySelectorAll('.progress-dot'), f=document.querySelectorAll('.progress-dot-fill'), d=5000, I, T;
-            
-            function U(){
-                var e=Date.now()-T, r=Math.min(e/d*100,100), a=f[c];
-                a&&(a.style.width=r+'%');
-                r<100&&requestAnimationFrame(U);
+
+            var c = 0;
+            var s   = document.querySelectorAll('.hero-slide');
+            var t   = document.getElementById('heroTitle');
+            var m   = document.getElementById('heroMeta');
+            var btn = document.getElementById('heroViewBtn');
+            var p   = document.querySelectorAll('.progress-dot');
+            var f   = document.querySelectorAll('.progress-dot-fill');
+            var d = 5000, I, T;
+
+            function U() {
+                var e = Date.now() - T;
+                var r = Math.min(e / d * 100, 100);
+                var a = f[c];
+                if (a) a.style.width = r + '%';
+                if (r < 100) requestAnimationFrame(U);
             }
-            
-            function S(){
-                p.forEach(function(e,i){e.classList.remove('active');f[i].style.width='0%'});
+
+            function S() {
+                p.forEach(function(e, i) { e.classList.remove('active'); f[i].style.width = '0%'; });
                 p[c].classList.add('active');
-                T=Date.now();
+                T = Date.now();
                 requestAnimationFrame(U);
             }
-            
-            function w(n){
-                s.forEach(function(e){e.classList.remove('active')});
-                c=(n+s.length)%s.length;
+
+            function w(n) {
+                s.forEach(function(e) { e.classList.remove('active'); });
+                c = (n + s.length) % s.length;
                 s[c].classList.add('active');
-                t.textContent=D[c].title;
-                m.textContent=D[c].meta;
-                btn.href=D[c].link;
+                t.textContent = D[c].title;
+                m.textContent = D[c].meta;
+                btn.href = D[c].link;
                 S();
             }
-            
-            function A(){
-                I&&clearInterval(I);
-                I=setInterval(function(){w(c+1)},d);
+
+            function A() {
+                if (I) clearInterval(I);
+                I = setInterval(function() { w(c + 1); }, d);
             }
-            
-            document.getElementById('prevSlide').addEventListener('click',function(){w(c-1);A()});
-            document.getElementById('nextSlide').addEventListener('click',function(){w(c+1);A()});
-            p.forEach(function(e,i){e.addEventListener('click',function(){w(i);A()})});
-            A();S();
-            
-            var g=document.getElementById('menuToggle'), h=document.getElementById('menuContainer');
-            g.addEventListener('click',function(){g.classList.toggle('open');h.classList.toggle('open')});
-            
-            var j=document.querySelectorAll('.project-item'), k=document.querySelector('.island-right .chinese'), l=document.querySelector('.island-right .english'), C='Vdesign 是一個位於台灣的創意工作室', E='Vdesign is a Creative Studio Based in Taiwan';
+
+            document.getElementById('prevSlide').addEventListener('click', function() { w(c - 1); A(); });
+            document.getElementById('nextSlide').addEventListener('click', function() { w(c + 1); A(); });
+            p.forEach(function(e, i) { e.addEventListener('click', function() { w(i); A(); }); });
+            A(); S();
+
+            // 漢堡選單
+            var g = document.getElementById('menuToggle');
+            var h = document.getElementById('menuContainer');
+            g.addEventListener('click', function() {
+                g.classList.toggle('open');
+                h.classList.toggle('open');
+            });
+
+            // 動態島右側文字切換
+            var j = document.querySelectorAll('.project-item');
+            var k = document.querySelector('.island-right .chinese');
+            var l = document.querySelector('.island-right .english');
+            var C = 'Vdesign 是一個位於台灣的創意工作室';
+            var E = 'Vdesign is a Creative Studio Based in Taiwan';
 
             k.classList.add('fade-in');
             l.classList.add('fade-in');
 
-            j.forEach(function(e){
-                e.addEventListener('mouseenter',function(){
-                    var z=this.getAttribute('data-title-zh'), n=this.getAttribute('data-title-en');
-                    
-                    k.classList.remove('fade-in');
-                    l.classList.remove('fade-in');
-                    k.classList.add('fade-out');
-                    l.classList.add('fade-out');
-                    
-                    setTimeout(function(){
-                        k.textContent=z;
-                        l.textContent=n;
-                        
-                        k.classList.remove('fade-out');
-                        l.classList.remove('fade-out');
-                        k.classList.add('fade-in');
-                        l.classList.add('fade-in');
+            j.forEach(function(e) {
+                e.addEventListener('mouseenter', function() {
+                    var z = this.getAttribute('data-title-zh');
+                    var n = this.getAttribute('data-title-en');
+                    k.classList.remove('fade-in'); l.classList.remove('fade-in');
+                    k.classList.add('fade-out');   l.classList.add('fade-out');
+                    setTimeout(function() {
+                        k.textContent = z; l.textContent = n;
+                        k.classList.remove('fade-out'); l.classList.remove('fade-out');
+                        k.classList.add('fade-in');     l.classList.add('fade-in');
                     }, 250);
                 });
-                
-                e.addEventListener('mouseleave',function(){
-                    k.classList.remove('fade-in');
-                    l.classList.remove('fade-in');
-                    k.classList.add('fade-out');
-                    l.classList.add('fade-out');
-                    
-                    setTimeout(function(){
-                        k.textContent=C;
-                        l.textContent=E;
-                        
-                        k.classList.remove('fade-out');
-                        l.classList.remove('fade-out');
-                        k.classList.add('fade-in');
-                        l.classList.add('fade-in');
+                e.addEventListener('mouseleave', function() {
+                    k.classList.remove('fade-in'); l.classList.remove('fade-in');
+                    k.classList.add('fade-out');   l.classList.add('fade-out');
+                    setTimeout(function() {
+                        k.textContent = C; l.textContent = E;
+                        k.classList.remove('fade-out'); l.classList.remove('fade-out');
+                        k.classList.add('fade-in');     l.classList.add('fade-in');
                     }, 250);
                 });
             });
 
-            var observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-
+            // Intersection Observer — 進場動畫
             var observer = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
@@ -445,33 +420,27 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, observerOptions);
+            }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
             j.forEach(function(item) {
                 observer.observe(item);
-                
                 item.addEventListener('mouseenter', function() {
                     var media = this.querySelector('.project-image img, .project-image video');
                     if (media) media.style.transform = 'scale(1.1)';
                 });
-                
-                item.addEventListener('mouseleave', function() {
-                    updateParallax();
-                });
+                item.addEventListener('mouseleave', function() { updateParallax(); });
             });
 
+            // 視差滾動
             function updateParallax() {
                 var windowHeight = window.innerHeight;
-                
                 j.forEach(function(item) {
                     var rect = item.getBoundingClientRect();
-                    
                     if (rect.top < windowHeight && rect.bottom > 0 && !item.matches(':hover')) {
                         var media = item.querySelector('.project-image img, .project-image video');
                         if (media) {
                             var relativePos = (windowHeight - rect.top) / (windowHeight + rect.height);
-                            var parallaxAmount = (relativePos - 0.5) * 20; 
-                            media.style.transform = 'translateY(' + parallaxAmount + 'px)';
+                            media.style.transform = 'translateY(' + ((relativePos - 0.5) * 20) + 'px)';
                         }
                     }
                 });
@@ -480,4 +449,12 @@
             var rafId;
             function onScroll() {
                 if (rafId) cancelAnimationFrame(rafId);
-                rafId = requestAnimation
+                rafId = requestAnimationFrame(updateParallax);
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', updateParallax);
+            updateParallax();
+        })();
+    </script>
+</body>
+</html>
