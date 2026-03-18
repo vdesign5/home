@@ -485,6 +485,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -492,6 +493,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -502,17 +504,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -539,47 +552,15 @@
         
         /* Responsive */
         @media (max-width: 968px) {
-            body {
-                padding-bottom: 120px;
-            }
-            
-            .content {
-                padding: 60px 30px;
-            }
-            
-            .project-title,
-            .description,
-            .section-caption {
-                max-width: 100%;
-            }
-            
-            .project-title {
-                font-size: 28px;
-                margin-bottom: 40px;
-            }
-            
-            .description {
-                font-size: 15px;
-                margin-bottom: 60px;
-            }
-            
-            .gallery-section {
-                margin-bottom: 60px;
-            }
-            
-            .tabs {
-                gap: 12px;
-            }
-            
-            .tab {
-                padding: 14px 28px;
-                font-size: 15px;
-            }
-            
-            .video-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
+            body { padding-bottom: 120px; }
+            .content { padding: 60px 30px; }
+            .project-title, .description, .section-caption { max-width: 100%; }
+            .project-title { font-size: 28px; margin-bottom: 40px; }
+            .description { font-size: 15px; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
+            .tabs { gap: 12px; }
+            .tab { padding: 14px 28px; font-size: 15px; }
+            .video-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
             
             .dynamic-island {
                 padding: 20px 25px;
@@ -590,196 +571,67 @@
                 justify-content: space-between;
                 align-items: center;
             }
-            
-            .island-left {
-                order: 1;
-                gap: 8px;
-                flex: 0 0 auto;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 8px;
-            }
-            
-            .menu-container.open {
-                max-width: 220px;
-            }
-            
-            .island-center {
-                order: 2;
-                position: relative;
-                left: 0;
-                transform: none;
-                pointer-events: none;
-                flex: 0 0 auto;
-                margin-left: auto;
-                z-index: 1;
-            }
-            
-            .island-center img {
-                height: 42px;
-            }
-            
-            .island-right {
-                display: none;
-            }
-            
-            .menu-toggle {
-                padding: 10px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-toggle span {
-                width: 24px;
-            }
-            
-            .menu-item img {
-                height: 20px;
-                width: auto;
-            }
-            
-            .progress-container {
-                gap: 10px;
-                bottom: 18px;
-            }
-            
-            .progress-dot.active {
-                width: 55px;
-            }
+            .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
+            .menu-container { gap: 8px; }
+            .menu-container.open { max-width: 220px; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
+            .island-center img { height: 42px; }
+            .island-right { display: none; }
+            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-toggle span { width: 24px; }
+            .menu-item img { height: 20px; width: auto; }
+            .progress-container { gap: 10px; bottom: 18px; }
+            .progress-dot.active { width: 55px; }
         }
         
         @media (max-width: 640px) {
-            body {
-                padding-bottom: 110px;
-            }
+            body { padding-bottom: 110px; }
+            .hero-image { height: 250px; }
+            .content { padding: 40px 20px; }
+            .project-title { font-size: 24px; margin-bottom: 30px; }
+            .description { font-size: 14px; line-height: 1.8; }
+            .section-caption { font-size: 14px; padding-left: 24px; }
+            .tabs { flex-direction: column; gap: 10px; }
+            .tab { padding: 12px 24px; font-size: 14px; width: 100%; text-align: center; }
+            .video-grid { grid-template-columns: 1fr; gap: 12px; }
             
-            .hero-image {
-                height: 250px;
-            }
-            
-            .content {
-                padding: 40px 20px;
-            }
-            
-            .project-title {
-                font-size: 24px;
-                margin-bottom: 30px;
-            }
-            
-            .description {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-            
-            .section-caption {
-                font-size: 14px;
-                padding-left: 24px;
-            }
-            
-            .tabs {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .tab {
-                padding: 12px 24px;
-                font-size: 14px;
-                width: 100%;
-                text-align: center;
-            }
-            
-            .video-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .dynamic-island {
-                padding: 18px 20px;
-                border-top-left-radius: 24px;
-                border-top-right-radius: 24px;
-            }
-            
-            .island-left {
-                gap: 6px;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 6px;
-            }
-            
-            .menu-toggle {
-                padding: 8px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-container.open {
-                max-width: 200px;
-            }
-            
-            .menu-item img {
-                height: 18px;
-                width: auto;
-            }
-            
-            .island-center img {
-                height: 38px;
-            }
-            
-            .progress-container {
-                gap: 8px;
-                bottom: 16px;
-            }
-            
-            .progress-dot.active {
-                width: 45px;
-            }
+            .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
+            .island-left { gap: 6px; z-index: 100; }
+            .menu-container { gap: 6px; }
+            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-container.open { max-width: 200px; }
+            .menu-item img { height: 18px; width: auto; }
+            .island-center img { height: 38px; }
+            .progress-container { gap: 8px; bottom: 16px; }
+            .progress-dot.active { width: 45px; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Image -->
     <div class="hero-image">
         <img src="../assets/202511_showcase_III.webp" alt="制菸所">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        <!-- Title -->
         <h1 class="project-title">制菸所</h1>
 
-        <!-- Description -->
         <p class="description">
             這不是一個為了「好開」而存在的包裝，而是為了「阻礙」而生。<br>
             「制菸所」是一系列反直覺的菸盒結構設計，我們利用干擾的結構、令人分心的互動，讓抽一根菸變得不再順手，或許就是那短暫的停頓與不便，進而引發使用者對吸菸議題的反思。
         </p>
 
-        <!-- Single Image 1 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_1.webp" alt="制菸所設計 1">
             </div>
         </div>
 
-        <!-- Single Image 2 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_2.webp" alt="制菸所設計 2">
             </div>
         </div>
 
-        <!-- Gallery Section - 4 Images -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
@@ -809,43 +661,36 @@
             </div>
         </div>
 
-        <!-- Single Image 3 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_3.webp" alt="吵吵菸盒">
             </div>
         </div>
 
-        <!-- Section Caption 1 -->
         <p class="section-caption">
             「吵吵菸盒」，在開盒瞬間觸發擬真的劇烈咳嗽聲，不僅將旁人吸入二手菸的不適，轉化為對使用者的直接聽覺衝擊，強制喚醒換位思考；更利用聲音打破抽菸的隱蔽性，藉由引來路人側目所產生的尷尬感與公眾壓力，轉化為抑制吸菸頻率的心理阻力。
         </p>
 
-        <!-- Single Image 4 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_4.webp" alt="問籤菸盒">
             </div>
         </div>
 
-        <!-- Section Caption 2 -->
         <p class="section-caption">
             「問籤菸盒」，將取菸行為重塑為充滿不確定性的求籤儀式。透過搖晃動作增加物理上的取用難度，更將菸設計為多數標示「凶」的命運籤。藉由隨機性的負面心理暗示，讓吸菸者在尋求吸菸慰藉時反而獲得運勢警訊，利用潛意識中對厄運的顧慮，達到阻礙吸菸的效果。
         </p>
 
-        <!-- Single Image 5 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_5.webp" alt="垂垂菸盒">
             </div>
         </div>
 
-        <!-- Section Caption 3 -->
         <p class="section-caption">
             「垂垂菸盒」，利用互動式結構，側面的男性性徵符號會隨著開盒產生由筆挺轉為下垂的變化。設計直擊男性對於生理機能衰退的深層焦慮，透過抽菸行為與性功能障礙建立因果聯想，將恐懼具象化，藉此達到阻礙吸菸的目的。
         </p>
 
-        <!-- Video Switcher Section -->
         <div class="video-switcher">
             <div class="tabs">
                 <button class="tab active" data-category="warning">警示提醒</button>
@@ -853,7 +698,6 @@
                 <button class="tab" data-category="distraction">分散注意</button>
             </div>
 
-            <!-- Warning Category Videos -->
             <div class="video-grid active" data-category="warning">
                 <div class="video-item">
                     <video autoplay loop muted playsinline>
@@ -969,7 +813,6 @@
                 </div>
             </div>
 
-            <!-- Structure Category Videos -->
             <div class="video-grid" data-category="structure">
                 <div class="video-item">
                     <video autoplay loop muted playsinline>
@@ -1085,7 +928,6 @@
                 </div>
             </div>
 
-            <!-- Distraction Category Videos -->
             <div class="video-grid" data-category="distraction">
                 <div class="video-item">
                     <video autoplay loop muted playsinline>
@@ -1203,7 +1045,6 @@
         </div>
     </div>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
@@ -1212,19 +1053,21 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">制菸所 產品結構設計</span>
@@ -1232,7 +1075,6 @@
         </div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // Initialize Lenis smooth scroll
@@ -1273,14 +1115,6 @@
             }, { passive: false });
         }
 
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
         // Tab Switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
@@ -1296,7 +1130,7 @@
             });
         });
 
-        // Video Player Class
+        // Video Player Class for Grid Videos
         class GridVideoPlayer {
             constructor(videoElement) {
                 this.video = videoElement;
@@ -1363,7 +1197,7 @@
             }
         }
 
-        // Enhanced Slider Functionality
+        // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
             constructor(container) {
                 this.container = container;
@@ -1461,12 +1295,11 @@
             }
         }
         
-        // Initialize all sliders
+        // Initialize all components
         document.querySelectorAll('.slider-container').forEach(container => {
             new AutoSlider(container);
         });
 
-        // Initialize all video players
         document.querySelectorAll('.video-item video').forEach(video => {
             new GridVideoPlayer(video);
         });
