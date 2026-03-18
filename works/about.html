@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - 伍聖耀</title>
+    <title>About - 伍聖燿</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -200,6 +200,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block; /* a 標籤改為區塊元素 */
         }
         
         .menu-item img {
@@ -207,13 +208,13 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
             filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg);
         }
         
-        /* 已將 active 狀態移至 About 選單 */
         .menu-item.active img {
             filter: brightness(0) saturate(100%) invert(20%);
         }
@@ -372,15 +373,15 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item">
+                <a href="https://vdesign5.github.io/home/" class="menu-item">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item active">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item active">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
@@ -430,14 +431,8 @@
                 menuContainer.classList.toggle('open');
             }, { passive: false });
         }
-
-        // Menu Items Click Logic (Demo)
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        
+        // 移除了舊版單純切換 .active class 的腳本，因為現在點擊 a 標籤會直接執行網頁跳轉。
     </script>
 </body>
 </html>
