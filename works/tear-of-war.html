@@ -210,18 +210,6 @@
             display: block;
         }
         
-        /* Caption */
-        .caption {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #666;
-            margin-bottom: 60px;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-        
         /* Dynamic Island */
         .dynamic-island {
             position: fixed;
@@ -313,6 +301,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -320,6 +309,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -330,17 +320,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -365,45 +366,14 @@
             transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .island-right .fade-out {
-            opacity: 0;
-            transform: translateY(-12px);
-        }
-        
-        .island-right .fade-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
         /* Responsive */
         @media (max-width: 968px) {
-            body {
-                padding-bottom: 120px;
-            }
-            
-            .content {
-                padding: 60px 30px;
-            }
-            
-            .project-title,
-            .description,
-            .caption {
-                max-width: 100%;
-            }
-            
-            .project-title {
-                font-size: 28px;
-                margin-bottom: 40px;
-            }
-            
-            .description {
-                font-size: 15px;
-                margin-bottom: 60px;
-            }
-            
-            .gallery-section {
-                margin-bottom: 60px;
-            }
+            body { padding-bottom: 120px; }
+            .content { padding: 60px 30px; }
+            .project-title, .description { max-width: 100%; }
+            .project-title { font-size: 28px; margin-bottom: 40px; }
+            .description { font-size: 15px; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
             
             .dynamic-island {
                 padding: 20px 25px;
@@ -414,160 +384,51 @@
                 justify-content: space-between;
                 align-items: center;
             }
-            
-            .island-left {
-                order: 1;
-                gap: 8px;
-                flex: 0 0 auto;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 8px;
-            }
-            
-            .menu-container.open {
-                max-width: 220px;
-            }
-            
-            .island-center {
-                order: 2;
-                position: relative;
-                left: 0;
-                transform: none;
-                pointer-events: none;
-                flex: 0 0 auto;
-                margin-left: auto;
-                z-index: 1;
-            }
-            
-            .island-center img {
-                height: 42px;
-            }
-            
-            .island-right {
-                display: none;
-            }
-            
-            .menu-toggle {
-                padding: 10px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-toggle span {
-                width: 24px;
-            }
-            
-            .menu-item img {
-                height: 20px;
-                width: auto;
-            }
-            
-            .progress-container {
-                gap: 10px;
-                bottom: 18px;
-            }
-            
-            .progress-dot.active {
-                width: 55px;
-            }
+            .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
+            .menu-container { gap: 8px; }
+            .menu-container.open { max-width: 220px; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
+            .island-center img { height: 42px; }
+            .island-right { display: none; }
+            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-toggle span { width: 24px; }
+            .menu-item img { height: 20px; width: auto; }
+            .progress-container { gap: 10px; bottom: 18px; }
+            .progress-dot.active { width: 55px; }
         }
         
         @media (max-width: 640px) {
-            body {
-                padding-bottom: 110px;
-            }
+            body { padding-bottom: 110px; }
+            .hero-image { height: 250px; }
+            .content { padding: 40px 20px; }
+            .project-title { font-size: 24px; margin-bottom: 30px; }
+            .description { font-size: 14px; line-height: 1.8; }
             
-            .hero-image {
-                height: 250px;
-            }
-            
-            .content {
-                padding: 40px 20px;
-            }
-            
-            .project-title {
-                font-size: 24px;
-                margin-bottom: 30px;
-            }
-            
-            .description {
-                font-size: 14px;
-                line-height: 1.8;
-            }
-            
-            .dynamic-island {
-                padding: 18px 20px;
-                border-top-left-radius: 24px;
-                border-top-right-radius: 24px;
-            }
-            
-            .island-left {
-                gap: 6px;
-                z-index: 100;
-            }
-            
-            .menu-container {
-                gap: 6px;
-            }
-            
-            .menu-toggle {
-                padding: 8px;
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 101;
-            }
-            
-            .menu-container.open {
-                max-width: 200px;
-            }
-            
-            .menu-item img {
-                height: 18px;
-                width: auto;
-            }
-            
-            .island-center img {
-                height: 38px;
-            }
-            
-            .progress-container {
-                gap: 8px;
-                bottom: 16px;
-            }
-            
-            .progress-dot.active {
-                width: 45px;
-            }
+            .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
+            .island-left { gap: 6px; z-index: 100; }
+            .menu-container { gap: 6px; }
+            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
+            .menu-container.open { max-width: 200px; }
+            .menu-item img { height: 18px; width: auto; }
+            .island-center img { height: 38px; }
+            .progress-container { gap: 8px; bottom: 16px; }
+            .progress-dot.active { width: 45px; }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Image -->
     <div class="hero-image">
         <img src="../assets/Tear_Of_War/VDesign_workIX_0.webp" alt="Tear of war">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        <!-- Title -->
         <h1 class="project-title">Tear of war</h1>
 
-        <!-- Description -->
         <p class="description">
             在烏克蘭的戰火中，看見了台灣相似的處境與危機。鐵網交織成一雙凝視的眼睛，落下一滴沈重眼淚，它源自烏克蘭人民的傷痛，也映照出台灣相似焦慮。<br>
             願眼淚之後，是重生的堅韌。
         </p>
 
-        <!-- Gallery Section - Multiple Images -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
@@ -593,7 +454,6 @@
             </div>
         </div>
 
-        <!-- Single Image -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/Tear_Of_War/VDesign_workIX_4.webp" alt="Poster Application">
@@ -601,7 +461,6 @@
         </div>
     </div>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
@@ -610,19 +469,21 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">Tear of war 海報設計</span>
@@ -630,7 +491,6 @@
         </div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // Initialize Lenis smooth scroll
@@ -671,14 +531,6 @@
                 menuContainer.classList.toggle('open');
             }, { passive: false });
         }
-
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
 
         // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
