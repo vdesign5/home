@@ -200,7 +200,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
-            display: block; /* a 標籤改為區塊元素 */
+            display: block;
         }
         
         .menu-item img {
@@ -219,17 +219,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center from Home Page */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -284,7 +295,7 @@
             .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
             .menu-container { gap: 8px; }
             .menu-container.open { max-width: 220px; }
-            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 1; }
+            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
             .island-center img { height: 42px; }
             .island-right { display: none; }
             .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; justify-content: center; z-index: 101; }
@@ -385,7 +396,9 @@
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">關於我</span>
@@ -431,8 +444,6 @@
                 menuContainer.classList.toggle('open');
             }, { passive: false });
         }
-        
-        // 移除了舊版單純切換 .active class 的腳本，因為現在點擊 a 標籤會直接執行網頁跳轉。
     </script>
 </body>
 </html>
