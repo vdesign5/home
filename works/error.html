@@ -436,6 +436,7 @@
             cursor: pointer;
             transition: all 0.3s;
             flex-shrink: 0;
+            display: block;
         }
         
         .menu-item img {
@@ -443,6 +444,7 @@
             width: auto;
             filter: brightness(0) saturate(100%) invert(80%);
             transition: all 0.3s;
+            display: block;
         }
         
         .menu-item:hover img {
@@ -453,17 +455,28 @@
             filter: brightness(0) saturate(100%) invert(20%);
         }
         
+        /* Updated Island Center for Clickability */
         .island-center {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 20;
+        }
+        
+        .island-center a {
+            display: block;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        
+        .island-center a:hover {
+            opacity: 0.7;
         }
         
         .island-center img {
             height: 60px;
+            display: block;
+            pointer-events: none;
         }
         
         .island-right {
@@ -486,16 +499,6 @@
             color: #666;
             margin-top: 4px;
             transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .island-right .fade-out {
-            opacity: 0;
-            transform: translateY(-12px);
-        }
-        
-        .island-right .fade-in {
-            opacity: 1;
-            transform: translateY(0);
         }
         
         /* Responsive */
@@ -558,10 +561,9 @@
                 position: relative;
                 left: 0;
                 transform: none;
-                pointer-events: none;
                 flex: 0 0 auto;
                 margin-left: auto;
-                z-index: 1;
+                z-index: 20;
             }
             
             .island-center img {
@@ -726,29 +728,23 @@
     </style>
 </head>
 <body>
-    <!-- Hero Image -->
     <div class="hero-image">
         <img src="../assets/Error/VDesign_work_VII_0.webp" alt="我在當機前未存檔">
     </div>
 
-    <!-- Main Content -->
     <div class="content">
-        <!-- Title -->
         <h1 class="project-title">我在當機前未存檔</h1>
 
-        <!-- Description -->
         <p class="description">
             本次的班展主題「我在當機前未存檔」，設計師的崩潰，往往發生在電腦當機的那刻。 本作將 Windows 經典的死機畫面作為主軸，取畫面的的哭臉與藍色做應用，結合不斷疊加的錯誤視窗與亂碼雜訊，具象化我們未存檔而失去所做心血時帶來的憂鬱、混亂與無力感。
         </p>
 
-        <!-- Single Image 1 -->
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/Error/VDesign_work_VII_1.webp" alt="Key Visual">
             </div>
         </div>
 
-        <!-- 16:9 Video -->
         <div class="gallery-section">
             <div class="video-container widescreen">
                 <video id="video2" autoplay loop muted playsinline>
@@ -780,7 +776,6 @@
             </div>
         </div>
 
-        <!-- Gallery Section 1 - 2 Images -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
@@ -802,7 +797,6 @@
             </div>
         </div>
 
-        <!-- Gallery Section 2 - 2 Images -->
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
@@ -824,7 +818,6 @@
             </div>
         </div>
 
-        <!-- Square Video -->
         <div class="gallery-section">
             <div class="video-container square">
                 <video id="video1" autoplay loop muted playsinline>
@@ -857,7 +850,6 @@
         </div>
     </div>
 
-    <!-- Dynamic Island -->
     <div class="dynamic-island">
         <div class="island-left">
             <div class="menu-toggle" id="menuToggle">
@@ -866,19 +858,21 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <div class="menu-item active">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">
                     <img src="../assets/project.webp" alt="project">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
                     <img src="../assets/about.webp" alt="about">
-                </div>
-                <div class="menu-item">
+                </a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
                     <img src="../assets/contact.webp" alt="contact">
-                </div>
+                </a>
             </div>
         </div>
         <div class="island-center">
-            <img src="../assets/logo.png" alt="Vdesign Logo">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
         </div>
         <div class="island-right">
             <span class="chinese">我在當機前未存檔 班展視覺設計</span>
@@ -886,7 +880,6 @@
         </div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
         // Initialize Lenis smooth scroll
@@ -926,14 +919,6 @@
                 menuContainer.classList.toggle('open');
             }, { passive: false });
         }
-
-        // Menu Items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
 
         // Video Controls
         class VideoPlayer {
