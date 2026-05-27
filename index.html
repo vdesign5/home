@@ -123,19 +123,32 @@
         }
         .showcase-img.active { opacity: 1; }
 
-        .showcase-meta {
-            text-align: center;
+        /* 圖片內浮層：左上中文分類、右上英文分類 */
+        .showcase-overlay {
+            position: absolute; top: 0; left: 0; right: 0;
+            padding: 16px 18px; z-index: 1;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            pointer-events: none;
         }
-        .showcase-tags {
-            font-size: 13px; color: #555; line-height: 1.75;
+        .sc-cat-zh {
+            font-size: 11px; color: #fff; letter-spacing: 0.04em;
+            line-height: 1; text-shadow: 0 1px 6px rgba(0,0,0,0.45);
         }
-        .showcase-tags-en {
+        .sc-cat-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; color: #999; line-height: 1.75; margin-top: 4px;
+            font-size: 10px; color: #fff; letter-spacing: 0.12em;
+            line-height: 1; text-align: right; text-transform: uppercase;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.45);
         }
-        .showcase-location {
+
+        /* 圖片下方：主標中文 + 副標英文 */
+        .showcase-meta { text-align: center; }
+        .sc-title-zh {
+            font-size: 14px; color: #222; line-height: 1.55; font-weight: 500;
+        }
+        .sc-title-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; color: #bbb; margin-top: 12px; letter-spacing: 0.06em;
+            font-size: 11px; color: #aaa; line-height: 1.5; margin-top: 4px;
         }
 
         .showcase-dots {
@@ -477,11 +490,14 @@
                     <img src="./assets/202511_showcase_II.webp"  class="showcase-img"        alt="Showcase 2" loading="lazy">
                     <img src="./assets/202511_showcase_III.webp" class="showcase-img"        alt="Showcase 3" loading="lazy">
                     <img src="./assets/202511_showcase_IV.webp"  class="showcase-img"        alt="Showcase 4" loading="lazy">
+                    <div class="showcase-overlay">
+                        <span class="sc-cat-zh"></span>
+                        <span class="sc-cat-en"></span>
+                    </div>
                 </div>
                 <div class="showcase-meta">
-                    <p class="showcase-tags">品牌識別 · 活動視覺 · 動態設計</p>
-                    <p class="showcase-tags-en">Brand Identity · Event · Motion Design</p>
-                    <p class="showcase-location">Taiwan, Est. 2019</p>
+                    <p class="sc-title-zh"></p>
+                    <p class="sc-title-en"></p>
                 </div>
                 <div class="showcase-dots" id="showcaseDots"></div>
             </div>
@@ -569,14 +585,39 @@
         { titleZh:'69翻轉，高師大好', titleEn:'Flips 69, NKNU Great', categories:['event','poster'], label:'Event / Poster', labelZh:'活動 / 海報', descZh:'旋轉69融入笑臉，以明快色彩翻轉校慶視覺。', descEn:'Flips 69, NKNU Great', href:'./works/69', thumb:{type:'img',src:'./assets/project_IX.webp'} }
     ];
 
+    /* ── Showcase 每張圖的資料（依 202511_showcase_I/II/III/IV 順序填入） ── */
+    var SHOWCASE = [
+        { catZh:'活動 / 識別', catEn:'Event / Identity',       titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open' },
+        { catZh:'識別',        catEn:'Identity',               titleZh:'宋俊宏婦幼醫院',         titleEn:"Sung Women and Children's Hospital"       },
+        { catZh:'識別',        catEn:'Identity',               titleZh:'溱好國際有限公司',        titleEn:'Jhen Hao International Ltd.'              },
+        { catZh:'動態 / 插畫', catEn:'Motion / Illustration',  titleZh:'京典衛浴',               titleEn:'OVO Toilet'                               }
+    ];
+
     /* ── 輪播 ── */
-    var slides = document.querySelectorAll('.showcase-img');
-    var dots   = [];
+    var slides  = document.querySelectorAll('.showcase-img');
+    var dots    = [];
     var current = 0;
-    var showcaseTags   = document.querySelector('.showcase-tags');
-    var showcaseTagsEn = document.querySelector('.showcase-tags-en');
-    var zhTagText = showcaseTags   ? showcaseTags.textContent   : '';
-    var enTagText = showcaseTagsEn ? showcaseTagsEn.textContent : '';
+
+    var scCatZh   = document.querySelector('.sc-cat-zh');
+    var scCatEn   = document.querySelector('.sc-cat-en');
+    var scTitleZh = document.querySelector('.sc-title-zh');
+    var scTitleEn = document.querySelector('.sc-title-en');
+
+    function updateShowcaseInfo(idx, animate) {
+        var s = SHOWCASE[idx];
+        if (!s) return;
+        if (animate) {
+            scrambleText(scCatZh,   s.catZh,   true);
+            scrambleText(scCatEn,   s.catEn,   false);
+            scrambleText(scTitleZh, s.titleZh, true);
+            scrambleText(scTitleEn, s.titleEn, false);
+        } else {
+            if (scCatZh)   scCatZh.textContent   = s.catZh;
+            if (scCatEn)   scCatEn.textContent    = s.catEn;
+            if (scTitleZh) scTitleZh.textContent  = s.titleZh;
+            if (scTitleEn) scTitleEn.textContent  = s.titleEn;
+        }
+    }
 
     (function buildDots() {
         var container = document.getElementById('showcaseDots');
@@ -589,30 +630,31 @@
         });
     })();
 
+    /* 初始化第一張（不播動畫，showcase 尚在隱藏狀態） */
+    updateShowcaseInfo(0, false);
+
     function goTo(n) {
         slides[current].classList.remove('active');
         dots[current].classList.remove('active');
         current = (n + slides.length) % slides.length;
         slides[current].classList.add('active');
         dots[current].classList.add('active');
-        if (showcaseTags)   scrambleText(showcaseTags,   zhTagText, true);
-        if (showcaseTagsEn) scrambleText(showcaseTagsEn, enTagText, false);
+        updateShowcaseInfo(current, true);
     }
 
     setInterval(function() { goTo(current + 1); }, 3600);
 
-    /* logo-stage hover 展開時觸發 scramble */
+    /* logo-stage 展開時觸發 scramble */
     var logoStage = document.getElementById('logoStage');
     if (logoStage) {
         logoStage.addEventListener('mouseenter', function() {
-            if (showcaseTags)   scrambleText(showcaseTags,   zhTagText, true);
-            if (showcaseTagsEn) scrambleText(showcaseTagsEn, enTagText, false);
+            updateShowcaseInfo(current, true);
         });
     }
 
     /* ── 亂碼打字效果 ── */
     var CHARS_ZH = '一七八十丁戊己甲乙丙!@#%&*?';
-    var CHARS_EN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%&*?';
+    var CHARS_EN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#%&*?';
 
     function scrambleText(el, finalText, isZh) {
         var chars = isZh ? CHARS_ZH : CHARS_EN;
