@@ -181,7 +181,7 @@
         .project-item.in-view { opacity: 1; transform: translateY(0); }
         .project-item:hover { transform: translateY(-8px) scale(1.02); transition-delay: 0s !important; }
 
-        .project-image { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; }
+        .project-image { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; position: relative; }
         .project-image img, .project-image video {
             width: 100%; height: 100%; object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
@@ -190,15 +190,39 @@
         .project-item:hover .project-image img,
         .project-item:hover .project-image video { transform: scale(1.1) !important; }
 
-        .project-info { padding: 20px 0; }
-        .project-category {
-            font-size: 12px; color: #ccc; margin-bottom: 8px;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        /* 圖片內浮層：左上中文分類、右上英文分類 */
+        .project-overlay {
+            position: absolute; top: 0; left: 0; right: 0;
+            padding: 13px 15px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            opacity: 0; transition: opacity 0.22s ease;
+            pointer-events: none;
         }
-        .project-title { font-size: 16px; color: #333; line-height: 1.6; }
-        .project-title .en {
-            font-size: 13px; opacity: 0.7; display: block; margin-top: 4px;
+        .project-item:hover .project-overlay { opacity: 1; }
+
+        .project-cat-zh {
+            font-size: 11px; color: #fff; letter-spacing: 0.04em;
+            line-height: 1; text-shadow: 0 1px 5px rgba(0,0,0,0.35);
+        }
+        .project-cat-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10px; color: #fff; letter-spacing: 0.12em;
+            line-height: 1; text-align: right; text-transform: uppercase;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.35);
+        }
+
+        /* 圖片下方：主標中文 + 副標英文 */
+        .project-info { padding: 16px 0; }
+        .project-title-zh {
+            font-size: 15px; color: #111; line-height: 1.55; font-weight: 500;
+        }
+        .project-title-en {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 12px; color: #aaa; line-height: 1.5; margin-top: 5px;
+        }
+        /* 無中文標題時英文升格為主標 */
+        .project-title-en.is-primary {
+            font-size: 15px; color: #111; margin-top: 0;
         }
 
         /* ── DYNAMIC ISLAND ──────────────────────────────────── */
@@ -534,15 +558,15 @@
        專案資料
     ════════════════════════════════════════════════════════════ */
     var PROJECTS = [
-        { titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open', categories:['event','identity'], label:'Event / Identity', descZh:'轉化高速殘影與終點線，具象滑輪競賽速度。', descEn:'Taiwan International Roller Skating Open', href:'./works/roller-skating-open', thumb:{type:'video',src:'./assets/project_I.mp4'} },
-        { titleZh:'宋俊宏婦幼醫院', titleEn:"Sung Women and Children's Hospital", categories:['identity'], label:'Identity', descZh:'綻放花瓣承托母嬰，圓潤曲線傳達醫療溫度。', descEn:"Sung Women and Children's Hospital", href:'./works/sung-hospital', thumb:{type:'img',src:'./assets/project_II.webp'} },
-        { titleZh:'溱好國際有限公司', titleEn:'Jhen Hao International Ltd.', categories:['identity'], label:'Identity', descZh:'屋簷與太陽構築JH，暖色調傳遞家的溫暖。', descEn:'Jhen Hao International Ltd.', href:'./works/jhen-hao', thumb:{type:'img',src:'./assets/project_III.webp'} },
-        { titleZh:'京典衛浴', titleEn:'OVO Toilet', categories:['motion'], label:'Motion / Illustration', descZh:'統整網頁、插畫與行銷視覺，傳遞品牌價值。', descEn:'OVO Toilet', href:'./works/ovo', thumb:{type:'video',src:'./assets/OVO/VDesign_workIV.mp4'} },
-        { titleZh:null, titleEn:'Tears of War', categories:['poster'], label:'Poster', descZh:'以鐵網組成落淚雙眼，凝視戰火下的焦慮。', descEn:'Tears of War', href:'./works/tear-of-war', thumb:{type:'img',src:'./assets/project_V.webp'} },
-        { titleZh:'制菸所', titleEn:'No Smoking', categories:['packaging'], label:'Packaging', descZh:'反直覺的阻礙結構，以不便引發吸菸反思。', descEn:'No Smoking', href:'./works/no-smoking', thumb:{type:'img',src:'./assets/project_VI.webp'} },
-        { titleZh:'我在當機前未存檔', titleEn:"I haven't saved my files yet.", categories:['event','motion'], label:'Event / Motion', descZh:'轉化藍屏與雜訊，視覺化當機未存檔的無力。', descEn:"I haven't saved my files yet.", href:'./works/error', thumb:{type:'video',src:'./assets/Error/VDesign_work_VII_2.mp4'} },
-        { titleZh:null, titleEn:'Push &amp; Pull', categories:['event','poster'], label:'Event / Poster', descZh:'黑白扭曲凹凸，表達心裡推拉的矛盾感受。', descEn:'Push & Pull', href:'./works/push-pull', thumb:{type:'img',src:'./assets/project_VIII.webp'} },
-        { titleZh:'69翻轉，高師大好', titleEn:'Flips 69, NKNU Great', categories:['event','poster'], label:'Event / Poster', descZh:'旋轉69融入笑臉，以明快色彩翻轉校慶視覺。', descEn:'Flips 69, NKNU Great', href:'./works/69', thumb:{type:'img',src:'./assets/project_IX.webp'} }
+        { titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open', categories:['event','identity'], label:'Event / Identity', labelZh:'活動 / 識別', descZh:'轉化高速殘影與終點線，具象滑輪競賽速度。', descEn:'Taiwan International Roller Skating Open', href:'./works/roller-skating-open', thumb:{type:'video',src:'./assets/project_I.mp4'} },
+        { titleZh:'宋俊宏婦幼醫院', titleEn:"Sung Women and Children's Hospital", categories:['identity'], label:'Identity', labelZh:'識別', descZh:'綻放花瓣承托母嬰，圓潤曲線傳達醫療溫度。', descEn:"Sung Women and Children's Hospital", href:'./works/sung-hospital', thumb:{type:'img',src:'./assets/project_II.webp'} },
+        { titleZh:'溱好國際有限公司', titleEn:'Jhen Hao International Ltd.', categories:['identity'], label:'Identity', labelZh:'識別', descZh:'屋簷與太陽構築JH，暖色調傳遞家的溫暖。', descEn:'Jhen Hao International Ltd.', href:'./works/jhen-hao', thumb:{type:'img',src:'./assets/project_III.webp'} },
+        { titleZh:'京典衛浴', titleEn:'OVO Toilet', categories:['motion'], label:'Motion / Illustration', labelZh:'動態 / 插畫', descZh:'統整網頁、插畫與行銷視覺，傳遞品牌價值。', descEn:'OVO Toilet', href:'./works/ovo', thumb:{type:'video',src:'./assets/OVO/VDesign_workIV.mp4'} },
+        { titleZh:null, titleEn:'Tears of War', categories:['poster'], label:'Poster', labelZh:'海報', descZh:'以鐵網組成落淚雙眼，凝視戰火下的焦慮。', descEn:'Tears of War', href:'./works/tear-of-war', thumb:{type:'img',src:'./assets/project_V.webp'} },
+        { titleZh:'制菸所', titleEn:'No Smoking', categories:['packaging'], label:'Packaging', labelZh:'包裝', descZh:'反直覺的阻礙結構，以不便引發吸菸反思。', descEn:'No Smoking', href:'./works/no-smoking', thumb:{type:'img',src:'./assets/project_VI.webp'} },
+        { titleZh:'我在當機前未存檔', titleEn:"I haven't saved my files yet.", categories:['event','motion'], label:'Event / Motion', labelZh:'活動 / 動態', descZh:'轉化藍屏與雜訊，視覺化當機未存檔的無力。', descEn:"I haven't saved my files yet.", href:'./works/error', thumb:{type:'video',src:'./assets/Error/VDesign_work_VII_2.mp4'} },
+        { titleZh:null, titleEn:'Push &amp; Pull', categories:['event','poster'], label:'Event / Poster', labelZh:'活動 / 海報', descZh:'黑白扭曲凹凸，表達心裡推拉的矛盾感受。', descEn:'Push & Pull', href:'./works/push-pull', thumb:{type:'img',src:'./assets/project_VIII.webp'} },
+        { titleZh:'69翻轉，高師大好', titleEn:'Flips 69, NKNU Great', categories:['event','poster'], label:'Event / Poster', labelZh:'活動 / 海報', descZh:'旋轉69融入笑臉，以明快色彩翻轉校慶視覺。', descEn:'Flips 69, NKNU Great', href:'./works/69', thumb:{type:'img',src:'./assets/project_IX.webp'} }
     ];
 
     /* ── 輪播 ── */
@@ -571,6 +595,45 @@
 
     setInterval(function() { goTo(current + 1); }, 3600);
 
+    /* ── 亂碼打字效果 ── */
+    var CHARS_ZH = '一七八十丁戊己甲乙丙!@#%&*?';
+    var CHARS_EN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#%&*?';
+
+    function scrambleText(el, finalText, isZh) {
+        var chars = isZh ? CHARS_ZH : CHARS_EN;
+        var iter = 0;
+        var raf;
+        function tick() {
+            el.textContent = finalText.split('').map(function(ch, i) {
+                if (ch === ' ' || ch === '/') return ch;
+                if (i < Math.floor(iter / 2)) return ch;
+                return chars[Math.floor(Math.random() * chars.length)];
+            }).join('');
+            iter++;
+            if (Math.floor(iter / 2) < finalText.length) {
+                raf = requestAnimationFrame(tick);
+            } else {
+                el.textContent = finalText;
+            }
+        }
+        cancelAnimationFrame(raf);
+        tick();
+    }
+
+    function attachScramble() {
+        document.querySelectorAll('.project-item').forEach(function(item) {
+            var catZh = item.querySelector('.project-cat-zh');
+            var catEn = item.querySelector('.project-cat-en');
+            if (!catZh || !catEn) return;
+            var zhText = catZh.textContent;
+            var enText = catEn.textContent;
+            item.addEventListener('mouseenter', function() {
+                scrambleText(catZh, zhText, true);
+                scrambleText(catEn, enText, false);
+            });
+        });
+    }
+
     /* ── 渲染作品格 ── */
     function renderProjects(filter) {
         var grid = document.getElementById('projectsGrid');
@@ -583,21 +646,29 @@
                 ? '<video src="' + p.thumb.src + '" autoplay loop muted playsinline></video>'
                 : '<img src="' + p.thumb.src + '" alt="' + p.titleEn + '" loading="lazy">';
             var titleHtml = p.titleZh
-                ? p.titleZh + '<span class="en">' + p.titleEn + '</span>'
-                : '<span class="en">' + p.titleEn + '</span>';
+                ? '<div class="project-title-zh">' + p.titleZh + '</div>' +
+                  '<div class="project-title-en">' + p.titleEn + '</div>'
+                : '<div class="project-title-en is-primary">' + p.titleEn + '</div>';
             var el = document.createElement('a');
             el.href = p.href;
             el.className = 'project-item';
             el.setAttribute('data-zh', p.descZh);
             el.setAttribute('data-en', p.descEn);
-            el.innerHTML = '<div class="project-image">' + mediaEl + '</div>' +
-                '<div class="project-info"><div class="project-category">' + p.label + '</div>' +
-                '<div class="project-title">' + titleHtml + '</div></div>';
+            el.innerHTML =
+                '<div class="project-image">' +
+                    mediaEl +
+                    '<div class="project-overlay">' +
+                        '<span class="project-cat-zh">' + p.labelZh + '</span>' +
+                        '<span class="project-cat-en">' + p.label + '</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="project-info">' + titleHtml + '</div>';
             grid.appendChild(el);
         });
         document.getElementById('filterCount').textContent = count + ' works';
         attachObserver();
         attachHoverText();
+        attachScramble();
     }
 
     document.getElementById('filterBar').addEventListener('click', function(e) {
