@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
         /* ── 字體 ──────────────────────────────────────────────
-           請將字體檔案放入 assets/fonts/ 資料夾：
-           源石黑體: GenSekiGothic-B.woff2, GenSekiGothic-R.woff2
-           Apparat:  Apparat-Regular.woff2, Apparat-Medium.woff2
+           請將字體檔案放入 assets/fonts/：
+           GenSekiGothic-B.woff2  GenSekiGothic-R.woff2
+           Apparat-Regular.woff2  Apparat-Medium.woff2
         ──────────────────────────────────────────────────────── */
         @font-face {
             font-family: 'GenSekiGothic';
@@ -42,78 +42,33 @@
             font-family: 'GenSekiGothic', 'Noto Sans TC', 'PingFang TC', sans-serif;
             color: #333; background: #fff;
             overflow-x: hidden; padding-bottom: 350px;
-            cursor: none;
         }
-
-        .en, .label-en {
+        .en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* ── 自定游標 ────────────────────────────────────────── */
-        .cursor-dot {
-            position: fixed; top: 0; left: 0;
-            width: 6px; height: 6px; border-radius: 50%;
-            background: #fff; pointer-events: none;
-            z-index: 9999; transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background 0.3s;
-            mix-blend-mode: difference;
-        }
-        .cursor-ring {
-            position: fixed; top: 0; left: 0;
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.4);
-            pointer-events: none; z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        border-color 0.3s;
-            mix-blend-mode: difference;
-        }
-        .cursor-ring.is-view {
-            width: 80px; height: 80px;
-            border-color: rgba(255,255,255,0.8);
-        }
-        .cursor-ring .cursor-label {
-            position: absolute; inset: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10px; letter-spacing: 0.15em; color: #fff;
-            opacity: 0; transition: opacity 0.3s; text-transform: uppercase;
-        }
-        .cursor-ring.is-view .cursor-label { opacity: 1; }
-
-        /* ── HERO ────────────────────────────────────────────── */
+        /* ── HERO ─────────────────────────────────────────────
+           position + z-index + background 確保蓋住底部 footer
+        ──────────────────────────────────────────────────────── */
         .hero {
-            position: relative;
-            height: 100vh; min-height: 600px;
-            background: #0a0a0a;
-            overflow: hidden;
+            position: relative; z-index: 6;
+            background: #fff;
+            min-height: 100vh;
             display: flex; flex-direction: column;
+            border-bottom: 1px solid #ebebeb;
         }
 
-        /* grain texture */
-        .hero::before {
-            content: '';
-            position: absolute; inset: 0; z-index: 1; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-            opacity: 0.045;
-        }
-
-        /* top bar */
         .hero-topbar {
-            position: relative; z-index: 3;
             display: flex; justify-content: space-between; align-items: center;
             padding: 26px 60px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            border-bottom: 1px solid #ebebeb;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             font-size: 11px; letter-spacing: 0.18em;
-            text-transform: uppercase; color: rgba(255,255,255,0.35);
+            text-transform: uppercase; color: #bbb;
         }
 
-        /* main body */
         .hero-body {
             flex: 1;
-            position: relative; z-index: 3;
             display: grid;
             grid-template-columns: 1fr 42%;
             align-items: center;
@@ -121,153 +76,83 @@
             gap: 60px;
         }
 
-        /* typography block */
-        .hero-type { overflow: visible; }
-
-        .hero-line {
-            overflow: hidden;
-            line-height: 0.88;
-        }
-        .hero-line + .hero-line { margin-top: 8px; }
+        .hero-line { overflow: hidden; line-height: 0.9; }
+        .hero-line + .hero-line { margin-top: 6px; }
 
         .hero-line-inner {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: clamp(80px, 13.5vw, 200px);
-            font-weight: 500;
-            color: #fff;
+            font-size: clamp(72px, 11vw, 156px);
+            font-weight: 400;
+            color: #111;
             letter-spacing: -0.03em;
-            transform: translateY(108%);
             display: block;
-            animation: heroLineUp 1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+            transform: translateY(108%);
+            animation: heroLineUp 0.95s cubic-bezier(0.76, 0, 0.24, 1) forwards;
         }
-        .hero-line:nth-child(2) .hero-line-inner { animation-delay: 0.1s; }
+        .hero-line:nth-child(2) .hero-line-inner { animation-delay: 0.09s; }
 
         @keyframes heroLineUp {
             to { transform: translateY(0); }
         }
 
         .hero-meta {
-            margin-top: 36px;
-            display: flex; gap: 36px;
+            margin-top: 44px;
             opacity: 0;
-            animation: heroFadeUp 0.8s ease 0.55s forwards;
+            animation: heroFadeUp 0.7s ease 0.5s forwards;
         }
-        .hero-meta-item {
-            display: flex; flex-direction: column; gap: 4px;
+        .hero-meta p {
+            font-size: 13px; color: #999; line-height: 1.9;
         }
-        .hero-meta-label {
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10px; letter-spacing: 0.2em;
-            text-transform: uppercase; color: rgba(255,255,255,0.25);
-        }
-        .hero-meta-value {
-            font-size: 13px; color: rgba(255,255,255,0.55);
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-        }
+        .hero-meta p + p { margin-top: 2px; }
+        .hero-meta .en { font-size: 12px; }
 
         @keyframes heroFadeUp {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(10px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* video side */
         .hero-media {
-            position: relative;
-            height: 68vh;
-            clip-path: inset(0 100% 0 0);
-            animation: heroMediaReveal 1.1s cubic-bezier(0.76, 0, 0.24, 1) 0.25s forwards;
-            display: block; text-decoration: none;
+            height: 70vh;
             overflow: hidden;
+            display: block; text-decoration: none;
+            opacity: 0;
+            animation: heroFadeIn 1s ease 0.2s forwards;
         }
+        @keyframes heroFadeIn { to { opacity: 1; } }
 
-        @keyframes heroMediaReveal {
-            to { clip-path: inset(0 0% 0 0); }
-        }
-
-        .hero-media video {
+        .hero-media video, .hero-media img {
             width: 100%; height: 100%; object-fit: cover; display: block;
             transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .hero-media:hover video { transform: scale(1.04); }
+        .hero-media:hover video,
+        .hero-media:hover img { transform: scale(1.03); }
 
-        .hero-media-label {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 40px 24px 24px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.6));
-            opacity: 0;
-            animation: heroFadeUp 0.7s ease 1.2s forwards;
+        .hero-bottom {
+            padding: 20px 60px 24px;
+            border-top: 1px solid #ebebeb;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .hero-media-cat {
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10px; letter-spacing: 0.2em;
-            text-transform: uppercase; color: rgba(255,255,255,0.45);
-            margin-bottom: 6px; display: block;
-        }
-        .hero-media-title {
-            font-size: 14px; color: rgba(255,255,255,0.85);
-            line-height: 1.5;
-        }
-
-        /* scroll indicator */
         .hero-scroll {
-            position: absolute; right: 60px; bottom: 70px; z-index: 3;
-            display: flex; flex-direction: column; align-items: center; gap: 12px;
-            opacity: 0;
-            animation: heroFadeUp 0.8s ease 1s forwards;
-        }
-        .hero-scroll-line {
-            width: 1px; height: 48px;
-            background: rgba(255,255,255,0.15);
-            position: relative; overflow: hidden;
-        }
-        .hero-scroll-line::after {
-            content: '';
-            position: absolute; top: -100%; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(255,255,255,0.7);
-            animation: scrollPulse 1.8s ease-in-out infinite;
-        }
-        @keyframes scrollPulse {
-            0%   { top: -100%; }
-            100% { top: 100%; }
-        }
-        .hero-scroll span {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 9px; letter-spacing: 0.25em;
-            text-transform: uppercase; color: rgba(255,255,255,0.25);
-            writing-mode: vertical-rl;
+            font-size: 11px; letter-spacing: 0.18em;
+            text-transform: uppercase; color: #bbb;
+            opacity: 0;
+            animation: heroFadeIn 0.6s ease 0.9s forwards;
+        }
+        .hero-featured-label {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 11px; letter-spacing: 0.12em;
+            text-transform: uppercase; color: #ccc;
+            opacity: 0;
+            animation: heroFadeIn 0.6s ease 0.9s forwards;
         }
 
-        /* ticker */
-        .hero-ticker {
-            position: relative; z-index: 3;
-            border-top: 1px solid rgba(255,255,255,0.07);
-            padding: 13px 0; overflow: hidden; white-space: nowrap;
-            opacity: 0;
-            animation: heroFadeUp 0.6s ease 0.9s forwards;
-        }
-        .hero-ticker-track {
-            display: inline-flex;
-            animation: tickerMove 22s linear infinite;
-        }
-        .hero-ticker-item {
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10px; letter-spacing: 0.18em;
-            text-transform: uppercase; color: rgba(255,255,255,0.22);
-            padding: 0 32px; flex-shrink: 0;
-        }
-        .hero-ticker-sep {
-            color: rgba(255,255,255,0.1);
-            font-size: 10px; flex-shrink: 0;
-            align-self: center;
-        }
-        @keyframes tickerMove {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
-        }
-
-        /* ── FILTER BAR ──────────────────────────────────────── */
+        /* ── FILTER BAR ───────────────────────────────────────
+           position + background 蓋住 footer
+        ──────────────────────────────────────────────────────── */
         .filter-bar {
+            position: relative; z-index: 6;
+            background: #fff;
             display: flex; gap: 8px;
             padding: 48px 60px 0; flex-wrap: wrap; align-items: center;
         }
@@ -290,7 +175,7 @@
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
 
         .project-item {
-            cursor: none; opacity: 0; transform: translateY(60px);
+            cursor: pointer; opacity: 0; transform: translateY(60px);
             transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: block; text-decoration: none;
         }
@@ -320,52 +205,85 @@
         /* ── DYNAMIC ISLAND ──────────────────────────────────── */
         .dynamic-island {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 40px 60px 35px;
-            display: flex; align-items: center; justify-content: space-between; gap: 40px;
-            z-index: 10; border-top-left-radius: 40px; border-top-right-radius: 40px;
-            box-shadow: 0 -8px 32px rgba(0,0,0,0.06);
+            background: white;
+            padding: 14px 48px;
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 10;
+            border-top-left-radius: 32px; border-top-right-radius: 32px;
+            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
             transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
         }
         @keyframes slideUpIsland { to { transform: translateY(0); } }
-        .island-left { display: flex; gap: 30px; align-items: center; }
 
-        .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: none; padding: 8px; z-index: 1001; }
-        .menu-toggle span { width: 28px; height: 3px; background: #ccc; border-radius: 2px; transition: all 0.3s; }
+        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
+
+        .menu-toggle {
+            display: flex; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; flex-shrink: 0;
+        }
+        .menu-toggle span {
+            width: 24px; height: 2px; background: #ccc;
+            border-radius: 2px; transition: all 0.3s;
+        }
         .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
         .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
+        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-        .menu-container { display: flex; gap: 30px; align-items: center; max-width: 0; overflow: hidden; opacity: 0; transition: all 0.4s; }
-        .menu-container.open { max-width: 400px; opacity: 1; }
-        .menu-item { cursor: none; transition: all 0.3s; flex-shrink: 0; display: block; }
-        .menu-item img { height: 28px; display: block; filter: brightness(0) saturate(100%) invert(80%); transition: all 0.3s; }
-        .menu-item:hover img { filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg); }
-        .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
+        .menu-container {
+            display: flex; gap: 24px; align-items: center;
+            max-width: 0; overflow: hidden; opacity: 0;
+            transition: max-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
+        }
+        .menu-container.open { max-width: 320px; opacity: 1; }
 
-        .island-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
-        .island-center a { display: block; transition: opacity 0.3s; cursor: none; }
-        .island-center a:hover { opacity: 0.7; }
-        .island-center img { height: 60px; display: block; pointer-events: none; }
+        .menu-item {
+            cursor: pointer; flex-shrink: 0;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px; letter-spacing: 0.06em;
+            color: #aaa; text-decoration: none; transition: color 0.25s;
+        }
+        .menu-item:hover { color: #FF0000; }
+        .menu-item.active { color: #222; }
 
-        .island-right { flex: 1; text-align: right; line-height: 1.6; position: relative; height: 50px; }
+        /* 中央 logo — 絕對置中，不影響兩側 flex */
+        .island-center {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            z-index: 1;
+        }
+        .island-center a { display: block; transition: opacity 0.3s; }
+        .island-center a:hover { opacity: 0.6; }
+        .island-center img { height: 42px; display: block; pointer-events: none; }
+
+        .island-right {
+            flex: 1; text-align: right;
+            position: relative; height: 40px;
+        }
         .island-right .zh {
-            display: block; font-size: 15px; color: #333;
+            display: block; font-size: 13px; color: #333;
             transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
             position: absolute; right: 0; top: 0; width: 100%;
         }
         .island-right .en {
-            display: block; font-size: 13px; color: #666;
+            display: block; font-size: 11px; color: #888;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
-            position: absolute; right: 0; top: 24px; width: 100%;
+            position: absolute; right: 0; top: 20px; width: 100%;
         }
-        .island-right .fade-out { opacity: 0; transform: translateY(-12px); }
+        .island-right .fade-out { opacity: 0; transform: translateY(-10px); }
         .island-right .fade-in  { opacity: 1; transform: translateY(0); }
 
-        /* ── FOOTER ──────────────────────────────────────────── */
-        footer { position: fixed; bottom: 0; left: 0; right: 0; background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: 5; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 80px; }
+        /* ── FOOTER ───────────────────────────────────────────── */
+        footer {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: #f2f2f2; color: #333;
+            padding: 60px 80px 40px; z-index: 5;
+        }
+        .footer-content {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 80px;
+        }
         .footer-left { display: flex; align-items: flex-start; }
         .footer-logo-img { height: 28px; filter: brightness(0) saturate(100%) invert(80%); flex-shrink: 0; }
         .footer-contact-info { display: flex; gap: 60px; }
@@ -382,9 +300,13 @@
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
         }
         .footer-social-item a:hover { color: #333; }
-        .footer-bottom { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid #ddd; }
+        .footer-bottom {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 30px; border-top: 1px solid #ddd;
+        }
         .back-to-top {
-            font-size: 13px; color: #999; cursor: none; transition: color 0.3s;
+            font-size: 13px; color: #999; cursor: pointer; transition: color 0.3s;
             display: flex; align-items: center; gap: 5px;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
         }
@@ -394,52 +316,71 @@
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* ── RESPONSIVE ──────────────────────────────────────── */
+        /* ── RESPONSIVE ───────────────────────────────────────── */
         @media (max-width: 968px) {
-            body { padding-bottom: 480px; cursor: auto; }
-            .cursor-dot, .cursor-ring { display: none; }
-            .hero-body { grid-template-columns: 1fr; padding: 0 40px; gap: 30px; }
-            .hero-media { height: 42vw; }
-            .hero-topbar { padding: 20px 40px; }
-            .hero-scroll { right: 40px; }
-            .filter-bar { padding: 40px 30px 0; }
-            .projects { padding: 36px 30px 60px; }
-            .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
-            .dynamic-island { flex-direction: column; padding: 30px; border-top-left-radius: 28px; border-top-right-radius: 28px; }
-            .island-right { text-align: center; }
-            footer { padding: 50px 40px 35px; }
-            .footer-content { flex-direction: column; gap: 30px; align-items: flex-start; margin-bottom: 60px; }
+            body { padding-bottom: 360px; }
+
+            /* hero */
+            .hero-topbar { padding: 20px 36px; }
+            .hero-body {
+                grid-template-columns: 1fr;
+                padding: 40px 36px 0;
+                gap: 36px; align-items: start;
+            }
+            .hero-media { height: 52vw; animation: heroFadeIn 1s ease 0.1s forwards; }
+            .hero-bottom { padding: 16px 36px 20px; }
+
+            /* filter + projects */
+            .filter-bar { padding: 36px 24px 0; }
+            .projects { padding: 28px 24px 60px; }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+
+            /* island — 橫排維持，隱藏右側文字 */
+            .dynamic-island {
+                padding: 12px 20px;
+                border-top-left-radius: 24px; border-top-right-radius: 24px;
+            }
+            .island-right { display: none; }
+            .island-center img { height: 36px; }
+
+            /* footer */
+            footer { padding: 40px 36px 32px; }
+            .footer-content { flex-direction: column; gap: 24px; margin-bottom: 48px; }
             .footer-right { justify-content: flex-start; }
-            .footer-contact-info { flex-direction: column; gap: 30px; }
-            .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
-            .project-item { cursor: auto; }
-            .menu-toggle, .menu-item, .back-to-top, .island-center a { cursor: auto; }
+            .footer-contact-info { flex-direction: column; gap: 24px; }
+            .footer-bottom { flex-direction: column; gap: 16px; align-items: flex-start; }
         }
+
         @media (max-width: 640px) {
-            body { padding-bottom: 530px; }
-            .hero { min-height: 100dvh; }
-            .hero-body { padding: 0 24px; align-items: flex-start; padding-top: 12%; }
-            .hero-media { height: 50vw; }
-            .hero-topbar { padding: 16px 24px; font-size: 10px; }
-            .hero-scroll { right: 24px; bottom: 60px; }
-            .filter-bar { padding: 30px 20px 0; gap: 6px; }
-            .projects { padding: 30px 20px 50px; }
+            body { padding-bottom: 400px; }
+
+            .hero-topbar { padding: 16px 20px; font-size: 10px; letter-spacing: 0.12em; }
+            .hero-body { padding: 32px 20px 0; gap: 28px; }
+            .hero-media { height: 65vw; }
+            .hero-bottom { padding: 14px 20px 18px; }
+
+            .filter-bar { padding: 28px 16px 0; gap: 6px; }
+            .projects { padding: 24px 16px 48px; }
             .projects-grid { grid-template-columns: 1fr; }
-            footer { padding: 40px 30px 30px; }
-            .footer-content { gap: 25px; margin-bottom: 50px; }
-            .footer-contact-info { gap: 25px; }
-            .footer-bottom { gap: 15px; }
+
+            .dynamic-island { padding: 10px 16px; }
+            .island-center img { height: 32px; }
+            .menu-toggle span { width: 20px; }
+            .menu-item { font-size: 12px; }
+            .menu-container.open { max-width: 240px; }
+            .menu-container { gap: 18px; }
+
+            footer { padding: 32px 20px 28px; }
+            .footer-content { gap: 20px; margin-bottom: 36px; }
+            .footer-contact-info { gap: 20px; }
+            .footer-bottom { gap: 12px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 自定游標 -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"><span class="cursor-label">VIEW</span></div>
-
-    <!-- ── HERO ────────────────────────────────────────────────────────────── -->
-    <section class="hero" id="hero">
+    <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
+    <section class="hero">
 
         <div class="hero-topbar">
             <span>WU DESIGN STUDIO — 伍設計事務所</span>
@@ -447,50 +388,32 @@
         </div>
 
         <div class="hero-body">
-            <!-- 左側大字 -->
             <div class="hero-type">
-                <div class="hero-line"><div class="hero-line-inner">GRAPHIC</div></div>
+                <div class="hero-line"><div class="hero-line-inner">WU</div></div>
                 <div class="hero-line"><div class="hero-line-inner">DESIGN</div></div>
+                <div class="hero-line"><div class="hero-line-inner">STUDIO</div></div>
                 <div class="hero-meta">
-                    <div class="hero-meta-item">
-                        <span class="hero-meta-label">Works</span>
-                        <span class="hero-meta-value">09</span>
-                    </div>
-                    <div class="hero-meta-item">
-                        <span class="hero-meta-label">Base</span>
-                        <span class="hero-meta-value">Taiwan</span>
-                    </div>
-                    <div class="hero-meta-item">
-                        <span class="hero-meta-label">Since</span>
-                        <span class="hero-meta-value">2019</span>
-                    </div>
+                    <p>品牌識別 · 活動視覺 · 動態設計</p>
+                    <p class="en">Brand Identity · Event · Motion Design</p>
+                    <p style="margin-top:12px; font-size:12px; color:#bbb;" class="en">Taiwan, Est. 2019</p>
                 </div>
             </div>
 
-            <!-- 右側影片 -->
-            <a href="./works/roller-skating-open" class="hero-media js-cursor-view">
+            <a href="./works/roller-skating-open" class="hero-media">
                 <video src="./assets/project_I.mp4" autoplay loop muted playsinline></video>
-                <div class="hero-media-label">
-                    <span class="hero-media-cat">Event / Identity</span>
-                    <div class="hero-media-title">台灣國際滑輪溜冰公開賽</div>
-                </div>
             </a>
         </div>
 
-        <!-- 捲動提示 -->
-        <div class="hero-scroll">
-            <div class="hero-scroll-line"></div>
-            <span>Scroll</span>
-        </div>
-
-        <!-- 跑馬燈 -->
-        <div class="hero-ticker" aria-hidden="true">
-            <div class="hero-ticker-track" id="tickerTrack"></div>
+        <div class="hero-bottom">
+            <span class="hero-scroll">Scroll ↓</span>
+            <span class="hero-featured-label">Featured — Event / Identity</span>
         </div>
 
     </section>
 
-    <!-- ── FILTER BAR ──────────────────────────────────────────────────────── -->
+    <!-- ── FILTER BAR ─────────────────────────────────────────────────────────
+         新增分類：在 PROJECTS 資料裡加 categories 值，再加一個 .filter-btn 即可
+    ──────────────────────────────────────────────────────────────────────────── -->
     <div class="filter-bar" id="filterBar">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="identity">Identity</button>
@@ -512,22 +435,18 @@
                 <span></span><span></span><span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <a href="https://vdesign5.github.io/home/" class="menu-item active">
-                    <img src="./assets/project.webp" alt="project">
-                </a>
-                <a href="./works/about" class="menu-item">
-                    <img src="./assets/about.webp" alt="about">
-                </a>
-                <a href="#contact" class="menu-item js-contact-scroll">
-                    <img src="./assets/contact.webp" alt="contact">
-                </a>
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">Works</a>
+                <a href="./works/about" class="menu-item">About</a>
+                <a href="#contact" class="menu-item js-contact-scroll">Contact</a>
             </div>
         </div>
+
         <div class="island-center">
             <a href="https://vdesign5.github.io/home/">
                 <img src="./assets/logo.png" alt="WU DESIGN STUDIO">
             </a>
         </div>
+
         <div class="island-right">
             <span class="zh">伍設計事務所，位於台灣</span>
             <span class="en">Wu Design Studio, Based in Taiwan</span>
@@ -553,7 +472,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑ Go back to top</div>
+            <div class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Go back to top</div>
             <div class="footer-copyright">&copy; 2025 WU DESIGN STUDIO. All rights reserved.</div>
         </div>
     </footer>
@@ -561,7 +480,7 @@
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
     /* ════════════════════════════════════════════════════════════
-       專案資料
+       專案資料 — 新增作品只需在此陣列加一個物件
     ════════════════════════════════════════════════════════════ */
     var PROJECTS = [
         {
@@ -656,21 +575,6 @@
         }
     ];
 
-    /* ── 跑馬燈 ── */
-    var TICKER_ITEMS = PROJECTS.map(function(p) {
-        return p.titleZh || p.titleEn;
-    });
-    (function buildTicker() {
-        var track = document.getElementById('tickerTrack');
-        var html = '';
-        var repeated = TICKER_ITEMS.concat(TICKER_ITEMS);
-        repeated.forEach(function(name, i) {
-            html += '<span class="hero-ticker-item">' + name + '</span>';
-            html += '<span class="hero-ticker-sep">—</span>';
-        });
-        track.innerHTML = html;
-    })();
-
     /* ── 渲染作品格 ── */
     function renderProjects(filter) {
         var grid = document.getElementById('projectsGrid');
@@ -737,6 +641,7 @@
     function attachHoverText() {
         var islandZh = document.querySelector('.island-right .zh');
         var islandEn = document.querySelector('.island-right .en');
+        if (!islandZh) return;
 
         function setIsland(zh, en) {
             islandZh.classList.remove('fade-in'); islandZh.classList.add('fade-out');
@@ -788,7 +693,7 @@
     });
     (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(0);
 
-    /* ── Contact 捲軸修正：footer 是 fixed，捲到頁面最底部 ── */
+    /* ── Contact 捲軸：footer 是 fixed，捲到頁面最底部 ── */
     var contactBtn = document.querySelector('.js-contact-scroll');
     if (contactBtn) {
         contactBtn.addEventListener('click', function(e) {
@@ -797,34 +702,11 @@
         });
     }
 
-    /* ── 自定游標 ── */
-    var cursorDot  = document.getElementById('cursorDot');
-    var cursorRing = document.getElementById('cursorRing');
-    var mouseX = 0, mouseY = 0;
-    var ringX  = 0, ringY  = 0;
-
-    document.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX; mouseY = e.clientY;
-        cursorDot.style.left = mouseX + 'px';
-        cursorDot.style.top  = mouseY + 'px';
-    });
-
-    (function animateRing() {
-        ringX += (mouseX - ringX) * 0.12;
-        ringY += (mouseY - ringY) * 0.12;
-        cursorRing.style.left = ringX + 'px';
-        cursorRing.style.top  = ringY + 'px';
-        requestAnimationFrame(animateRing);
-    })();
-
-    document.querySelectorAll('.js-cursor-view, .project-item').forEach(function(el) {
-        el.addEventListener('mouseenter', function() { cursorRing.classList.add('is-view'); });
-        el.addEventListener('mouseleave', function() { cursorRing.classList.remove('is-view'); });
-    });
-
     /* ── 初始化 ── */
-    document.querySelector('.island-right .zh').classList.add('fade-in');
-    document.querySelector('.island-right .en').classList.add('fade-in');
+    var islandZh = document.querySelector('.island-right .zh');
+    var islandEn = document.querySelector('.island-right .en');
+    if (islandZh) islandZh.classList.add('fade-in');
+    if (islandEn) islandEn.classList.add('fade-in');
     renderProjects('all');
     updateParallax();
     </script>
