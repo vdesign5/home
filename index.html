@@ -10,55 +10,263 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
+        /* ── 字體 ──────────────────────────────────────────────
+           請將字體檔案放入 assets/fonts/ 資料夾：
+           源石黑體: GenSekiGothic-B.woff2, GenSekiGothic-R.woff2
+           Apparat:  Apparat-Regular.woff2, Apparat-Medium.woff2
+        ──────────────────────────────────────────────────────── */
+        @font-face {
+            font-family: 'GenSekiGothic';
+            src: url('./assets/fonts/GenSekiGothic-B.woff2') format('woff2');
+            font-weight: 700; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'GenSekiGothic';
+            src: url('./assets/fonts/GenSekiGothic-R.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Apparat';
+            src: url('./assets/fonts/Apparat-Regular.woff2') format('woff2');
+            font-weight: 400; font-style: normal; font-display: swap;
+        }
+        @font-face {
+            font-family: 'Apparat';
+            src: url('./assets/fonts/Apparat-Medium.woff2') format('woff2');
+            font-weight: 500; font-style: normal; font-display: swap;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans TC', sans-serif; color: #333; background: #fff; overflow-x: hidden; padding-bottom: 350px; }
-        .en { font-family: Arial, sans-serif; }
 
-        /* ── HERO FEATURED GRID ─────────────────────────────── */
+        body {
+            font-family: 'GenSekiGothic', 'Noto Sans TC', 'PingFang TC', sans-serif;
+            color: #333; background: #fff;
+            overflow-x: hidden; padding-bottom: 350px;
+            cursor: none;
+        }
+
+        .en, .label-en {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* ── 自定游標 ────────────────────────────────────────── */
+        .cursor-dot {
+            position: fixed; top: 0; left: 0;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #fff; pointer-events: none;
+            z-index: 9999; transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor-ring {
+            position: fixed; top: 0; left: 0;
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.4);
+            pointer-events: none; z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        border-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor-ring.is-view {
+            width: 80px; height: 80px;
+            border-color: rgba(255,255,255,0.8);
+        }
+        .cursor-ring .cursor-label {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10px; letter-spacing: 0.15em; color: #fff;
+            opacity: 0; transition: opacity 0.3s; text-transform: uppercase;
+        }
+        .cursor-ring.is-view .cursor-label { opacity: 1; }
+
+        /* ── HERO ────────────────────────────────────────────── */
         .hero {
-            display: grid;
-            grid-template-columns: 60% 40%;
-            grid-template-rows: repeat(3, calc(85vh / 3));
-            height: 85vh;
-            gap: 3px;
-            background: #111;
-        }
-        .hero-cell {
             position: relative;
+            height: 100vh; min-height: 600px;
+            background: #0a0a0a;
             overflow: hidden;
-            cursor: pointer;
-            display: block;
-            text-decoration: none;
+            display: flex; flex-direction: column;
         }
-        .hero-cell img, .hero-cell video {
-            width: 100%; height: 100%; object-fit: cover;
+
+        /* grain texture */
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.045;
+        }
+
+        /* top bar */
+        .hero-topbar {
+            position: relative; z-index: 3;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 26px 60px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 11px; letter-spacing: 0.18em;
+            text-transform: uppercase; color: rgba(255,255,255,0.35);
+        }
+
+        /* main body */
+        .hero-body {
+            flex: 1;
+            position: relative; z-index: 3;
+            display: grid;
+            grid-template-columns: 1fr 42%;
+            align-items: center;
+            padding: 0 60px;
+            gap: 60px;
+        }
+
+        /* typography block */
+        .hero-type { overflow: visible; }
+
+        .hero-line {
+            overflow: hidden;
+            line-height: 0.88;
+        }
+        .hero-line + .hero-line { margin-top: 8px; }
+
+        .hero-line-inner {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(80px, 13.5vw, 200px);
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: -0.03em;
+            transform: translateY(108%);
+            display: block;
+            animation: heroLineUp 1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+        .hero-line:nth-child(2) .hero-line-inner { animation-delay: 0.1s; }
+
+        @keyframes heroLineUp {
+            to { transform: translateY(0); }
+        }
+
+        .hero-meta {
+            margin-top: 36px;
+            display: flex; gap: 36px;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 0.55s forwards;
+        }
+        .hero-meta-item {
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .hero-meta-label {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10px; letter-spacing: 0.2em;
+            text-transform: uppercase; color: rgba(255,255,255,0.25);
+        }
+        .hero-meta-value {
+            font-size: 13px; color: rgba(255,255,255,0.55);
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        @keyframes heroFadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* video side */
+        .hero-media {
+            position: relative;
+            height: 68vh;
+            clip-path: inset(0 100% 0 0);
+            animation: heroMediaReveal 1.1s cubic-bezier(0.76, 0, 0.24, 1) 0.25s forwards;
+            display: block; text-decoration: none;
+            overflow: hidden;
+        }
+
+        @keyframes heroMediaReveal {
+            to { clip-path: inset(0 0% 0 0); }
+        }
+
+        .hero-media video {
+            width: 100%; height: 100%; object-fit: cover; display: block;
             transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            display: block;
         }
-        .hero-cell:hover img, .hero-cell:hover video { transform: scale(1.05); }
-        .hero-main { grid-column: 1; grid-row: 1 / 4; }
+        .hero-media:hover video { transform: scale(1.04); }
 
-        .hero-cell-overlay {
+        .hero-media-label {
             position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 24px 28px;
+            padding: 40px 24px 24px;
             background: linear-gradient(transparent, rgba(0,0,0,0.6));
-            color: white; opacity: 0; transition: opacity 0.35s;
+            opacity: 0;
+            animation: heroFadeUp 0.7s ease 1.2s forwards;
         }
-        .hero-main .hero-cell-overlay { opacity: 1; background: linear-gradient(transparent, rgba(0,0,0,0.5)); }
-        .hero-cell:not(.hero-main):hover .hero-cell-overlay { opacity: 1; }
-
-        .hero-cell-meta { font-size: 12px; font-family: Arial, sans-serif; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
-        .hero-cell-title { font-size: 16px; line-height: 1.5; }
-        .hero-main .hero-cell-title { font-size: 22px; }
-        .hero-cell-en { font-size: 13px; font-family: Arial, sans-serif; opacity: 0.75; display: block; margin-top: 4px; }
-        .hero-view-hint {
-            display: inline-block; margin-top: 14px;
-            background: white; color: #333;
-            padding: 10px 22px; border-radius: 25px;
-            font-size: 13px; font-family: Arial, sans-serif;
+        .hero-media-cat {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10px; letter-spacing: 0.2em;
+            text-transform: uppercase; color: rgba(255,255,255,0.45);
+            margin-bottom: 6px; display: block;
+        }
+        .hero-media-title {
+            font-size: 14px; color: rgba(255,255,255,0.85);
+            line-height: 1.5;
         }
 
-        /* ── FILTER BAR ─────────────────────────────────────── */
+        /* scroll indicator */
+        .hero-scroll {
+            position: absolute; right: 60px; bottom: 70px; z-index: 3;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 1s forwards;
+        }
+        .hero-scroll-line {
+            width: 1px; height: 48px;
+            background: rgba(255,255,255,0.15);
+            position: relative; overflow: hidden;
+        }
+        .hero-scroll-line::after {
+            content: '';
+            position: absolute; top: -100%; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7);
+            animation: scrollPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%   { top: -100%; }
+            100% { top: 100%; }
+        }
+        .hero-scroll span {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 9px; letter-spacing: 0.25em;
+            text-transform: uppercase; color: rgba(255,255,255,0.25);
+            writing-mode: vertical-rl;
+        }
+
+        /* ticker */
+        .hero-ticker {
+            position: relative; z-index: 3;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding: 13px 0; overflow: hidden; white-space: nowrap;
+            opacity: 0;
+            animation: heroFadeUp 0.6s ease 0.9s forwards;
+        }
+        .hero-ticker-track {
+            display: inline-flex;
+            animation: tickerMove 22s linear infinite;
+        }
+        .hero-ticker-item {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 10px; letter-spacing: 0.18em;
+            text-transform: uppercase; color: rgba(255,255,255,0.22);
+            padding: 0 32px; flex-shrink: 0;
+        }
+        .hero-ticker-sep {
+            color: rgba(255,255,255,0.1);
+            font-size: 10px; flex-shrink: 0;
+            align-self: center;
+        }
+        @keyframes tickerMove {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ── FILTER BAR ──────────────────────────────────────── */
         .filter-bar {
             display: flex; gap: 8px;
             padding: 48px 60px 0; flex-wrap: wrap; align-items: center;
@@ -66,19 +274,23 @@
         .filter-btn {
             background: none; border: 1px solid #ddd;
             padding: 7px 18px; border-radius: 20px;
-            font-size: 13px; font-family: Arial, sans-serif;
+            font-size: 13px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: all 0.2s; color: #aaa;
         }
         .filter-btn.active { background: #222; border-color: #222; color: #fff; }
         .filter-btn:hover:not(.active) { border-color: #888; color: #444; }
-        .filter-count { font-size: 11px; color: #bbb; padding-left: 4px; font-family: Arial, sans-serif; }
+        .filter-count {
+            font-size: 11px; color: #bbb; padding-left: 4px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
 
-        /* ── PROJECTS GRID ──────────────────────────────────── */
+        /* ── PROJECTS GRID ───────────────────────────────────── */
         .projects { padding: 36px 60px 80px; position: relative; background: #fff; z-index: 6; }
         .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
 
         .project-item {
-            cursor: pointer; opacity: 0; transform: translateY(60px);
+            cursor: none; opacity: 0; transform: translateY(60px);
             transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: block; text-decoration: none;
         }
@@ -95,11 +307,17 @@
         .project-item:hover .project-image video { transform: scale(1.1) !important; }
 
         .project-info { padding: 20px 0; }
-        .project-category { font-size: 12px; color: #ccc; margin-bottom: 8px; font-family: Arial, sans-serif; }
+        .project-category {
+            font-size: 12px; color: #ccc; margin-bottom: 8px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
         .project-title { font-size: 16px; color: #333; line-height: 1.6; }
-        .project-title .en { font-size: 13px; opacity: 0.7; display: block; margin-top: 4px; }
+        .project-title .en {
+            font-size: 13px; opacity: 0.7; display: block; margin-top: 4px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
 
-        /* ── DYNAMIC ISLAND ─────────────────────────────────── */
+        /* ── DYNAMIC ISLAND ──────────────────────────────────── */
         .dynamic-island {
             position: fixed; bottom: 0; left: 0; right: 0;
             background: white; padding: 40px 60px 35px;
@@ -111,7 +329,7 @@
         @keyframes slideUpIsland { to { transform: translateY(0); } }
         .island-left { display: flex; gap: 30px; align-items: center; }
 
-        .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 1001; }
+        .menu-toggle { display: flex; flex-direction: column; gap: 5px; cursor: none; padding: 8px; z-index: 1001; }
         .menu-toggle span { width: 28px; height: 3px; background: #ccc; border-radius: 2px; transition: all 0.3s; }
         .menu-toggle:hover span { background: #FF0000; }
         .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
@@ -120,13 +338,13 @@
 
         .menu-container { display: flex; gap: 30px; align-items: center; max-width: 0; overflow: hidden; opacity: 0; transition: all 0.4s; }
         .menu-container.open { max-width: 400px; opacity: 1; }
-        .menu-item { cursor: pointer; transition: all 0.3s; flex-shrink: 0; display: block; }
+        .menu-item { cursor: none; transition: all 0.3s; flex-shrink: 0; display: block; }
         .menu-item img { height: 28px; display: block; filter: brightness(0) saturate(100%) invert(80%); transition: all 0.3s; }
         .menu-item:hover img { filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg); }
         .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
 
         .island-center { position: absolute; left: 50%; transform: translateX(-50%); z-index: 20; }
-        .island-center a { display: block; transition: opacity 0.3s; }
+        .island-center a { display: block; transition: opacity 0.3s; cursor: none; }
         .island-center a:hover { opacity: 0.7; }
         .island-center img { height: 60px; display: block; pointer-events: none; }
 
@@ -137,14 +355,15 @@
             position: absolute; right: 0; top: 0; width: 100%;
         }
         .island-right .en {
-            display: block; font-size: 13px; color: #666; font-family: Arial, sans-serif;
+            display: block; font-size: 13px; color: #666;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
             position: absolute; right: 0; top: 24px; width: 100%;
         }
         .island-right .fade-out { opacity: 0; transform: translateY(-12px); }
-        .island-right .fade-in { opacity: 1; transform: translateY(0); }
+        .island-right .fade-in  { opacity: 1; transform: translateY(0); }
 
-        /* ── FOOTER ─────────────────────────────────────────── */
+        /* ── FOOTER ──────────────────────────────────────────── */
         footer { position: fixed; bottom: 0; left: 0; right: 0; background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: 5; }
         .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 80px; }
         .footer-left { display: flex; align-items: flex-start; }
@@ -152,21 +371,37 @@
         .footer-contact-info { display: flex; gap: 60px; }
         .footer-right { display: flex; justify-content: flex-end; }
         .footer-nav { display: flex; flex-direction: column; gap: 8px; }
-        .footer-nav-item a { font-size: 14px; color: #666; text-decoration: none; transition: color 0.3s; }
+        .footer-nav-item a {
+            font-size: 14px; color: #666; text-decoration: none; transition: color 0.3s;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
         .footer-nav-item a:hover { color: #333; }
         .footer-social { display: flex; flex-direction: column; gap: 8px; }
-        .footer-social-item a { font-size: 14px; color: #666; text-decoration: none; transition: color 0.3s; }
+        .footer-social-item a {
+            font-size: 14px; color: #666; text-decoration: none; transition: color 0.3s;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
         .footer-social-item a:hover { color: #333; }
         .footer-bottom { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid #ddd; }
-        .back-to-top { font-size: 13px; color: #999; cursor: pointer; transition: color 0.3s; display: flex; align-items: center; gap: 5px; }
+        .back-to-top {
+            font-size: 13px; color: #999; cursor: none; transition: color 0.3s;
+            display: flex; align-items: center; gap: 5px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
         .back-to-top:hover { color: #333; }
-        .footer-copyright { font-size: 11px; color: #999; letter-spacing: 0.5px; }
+        .footer-copyright {
+            font-size: 11px; color: #999; letter-spacing: 0.5px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+        }
 
-        /* ── RESPONSIVE ─────────────────────────────────────── */
+        /* ── RESPONSIVE ──────────────────────────────────────── */
         @media (max-width: 968px) {
-            body { padding-bottom: 480px; }
-            .hero { grid-template-columns: 1fr 1fr; grid-template-rows: 50vw 30vw; height: auto; }
-            .hero-main { grid-column: 1 / 3; grid-row: 1; height: 50vw; }
+            body { padding-bottom: 480px; cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none; }
+            .hero-body { grid-template-columns: 1fr; padding: 0 40px; gap: 30px; }
+            .hero-media { height: 42vw; }
+            .hero-topbar { padding: 20px 40px; }
+            .hero-scroll { right: 40px; }
             .filter-bar { padding: 40px 30px 0; }
             .projects { padding: 36px 30px 60px; }
             .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
@@ -177,11 +412,16 @@
             .footer-right { justify-content: flex-start; }
             .footer-contact-info { flex-direction: column; gap: 30px; }
             .footer-bottom { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .project-item { cursor: auto; }
+            .menu-toggle, .menu-item, .back-to-top, .island-center a { cursor: auto; }
         }
         @media (max-width: 640px) {
             body { padding-bottom: 530px; }
-            .hero { grid-template-columns: 1fr; grid-template-rows: 60vw repeat(3, 35vw); height: auto; }
-            .hero-main { grid-column: 1; grid-row: 1; height: 60vw; }
+            .hero { min-height: 100dvh; }
+            .hero-body { padding: 0 24px; align-items: flex-start; padding-top: 12%; }
+            .hero-media { height: 50vw; }
+            .hero-topbar { padding: 16px 24px; font-size: 10px; }
+            .hero-scroll { right: 24px; bottom: 60px; }
             .filter-bar { padding: 30px 20px 0; gap: 6px; }
             .projects { padding: 30px 20px 50px; }
             .projects-grid { grid-template-columns: 1fr; }
@@ -194,56 +434,63 @@
 </head>
 <body>
 
-    <!-- ── HERO FEATURED GRID ───────────────────────────────────────────────
-         修改順序或替換作品：調整下方 4 個 .hero-cell 的 src 與 href 即可
-    ──────────────────────────────────────────────────────────────────────── -->
-    <section class="hero">
+    <!-- 自定游標 -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"><span class="cursor-label">VIEW</span></div>
 
-        <!-- 主視覺：最強作品，佔左側全高 -->
-        <a href="./works/roller-skating-open" class="hero-cell hero-main">
-            <video src="./assets/project_I.mp4" autoplay loop muted playsinline></video>
-            <div class="hero-cell-overlay">
-                <div class="hero-cell-meta">Event / Identity</div>
-                <div class="hero-cell-title">
-                    台灣國際滑輪溜冰公開賽
-                    <span class="hero-cell-en">Taiwan International Roller Skating Open</span>
+    <!-- ── HERO ────────────────────────────────────────────────────────────── -->
+    <section class="hero" id="hero">
+
+        <div class="hero-topbar">
+            <span>WU DESIGN STUDIO — 伍設計事務所</span>
+            <span>PORTFOLIO 2019–2025</span>
+        </div>
+
+        <div class="hero-body">
+            <!-- 左側大字 -->
+            <div class="hero-type">
+                <div class="hero-line"><div class="hero-line-inner">GRAPHIC</div></div>
+                <div class="hero-line"><div class="hero-line-inner">DESIGN</div></div>
+                <div class="hero-meta">
+                    <div class="hero-meta-item">
+                        <span class="hero-meta-label">Works</span>
+                        <span class="hero-meta-value">09</span>
+                    </div>
+                    <div class="hero-meta-item">
+                        <span class="hero-meta-label">Base</span>
+                        <span class="hero-meta-value">Taiwan</span>
+                    </div>
+                    <div class="hero-meta-item">
+                        <span class="hero-meta-label">Since</span>
+                        <span class="hero-meta-value">2019</span>
+                    </div>
                 </div>
-                <span class="hero-view-hint">view &#8594;</span>
             </div>
-        </a>
 
-        <!-- 右側小格 1 -->
-        <a href="./works/ovo" class="hero-cell">
-            <video src="./assets/OVO/VDesign_workIV.mp4" autoplay loop muted playsinline></video>
-            <div class="hero-cell-overlay">
-                <div class="hero-cell-meta">Motion / Illustration</div>
-                <div class="hero-cell-title">京典衛浴 <span class="hero-cell-en">OVO Toilet</span></div>
-            </div>
-        </a>
+            <!-- 右側影片 -->
+            <a href="./works/roller-skating-open" class="hero-media js-cursor-view">
+                <video src="./assets/project_I.mp4" autoplay loop muted playsinline></video>
+                <div class="hero-media-label">
+                    <span class="hero-media-cat">Event / Identity</span>
+                    <div class="hero-media-title">台灣國際滑輪溜冰公開賽</div>
+                </div>
+            </a>
+        </div>
 
-        <!-- 右側小格 2 -->
-        <a href="./works/sung-hospital" class="hero-cell">
-            <img src="./assets/project_II.webp" alt="宋俊宏婦幼醫院" loading="eager">
-            <div class="hero-cell-overlay">
-                <div class="hero-cell-meta">Identity</div>
-                <div class="hero-cell-title">宋俊宏婦幼醫院 <span class="hero-cell-en">Sung Women &amp; Children's Hospital</span></div>
-            </div>
-        </a>
+        <!-- 捲動提示 -->
+        <div class="hero-scroll">
+            <div class="hero-scroll-line"></div>
+            <span>Scroll</span>
+        </div>
 
-        <!-- 右側小格 3 -->
-        <a href="./works/no-smoking" class="hero-cell">
-            <img src="./assets/project_VI.webp" alt="制菸所" loading="eager">
-            <div class="hero-cell-overlay">
-                <div class="hero-cell-meta">Packaging</div>
-                <div class="hero-cell-title">制菸所 <span class="hero-cell-en">No Smoking</span></div>
-            </div>
-        </a>
+        <!-- 跑馬燈 -->
+        <div class="hero-ticker" aria-hidden="true">
+            <div class="hero-ticker-track" id="tickerTrack"></div>
+        </div>
 
     </section>
 
-    <!-- ── FILTER BAR ──────────────────────────────────────────────────────
-         新增分類：在 PROJECTS 資料裡加 categories 值，再加一個 .filter-btn 即可
-    ──────────────────────────────────────────────────────────────────────── -->
+    <!-- ── FILTER BAR ──────────────────────────────────────────────────────── -->
     <div class="filter-bar" id="filterBar">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="identity">Identity</button>
@@ -306,18 +553,15 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">&#8593; Go back to top</div>
-            <div class="footer-copyright en">&copy; 2025 WU DESIGN STUDIO. All rights reserved.</div>
+            <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑ Go back to top</div>
+            <div class="footer-copyright">&copy; 2025 WU DESIGN STUDIO. All rights reserved.</div>
         </div>
     </footer>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
     /* ════════════════════════════════════════════════════════════
-       專案資料 — 新增作品只需在此陣列加一個物件，其餘自動渲染
-       ════════════════════════════════════════════════════════════
-       categories 可用值：identity / event / packaging / motion / poster
-       thumb.type：'img' 或 'video'
+       專案資料
     ════════════════════════════════════════════════════════════ */
     var PROJECTS = [
         {
@@ -411,6 +655,21 @@
             thumb: { type: 'img', src: './assets/project_IX.webp' }
         }
     ];
+
+    /* ── 跑馬燈 ── */
+    var TICKER_ITEMS = PROJECTS.map(function(p) {
+        return p.titleZh || p.titleEn;
+    });
+    (function buildTicker() {
+        var track = document.getElementById('tickerTrack');
+        var html = '';
+        var repeated = TICKER_ITEMS.concat(TICKER_ITEMS);
+        repeated.forEach(function(name, i) {
+            html += '<span class="hero-ticker-item">' + name + '</span>';
+            html += '<span class="hero-ticker-sep">—</span>';
+        });
+        track.innerHTML = html;
+    })();
 
     /* ── 渲染作品格 ── */
     function renderProjects(filter) {
@@ -529,13 +788,39 @@
     });
     (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(0);
 
+    /* ── Contact 捲軸修正：footer 是 fixed，捲到頁面最底部 ── */
     var contactBtn = document.querySelector('.js-contact-scroll');
     if (contactBtn) {
         contactBtn.addEventListener('click', function(e) {
-            var target = document.getElementById('contact');
-            if (target) { e.preventDefault(); lenis.scrollTo(target, { duration: 1.4 }); }
+            e.preventDefault();
+            lenis.scrollTo(document.body.scrollHeight, { duration: 1.4 });
         });
     }
+
+    /* ── 自定游標 ── */
+    var cursorDot  = document.getElementById('cursorDot');
+    var cursorRing = document.getElementById('cursorRing');
+    var mouseX = 0, mouseY = 0;
+    var ringX  = 0, ringY  = 0;
+
+    document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursorDot.style.left = mouseX + 'px';
+        cursorDot.style.top  = mouseY + 'px';
+    });
+
+    (function animateRing() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        cursorRing.style.left = ringX + 'px';
+        cursorRing.style.top  = ringY + 'px';
+        requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('.js-cursor-view, .project-item').forEach(function(el) {
+        el.addEventListener('mouseenter', function() { cursorRing.classList.add('is-view'); });
+        el.addEventListener('mouseleave', function() { cursorRing.classList.remove('is-view'); });
+    });
 
     /* ── 初始化 ── */
     document.querySelector('.island-right .zh').classList.add('fade-in');
