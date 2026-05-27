@@ -56,14 +56,7 @@
             border-bottom: 1px solid #ebebeb;
         }
 
-        .hero-topbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 26px 60px;
-            border-bottom: 1px solid #ebebeb;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #bbb;
-            flex-shrink: 0; position: relative; z-index: 4;
-        }
+        .hero-topbar { display: none; }
 
         /* ── Logo Stage ─────────────────────────────────────── */
         .logo-stage {
@@ -75,18 +68,18 @@
 
         .logo-wrap {
             width: min(46vw, 580px);
-            position: relative; z-index: 2;
+            position: relative; z-index: 3; /* arch 在 showcase 之上 */
             flex-shrink: 0;
         }
         .logo-wrap svg {
             width: 100%; height: auto; display: block;
-            overflow: visible; /* arch halves extend beyond SVG box */
+            overflow: visible;
         }
 
-        /* ── SVG 圖層淡出（hover） ── */
+        /* ── SVG 文字圖層淡出（hover） ── */
         .logo-ch,
         .logo-en-text {
-            transition: opacity 0.3s ease;
+            transition: opacity 0.25s ease;
         }
         .logo-stage:hover .logo-ch,
         .logo-stage:hover .logo-en-text {
@@ -94,24 +87,25 @@
             transition: opacity 0.2s ease;
         }
 
-        /* ── Arch 左右展開 ── */
-        .arch-left,
-        .arch-right {
+        /* ── Arch 延伸拉寬（scaleX 從中心向兩側） ── */
+        .arch-wrap {
             transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+            transform-box: fill-box;
+            transform-origin: 50% 50%;
         }
-        .logo-stage:hover .arch-left  { transform: translateX(-38vw); }
-        .logo-stage:hover .arch-right { transform: translateX(38vw);  }
+        .logo-stage:hover .arch-wrap {
+            transform: scaleX(2.8);
+        }
 
-        /* ── Showcase 疊層 ─────────────────────────────────── */
+        /* ── Showcase 置中疊層（在 arch SVG 之下） ── */
         .showcase {
             position: absolute; inset: 0;
-            display: flex; align-items: center;
-            padding: 40px 20vw 40px 20vw;
-            gap: 48px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px;
             opacity: 0; pointer-events: none;
-            /* 延遲到 arch 開始打開後再淡入 */
             transition: opacity 0.45s ease 0s;
-            z-index: 3;
+            z-index: 2; /* 低於 logo-wrap(3)，arch 在上方形成框架 */
         }
         .logo-stage:hover .showcase {
             opacity: 1; pointer-events: auto;
@@ -119,10 +113,9 @@
         }
 
         .showcase-images {
-            flex: 1;
-            position: relative;
-            height: min(56vh, 460px);
-            overflow: hidden;
+            width: min(54vw, 660px);
+            height: min(46vh, 420px);
+            position: relative; overflow: hidden;
             flex-shrink: 0;
         }
         .showcase-img {
@@ -133,23 +126,21 @@
         .showcase-img.active { opacity: 1; }
 
         .showcase-meta {
-            width: 160px; flex-shrink: 0;
+            text-align: center;
         }
         .showcase-tags {
-            font-size: 14px; color: #333; line-height: 1.75;
+            font-size: 13px; color: #555; line-height: 1.75;
         }
         .showcase-tags-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 12px; color: #888; line-height: 1.75; margin-top: 6px;
+            font-size: 11px; color: #999; line-height: 1.75; margin-top: 4px;
         }
         .showcase-location {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; color: #bbb; margin-top: 24px; letter-spacing: 0.06em;
+            font-size: 11px; color: #bbb; margin-top: 12px; letter-spacing: 0.06em;
         }
 
         .showcase-dots {
-            position: absolute;
-            bottom: 28px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 8px; align-items: center;
         }
         .showcase-dot {
@@ -347,7 +338,7 @@
                 overflow: visible;
                 padding: 48px 0 0;
             }
-            .arch-left, .arch-right { transform: none !important; }
+            .arch-wrap { transform: none !important; }
             .logo-ch, .logo-en-text { opacity: 1 !important; }
 
             .filter-bar { padding: 36px 24px 0; }
@@ -392,11 +383,6 @@
 
     <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
     <section class="hero">
-
-        <div class="hero-topbar">
-            <span>WU DESIGN STUDIO — 伍設計事務所</span>
-            <span>PORTFOLIO 2019–2025</span>
-        </div>
 
         <div class="logo-stage" id="logoStage">
 
@@ -448,15 +434,15 @@
                         <path d="M560.34,415.68c0-5.99,3.99-10.67,10.3-10.67s10.3,4.68,10.3,10.67-4.08,10.67-10.3,10.67-10.3-4.65-10.3-10.67ZM578.26,415.68c0-4.71-2.88-8.27-7.62-8.27s-7.62,3.57-7.62,8.27,2.91,8.27,7.62,8.27,7.62-3.62,7.62-8.27Z"/>
                     </g>
 
-                    <!-- 組 3a：右半 arch（含中央小方形）-->
-                    <g class="arch-right">
-                        <path d="M846.36,250.78c-40.52-5.9-77.34-23.09-107.21-48.32l-59.49-49.63-145.77-121.59C510.84,11.76,481,0,448.44,0v19.33c6.55,0,12.97.46,19.26,1.41,5.76.84,11.39,2.09,16.88,3.67,4.21,1.21,7.09,5.08,7.09,9.46v43.12c0,2.71-2.2,4.91-4.91,4.91h-57.65v19.33h57.65c2.71,0,4.91,2.2,4.91,4.91v33.4c0,2.71-2.2,4.91-4.91,4.91h-57.65v19.33h231.59l72.59,64.82.92.82c16.05,14.45,34.33,26.47,54.21,35.57h89.13v-11.96c-10.58,0-21-.75-31.18-2.26ZM556.7,144.46h-40.79c-2.71,0-4.91-2.2-4.91-4.91v-33.4c0-2.71,2.2-4.91,4.91-4.91h40.79c2.71,0,4.91,2.2,4.91,4.91v33.4c0,2.71-2.2,4.91-4.91,4.91ZM511,76.99v-33.34c0-3.84,4.24-6.23,7.5-4.21,6.55,4.07,12.73,8.69,18.45,13.83l1.54,1.38.03.03,20.88,18.65c3.37,3.01,1.24,8.58-3.27,8.58h-40.21c-2.71,0-4.91-2.2-4.91-4.91ZM585.85,144.46c-2.71,0-4.91-2.2-4.91-4.91v-36.01c0-4.24,5.02-6.49,8.19-3.66l40.32,36.01c3.37,3.01,1.24,8.58-3.27,8.58h-40.32Z"/>
-                        <rect class="center-rect" x="429.11" y=".02" width="19.33" height="19.33"/>
-                    </g>
-
-                    <!-- 組 3b：左半 arch -->
-                    <g class="arch-left">
-                        <path d="M343.65,31.25l-145.77,121.59-59.49,49.63c-29.87,25.22-66.69,42.42-107.21,48.32-10.19,1.51-20.6,2.26-31.18,2.26v11.96h89.13c19.88-9.11,38.16-21.13,54.21-35.57l.92-.82,144.17-128.74c3.17-2.83,8.19-.58,8.19,3.66v60.25h19.33v-84.09c0-2.8,1.19-5.46,3.28-7.33l19.81-17.69.03-.03,1.54-1.38c18.97-17.07,42.85-28.7,69.25-32.53,6.29-.95,12.71-1.41,19.26-1.41V0C396.55,0,366.71,11.76,343.65,31.25Z"/>
+                    <!-- 組 3：整個 arch 包在 arch-wrap，scaleX 延伸動畫 -->
+                    <g class="arch-wrap">
+                        <g class="arch-right">
+                            <path d="M846.36,250.78c-40.52-5.9-77.34-23.09-107.21-48.32l-59.49-49.63-145.77-121.59C510.84,11.76,481,0,448.44,0v19.33c6.55,0,12.97.46,19.26,1.41,5.76.84,11.39,2.09,16.88,3.67,4.21,1.21,7.09,5.08,7.09,9.46v43.12c0,2.71-2.2,4.91-4.91,4.91h-57.65v19.33h57.65c2.71,0,4.91,2.2,4.91,4.91v33.4c0,2.71-2.2,4.91-4.91,4.91h-57.65v19.33h231.59l72.59,64.82.92.82c16.05,14.45,34.33,26.47,54.21,35.57h89.13v-11.96c-10.58,0-21-.75-31.18-2.26ZM556.7,144.46h-40.79c-2.71,0-4.91-2.2-4.91-4.91v-33.4c0-2.71,2.2-4.91,4.91-4.91h40.79c2.71,0,4.91,2.2,4.91,4.91v33.4c0,2.71-2.2,4.91-4.91,4.91ZM511,76.99v-33.34c0-3.84,4.24-6.23,7.5-4.21,6.55,4.07,12.73,8.69,18.45,13.83l1.54,1.38.03.03,20.88,18.65c3.37,3.01,1.24,8.58-3.27,8.58h-40.21c-2.71,0-4.91-2.2-4.91-4.91ZM585.85,144.46c-2.71,0-4.91-2.2-4.91-4.91v-36.01c0-4.24,5.02-6.49,8.19-3.66l40.32,36.01c3.37,3.01,1.24,8.58-3.27,8.58h-40.32Z"/>
+                            <rect x="429.11" y=".02" width="19.33" height="19.33"/>
+                        </g>
+                        <g class="arch-left">
+                            <path d="M343.65,31.25l-145.77,121.59-59.49,49.63c-29.87,25.22-66.69,42.42-107.21,48.32-10.19,1.51-20.6,2.26-31.18,2.26v11.96h89.13c19.88-9.11,38.16-21.13,54.21-35.57l.92-.82,144.17-128.74c3.17-2.83,8.19-.58,8.19,3.66v60.25h19.33v-84.09c0-2.8,1.19-5.46,3.28-7.33l19.81-17.69.03-.03,1.54-1.38c18.97-17.07,42.85-28.7,69.25-32.53,6.29-.95,12.71-1.41,19.26-1.41V0C396.55,0,366.71,11.76,343.65,31.25Z"/>
+                        </g>
                     </g>
 
                 </svg>
