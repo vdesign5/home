@@ -87,15 +87,13 @@
             transition: opacity 0.2s ease;
         }
 
-        /* ── Arch 延伸拉寬（scaleX 從中心向兩側） ── */
-        .arch-wrap {
+        /* ── Arch 左右滑開 ── */
+        .arch-left,
+        .arch-right {
             transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
-            transform-box: fill-box;
-            transform-origin: 50% 50%;
         }
-        .logo-stage:hover .arch-wrap {
-            transform: scaleX(2.8);
-        }
+        .logo-stage:hover .arch-left  { transform: translateX(-42vw); }
+        .logo-stage:hover .arch-right { transform: translateX(42vw);  }
 
         /* ── Showcase 置中疊層（在 arch SVG 之下） ── */
         .showcase {
@@ -338,7 +336,7 @@
                 overflow: visible;
                 padding: 48px 0 0;
             }
-            .arch-wrap { transform: none !important; }
+            .arch-left, .arch-right { transform: none !important; }
             .logo-ch, .logo-en-text { opacity: 1 !important; }
 
             .filter-bar { padding: 36px 24px 0; }
