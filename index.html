@@ -123,22 +123,19 @@
         }
         .showcase-img.active { opacity: 1; }
 
-        /* 圖片內浮層：左上中文分類、右上英文分類 */
+        /* 圖片上方：左中文分類、右英文分類（深色，不壓圖） */
         .showcase-overlay {
-            position: absolute; top: 0; left: 0; right: 0;
-            padding: 16px 18px; z-index: 1;
-            display: flex; justify-content: space-between; align-items: flex-start;
-            pointer-events: none;
+            width: min(54vw, 660px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 10px;
         }
         .sc-cat-zh {
-            font-size: 11px; color: #fff; letter-spacing: 0.04em;
-            line-height: 1; text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+            font-size: 11px; color: #666; letter-spacing: 0.04em; line-height: 1;
         }
         .sc-cat-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10px; color: #fff; letter-spacing: 0.12em;
+            font-size: 10px; color: #999; letter-spacing: 0.12em;
             line-height: 1; text-align: right; text-transform: uppercase;
-            text-shadow: 0 1px 6px rgba(0,0,0,0.45);
         }
 
         /* 圖片下方：主標中文 + 副標英文 */
@@ -345,6 +342,10 @@
             font-size: 11px; color: #999; letter-spacing: 0.5px;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
         }
+        .footer-contact-label {
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 11px; color: #bbb; letter-spacing: 0.18em; text-transform: uppercase;
+        }
 
         /* ── RESPONSIVE ───────────────────────────────────────── */
         @media (max-width: 968px) {
@@ -352,20 +353,20 @@
 
             .hero-topbar { padding: 20px 36px; }
 
-            /* 手機版：logo 靜態顯示，showcase 直接可見 */
+            /* 手機版 hero：logo-stage 縱向排列，showcase 預設隱藏 */
             .logo-wrap { width: min(80vw, 420px); }
             .showcase {
                 position: static;
-                opacity: 1; pointer-events: auto;
                 flex-direction: column;
                 padding: 40px 36px;
                 gap: 24px;
+                /* opacity/pointer-events 由 .is-top 控制，基礎值沿用 desktop（opacity:0） */
             }
+            .showcase-overlay { width: 100%; padding-bottom: 8px; }
             .showcase-images { width: 100%; height: 52vw; max-height: 340px; flex-shrink: 0; }
             .showcase-meta { width: 100%; }
             .showcase-dots { position: static; transform: none; margin-top: 16px; justify-content: center; }
 
-            /* logo-stage 改為 flex column 讓兩區塊疊排 */
             .logo-stage {
                 flex-direction: column;
                 align-items: center;
@@ -373,8 +374,16 @@
                 overflow: visible;
                 padding: 48px 0 0;
             }
-            .arch-left, .arch-right { transform: none !important; }
-            .logo-ch, .logo-en-text { opacity: 1 !important; }
+
+            /* 滾動到頂部時展開（等同 desktop :hover） */
+            .logo-stage.is-top .arch-left  { transform: translateX(-42vw); }
+            .logo-stage.is-top .arch-right { transform: translateX(42vw); }
+            .logo-stage.is-top .logo-ch,
+            .logo-stage.is-top .logo-en-text { opacity: 0; }
+            .logo-stage.is-top .showcase {
+                opacity: 1; pointer-events: auto;
+                transition: opacity 0.45s ease 0.45s;
+            }
 
             .filter-bar { padding: 36px 24px 0; }
             .projects { padding: 28px 24px 60px; }
@@ -382,6 +391,8 @@
 
             .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
             .island-right { display: none; }
+            /* 手機 logo 靠右，避免選單展開時遮擋 */
+            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
             .island-center img { height: 36px; }
 
             footer { padding: 40px 36px 32px; }
@@ -485,15 +496,15 @@
 
             <!-- Showcase 輪播（hover 時淡入） -->
             <div class="showcase" id="showcase">
+                <div class="showcase-overlay">
+                    <span class="sc-cat-zh"></span>
+                    <span class="sc-cat-en"></span>
+                </div>
                 <div class="showcase-images">
                     <img src="./assets/202511_showcase_I.webp"   class="showcase-img active" alt="Showcase 1" loading="eager">
                     <img src="./assets/202511_showcase_II.webp"  class="showcase-img"        alt="Showcase 2" loading="lazy">
                     <img src="./assets/202511_showcase_III.webp" class="showcase-img"        alt="Showcase 3" loading="lazy">
                     <img src="./assets/202511_showcase_IV.webp"  class="showcase-img"        alt="Showcase 4" loading="lazy">
-                    <div class="showcase-overlay">
-                        <span class="sc-cat-zh"></span>
-                        <span class="sc-cat-en"></span>
-                    </div>
                 </div>
                 <div class="showcase-meta">
                     <p class="sc-title-zh"></p>
@@ -547,7 +558,7 @@
     <footer id="contact">
         <div class="footer-content">
             <div class="footer-left">
-                <img src="./assets/contact.webp" alt="Contact" class="footer-logo-img">
+                <p class="footer-contact-label">Contact</p>
             </div>
             <div class="footer-right">
                 <div class="footer-contact-info">
@@ -585,12 +596,12 @@
         { titleZh:'69翻轉，高師大好', titleEn:'Flips 69, NKNU Great', categories:['event','poster'], label:'Event / Poster', labelZh:'活動 / 海報', descZh:'旋轉69融入笑臉，以明快色彩翻轉校慶視覺。', descEn:'Flips 69, NKNU Great', href:'./works/69', thumb:{type:'img',src:'./assets/project_IX.webp'} }
     ];
 
-    /* ── Showcase 每張圖的資料（依 202511_showcase_I/II/III/IV 順序填入） ── */
+    /* ── Showcase 每張圖的資料（依 202511_showcase_I/II/III/IV 順序） ── */
     var SHOWCASE = [
-        { catZh:'活動 / 識別', catEn:'Event / Identity',       titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open' },
-        { catZh:'識別',        catEn:'Identity',               titleZh:'宋俊宏婦幼醫院',         titleEn:"Sung Women and Children's Hospital"       },
-        { catZh:'識別',        catEn:'Identity',               titleZh:'溱好國際有限公司',        titleEn:'Jhen Hao International Ltd.'              },
-        { catZh:'動態 / 插畫', catEn:'Motion / Illustration',  titleZh:'京典衛浴',               titleEn:'OVO Toilet'                               }
+        { catZh:'活動 / 識別', catEn:'Event / Identity', titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open' },
+        { catZh:'識別',        catEn:'Identity',          titleZh:'宋俊宏婦幼醫院',         titleEn:"Sung Women and Children's Hospital"       },
+        { catZh:'包裝',        catEn:'Packaging',         titleZh:'制菸所',                  titleEn:'No Smoking'                               },
+        { catZh:'活動 / 海報', catEn:'Event / Poster',    titleZh:null,                     titleEn:'Push &amp; Pull'                          }
     ];
 
     /* ── 輪播 ── */
@@ -607,15 +618,18 @@
         var s = SHOWCASE[idx];
         if (!s) return;
         if (animate) {
-            scrambleText(scCatZh,   s.catZh,   true);
-            scrambleText(scCatEn,   s.catEn,   false);
-            scrambleText(scTitleZh, s.titleZh, true);
-            scrambleText(scTitleEn, s.titleEn, false);
+            if (scCatZh) scrambleText(scCatZh, s.catZh, true);
+            if (scCatEn) scrambleText(scCatEn, s.catEn, false);
+            if (scTitleZh) {
+                if (s.titleZh) { scTitleZh.style.display = ''; scrambleText(scTitleZh, s.titleZh, true); }
+                else           { scTitleZh.style.display = 'none'; scTitleZh.textContent = ''; }
+            }
+            if (scTitleEn) scrambleText(scTitleEn, s.titleEn, false);
         } else {
-            if (scCatZh)   scCatZh.textContent   = s.catZh;
-            if (scCatEn)   scCatEn.textContent    = s.catEn;
-            if (scTitleZh) scTitleZh.textContent  = s.titleZh;
-            if (scTitleEn) scTitleEn.textContent  = s.titleEn;
+            if (scCatZh)   scCatZh.textContent  = s.catZh;
+            if (scCatEn)   scCatEn.textContent   = s.catEn;
+            if (scTitleZh) { scTitleZh.textContent = s.titleZh || ''; scTitleZh.style.display = s.titleZh ? '' : 'none'; }
+            if (scTitleEn) scTitleEn.textContent = s.titleEn;
         }
     }
 
@@ -644,12 +658,35 @@
 
     setInterval(function() { goTo(current + 1); }, 3600);
 
-    /* logo-stage 展開時觸發 scramble */
+    /* logo-stage 展開時觸發 scramble（桌機 hover） */
     var logoStage = document.getElementById('logoStage');
     if (logoStage) {
         logoStage.addEventListener('mouseenter', function() {
             updateShowcaseInfo(current, true);
         });
+    }
+
+    /* 手機：捲動到頂部時展開 hero（等同 hover 互動） */
+    if (window.matchMedia('(max-width: 968px)').matches && logoStage) {
+        var heroRevealed = false;
+        function checkHeroReveal() {
+            var atTop = window.scrollY < window.innerHeight * 0.5;
+            if (atTop === heroRevealed) return;
+            heroRevealed = atTop;
+            if (atTop) {
+                logoStage.classList.add('is-top');
+                updateShowcaseInfo(current, true);
+            } else {
+                logoStage.classList.remove('is-top');
+            }
+        }
+        window.addEventListener('scroll', checkHeroReveal, { passive: true });
+        /* 初始狀態：頁面一載入即展開 */
+        if (window.scrollY < window.innerHeight * 0.5) {
+            heroRevealed = true;
+            logoStage.classList.add('is-top');
+            setTimeout(function() { updateShowcaseInfo(current, true); }, 500);
+        }
     }
 
     /* ── 亂碼打字效果 ── */
