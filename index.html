@@ -43,13 +43,11 @@
             color: #333; background: #fff;
             overflow-x: hidden; padding-bottom: 350px;
         }
-        .en {
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-        }
+        .en { font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif; }
 
-        /* ── HERO ─────────────────────────────────────────────
-           position + z-index + background 確保蓋住底部 footer
-        ──────────────────────────────────────────────────────── */
+        /* ══════════════════════════════════════════════════════
+           HERO — Logo 展開互動
+        ══════════════════════════════════════════════════════ */
         .hero {
             position: relative; z-index: 6;
             background: #fff;
@@ -63,103 +61,115 @@
             padding: 26px 60px;
             border-bottom: 1px solid #ebebeb;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; letter-spacing: 0.18em;
-            text-transform: uppercase; color: #bbb;
+            font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #bbb;
+            flex-shrink: 0; position: relative; z-index: 4;
         }
 
-        .hero-body {
+        /* ── Logo Stage ─────────────────────────────────────── */
+        .logo-stage {
             flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 42%;
-            align-items: center;
-            padding: 0 60px;
-            gap: 60px;
-        }
-
-        .hero-line { overflow: hidden; line-height: 0.9; }
-        .hero-line + .hero-line { margin-top: 6px; }
-
-        .hero-line-inner {
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: clamp(72px, 11vw, 156px);
-            font-weight: 400;
-            color: #111;
-            letter-spacing: -0.03em;
-            display: block;
-            transform: translateY(108%);
-            animation: heroLineUp 0.95s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-        }
-        .hero-line:nth-child(2) .hero-line-inner { animation-delay: 0.09s; }
-
-        @keyframes heroLineUp {
-            to { transform: translateY(0); }
-        }
-
-        .hero-meta {
-            margin-top: 44px;
-            opacity: 0;
-            animation: heroFadeUp 0.7s ease 0.5s forwards;
-        }
-        .hero-meta p {
-            font-size: 13px; color: #999; line-height: 1.9;
-        }
-        .hero-meta p + p { margin-top: 2px; }
-        .hero-meta .en { font-size: 12px; }
-
-        @keyframes heroFadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-media {
-            height: 70vh;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
             overflow: hidden;
-            display: block; text-decoration: none;
+        }
+
+        .logo-wrap {
+            width: min(46vw, 580px);
+            position: relative; z-index: 2;
+            flex-shrink: 0;
+        }
+        .logo-wrap svg {
+            width: 100%; height: auto; display: block;
+            overflow: visible; /* arch halves extend beyond SVG box */
+        }
+
+        /* ── SVG 圖層淡出（hover） ── */
+        .logo-ch,
+        .logo-en-text {
+            transition: opacity 0.3s ease;
+        }
+        .logo-stage:hover .logo-ch,
+        .logo-stage:hover .logo-en-text {
             opacity: 0;
-            animation: heroFadeIn 1s ease 0.2s forwards;
+            transition: opacity 0.2s ease;
         }
-        @keyframes heroFadeIn { to { opacity: 1; } }
 
-        .hero-media video, .hero-media img {
-            width: 100%; height: 100%; object-fit: cover; display: block;
-            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* ── Arch 左右展開 ── */
+        .arch-left,
+        .arch-right {
+            transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
         }
-        .hero-media:hover video,
-        .hero-media:hover img { transform: scale(1.03); }
+        .logo-stage:hover .arch-left  { transform: translateX(-38vw); }
+        .logo-stage:hover .arch-right { transform: translateX(38vw);  }
 
-        .hero-bottom {
-            padding: 20px 60px 24px;
-            border-top: 1px solid #ebebeb;
-            display: flex; justify-content: space-between; align-items: center;
+        /* ── Showcase 疊層 ─────────────────────────────────── */
+        .showcase {
+            position: absolute; inset: 0;
+            display: flex; align-items: center;
+            padding: 40px 20vw 40px 20vw;
+            gap: 48px;
+            opacity: 0; pointer-events: none;
+            /* 延遲到 arch 開始打開後再淡入 */
+            transition: opacity 0.45s ease 0s;
+            z-index: 3;
         }
-        .hero-scroll {
+        .logo-stage:hover .showcase {
+            opacity: 1; pointer-events: auto;
+            transition: opacity 0.45s ease 0.45s;
+        }
+
+        .showcase-images {
+            flex: 1;
+            position: relative;
+            height: min(56vh, 460px);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .showcase-img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0; transition: opacity 0.7s ease;
+        }
+        .showcase-img.active { opacity: 1; }
+
+        .showcase-meta {
+            width: 160px; flex-shrink: 0;
+        }
+        .showcase-tags {
+            font-size: 14px; color: #333; line-height: 1.75;
+        }
+        .showcase-tags-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; letter-spacing: 0.18em;
-            text-transform: uppercase; color: #bbb;
-            opacity: 0;
-            animation: heroFadeIn 0.6s ease 0.9s forwards;
+            font-size: 12px; color: #888; line-height: 1.75; margin-top: 6px;
         }
-        .hero-featured-label {
+        .showcase-location {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; letter-spacing: 0.12em;
-            text-transform: uppercase; color: #ccc;
-            opacity: 0;
-            animation: heroFadeIn 0.6s ease 0.9s forwards;
+            font-size: 11px; color: #bbb; margin-top: 24px; letter-spacing: 0.06em;
         }
 
-        /* ── FILTER BAR ───────────────────────────────────────
-           position + background 蓋住 footer
-        ──────────────────────────────────────────────────────── */
+        .showcase-dots {
+            position: absolute;
+            bottom: 28px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; align-items: center;
+        }
+        .showcase-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #ddd; cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .showcase-dot.active {
+            background: #333; transform: scale(1.3);
+        }
+
+        /* ── FILTER BAR ──────────────────────────────────────── */
         .filter-bar {
-            position: relative; z-index: 6;
-            background: #fff;
+            position: relative; z-index: 6; background: #fff;
             display: flex; gap: 8px;
             padding: 48px 60px 0; flex-wrap: wrap; align-items: center;
         }
         .filter-btn {
             background: none; border: 1px solid #ddd;
-            padding: 7px 18px; border-radius: 20px;
-            font-size: 13px;
+            padding: 7px 18px; border-radius: 20px; font-size: 13px;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: all 0.2s; color: #aaa;
         }
@@ -172,20 +182,20 @@
 
         /* ── PROJECTS GRID ───────────────────────────────────── */
         .projects { padding: 36px 60px 80px; position: relative; background: #fff; z-index: 6; }
-        .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
+        .projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 1400px; margin: 0 auto; }
 
         .project-item {
             cursor: pointer; opacity: 0; transform: translateY(60px);
-            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
             display: block; text-decoration: none;
         }
         .project-item.in-view { opacity: 1; transform: translateY(0); }
         .project-item:hover { transform: translateY(-8px) scale(1.02); transition-delay: 0s !important; }
 
-        .project-image { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px; }
+        .project-image { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 8px; }
         .project-image img, .project-image video {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
             will-change: transform; display: block;
         }
         .project-item:hover .project-image img,
@@ -205,8 +215,7 @@
         /* ── DYNAMIC ISLAND ──────────────────────────────────── */
         .dynamic-island {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: white;
-            padding: 14px 48px;
+            background: white; padding: 14px 48px;
             display: flex; align-items: center; justify-content: space-between;
             z-index: 10;
             border-top-left-radius: 32px; border-top-right-radius: 32px;
@@ -226,14 +235,14 @@
             border-radius: 2px; transition: all 0.3s;
         }
         .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
         .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
 
         .menu-container {
             display: flex; gap: 24px; align-items: center;
             max-width: 0; overflow: hidden; opacity: 0;
-            transition: max-width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s;
+            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
         }
         .menu-container.open { max-width: 320px; opacity: 1; }
 
@@ -246,18 +255,15 @@
         .menu-item:hover { color: #FF0000; }
         .menu-item.active { color: #222; }
 
-        /* 中央 logo — 絕對置中，不影響兩側 flex */
         .island-center {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            z-index: 1;
+            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
         }
         .island-center a { display: block; transition: opacity 0.3s; }
         .island-center a:hover { opacity: 0.6; }
         .island-center img { height: 42px; display: block; pointer-events: none; }
 
         .island-right {
-            flex: 1; text-align: right;
-            position: relative; height: 40px;
+            flex: 1; text-align: right; position: relative; height: 40px;
         }
         .island-right .zh {
             display: block; font-size: 13px; color: #333;
@@ -273,16 +279,14 @@
         .island-right .fade-out { opacity: 0; transform: translateY(-10px); }
         .island-right .fade-in  { opacity: 1; transform: translateY(0); }
 
-        /* ── FOOTER ───────────────────────────────────────────── */
+        /* ── FOOTER ──────────────────────────────────────────── */
         footer {
             position: fixed; bottom: 0; left: 0; right: 0;
-            background: #f2f2f2; color: #333;
-            padding: 60px 80px 40px; z-index: 5;
+            background: #f2f2f2; color: #333; padding: 60px 80px 40px; z-index: 5;
         }
         .footer-content {
             max-width: 1400px; margin: 0 auto;
-            display: flex; justify-content: space-between; align-items: flex-start;
-            margin-bottom: 80px;
+            display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 80px;
         }
         .footer-left { display: flex; align-items: flex-start; }
         .footer-logo-img { height: 28px; filter: brightness(0) saturate(100%) invert(80%); flex-shrink: 0; }
@@ -320,30 +324,40 @@
         @media (max-width: 968px) {
             body { padding-bottom: 360px; }
 
-            /* hero */
             .hero-topbar { padding: 20px 36px; }
-            .hero-body {
-                grid-template-columns: 1fr;
-                padding: 40px 36px 0;
-                gap: 36px; align-items: start;
-            }
-            .hero-media { height: 52vw; animation: heroFadeIn 1s ease 0.1s forwards; }
-            .hero-bottom { padding: 16px 36px 20px; }
 
-            /* filter + projects */
+            /* 手機版：logo 靜態顯示，showcase 直接可見 */
+            .logo-wrap { width: min(80vw, 420px); }
+            .showcase {
+                position: static;
+                opacity: 1; pointer-events: auto;
+                flex-direction: column;
+                padding: 40px 36px;
+                gap: 24px;
+            }
+            .showcase-images { width: 100%; height: 52vw; max-height: 340px; flex-shrink: 0; }
+            .showcase-meta { width: 100%; }
+            .showcase-dots { position: static; transform: none; margin-top: 16px; justify-content: center; }
+
+            /* logo-stage 改為 flex column 讓兩區塊疊排 */
+            .logo-stage {
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                overflow: visible;
+                padding: 48px 0 0;
+            }
+            .arch-left, .arch-right { transform: none !important; }
+            .logo-ch, .logo-en-text { opacity: 1 !important; }
+
             .filter-bar { padding: 36px 24px 0; }
             .projects { padding: 28px 24px 60px; }
-            .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+            .projects-grid { grid-template-columns: repeat(2,1fr); gap: 28px; }
 
-            /* island — 橫排維持，隱藏右側文字 */
-            .dynamic-island {
-                padding: 12px 20px;
-                border-top-left-radius: 24px; border-top-right-radius: 24px;
-            }
+            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
             .island-right { display: none; }
             .island-center img { height: 36px; }
 
-            /* footer */
             footer { padding: 40px 36px 32px; }
             .footer-content { flex-direction: column; gap: 24px; margin-bottom: 48px; }
             .footer-right { justify-content: flex-start; }
@@ -353,23 +367,20 @@
 
         @media (max-width: 640px) {
             body { padding-bottom: 400px; }
-
             .hero-topbar { padding: 16px 20px; font-size: 10px; letter-spacing: 0.12em; }
-            .hero-body { padding: 32px 20px 0; gap: 28px; }
-            .hero-media { height: 65vw; }
-            .hero-bottom { padding: 14px 20px 18px; }
-
+            .logo-wrap { width: min(86vw, 340px); }
+            .logo-stage { padding: 36px 0 0; }
+            .showcase { padding: 32px 20px; }
+            .showcase-images { height: 58vw; }
             .filter-bar { padding: 28px 16px 0; gap: 6px; }
             .projects { padding: 24px 16px 48px; }
             .projects-grid { grid-template-columns: 1fr; }
-
             .dynamic-island { padding: 10px 16px; }
             .island-center img { height: 32px; }
             .menu-toggle span { width: 20px; }
             .menu-item { font-size: 12px; }
             .menu-container.open { max-width: 240px; }
             .menu-container { gap: 18px; }
-
             footer { padding: 32px 20px 28px; }
             .footer-content { gap: 20px; margin-bottom: 36px; }
             .footer-contact-info { gap: 20px; }
@@ -387,33 +398,91 @@
             <span>PORTFOLIO 2019–2025</span>
         </div>
 
-        <div class="hero-body">
-            <div class="hero-type">
-                <div class="hero-line"><div class="hero-line-inner">WU</div></div>
-                <div class="hero-line"><div class="hero-line-inner">DESIGN</div></div>
-                <div class="hero-line"><div class="hero-line-inner">STUDIO</div></div>
-                <div class="hero-meta">
-                    <p>品牌識別 · 活動視覺 · 動態設計</p>
-                    <p class="en">Brand Identity · Event · Motion Design</p>
-                    <p style="margin-top:12px; font-size:12px; color:#bbb;" class="en">Taiwan, Est. 2019</p>
+        <div class="logo-stage" id="logoStage">
+
+            <!-- Inline SVG logo — arch 拆成 .arch-left / .arch-right 以便動畫 -->
+            <div class="logo-wrap">
+                <svg viewBox="0 0 877.55 426.35" xmlns="http://www.w3.org/2000/svg" aria-label="WU DESIGN STUDIO 伍設計事務所">
+
+                    <!-- 組 1：漢字字體 -->
+                    <g class="logo-ch">
+                        <path d="M546.64,344.8h-11.7c-.58,0-1.06-.47-1.06-1.06v-8.76c0-2.31-1.87-4.18-4.18-4.18h-22.62c-.58,0-1.06-.47-1.06-1.06v-3c0-.87.71-1.58,1.58-1.58h18.79c2.31,0,4.18-1.87,4.18-4.18v-11.97c0-2.31-1.87-4.18-4.18-4.18h-19.32c-.58,0-1.06-.47-1.06-1.06v-3.44c0-.58.47-1.06,1.06-1.06h35.12c.58,0,1.06-.47,1.06-1.06v-3.75c0-.58-.47-1.06-1.06-1.06h-35.12c-.58,0-1.06-.47-1.06-1.06v-5.77c0-.58-.47-1.06-1.06-1.06h-3.75c-.58,0-1.06.47-1.06,1.06v5.77c0,.58-.47,1.06-1.06,1.06h-35.12c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h35.12c.58,0,1.06.47,1.06,1.06v3.44c0,.58-.47,1.06-1.06,1.06h-19.32c-2.31,0-4.18,1.87-4.18,4.18v11.96c0,2.31,1.87,4.18,4.18,4.18h19.32c.58,0,1.06.47,1.06,1.06v3.52c0,.58-.47,1.06-1.06,1.06h-28.27c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h28.27c.58,0,1.06.47,1.06,1.06v6.02c0,.58-.47,1.06-1.06,1.06h-42.02c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h42.02c.58,0,1.06.47,1.06,1.06v4.78c0,.42,0,.85-.03,1.29-.02.56-.49,1-1.06,1h-28.25c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h27.01c.69,0,1.21.66,1.02,1.32-1.6,5.68-4.64,10.87-8.88,15.11-.42.42-.43,1.09-.01,1.5l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31c5.44-5.44,9.17-12.18,10.87-19.6.13-.58.64-.99,1.23-.99h23.48c2.31,0,4.18-1.87,4.18-4.18v-8.75c0-.58.47-1.06,1.06-1.06h11.7c.58,0,1.06-.47,1.06-1.06v-3.75c0-.58-.47-1.06-1.06-1.06ZM506.03,311.77c0-.58.47-1.06,1.06-1.06h16.58c.58,0,1.06.47,1.06,1.06v6.49c0,.58-.47,1.06-1.06,1.06h-16.58c-.58,0-1.06-.47-1.06-1.06v-6.49ZM500.17,318.26c0,.58-.47,1.06-1.06,1.06h-16.58c-.58,0-1.06-.47-1.06-1.06v-6.49c0-.58.47-1.06,1.06-1.06h16.58c.58,0,1.06.47,1.06,1.06v6.49ZM528.02,357.73c0,.58-.47,1.06-1.06,1.06h-19.9c-.6,0-1.07-.5-1.05-1.11.01-.4.02-.8.02-1.19v-4.78c0-.58.47-1.06,1.06-1.06h19.88c.58,0,1.06.47,1.06,1.06v6.02ZM528.02,343.74c0,.58-.47,1.06-1.06,1.06h-19.88c-.58,0-1.06-.47-1.06-1.06v-6.02c0-.58.47-1.06,1.06-1.06h19.88c.58,0,1.06.47,1.06,1.06v6.02Z"/>
+                        <path d="M659.44,345.39h-14.92c-.32,0-.56-.28-.52-.59.32-2.52.46-5.11.46-8.29,0-.58-.47-1.06-1.06-1.06h-3.75c-.58,0-1.06.48-1.06,1.07,0,2.99-.14,5.42-.45,7.77-.08.63-.62,1.11-1.26,1.11h-16.19c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h15.29c.35,0,.62.35.51.69-2.3,7.59-6.48,14.55-12.16,20.22l-8.93,8.93c-.2.2-.31.47-.31.75s.11.55.31.75l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31l8.93-8.93c6.73-6.73,11.55-15.03,14.03-24.11.15-.55.64-.94,1.22-.94h12.97c.58,0,1.06.47,1.06,1.06v6.08c0,8.69-4.32,16.35-10.22,22.74-.38.41-.37,1.06.03,1.46l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31c7.68-7.68,11.9-17.88,11.9-28.74v-6.93c0-2.31-1.87-4.18-4.18-4.18Z"/>
+                        <path d="M650.69,319.13c-.4-.41-.4-1.06,0-1.47l12.36-12.78c1.31-1.35,1.56-3.42.57-5.07-.78-1.29-2.25-2.01-3.76-2.01h-21.12c-.26,0-.41-.29-.26-.5l6.5-8.95c.16-.23.23-.51.19-.79-.04-.28-.2-.52-.42-.69l-3.03-2.2c-.19-.14-.4-.2-.62-.2-.33,0-.65.15-.86.44l-18.48,25.46c-.34.47-.24,1.13.23,1.48l3.03,2.2c.18.13.4.2.62.2.05,0,.11,0,.17-.01.28-.04.52-.2.69-.42l3.99-5.49c.35-.48,1.04-.53,1.45-.1l9.17,9.46c.4.41.4,1.06,0,1.47l-16.04,16.58c-.19.2-.3.47-.3.75,0,.28.12.55.32.74l2.69,2.6c.21.2.47.3.73.3s.55-.11.76-.32l15.86-16.4c.41-.43,1.1-.43,1.52,0l15.91,16.4c.19.2.46.32.74.32h.02c.27,0,.54-.11.74-.3l2.69-2.61c.42-.41.43-1.07.02-1.49l-16.08-16.58ZM646.66,313.4c-.41.43-1.1.43-1.52,0l-8.93-9.21c-.19-.2-.05-.54.23-.54h18.9c.28,0,.42.34.23.54l-8.91,9.21Z"/>
+                        <path d="M623.97,317.46c-.78-1.11-2.1-1.78-3.54-1.78h-9.04c-.43,0-.84-.17-1.14-.48l-5.67-5.86c-.4-.41-.4-1.06,0-1.47l10.44-10.79c.99-1.03,1.43-2.43,1.17-3.75-.38-1.97-2.11-3.4-4.11-3.4h-28.4c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h23.69c.28,0,.42.34.23.54l-7.05,7.29c-.41.43-1.1.43-1.52,0l-3.25-3.36c-.19-.2-.46-.32-.74-.32h-.02c-.27,0-.54.11-.73.3l-2.69,2.6c-.42.41-.43,1.07-.02,1.49l10.47,10.82c.19.2.05.54-.23.54h-24.86c-.58,0-1.06.47-1.06,1.06v3.75c0,.58.47,1.06,1.06,1.06h21.1c.58,0,1.06.47,1.06,1.06v5.66c0,.36-.14.71-.4.97l-23.82,23.82c-.41.41-.41,1.08,0,1.49l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31l19.54-19.54c.2-.2.54-.06.54.22v18.63c0,9.29-3.62,18.03-10.19,24.6-.2.2-.31.47-.31.75s.11.55.31.75l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31c7.68-7.68,11.9-17.88,11.9-28.74v-33.9c0-.58.47-1.06,1.06-1.06h10.61c.26,0,.41.29.26.5l-8.1,11.17c-.16.23-.23.51-.19.79.04.28.2.52.42.69l3.03,2.2c.19.14.4.2.62.2.33,0,.65-.15.86-.44l10.4-14.34c1.04-1.44,1.06-3.38.04-4.85Z"/>
+                        <rect x="701.11" y="289.92" width="40.6" height="5.86" rx="1.06" ry="1.06"/>
+                        <path d="M791,315.1h-38.28c-.58,0-1.06-.47-1.06-1.06v-17.21c0-.58.47-1.06,1.06-1.06h31.23c.58,0,1.06-.47,1.06-1.06v-3.75c0-.58-.47-1.06-1.06-1.06h-33.97c-2.31,0-4.18,1.87-4.18,4.18v64.28c0,8.69-4.32,16.35-10.22,22.74-.38.41-.37,1.06.03,1.46l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31c7.68-7.68,11.9-17.88,11.9-28.74v-34.48c0-.58.47-1.06,1.06-1.06h15.09c.58,0,1.06.47,1.06,1.06v61.21c0,.58.47,1.06,1.06,1.06h3.75c.58,0,1.06-.47,1.06-1.06v-61.21c0-.58.47-1.06,1.06-1.06h15.23c.58,0,1.06-.47,1.06-1.06v-3.75c0-.58-.47-1.06-1.06-1.06Z"/>
+                        <rect x="345.46" y="289.96" width="28.86" height="5.85" rx="1.06" ry="1.06"/>
+                        <rect x="338.19" y="303.65" width="43.41" height="5.85" rx="1.06" ry="1.06"/>
+                        <path d="M429.7,321.42v-3.74c0-.58-.47-1.06-1.06-1.06h-18.62c-.58,0-1.06-.47-1.06-1.06v-28.91c0-.58-.47-1.06-1.06-1.06h-3.74c-.58,0-1.06.47-1.06,1.06v28.91c0,.58-.47,1.06-1.06,1.06h-20.61c-.58,0-1.06.47-1.06,1.06v3.74c0,.58.47,1.06,1.06,1.06h20.61c.58,0,1.06.47,1.06,1.06v59.57c0,.58.47,1.06,1.06,1.06h3.74c.58,0,1.06-.47,1.06-1.06v-59.57c0-.58.47-1.06,1.06-1.06h18.62c.58,0,1.06-.47,1.06-1.06Z"/>
+                        <rect x="346.99" y="316" width="25.81" height="5.85" rx="1.06" ry="1.06"/>
+                        <rect x="346.99" y="328.36" width="25.81" height="5.85" rx="1.06" ry="1.06"/>
+                        <path d="M374.64,376.2v-29.51c0-2.3-1.87-4.17-4.17-4.17h-21.15c-2.3,0-4.17,1.87-4.17,4.17v29.51c0,2.3,1.87,4.17,4.17,4.17h21.15c2.3,0,4.17-1.87,4.17-4.17ZM368.79,373.46c0,.58-.47,1.06-1.06,1.06h-15.68c-.58,0-1.06-.47-1.06-1.06v-24.04c0-.58.47-1.06,1.06-1.06h15.68c.58,0,1.06.47,1.06,1.06v24.04Z"/>
+                        <rect x="220.8" y="289.96" width="28.87" height="5.85" rx="1.06" ry="1.06"/>
+                        <rect x="213.53" y="303.65" width="43.42" height="5.85" rx="1.06" ry="1.06"/>
+                        <rect x="222.33" y="316.01" width="25.82" height="5.85" rx="1.06" ry="1.06"/>
+                        <rect x="222.33" y="328.37" width="25.82" height="5.85" rx="1.06" ry="1.06"/>
+                        <path d="M245.82,342.54h-21.16c-2.3,0-4.17,1.87-4.17,4.17v29.52c0,2.3,1.87,4.17,4.17,4.17h21.16c2.3,0,4.17-1.87,4.17-4.17v-29.52c0-2.3-1.87-4.17-4.17-4.17ZM244.14,373.49c0,.58-.47,1.06-1.06,1.06h-15.69c-.58,0-1.06-.47-1.06-1.06v-24.05c0-.58.47-1.06,1.06-1.06h15.69c.58,0,1.06.47,1.06,1.06v24.05Z"/>
+                        <path d="M277.74,367.74l16.27,15.69c.2.19.46.3.73.3h.02c.28,0,.55-.12.74-.32l2.6-2.69c.19-.2.3-.47.3-.75,0-.28-.12-.55-.32-.74l-16.06-15.5c-.43-.42-.43-1.1,0-1.52l3.19-3.08c7.01-6.41,10.56-14.16,10.56-23.03,0-2.3-1.85-4.17-4.12-4.17h-29.26c-2.27,0-4.12,1.87-4.12,4.17,0,8.87,3.54,16.61,10.5,22.98l3.25,3.13c.43.42.43,1.1,0,1.52l-16.06,15.49c-.2.19-.32.46-.32.74,0,.28.1.55.3.75l2.6,2.69c.19.2.46.32.74.32h.02c.27,0,.54-.11.73-.3l16.27-15.69c.41-.39,1.06-.39,1.47,0ZM272.76,354.81c-5.06-4.63-7.86-9.84-8.51-15.88-.07-.62.44-1.15,1.06-1.15h23.39c.62,0,1.12.54,1.06,1.15-.66,6.04-3.47,11.27-8.56,15.93l-3.46,3.33c-.41.39-1.06.39-1.47,0l-3.51-3.39Z"/>
+                        <path d="M256.83,328.99c7.67-7.67,11.89-17.86,11.89-28.7v-5.23c0-.58.47-1.06,1.06-1.06h12.3c.58,0,1.06.47,1.06,1.06v24.07c0,2.3,1.87,4.17,4.17,4.17h12.76c2.3,0,4.17-1.87,4.17-4.17v-11.49c0-.58-.47-1.06-1.06-1.06h-3.74c-.58,0-1.06.47-1.06,1.06v8.75c0,.58-.47,1.06-1.06,1.06h-7.29c-.58,0-1.06-.47-1.06-1.06v-24.07c0-2.31-1.87-4.17-4.17-4.17h-17.69c-.9,0-1.73.25-2.41.71-1.19.81-1.87,2.12-1.84,3.49v9.8c0,8.69-4.32,16.35-10.21,22.74-.38.41-.37,1.06.03,1.46l2.65,2.65c.2.2.47.31.75.31s.55-.11.75-.31Z"/>
+                        <path d="M123.65,287.66c-.04-.28-.18-.53-.41-.7l-2.97-2.27c-.19-.15-.42-.22-.64-.22-.32,0-.63.14-.84.41l-33.09,43.29c-.17.22-.24.5-.21.78.04.28.18.53.41.7l2.97,2.27c.19.15.42.22.64.22.32,0,.63-.14.84-.41l12.62-16.51v67.88c0,.58.47,1.06,1.06,1.06h3.74c.58,0,1.06-.47,1.06-1.06v-75.54l14.62-19.12c.17-.22.24-.5.21-.78Z"/>
+                        <path d="M177.43,374.55h-6.68c-.58,0-1.06-.47-1.06-1.06v-45.44c0-2.3-1.87-4.17-4.17-4.17h-17.67c-.58,0-1.06-.47-1.06-1.06v-25.97c0-.58.47-1.06,1.06-1.06h23.71c.58,0,1.06-.47,1.06-1.06v-3.74c0-.58-.47-1.06-1.06-1.06h-44.93c-.58,0-1.06.47-1.06,1.06v3.74c0,.58.47,1.06,1.06,1.06h13.27c.58,0,1.06.47,1.06,1.06v25.97c0,.58-.47,1.06-1.06,1.06h-13.27c-.58,0-1.06.47-1.06,1.06v3.74c0,.58.47,1.06,1.06,1.06h13.2c.61,0,1.09.51,1.05,1.12-.31,5.05-2.02,31.12-9.16,42.95-.28.47-.8.75-1.35.75h-16.77c-.58,0-1.06.47-1.06,1.06v3.74c0,.58.47,1.06,1.06,1.06h63.83c.58,0,1.06-.47,1.06-1.06v-3.74c0-.58-.47-1.06-1.06-1.06ZM163.84,373.5c0,.58-.47,1.06-1.06,1.06h-24.1c-.24,0-.39-.25-.27-.47,6.62-11.62,8.08-38.47,8.33-43.36.03-.56.49-.99,1.05-.99h14.98c.58,0,1.06.47,1.06,1.06v42.7Z"/>
+                        <path d="M739.23,329.28v-19.18c0-2.31-1.87-4.18-4.18-4.18h-25.18c-2.31,0-4.18,1.87-4.18,4.18v73.12c0,.58.47,1.06,1.06,1.06h3.75c.58,0,1.06-.47,1.06-1.06v-48.7c0-.58.47-1.06,1.06-1.06h22.44c2.31,0,4.18-1.87,4.18-4.18ZM733.37,326.55c0,.58-.47,1.06-1.06,1.06h-19.71c-.58,0-1.06-.47-1.06-1.06v-13.71c0-.58.47-1.06,1.06-1.06h19.71c.58,0,1.06.47,1.06,1.06v13.71Z"/>
+                    </g>
+
+                    <!-- 組 2：WU DESIGN STUDIO 英文字體 -->
+                    <g class="logo-en-text">
+                        <path d="M298.8,405.58l3.19,10.81c.46,1.51.94,3.19,1.4,4.74h.06l1.65-4.74,3.77-10.61h.8l3.74,10.61c.54,1.54,1.08,3.22,1.65,4.76h.06c.43-1.54.97-3.25,1.4-4.76l3.19-10.81h2.65l.06.09-6.33,20.48h-1.6l-3.77-10.7c-.46-1.28-.94-2.85-1.4-4.17h-.06c-.46,1.31-.97,2.85-1.43,4.14l-3.82,10.73h-1.6l-6.31-20.48.06-.09h2.63Z"/>
+                        <path d="M325.56,417.94v-12.35h2.48v12.15c0,4.28,1.71,6.25,5.45,6.25s5.42-1.97,5.42-6.28v-12.13h2.48v12.27c0,5.39-2.74,8.5-7.9,8.5s-7.93-2.94-7.93-8.42Z"/>
+                        <path d="M358.47,425.78v-20.2h5.68c7.59,0,11.58,3.54,11.58,9.99s-4.28,10.21-11.58,10.21h-5.68ZM360.95,423.5h2.83c6.28,0,9.3-2.54,9.3-7.99s-2.88-7.65-9.3-7.65h-2.83v15.63Z"/>
+                        <path d="M382.61,416.57v6.93h9.47l-.29,2.28h-11.67v-20.2h11.67l.29,2.28h-9.47v6.42h8.76v2.28h-8.76Z"/>
+                        <path d="M395.42,424.47l.34-2.57h.11c1.51,1.11,3.6,2.23,5.88,2.23,2.48,0,3.99-1.57,3.99-3.45,0-1.68-.83-2.88-4.45-4.39-4.19-1.74-5.62-3.54-5.62-6.19,0-2.82,2.25-5.08,6.11-5.08,2.25,0,4.02.63,5.48,1.51l-.31,2.51h-.11c-1.54-1.14-3.28-1.83-5.14-1.83-2.14,0-3.37,1.23-3.37,2.82s.8,2.42,4.37,4.05c4.59,2.08,5.71,3.85,5.71,6.48,0,3.17-2.57,5.79-6.7,5.79-2.62,0-4.76-.94-6.28-1.88Z"/>
+                        <path d="M412.74,405.58h2.48v20.2h-2.48v-20.2Z"/>
+                        <path d="M419.67,415.71c0-6.16,4.25-10.7,10.67-10.7,3.34,0,5.99,1.34,8.05,2.8l-.34,2.62h-.11c-2.14-1.74-4.59-3.02-7.53-3.02-4.99,0-8.04,3.51-8.04,8.27s3,8.27,7.73,8.27c1.97,0,3.99-.51,5.82-1.57v-5.05h-6.16v-2.25h8.53v8.56c-2.88,2.03-5.65,2.71-8.3,2.71-6.33,0-10.3-4.54-10.3-10.64Z"/>
+                        <path d="M443.84,425.78v-20.2h1.68l8.93,10.21c1.34,1.51,2.62,3.02,3.96,4.56h.06c-.03-1.54-.03-3.05-.03-5.14v-9.64h2.45v20.57h-.71l-9.87-11.24c-1.31-1.48-2.62-3-3.97-4.54h-.06c.03,1.54,0,3.05,0,5.11v10.3h-2.45Z"/>
+                        <path d="M476.83,424.47l.34-2.57h.11c1.51,1.11,3.59,2.23,5.88,2.23,2.48,0,3.99-1.57,3.99-3.45,0-1.68-.83-2.88-4.45-4.39-4.19-1.74-5.62-3.54-5.62-6.19,0-2.82,2.25-5.08,6.1-5.08,2.25,0,4.02.63,5.48,1.51l-.31,2.51h-.11c-1.54-1.14-3.28-1.83-5.14-1.83-2.14,0-3.37,1.23-3.37,2.82s.8,2.42,4.37,4.05c4.59,2.08,5.71,3.85,5.71,6.48,0,3.17-2.57,5.79-6.7,5.79-2.62,0-4.76-.94-6.28-1.88Z"/>
+                        <path d="M507.5,405.58v2.28h-6.9v17.92h-2.48v-17.92h-6.93v-2.28h16.32Z"/>
+                        <path d="M510.44,417.94v-12.35h2.48v12.15c0,4.28,1.71,6.25,5.45,6.25s5.42-1.97,5.42-6.28v-12.13h2.48v12.27c0,5.39-2.74,8.5-7.9,8.5s-7.93-2.94-7.93-8.42Z"/>
+                        <path d="M531.75,425.78v-20.2h5.68c7.59,0,11.58,3.54,11.58,9.99s-4.28,10.21-11.58,10.21h-5.68ZM534.23,423.5h2.82c6.28,0,9.3-2.54,9.3-7.99s-2.88-7.65-9.3-7.65h-2.82v15.63Z"/>
+                        <path d="M553.41,405.58h2.48v20.2h-2.48v-20.2Z"/>
+                        <path d="M560.34,415.68c0-5.99,3.99-10.67,10.3-10.67s10.3,4.68,10.3,10.67-4.08,10.67-10.3,10.67-10.3-4.65-10.3-10.67ZM578.26,415.68c0-4.71-2.88-8.27-7.62-8.27s-7.62,3.57-7.62,8.27,2.91,8.27,7.62,8.27,7.62-3.62,7.62-8.27Z"/>
+                    </g>
+
+                    <!-- 組 3a：右半 arch（含中央小方形）-->
+                    <g class="arch-right">
+                        <path d="M846.36,250.78c-40.52-5.9-77.34-23.09-107.21-48.32l-59.49-49.63-145.77-121.59C510.84,11.76,481,0,448.44,0v19.33c6.55,0,12.97.46,19.26,1.41,5.76.84,11.39,2.09,16.88,3.67,4.21,1.21,7.09,5.08,7.09,9.46v43.12c0,2.71-2.2,4.91-4.91,4.91h-57.65v19.33h57.65c2.71,0,4.91,2.2,4.91,4.91v33.4c0,2.71-2.2,4.91-4.91,4.91h-57.65v19.33h231.59l72.59,64.82.92.82c16.05,14.45,34.33,26.47,54.21,35.57h89.13v-11.96c-10.58,0-21-.75-31.18-2.26ZM556.7,144.46h-40.79c-2.71,0-4.91-2.2-4.91-4.91v-33.4c0-2.71,2.2-4.91,4.91-4.91h40.79c2.71,0,4.91,2.2,4.91,4.91v33.4c0,2.71-2.2,4.91-4.91,4.91ZM511,76.99v-33.34c0-3.84,4.24-6.23,7.5-4.21,6.55,4.07,12.73,8.69,18.45,13.83l1.54,1.38.03.03,20.88,18.65c3.37,3.01,1.24,8.58-3.27,8.58h-40.21c-2.71,0-4.91-2.2-4.91-4.91ZM585.85,144.46c-2.71,0-4.91-2.2-4.91-4.91v-36.01c0-4.24,5.02-6.49,8.19-3.66l40.32,36.01c3.37,3.01,1.24,8.58-3.27,8.58h-40.32Z"/>
+                        <rect class="center-rect" x="429.11" y=".02" width="19.33" height="19.33"/>
+                    </g>
+
+                    <!-- 組 3b：左半 arch -->
+                    <g class="arch-left">
+                        <path d="M343.65,31.25l-145.77,121.59-59.49,49.63c-29.87,25.22-66.69,42.42-107.21,48.32-10.19,1.51-20.6,2.26-31.18,2.26v11.96h89.13c19.88-9.11,38.16-21.13,54.21-35.57l.92-.82,144.17-128.74c3.17-2.83,8.19-.58,8.19,3.66v60.25h19.33v-84.09c0-2.8,1.19-5.46,3.28-7.33l19.81-17.69.03-.03,1.54-1.38c18.97-17.07,42.85-28.7,69.25-32.53,6.29-.95,12.71-1.41,19.26-1.41V0C396.55,0,366.71,11.76,343.65,31.25Z"/>
+                    </g>
+
+                </svg>
+            </div><!-- /.logo-wrap -->
+
+            <!-- Showcase 輪播（hover 時淡入） -->
+            <div class="showcase" id="showcase">
+                <div class="showcase-images">
+                    <img src="./assets/202511_showcase_I.webp"   class="showcase-img active" alt="Showcase 1" loading="eager">
+                    <img src="./assets/202511_showcase_II.webp"  class="showcase-img"        alt="Showcase 2" loading="lazy">
+                    <img src="./assets/202511_showcase_III.webp" class="showcase-img"        alt="Showcase 3" loading="lazy">
+                    <img src="./assets/202511_showcase_IV.webp"  class="showcase-img"        alt="Showcase 4" loading="lazy">
                 </div>
+                <div class="showcase-meta">
+                    <p class="showcase-tags">品牌識別 · 活動視覺 · 動態設計</p>
+                    <p class="showcase-tags-en">Brand Identity · Event · Motion Design</p>
+                    <p class="showcase-location">Taiwan, Est. 2019</p>
+                </div>
+                <div class="showcase-dots" id="showcaseDots"></div>
             </div>
 
-            <a href="./works/roller-skating-open" class="hero-media">
-                <video src="./assets/project_I.mp4" autoplay loop muted playsinline></video>
-            </a>
-        </div>
-
-        <div class="hero-bottom">
-            <span class="hero-scroll">Scroll ↓</span>
-            <span class="hero-featured-label">Featured — Event / Identity</span>
-        </div>
+        </div><!-- /.logo-stage -->
 
     </section>
 
-    <!-- ── FILTER BAR ─────────────────────────────────────────────────────────
-         新增分類：在 PROJECTS 資料裡加 categories 值，再加一個 .filter-btn 即可
-    ──────────────────────────────────────────────────────────────────────────── -->
+    <!-- ── FILTER BAR ─────────────────────────────────────────────────────────── -->
     <div class="filter-bar" id="filterBar">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="identity">Identity</button>
@@ -440,13 +509,11 @@
                 <a href="#contact" class="menu-item js-contact-scroll">Contact</a>
             </div>
         </div>
-
         <div class="island-center">
             <a href="https://vdesign5.github.io/home/">
                 <img src="./assets/logo.png" alt="WU DESIGN STUDIO">
             </a>
         </div>
-
         <div class="island-right">
             <span class="zh">伍設計事務所，位於台灣</span>
             <span class="en">Wu Design Studio, Based in Taiwan</span>
@@ -480,139 +547,75 @@
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
     /* ════════════════════════════════════════════════════════════
-       專案資料 — 新增作品只需在此陣列加一個物件
+       專案資料
     ════════════════════════════════════════════════════════════ */
     var PROJECTS = [
-        {
-            titleZh: '台灣國際滑輪溜冰公開賽',
-            titleEn: 'Taiwan International Roller Skating Open',
-            categories: ['event', 'identity'],
-            label: 'Event / Identity',
-            descZh: '轉化高速殘影與終點線，具象滑輪競賽速度。',
-            descEn: 'Taiwan International Roller Skating Open',
-            href: './works/roller-skating-open',
-            thumb: { type: 'video', src: './assets/project_I.mp4' }
-        },
-        {
-            titleZh: '宋俊宏婦幼醫院',
-            titleEn: "Sung Women and Children's Hospital",
-            categories: ['identity'],
-            label: 'Identity',
-            descZh: '綻放花瓣承托母嬰，圓潤曲線傳達醫療溫度。',
-            descEn: "Sung Women and Children's Hospital",
-            href: './works/sung-hospital',
-            thumb: { type: 'img', src: './assets/project_II.webp' }
-        },
-        {
-            titleZh: '溱好國際有限公司',
-            titleEn: 'Jhen Hao International Ltd.',
-            categories: ['identity'],
-            label: 'Identity',
-            descZh: '屋簷與太陽構築JH，暖色調傳遞家的溫暖。',
-            descEn: 'Jhen Hao International Ltd.',
-            href: './works/jhen-hao',
-            thumb: { type: 'img', src: './assets/project_III.webp' }
-        },
-        {
-            titleZh: '京典衛浴',
-            titleEn: 'OVO Toilet',
-            categories: ['motion'],
-            label: 'Motion / Illustration',
-            descZh: '統整網頁、插畫與行銷視覺，傳遞品牌價值。',
-            descEn: 'OVO Toilet',
-            href: './works/ovo',
-            thumb: { type: 'video', src: './assets/OVO/VDesign_workIV.mp4' }
-        },
-        {
-            titleZh: null,
-            titleEn: 'Tears of War',
-            categories: ['poster'],
-            label: 'Poster',
-            descZh: '以鐵網組成落淚雙眼，凝視戰火下的焦慮。',
-            descEn: 'Tears of War',
-            href: './works/tear-of-war',
-            thumb: { type: 'img', src: './assets/project_V.webp' }
-        },
-        {
-            titleZh: '制菸所',
-            titleEn: 'No Smoking',
-            categories: ['packaging'],
-            label: 'Packaging',
-            descZh: '反直覺的阻礙結構，以不便引發吸菸反思。',
-            descEn: 'No Smoking',
-            href: './works/no-smoking',
-            thumb: { type: 'img', src: './assets/project_VI.webp' }
-        },
-        {
-            titleZh: '我在當機前未存檔',
-            titleEn: "I haven't saved my files yet.",
-            categories: ['event', 'motion'],
-            label: 'Event / Motion',
-            descZh: '轉化藍屏與雜訊，視覺化當機未存檔的無力。',
-            descEn: "I haven't saved my files yet.",
-            href: './works/error',
-            thumb: { type: 'video', src: './assets/Error/VDesign_work_VII_2.mp4' }
-        },
-        {
-            titleZh: null,
-            titleEn: 'Push &amp; Pull',
-            categories: ['event', 'poster'],
-            label: 'Event / Poster',
-            descZh: '黑白扭曲凹凸，表達心裡推拉的矛盾感受。',
-            descEn: 'Push & Pull',
-            href: './works/push-pull',
-            thumb: { type: 'img', src: './assets/project_VIII.webp' }
-        },
-        {
-            titleZh: '69翻轉，高師大好',
-            titleEn: 'Flips 69, NKNU Great',
-            categories: ['event', 'poster'],
-            label: 'Event / Poster',
-            descZh: '旋轉69融入笑臉，以明快色彩翻轉校慶視覺。',
-            descEn: 'Flips 69, NKNU Great',
-            href: './works/69',
-            thumb: { type: 'img', src: './assets/project_IX.webp' }
-        }
+        { titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open', categories:['event','identity'], label:'Event / Identity', descZh:'轉化高速殘影與終點線，具象滑輪競賽速度。', descEn:'Taiwan International Roller Skating Open', href:'./works/roller-skating-open', thumb:{type:'video',src:'./assets/project_I.mp4'} },
+        { titleZh:'宋俊宏婦幼醫院', titleEn:"Sung Women and Children's Hospital", categories:['identity'], label:'Identity', descZh:'綻放花瓣承托母嬰，圓潤曲線傳達醫療溫度。', descEn:"Sung Women and Children's Hospital", href:'./works/sung-hospital', thumb:{type:'img',src:'./assets/project_II.webp'} },
+        { titleZh:'溱好國際有限公司', titleEn:'Jhen Hao International Ltd.', categories:['identity'], label:'Identity', descZh:'屋簷與太陽構築JH，暖色調傳遞家的溫暖。', descEn:'Jhen Hao International Ltd.', href:'./works/jhen-hao', thumb:{type:'img',src:'./assets/project_III.webp'} },
+        { titleZh:'京典衛浴', titleEn:'OVO Toilet', categories:['motion'], label:'Motion / Illustration', descZh:'統整網頁、插畫與行銷視覺，傳遞品牌價值。', descEn:'OVO Toilet', href:'./works/ovo', thumb:{type:'video',src:'./assets/OVO/VDesign_workIV.mp4'} },
+        { titleZh:null, titleEn:'Tears of War', categories:['poster'], label:'Poster', descZh:'以鐵網組成落淚雙眼，凝視戰火下的焦慮。', descEn:'Tears of War', href:'./works/tear-of-war', thumb:{type:'img',src:'./assets/project_V.webp'} },
+        { titleZh:'制菸所', titleEn:'No Smoking', categories:['packaging'], label:'Packaging', descZh:'反直覺的阻礙結構，以不便引發吸菸反思。', descEn:'No Smoking', href:'./works/no-smoking', thumb:{type:'img',src:'./assets/project_VI.webp'} },
+        { titleZh:'我在當機前未存檔', titleEn:"I haven't saved my files yet.", categories:['event','motion'], label:'Event / Motion', descZh:'轉化藍屏與雜訊，視覺化當機未存檔的無力。', descEn:"I haven't saved my files yet.", href:'./works/error', thumb:{type:'video',src:'./assets/Error/VDesign_work_VII_2.mp4'} },
+        { titleZh:null, titleEn:'Push &amp; Pull', categories:['event','poster'], label:'Event / Poster', descZh:'黑白扭曲凹凸，表達心裡推拉的矛盾感受。', descEn:'Push & Pull', href:'./works/push-pull', thumb:{type:'img',src:'./assets/project_VIII.webp'} },
+        { titleZh:'69翻轉，高師大好', titleEn:'Flips 69, NKNU Great', categories:['event','poster'], label:'Event / Poster', descZh:'旋轉69融入笑臉，以明快色彩翻轉校慶視覺。', descEn:'Flips 69, NKNU Great', href:'./works/69', thumb:{type:'img',src:'./assets/project_IX.webp'} }
     ];
+
+    /* ── 輪播 ── */
+    var slides = document.querySelectorAll('.showcase-img');
+    var dots   = [];
+    var current = 0;
+
+    (function buildDots() {
+        var container = document.getElementById('showcaseDots');
+        slides.forEach(function(_, i) {
+            var d = document.createElement('span');
+            d.className = 'showcase-dot' + (i === 0 ? ' active' : '');
+            d.addEventListener('click', function() { goTo(i); });
+            container.appendChild(d);
+            dots.push(d);
+        });
+    })();
+
+    function goTo(n) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+
+    setInterval(function() { goTo(current + 1); }, 3600);
 
     /* ── 渲染作品格 ── */
     function renderProjects(filter) {
         var grid = document.getElementById('projectsGrid');
         var count = 0;
         grid.innerHTML = '';
-
         PROJECTS.forEach(function(p) {
             if (filter !== 'all' && p.categories.indexOf(filter) === -1) return;
             count++;
-
             var mediaEl = p.thumb.type === 'video'
                 ? '<video src="' + p.thumb.src + '" autoplay loop muted playsinline></video>'
                 : '<img src="' + p.thumb.src + '" alt="' + p.titleEn + '" loading="lazy">';
-
             var titleHtml = p.titleZh
                 ? p.titleZh + '<span class="en">' + p.titleEn + '</span>'
                 : '<span class="en">' + p.titleEn + '</span>';
-
             var el = document.createElement('a');
             el.href = p.href;
             el.className = 'project-item';
             el.setAttribute('data-zh', p.descZh);
             el.setAttribute('data-en', p.descEn);
-            el.innerHTML =
-                '<div class="project-image">' + mediaEl + '</div>' +
-                '<div class="project-info">' +
-                  '<div class="project-category">' + p.label + '</div>' +
-                  '<div class="project-title">' + titleHtml + '</div>' +
-                '</div>';
+            el.innerHTML = '<div class="project-image">' + mediaEl + '</div>' +
+                '<div class="project-info"><div class="project-category">' + p.label + '</div>' +
+                '<div class="project-title">' + titleHtml + '</div></div>';
             grid.appendChild(el);
         });
-
         document.getElementById('filterCount').textContent = count + ' works';
         attachObserver();
         attachHoverText();
     }
 
-    /* ── 分類篩選 ── */
     document.getElementById('filterBar').addEventListener('click', function(e) {
         var btn = e.target.closest('.filter-btn');
         if (!btn) return;
@@ -621,45 +624,37 @@
         renderProjects(btn.getAttribute('data-filter'));
     });
 
-    /* ── 進場動畫 ── */
     function attachObserver() {
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
             });
         }, { threshold: 0.08 });
         document.querySelectorAll('.project-item').forEach(function(item) { observer.observe(item); });
     }
 
-    /* ── 動態島懸停文字 ── */
     var DEFAULT_ZH = '伍設計事務所，位於台灣';
     var DEFAULT_EN = 'Wu Design Studio, Based in Taiwan';
 
     function attachHoverText() {
-        var islandZh = document.querySelector('.island-right .zh');
-        var islandEn = document.querySelector('.island-right .en');
-        if (!islandZh) return;
-
-        function setIsland(zh, en) {
-            islandZh.classList.remove('fade-in'); islandZh.classList.add('fade-out');
-            islandEn.classList.remove('fade-in'); islandEn.classList.add('fade-out');
+        var zh = document.querySelector('.island-right .zh');
+        var en = document.querySelector('.island-right .en');
+        if (!zh) return;
+        function setIsland(z, e) {
+            zh.classList.remove('fade-in'); zh.classList.add('fade-out');
+            en.classList.remove('fade-in'); en.classList.add('fade-out');
             setTimeout(function() {
-                islandZh.textContent = zh; islandEn.textContent = en;
-                islandZh.classList.remove('fade-out'); islandZh.classList.add('fade-in');
-                islandEn.classList.remove('fade-out'); islandEn.classList.add('fade-in');
+                zh.textContent = z; en.textContent = e;
+                zh.classList.remove('fade-out'); zh.classList.add('fade-in');
+                en.classList.remove('fade-out'); en.classList.add('fade-in');
             }, 250);
         }
-
         document.querySelectorAll('.project-item').forEach(function(el) {
             el.addEventListener('mouseenter', function() { setIsland(this.getAttribute('data-zh'), this.getAttribute('data-en')); });
             el.addEventListener('mouseleave', function() { setIsland(DEFAULT_ZH, DEFAULT_EN); });
         });
     }
 
-    /* ── 視差滾動 ── */
     var rafId;
     function updateParallax() {
         var wh = window.innerHeight;
@@ -677,7 +672,6 @@
     }, { passive: true });
     window.addEventListener('resize', updateParallax);
 
-    /* ── 漢堡選單 ── */
     var menuToggle = document.getElementById('menuToggle');
     var menuContainer = document.getElementById('menuContainer');
     menuToggle.addEventListener('click', function() {
@@ -685,7 +679,6 @@
         menuContainer.classList.toggle('open');
     });
 
-    /* ── Lenis 平滑滾動 ── */
     var lenis = new Lenis({
         duration: 1.2,
         easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
@@ -693,7 +686,6 @@
     });
     (function raf(time) { lenis.raf(time); requestAnimationFrame(raf); })(0);
 
-    /* ── Contact 捲軸：footer 是 fixed，捲到頁面最底部 ── */
     var contactBtn = document.querySelector('.js-contact-scroll');
     if (contactBtn) {
         contactBtn.addEventListener('click', function(e) {
@@ -702,7 +694,6 @@
         });
     }
 
-    /* ── 初始化 ── */
     var islandZh = document.querySelector('.island-right .zh');
     var islandEn = document.querySelector('.island-right .en');
     if (islandZh) islandZh.classList.add('fade-in');
