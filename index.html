@@ -573,6 +573,10 @@
     var slides = document.querySelectorAll('.showcase-img');
     var dots   = [];
     var current = 0;
+    var showcaseTags   = document.querySelector('.showcase-tags');
+    var showcaseTagsEn = document.querySelector('.showcase-tags-en');
+    var zhTagText = showcaseTags   ? showcaseTags.textContent   : '';
+    var enTagText = showcaseTagsEn ? showcaseTagsEn.textContent : '';
 
     (function buildDots() {
         var container = document.getElementById('showcaseDots');
@@ -591,9 +595,20 @@
         current = (n + slides.length) % slides.length;
         slides[current].classList.add('active');
         dots[current].classList.add('active');
+        if (showcaseTags)   scrambleText(showcaseTags,   zhTagText, true);
+        if (showcaseTagsEn) scrambleText(showcaseTagsEn, enTagText, false);
     }
 
     setInterval(function() { goTo(current + 1); }, 3600);
+
+    /* logo-stage hover 展開時觸發 scramble */
+    var logoStage = document.getElementById('logoStage');
+    if (logoStage) {
+        logoStage.addEventListener('mouseenter', function() {
+            if (showcaseTags)   scrambleText(showcaseTags,   zhTagText, true);
+            if (showcaseTagsEn) scrambleText(showcaseTagsEn, enTagText, false);
+        });
+    }
 
     /* ── 亂碼打字效果 ── */
     var CHARS_ZH = '一七八十丁戊己甲乙丙!@#%&*?';
@@ -601,22 +616,22 @@
 
     function scrambleText(el, finalText, isZh) {
         var chars = isZh ? CHARS_ZH : CHARS_EN;
+        if (el._scrambleRaf) cancelAnimationFrame(el._scrambleRaf);
         var iter = 0;
-        var raf;
         function tick() {
             el.textContent = finalText.split('').map(function(ch, i) {
-                if (ch === ' ' || ch === '/') return ch;
+                if (ch === ' ' || ch === '/' || ch === '·' || ch === '&') return ch;
                 if (i < Math.floor(iter / 2)) return ch;
                 return chars[Math.floor(Math.random() * chars.length)];
             }).join('');
             iter++;
             if (Math.floor(iter / 2) < finalText.length) {
-                raf = requestAnimationFrame(tick);
+                el._scrambleRaf = requestAnimationFrame(tick);
             } else {
                 el.textContent = finalText;
+                el._scrambleRaf = null;
             }
         }
-        cancelAnimationFrame(raf);
         tick();
     }
 
