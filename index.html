@@ -123,29 +123,36 @@
         }
         .showcase-img.active { opacity: 1; }
 
-        /* 圖片上方：左中文分類、右英文分類（深色，不壓圖） */
+        /* 圖片上方：左中文分類、右英文分類（深色，固定高度防抖） */
         .showcase-overlay {
             width: min(54vw, 660px);
+            height: 16px; overflow: hidden;
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
         .sc-cat-zh {
             font-size: 11px; color: #666; letter-spacing: 0.04em; line-height: 1;
+            white-space: nowrap;
         }
         .sc-cat-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             font-size: 10px; color: #999; letter-spacing: 0.12em;
             line-height: 1; text-align: right; text-transform: uppercase;
+            white-space: nowrap;
         }
 
         /* 圖片下方：主標中文 + 副標英文 */
-        .showcase-meta { text-align: center; }
+        .showcase-meta { text-align: center; min-height: 52px; }
         .sc-title-zh {
             font-size: 14px; color: #222; line-height: 1.55; font-weight: 500;
         }
         .sc-title-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             font-size: 11px; color: #aaa; line-height: 1.5; margin-top: 4px;
+        }
+        /* 無中文標題時，英文升格為主標 */
+        .sc-title-en.is-primary {
+            font-size: 14px; color: #222; font-weight: 500; margin-top: 0;
         }
 
         .showcase-dots {
@@ -375,14 +382,10 @@
                 padding: 48px 0 0;
             }
 
-            /* 滾動到頂部時展開（等同 desktop :hover） */
-            .logo-stage.is-top .arch-left  { transform: translateX(-42vw); }
-            .logo-stage.is-top .arch-right { transform: translateX(42vw); }
-            .logo-stage.is-top .logo-ch,
-            .logo-stage.is-top .logo-en-text { opacity: 0; }
+            /* 手機：is-top 僅顯示 showcase，logo 保持完整可見 */
             .logo-stage.is-top .showcase {
                 opacity: 1; pointer-events: auto;
-                transition: opacity 0.45s ease 0.45s;
+                transition: opacity 0.45s ease;
             }
 
             .filter-bar { padding: 36px 24px 0; }
@@ -601,7 +604,7 @@
         { catZh:'活動 / 識別', catEn:'Event / Identity', titleZh:'台灣國際滑輪溜冰公開賽', titleEn:'Taiwan International Roller Skating Open' },
         { catZh:'識別',        catEn:'Identity',          titleZh:'宋俊宏婦幼醫院',         titleEn:"Sung Women and Children's Hospital"       },
         { catZh:'包裝',        catEn:'Packaging',         titleZh:'制菸所',                  titleEn:'No Smoking'                               },
-        { catZh:'活動 / 海報', catEn:'Event / Poster',    titleZh:null,                     titleEn:'Push &amp; Pull'                          }
+        { catZh:'活動 / 海報', catEn:'Event / Poster',    titleZh:null,                     titleEn:'Push & Pull'                              }
     ];
 
     /* ── 輪播 ── */
@@ -617,18 +620,21 @@
     function updateShowcaseInfo(idx, animate) {
         var s = SHOWCASE[idx];
         if (!s) return;
+        var hasCn = !!s.titleZh;
+        if (scTitleEn) scTitleEn.classList.toggle('is-primary', !hasCn);
         if (animate) {
             if (scCatZh) scrambleText(scCatZh, s.catZh, true);
             if (scCatEn) scrambleText(scCatEn, s.catEn, false);
             if (scTitleZh) {
-                if (s.titleZh) { scTitleZh.style.display = ''; scrambleText(scTitleZh, s.titleZh, true); }
-                else           { scTitleZh.style.display = 'none'; scTitleZh.textContent = ''; }
+                scTitleZh.style.display = hasCn ? '' : 'none';
+                if (hasCn) scrambleText(scTitleZh, s.titleZh, true);
+                else scTitleZh.textContent = '';
             }
             if (scTitleEn) scrambleText(scTitleEn, s.titleEn, false);
         } else {
             if (scCatZh)   scCatZh.textContent  = s.catZh;
             if (scCatEn)   scCatEn.textContent   = s.catEn;
-            if (scTitleZh) { scTitleZh.textContent = s.titleZh || ''; scTitleZh.style.display = s.titleZh ? '' : 'none'; }
+            if (scTitleZh) { scTitleZh.textContent = hasCn ? s.titleZh : ''; scTitleZh.style.display = hasCn ? '' : 'none'; }
             if (scTitleEn) scTitleEn.textContent = s.titleEn;
         }
     }
@@ -675,7 +681,7 @@
             heroRevealed = atTop;
             if (atTop) {
                 logoStage.classList.add('is-top');
-                updateShowcaseInfo(current, true);
+                setTimeout(function() { updateShowcaseInfo(current, true); }, 150);
             } else {
                 logoStage.classList.remove('is-top');
             }
@@ -685,7 +691,7 @@
         if (window.scrollY < window.innerHeight * 0.5) {
             heroRevealed = true;
             logoStage.classList.add('is-top');
-            setTimeout(function() { updateShowcaseInfo(current, true); }, 500);
+            setTimeout(function() { updateShowcaseInfo(current, true); }, 400);
         }
     }
 
