@@ -155,17 +155,31 @@
             font-size: 14px; color: #222; font-weight: 500; margin-top: 0;
         }
 
+        /* ── 輪播控制列（進度點 + 暫停鍵） ── */
+        .showcase-controls { display: flex; align-items: center; gap: 10px; }
         .showcase-dots {
-            display: flex; gap: 8px; align-items: center;
+            display: flex; gap: 6px; align-items: center;
+            background: rgba(0,0,0,0.05); padding: 7px 10px; border-radius: 20px;
         }
         .showcase-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: #ddd; cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
+            width: 5px; height: 5px; border-radius: 3px;
+            background: rgba(0,0,0,0.18); cursor: pointer; flex-shrink: 0;
+            position: relative; overflow: hidden;
+            transition: width 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s;
         }
-        .showcase-dot.active {
-            background: #333; transform: scale(1.3);
+        .showcase-dot.active { width: 44px; background: rgba(0,0,0,0.08); }
+        .dot-progress {
+            position: absolute; left: 0; top: 0; height: 100%; width: 0%;
+            background: rgba(0,0,0,0.5); border-radius: inherit; pointer-events: none;
         }
+        .showcase-pause {
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(0,0,0,0.05); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s; padding: 0; flex-shrink: 0;
+        }
+        .showcase-pause:hover { background: rgba(0,0,0,0.1); }
+        .showcase-pause svg { display: block; fill: rgba(0,0,0,0.45); }
 
         /* ── FILTER BAR ──────────────────────────────────────── */
         .filter-bar {
@@ -360,26 +374,31 @@
 
             .hero-topbar { padding: 20px 36px; }
 
-            /* 手機版 hero：logo-stage 縱向排列，showcase 預設隱藏 */
-            .logo-wrap { width: min(80vw, 420px); }
+            /* 手機版 hero：logo 縮成 Dynamic Island 寬，showcase 預設隱藏 */
+            .logo-wrap { width: min(38vw, 160px); }
             .showcase {
                 position: static;
                 flex-direction: column;
-                padding: 40px 36px;
-                gap: 24px;
+                padding: 28px 36px 36px;
+                gap: 16px;
                 /* opacity/pointer-events 由 .is-top 控制，基礎值沿用 desktop（opacity:0） */
             }
-            .showcase-overlay { width: 100%; padding-bottom: 8px; }
-            .showcase-images { width: 100%; height: 52vw; max-height: 340px; flex-shrink: 0; }
+            .showcase-overlay { width: 100%; padding-bottom: 4px; }
+            /* 圖片尺寸純 viewport 計算，不依賴內容，避免抖動 */
+            .showcase-images {
+                width: calc(100vw - 72px);
+                height: min(calc((100vw - 72px) * 0.625), 310px);
+                flex-shrink: 0;
+            }
             .showcase-meta { width: 100%; }
-            .showcase-dots { position: static; transform: none; margin-top: 16px; justify-content: center; }
+            .showcase-controls { justify-content: center; }
 
             .logo-stage {
                 flex-direction: column;
                 align-items: center;
                 justify-content: flex-start;
                 overflow: visible;
-                padding: 48px 0 0;
+                padding: 36px 0 0;
             }
 
             /* 手機：is-top 僅顯示 showcase，logo 保持完整可見 */
@@ -408,10 +427,13 @@
         @media (max-width: 640px) {
             body { padding-bottom: 400px; }
             .hero-topbar { padding: 16px 20px; font-size: 10px; letter-spacing: 0.12em; }
-            .logo-wrap { width: min(86vw, 340px); }
-            .logo-stage { padding: 36px 0 0; }
-            .showcase { padding: 32px 20px; }
-            .showcase-images { height: 58vw; }
+            .logo-wrap { width: min(34vw, 130px); }
+            .logo-stage { padding: 28px 0 0; }
+            .showcase { padding: 24px 20px 32px; gap: 14px; }
+            .showcase-images {
+                width: calc(100vw - 40px);
+                height: min(calc((100vw - 40px) * 0.625), 260px);
+            }
             .filter-bar { padding: 28px 16px 0; gap: 6px; }
             .projects { padding: 24px 16px 48px; }
             .projects-grid { grid-template-columns: 1fr; }
@@ -513,7 +535,15 @@
                     <p class="sc-title-zh"></p>
                     <p class="sc-title-en"></p>
                 </div>
-                <div class="showcase-dots" id="showcaseDots"></div>
+                <div class="showcase-controls">
+                    <div class="showcase-dots" id="showcaseDots"></div>
+                    <button class="showcase-pause" id="pauseBtn" aria-label="暫停輪播">
+                        <svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10">
+                            <rect x="0" y="0" width="2.5" height="10" rx="1"/>
+                            <rect x="5.5" y="0" width="2.5" height="10" rx="1"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
         </div><!-- /.logo-stage -->
@@ -639,30 +669,82 @@
         }
     }
 
+    var INTERVAL    = 3600;
+    var paused      = false;
+    var autoTimer   = null;
+    var progressRaf = null;
+    var slideStart  = 0;
+
+    var ICON_PAUSE = '<svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10"><rect x="0" y="0" width="2.5" height="10" rx="1"/><rect x="5.5" y="0" width="2.5" height="10" rx="1"/></svg>';
+    var ICON_PLAY  = '<svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10"><path d="M0 0l8 5-8 5z"/></svg>';
+
     (function buildDots() {
         var container = document.getElementById('showcaseDots');
         slides.forEach(function(_, i) {
-            var d = document.createElement('span');
+            var d   = document.createElement('span');
             d.className = 'showcase-dot' + (i === 0 ? ' active' : '');
+            var bar = document.createElement('span');
+            bar.className = 'dot-progress';
+            d.appendChild(bar);
             d.addEventListener('click', function() { goTo(i); });
             container.appendChild(d);
             dots.push(d);
         });
     })();
 
-    /* 初始化第一張（不播動畫，showcase 尚在隱藏狀態） */
     updateShowcaseInfo(0, false);
 
+    function startProgress() {
+        cancelAnimationFrame(progressRaf);
+        var bar = dots[current] && dots[current].querySelector('.dot-progress');
+        if (!bar) return;
+        bar.style.width = '0%';
+        slideStart = performance.now();
+        (function frame(now) {
+            var pct = Math.min((now - slideStart) / INTERVAL * 100, 100);
+            bar.style.width = pct + '%';
+            if (!paused && pct < 100) progressRaf = requestAnimationFrame(frame);
+        })(performance.now());
+    }
+
+    function scheduleNext() {
+        clearTimeout(autoTimer);
+        if (!paused) autoTimer = setTimeout(function() { goTo(current + 1); }, INTERVAL);
+    }
+
     function goTo(n) {
+        clearTimeout(autoTimer);
+        cancelAnimationFrame(progressRaf);
         slides[current].classList.remove('active');
         dots[current].classList.remove('active');
+        var oldBar = dots[current].querySelector('.dot-progress');
+        if (oldBar) oldBar.style.width = '0%';
         current = (n + slides.length) % slides.length;
         slides[current].classList.add('active');
         dots[current].classList.add('active');
         updateShowcaseInfo(current, true);
+        if (!paused) { startProgress(); scheduleNext(); }
     }
 
-    setInterval(function() { goTo(current + 1); }, 3600);
+    function togglePause() {
+        paused = !paused;
+        var btn = document.getElementById('pauseBtn');
+        if (paused) {
+            clearTimeout(autoTimer);
+            cancelAnimationFrame(progressRaf);
+            if (btn) btn.innerHTML = ICON_PLAY;
+        } else {
+            startProgress();
+            scheduleNext();
+            if (btn) btn.innerHTML = ICON_PAUSE;
+        }
+    }
+
+    var pauseBtn = document.getElementById('pauseBtn');
+    if (pauseBtn) pauseBtn.addEventListener('click', togglePause);
+
+    startProgress();
+    scheduleNext();
 
     /* logo-stage 展開時觸發 scramble（桌機 hover） */
     var logoStage = document.getElementById('logoStage');
