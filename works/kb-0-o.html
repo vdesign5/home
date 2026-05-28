@@ -96,113 +96,59 @@
             height: auto;
             display: block;
         }
-
+        /* Dynamic Island */
         .dynamic-island {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: white;
-            padding: 40px 60px 35px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: white; padding: 14px 48px;
+            display: flex; align-items: center; justify-content: space-between;
             z-index: 10;
-            border-top-left-radius: 40px;
-            border-top-right-radius: 40px;
-            box-shadow: 0 -8px 32px rgba(0,0,0,0.06);
-            transform: translateY(100%);
-            animation: slideUpIsland 0.8s ease 0.3s forwards;
+            border-top-left-radius: 32px; border-top-right-radius: 32px;
+            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
+            transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
         }
-
         @keyframes slideUpIsland { to { transform: translateY(0); } }
-
-        .island-left {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-
+        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
         .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 1001;
-            position: relative;
-            background: transparent;
-            border: none;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            display: flex; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; flex-shrink: 0;
+            background: transparent; border: none; outline: none;
+            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
         }
-
         .menu-toggle span {
-            width: 28px;
-            height: 3px;
-            background: #ccc;
-            border-radius: 2px;
-            transition: all 0.3s;
-            pointer-events: none;
+            width: 24px; height: 2px; background: #ccc;
+            border-radius: 2px; transition: all 0.3s; pointer-events: none;
         }
-
         .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
+        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
         .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
-
+        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
         .menu-container {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            max-width: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: all 0.4s;
+            display: flex; gap: 24px; align-items: center;
+            max-width: 0; overflow: hidden; opacity: 0;
+            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
         }
-
-        .menu-container.open { max-width: 400px; opacity: 1; }
-
+        .menu-container.open { max-width: 320px; opacity: 1; }
         .menu-item {
-            cursor: pointer;
-            transition: all 0.3s;
-            flex-shrink: 0;
-            display: block;
+            cursor: pointer; flex-shrink: 0;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px; letter-spacing: 0.06em;
+            color: #aaa; text-decoration: none; transition: color 0.25s;
         }
-
-        .menu-item img {
-            height: 28px;
-            width: auto;
-            filter: brightness(0) saturate(100%) invert(80%);
-            transition: all 0.3s;
-            display: block;
-        }
-
-        .menu-item:hover img { filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(0deg); }
-        .menu-item.active img { filter: brightness(0) saturate(100%) invert(20%); }
-
+        .menu-item:hover { color: #FF0000; }
+        .menu-item.active { color: #222; }
         .island-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
+            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
         }
-
-        .island-center a { display: block; transition: opacity 0.3s; cursor: pointer; }
-        .island-center a:hover { opacity: 0.7; }
-        .island-center img { height: 60px; display: block; pointer-events: none; }
-
-        .island-right {
-            flex: 1;
-            text-align: right;
-            line-height: 1.6;
-            position: relative;
+        .island-center a { display: block; transition: opacity 0.3s; }
+        .island-center a:hover { opacity: 0.6; }
+        .island-center img { height: 42px; display: block; pointer-events: none; }
+        .island-right { flex: 1; text-align: right; line-height: 1.6; }
+        .island-right .zh { display: block; font-size: 13px; color: #333; }
+        .island-right .en {
+            display: block; font-size: 11px; color: #888;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: 0.04em; margin-top: 2px;
         }
-
-        .island-right .chinese { display: block; font-size: 15px; color: #333; }
-        .island-right .english { display: block; font-size: 13px; color: #666; margin-top: 4px; }
 
         @media (max-width: 968px) {
             body { padding-bottom: 120px; }
@@ -211,25 +157,10 @@
             .project-title { font-size: 28px; margin-bottom: 40px; }
             .description { font-size: 15px; margin-bottom: 60px; }
             .gallery-section { margin-bottom: 40px; }
-
-            .dynamic-island {
-                padding: 20px 25px;
-                border-top-left-radius: 28px;
-                border-top-right-radius: 28px;
-                gap: 15px;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .island-left { order: 1; gap: 8px; flex: 0 0 auto; z-index: 100; }
-            .menu-container { gap: 8px; }
-            .menu-container.open { max-width: 220px; }
-            .island-center { order: 2; position: relative; left: 0; transform: none; flex: 0 0 auto; margin-left: auto; z-index: 20; }
-            .island-center img { height: 42px; }
+            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
             .island-right { display: none; }
-            .menu-toggle { padding: 10px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
-            .menu-toggle span { width: 24px; }
-            .menu-item img { height: 20px; width: auto; }
+            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
+            .island-center img { height: 36px; }
         }
 
         @media (max-width: 640px) {
@@ -238,13 +169,12 @@
             .content { padding: 40px 20px; }
             .project-title { font-size: 24px; margin-bottom: 30px; }
             .description { font-size: 14px; line-height: 1.8; }
-            .dynamic-island { padding: 18px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-            .island-left { gap: 6px; z-index: 100; }
-            .menu-container { gap: 6px; }
-            .menu-toggle { padding: 8px; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; z-index: 101; }
-            .menu-container.open { max-width: 200px; }
-            .menu-item img { height: 18px; width: auto; }
-            .island-center img { height: 38px; }
+            .dynamic-island { padding: 10px 16px; }
+            .island-center img { height: 32px; }
+            .menu-toggle span { width: 20px; }
+            .menu-item { font-size: 12px; }
+            .menu-container.open { max-width: 240px; }
+            .menu-container { gap: 18px; }
         }
     </style>
 </head>
@@ -281,15 +211,9 @@
                 <span></span>
             </div>
             <div class="menu-container" id="menuContainer">
-                <a href="https://vdesign5.github.io/home/" class="menu-item active">
-                    <img src="../assets/project.webp" alt="project">
-                </a>
-                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">
-                    <img src="../assets/about.webp" alt="about">
-                </a>
-                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">
-                    <img src="../assets/contact.webp" alt="contact">
-                </a>
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">Works</a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">About</a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">Contact</a>
             </div>
         </div>
         <div class="island-center">
@@ -298,8 +222,8 @@
             </a>
         </div>
         <div class="island-right">
-            <span class="chinese">KB_0/O 海報設計</span>
-            <span class="english">KB_0/O - Poster Design</span>
+            <span class="zh">KB_0/O 海報設計</span>
+            <span class="en">KB_0/O - Poster Design</span>
         </div>
     </div>
 
