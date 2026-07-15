@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href="./assets/favicon.ico.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
         /* ── 字體 ──────────────────────────────────────────────
@@ -145,15 +145,15 @@
         /* 圖片下方：主標中文 + 副標英文 */
         .showcase-meta { text-align: center; min-height: 52px; }
         .sc-title-zh {
-            font-size: 14px; color: #222; line-height: 1.55; font-weight: 500;
+            font-size: 18px; color: #222; line-height: 1.55; font-weight: 200;
         }
         .sc-title-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; color: #aaa; line-height: 1.5; margin-top: 4px;
+            font-size: 13px; color: #aaa; line-height: 1.5; margin-top: 4px; font-weight: 200;
         }
         /* 無中文標題時，英文升格為主標 */
         .sc-title-en.is-primary {
-            font-size: 14px; color: #222; font-weight: 500; margin-top: 0;
+            font-size: 18px; color: #222; font-weight: 200; margin-top: 0;
         }
 
         /* ── 輪播控制列（進度點 + 暫停鍵） ── */
@@ -190,7 +190,7 @@
         }
         .filter-btn {
             background: none; border: none; outline: none;
-            padding: 2px 6px; font-size: 13px;
+            padding: 2px 6px; font-size: 14px; font-weight: 200;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: color 0.2s; color: #c0c0c0;
         }
@@ -199,7 +199,7 @@
         .filter-btn:hover:not(.active) { color: #444; }
         .filter-btn:active:not(.active) { color: #e0e0e0; }
         .filter-count {
-            font-size: 11px; color: #bbb; padding-left: 8px;
+            font-size: 13px; color: #bbb; padding-left: 8px; font-weight: 200;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
         }
 
@@ -248,15 +248,15 @@
         /* 圖片下方：主標中文 + 副標英文 */
         .project-info { padding: 16px 0; }
         .project-title-zh {
-            font-size: 15px; color: #111; line-height: 1.55; font-weight: 500;
+            font-size: 20px; color: #111; line-height: 1.55; font-weight: 200;
         }
         .project-title-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 12px; color: #aaa; line-height: 1.5; margin-top: 5px;
+            font-size: 14px; color: #aaa; line-height: 1.5; margin-top: 5px; font-weight: 200;
         }
         /* 無中文標題時英文升格為主標 */
         .project-title-en.is-primary {
-            font-size: 15px; color: #111; margin-top: 0;
+            font-size: 20px; color: #111; font-weight: 200; margin-top: 0;
         }
 
         /* ── DYNAMIC ISLAND ──────────────────────────────────── */
@@ -296,7 +296,7 @@
         .menu-item {
             cursor: pointer; flex-shrink: 0;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 13px; letter-spacing: 0.06em;
+            font-size: 15px; letter-spacing: 0.06em; font-weight: 200;
             color: #aaa; text-decoration: none; transition: color 0.25s;
         }
         .menu-item:hover { color: #FF0000; }
@@ -313,15 +313,15 @@
             flex: 1; text-align: right; position: relative; height: 40px;
         }
         .island-right .zh {
-            display: block; font-size: 13px; color: #333;
+            display: block; font-size: 15px; color: #333; font-weight: 200;
             transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
             position: absolute; right: 0; top: 0; width: 100%;
         }
         .island-right .en {
-            display: block; font-size: 11px; color: #888;
+            display: block; font-size: 13px; color: #888; font-weight: 200;
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             transition: opacity 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1);
-            position: absolute; right: 0; top: 20px; width: 100%;
+            position: absolute; right: 0; top: 22px; width: 100%;
         }
         .island-right .fade-out { opacity: 0; transform: translateY(-10px); }
         .island-right .fade-in  { opacity: 1; transform: translateY(0); }
@@ -341,14 +341,14 @@
         .footer-right { display: flex; justify-content: flex-end; }
         .footer-nav { display: flex; flex-direction: column; gap: 8px; }
         .footer-nav-item a {
-            font-size: 14px; color: #666; text-decoration: none; transition: color 0.3s;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px; color: #666; text-decoration: none; transition: color 0.3s;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
         }
         .footer-nav-item a:hover { color: #333; }
         .footer-social { display: flex; flex-direction: column; gap: 8px; }
         .footer-social-item a {
-            font-size: 14px; color: #666; text-decoration: none; transition: color 0.3s;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px; color: #666; text-decoration: none; transition: color 0.3s;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
         }
         .footer-social-item a:hover { color: #333; }
         .footer-bottom {
@@ -357,18 +357,18 @@
             padding-top: 30px; border-top: 1px solid #ddd;
         }
         .back-to-top {
-            font-size: 13px; color: #999; cursor: pointer; transition: color 0.3s;
+            font-size: 14px; color: #999; cursor: pointer; transition: color 0.3s;
             display: flex; align-items: center; gap: 5px;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
         }
         .back-to-top:hover { color: #333; }
         .footer-copyright {
-            font-size: 11px; color: #999; letter-spacing: 0.5px;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 12px; color: #999; letter-spacing: 0.5px;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
         }
         .footer-contact-label {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; color: #bbb; letter-spacing: 0.18em; text-transform: uppercase;
+            font-size: 13px; color: #bbb; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 200;
         }
 
         /* ── RESPONSIVE ───────────────────────────────────────── */
