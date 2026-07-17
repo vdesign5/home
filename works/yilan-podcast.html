@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宜蘭發聲 Yilan Podcast - Vdesign</title>
+    <link rel="icon" type="image/png" href="../assets/favicon.ico.png">
+    <link rel="apple-touch-icon" href="../assets/favicon.ico.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #333;
+            background: #fff;
+            overflow-x: hidden;
+            padding-bottom: 180px;
+        }
+        .english { font-family: Arial, sans-serif; }
+
+        /* Hero Image */
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            z-index: 6;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.3s forwards;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Content Container */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            position: relative;
+            z-index: 6;
+        }
+
+        /* Title */
+        .project-title {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.5s forwards;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Description */
+        .description {
+            font-size: 16px;
+            line-height: 2;
+            color: #666;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.8s ease 0.7s forwards;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        /* Image Gallery Section */
+        .gallery-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .gallery-section.in-view {
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        /* Single Image */
+        .single-image {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .single-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .video-container.square {
+            width: 62.5%;
+            aspect-ratio: 1 / 1;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .video-container.widescreen {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            padding: 40px 20px 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .video-container:hover .video-controls {
+            opacity: 1;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Play/Pause Button */
+        .play-pause-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .play-pause-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .play-pause-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar:hover {
+            height: 6px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 0%;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        /* Volume Button */
+        .volume-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .volume-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .volume-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: white; padding: 14px 48px;
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 10;
+            border-top-left-radius: 32px; border-top-right-radius: 32px;
+            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
+            transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
+        }
+        @keyframes slideUpIsland { to { transform: translateY(0); } }
+        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
+        .menu-toggle {
+            display: flex; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; flex-shrink: 0;
+            background: transparent; border: none; outline: none;
+            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+        }
+        .menu-toggle span {
+            width: 24px; height: 2px; background: #ccc;
+            border-radius: 2px; transition: all 0.3s; pointer-events: none;
+        }
+        .menu-toggle:hover span { background: #FF0000; }
+        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .menu-toggle.open span:nth-child(2) { opacity: 0; }
+        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+        .menu-container {
+            display: flex; gap: 24px; align-items: center;
+            max-width: 0; overflow: hidden; opacity: 0;
+            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
+        }
+        .menu-container.open { max-width: 320px; opacity: 1; }
+        .menu-item {
+            cursor: pointer; flex-shrink: 0;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px; letter-spacing: 0.06em;
+            color: #aaa; text-decoration: none; transition: color 0.25s;
+        }
+        .menu-item:hover { color: #FF0000; }
+        .menu-item.active { color: #222; }
+        .island-center {
+            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
+        }
+        .island-center a { display: block; transition: opacity 0.3s; }
+        .island-center a:hover { opacity: 0.6; }
+        .island-center img { height: 42px; display: block; pointer-events: none; }
+        .island-right { flex: 1; text-align: right; line-height: 1.6; }
+        .island-right .zh { display: block; font-size: 13px; color: #333; }
+        .island-right .en {
+            display: block; font-size: 11px; color: #888;
+            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: 0.04em; margin-top: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            body { padding-bottom: 120px; }
+            .content { padding: 60px 30px; }
+            .project-title, .description { max-width: 100%; }
+            .project-title { font-size: 28px; margin-bottom: 40px; }
+            .description { font-size: 15px; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
+            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
+            .island-right { display: none; }
+            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
+            .island-center img { height: 36px; }
+            .video-controls { padding: 30px 16px 14px; }
+            .play-pause-btn, .volume-btn { width: 32px; height: 32px; }
+            .play-pause-btn svg, .volume-btn svg { width: 20px; height: 20px; }
+            .video-container.square { width: 75%; }
+        }
+
+        @media (max-width: 640px) {
+            body { padding-bottom: 110px; }
+            .hero-image { height: 250px; }
+            .content { padding: 40px 20px; }
+            .project-title { font-size: 24px; margin-bottom: 30px; }
+            .description { font-size: 14px; line-height: 1.8; }
+            .dynamic-island { padding: 10px 16px; }
+            .island-center img { height: 32px; }
+            .menu-toggle span { width: 20px; }
+            .menu-item { font-size: 12px; }
+            .menu-container.open { max-width: 240px; }
+            .menu-container { gap: 18px; }
+            .video-controls { padding: 24px 12px 12px; }
+            .controls-wrapper { gap: 8px; }
+            .play-pause-btn, .volume-btn { width: 28px; height: 28px; }
+            .play-pause-btn svg, .volume-btn svg { width: 18px; height: 18px; }
+            .progress-bar { height: 3px; }
+            .progress-bar:hover { height: 4px; }
+            .video-container.square { width: 85%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-image">
+        <img src="../assets/Yilan_podcast/Vdesign_work_XIV_0.webp" alt="宜蘭發聲 Yilan Podcast">
+    </div>
+
+    <div class="content">
+        <h1 class="project-title">宜蘭發聲</h1>
+
+        <div class="gallery-section">
+            <div class="video-container widescreen">
+                <video id="video1" autoplay loop muted playsinline>
+                    <source src="../assets/Yilan_podcast/260705_宜蘭發聲.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <div class="controls-wrapper">
+                        <button class="play-pause-btn" data-video="video1">
+                            <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="progress-bar" data-video="video1">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <button class="volume-btn" data-video="video1">
+                            <svg class="icon-muted" viewBox="0 0 24 24">
+                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                            </svg>
+                            <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="description">
+            宜蘭發聲是一個收集各行各業日常視角的 podcast 節目。動態視覺以「食衣住行育樂」為敘事架構，用像素化 icon 結合手繪感的設計，保留帶有溫度與活力的視覺感受，為節目的開場定調。
+        </p>
+
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/Yilan_podcast/Vdesign_work_XIV_1.webp" alt="宜蘭發聲">
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <div class="video-container square">
+                <video id="video2" autoplay loop muted playsinline>
+                    <source src="../assets/Yilan_podcast/260713_宜蘭發聲_icon.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <div class="controls-wrapper">
+                        <button class="play-pause-btn" data-video="video2">
+                            <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24">
+                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                            </svg>
+                        </button>
+                        <div class="progress-bar" data-video="video2">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <button class="volume-btn" data-video="video2">
+                            <svg class="icon-muted" viewBox="0 0 24 24">
+                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                            </svg>
+                            <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/Yilan_podcast/Vdesign_work_XIV_2.webp" alt="宜蘭發聲">
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/Yilan_podcast/Vdesign_work_XIV_3.webp" alt="宜蘭發聲">
+            </div>
+        </div>
+    </div>
+
+    <div class="dynamic-island">
+        <div class="island-left">
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="menu-container" id="menuContainer">
+                <a href="https://vdesign5.github.io/home/" class="menu-item active">Works</a>
+                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">About</a>
+                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">Contact</a>
+            </div>
+        </div>
+        <div class="island-center">
+            <a href="https://vdesign5.github.io/home/">
+                <img src="../assets/logo.png" alt="Vdesign Logo">
+            </a>
+        </div>
+        <div class="island-right">
+            <span class="zh">宜蘭發聲 品牌識別與動態設計</span>
+            <span class="en">Yilan Podcast — Brand Identity & Motion Design</span>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const menuContainer = document.getElementById('menuContainer');
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            });
+
+            menuToggle.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                menuToggle.classList.toggle('open');
+                menuContainer.classList.toggle('open');
+            }, { passive: false });
+        }
+
+        // Video Controls
+        class VideoPlayer {
+            constructor(videoId) {
+                this.video = document.getElementById(videoId);
+                this.container = this.video.closest('.video-container');
+                this.playPauseBtn = this.container.querySelector('.play-pause-btn');
+                this.progressBar = this.container.querySelector('.progress-bar');
+                this.progressFill = this.container.querySelector('.progress-fill');
+                this.volumeBtn = this.container.querySelector('.volume-btn');
+                this.iconPlay = this.playPauseBtn.querySelector('.icon-play');
+                this.iconPause = this.playPauseBtn.querySelector('.icon-pause');
+                this.iconMuted = this.volumeBtn.querySelector('.icon-muted');
+                this.iconUnmuted = this.volumeBtn.querySelector('.icon-unmuted');
+
+                this.init();
+            }
+
+            init() {
+                this.playPauseBtn.addEventListener('click', () => {
+                    if (this.video.paused) {
+                        this.video.play();
+                        this.iconPlay.style.display = 'none';
+                        this.iconPause.style.display = 'block';
+                    } else {
+                        this.video.pause();
+                        this.iconPlay.style.display = 'block';
+                        this.iconPause.style.display = 'none';
+                    }
+                });
+
+                this.video.addEventListener('timeupdate', () => {
+                    const progress = (this.video.currentTime / this.video.duration) * 100;
+                    this.progressFill.style.width = progress + '%';
+                });
+
+                this.progressBar.addEventListener('click', (e) => {
+                    const rect = this.progressBar.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    this.video.currentTime = pos * this.video.duration;
+                });
+
+                this.volumeBtn.addEventListener('click', () => {
+                    if (this.video.muted) {
+                        this.video.muted = false;
+                        this.iconMuted.style.display = 'none';
+                        this.iconUnmuted.style.display = 'block';
+                    } else {
+                        this.video.muted = true;
+                        this.iconMuted.style.display = 'block';
+                        this.iconUnmuted.style.display = 'none';
+                    }
+                });
+
+                this.video.addEventListener('click', () => {
+                    this.playPauseBtn.click();
+                });
+            }
+        }
+
+        new VideoPlayer('video1');
+        new VideoPlayer('video2');
+
+        // Intersection Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.gallery-section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
