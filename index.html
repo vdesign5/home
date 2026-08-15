@@ -99,12 +99,11 @@
         /* ── Showcase 置中疊層（在 arch SVG 之下） ── */
         .showcase {
             position: absolute; inset: 0;
-            display: flex; flex-direction: column;
+            display: flex;
             align-items: center; justify-content: center;
-            gap: 16px;
             opacity: 0; pointer-events: none;
             transition: opacity 0.45s ease 0s;
-            z-index: 2; /* 低於 logo-wrap(3)，arch 在上方形成框架 */
+            z-index: 2;
         }
         .logo-stage:hover .showcase {
             opacity: 1; pointer-events: auto;
@@ -113,7 +112,7 @@
 
         .showcase-images {
             width: min(54vw, 660px);
-            height: min(46vh, 420px);
+            height: 100%;
             position: relative; overflow: hidden;
             flex-shrink: 0;
         }
@@ -124,63 +123,55 @@
         }
         .showcase-img.active { opacity: 1; }
 
-        /* 圖片上方：左中文分類、右英文分類（深色，固定高度防抖） */
-        .showcase-overlay {
-            width: min(54vw, 660px);
-            height: 16px; overflow: hidden;
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 10px;
-        }
-        .sc-cat-zh {
-            font-size: 11px; color: #666; letter-spacing: 0.04em; line-height: 1;
-            white-space: nowrap;
-        }
-        .sc-cat-en {
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 10px; color: #999; letter-spacing: 0.12em;
-            line-height: 1; text-align: right; text-transform: uppercase;
-            white-space: nowrap;
-        }
+        /* 分類列移除 */
+        .showcase-overlay { display: none; }
 
-        /* 圖片下方：主標中文 + 副標英文 */
-        .showcase-meta { text-align: center; min-height: 52px; }
+        /* 作品標題：壓在圖片上 */
+        .showcase-meta {
+            position: absolute; left: 0; right: 0; bottom: 52px;
+            padding: 0 20px;
+        }
         .sc-title-zh {
-            font-size: 18px; color: #222; line-height: 1.55; font-weight: 200;
+            font-size: 20px; color: #fff; line-height: 1.4; font-weight: 200;
+            letter-spacing: 0.04em;
         }
         .sc-title-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 13px; color: #aaa; line-height: 1.5; margin-top: 4px; font-weight: 200;
+            font-size: 11px; color: rgba(255,255,255,0.65); letter-spacing: 0.2em;
+            margin-top: 6px; font-weight: 200; text-transform: uppercase;
         }
-        /* 無中文標題時，英文升格為主標 */
         .sc-title-en.is-primary {
-            font-size: 18px; color: #222; font-weight: 200; margin-top: 0;
+            font-size: 20px; color: #fff; font-weight: 200; margin-top: 0; letter-spacing: 0.04em;
         }
 
-        /* ── 輪播控制列（進度點 + 暫停鍵） ── */
-        .showcase-controls { display: flex; align-items: center; gap: 10px; }
+        /* ── 輪播控制列：壓在圖片底部 ── */
+        .showcase-controls {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 20px;
+        }
         .showcase-dots {
             display: flex; gap: 6px; align-items: center;
-            background: rgba(0,0,0,0.05); padding: 7px 10px; border-radius: 20px;
         }
         .showcase-dot {
             width: 5px; height: 5px; border-radius: 3px;
-            background: rgba(0,0,0,0.18); cursor: pointer; flex-shrink: 0;
+            background: rgba(255,255,255,0.35); cursor: pointer; flex-shrink: 0;
             position: relative; overflow: hidden;
             transition: width 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s;
         }
-        .showcase-dot.active { width: 44px; background: rgba(0,0,0,0.08); }
+        .showcase-dot.active { width: 44px; background: rgba(255,255,255,0.2); }
         .dot-progress {
             position: absolute; left: 0; top: 0; height: 100%; width: 0%;
-            background: rgba(0,0,0,0.5); border-radius: inherit; pointer-events: none;
+            background: rgba(255,255,255,0.9); border-radius: inherit; pointer-events: none;
         }
         .showcase-pause {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: rgba(0,0,0,0.05); border: none; cursor: pointer;
+            width: 24px; height: 24px; border-radius: 50%;
+            background: rgba(255,255,255,0.15); border: none; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: background 0.2s; padding: 0; flex-shrink: 0;
         }
-        .showcase-pause:hover { background: rgba(0,0,0,0.1); }
-        .showcase-pause svg { display: block; fill: rgba(0,0,0,0.45); }
+        .showcase-pause:hover { background: rgba(255,255,255,0.25); }
+        .showcase-pause svg { display: block; fill: rgba(255,255,255,0.8); }
 
         /* ── FILTER BAR ──────────────────────────────────────── */
         .filter-bar {
@@ -194,7 +185,7 @@
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: color 0.2s; color: #c0c0c0;
         }
-        .filter-btn:not(:last-of-type)::after { content: ' /'; color: #d8d8d8; pointer-events: none; }
+        .filter-btn:not(:last-of-type)::after { content: ' /'; color: #d8d8d8; pointer-events: none; user-select: none; }
         .filter-btn.active { color: #333; text-decoration: underline; text-underline-offset: 3px; }
         .filter-btn:hover:not(.active) { color: #444; }
         .filter-btn:active:not(.active) { color: #e0e0e0; }
@@ -236,14 +227,13 @@
 
         .project-cat-zh {
             font-size: 22px; color: #fff; letter-spacing: 0.06em;
-            line-height: 1; text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+            line-height: 1; font-weight: 200;
             order: 2;
         }
         .project-cat-en {
             font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
             font-size: 12px; color: #fff; letter-spacing: 0.2em;
-            line-height: 1; text-transform: uppercase;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+            line-height: 1; text-transform: uppercase; font-weight: 200;
             order: 1;
         }
 
@@ -526,28 +516,24 @@
 
             <!-- Showcase 輪播（hover 時淡入） -->
             <div class="showcase" id="showcase">
-                <div class="showcase-overlay">
-                    <span class="sc-cat-zh"></span>
-                    <span class="sc-cat-en"></span>
-                </div>
                 <div class="showcase-images">
                     <img src="./assets/202511_showcase_I.webp"   class="showcase-img active" alt="Showcase 1" loading="eager">
                     <video src="./assets/Sung%20hospital/VDesign_workII_1.mp4" class="showcase-img" autoplay loop muted playsinline></video>
                     <img src="./assets/202511_showcase_III.webp" class="showcase-img"        alt="Showcase 3" loading="lazy">
                     <video src="./assets/Wu_Design/vdesign_work_XIII_1.mp4" class="showcase-img" autoplay loop muted playsinline></video>
-                </div>
-                <div class="showcase-meta">
-                    <p class="sc-title-zh"></p>
-                    <p class="sc-title-en"></p>
-                </div>
-                <div class="showcase-controls">
-                    <div class="showcase-dots" id="showcaseDots"></div>
-                    <button class="showcase-pause" id="pauseBtn" aria-label="暫停輪播">
-                        <svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10">
-                            <rect x="0" y="0" width="2.5" height="10" rx="1"/>
-                            <rect x="5.5" y="0" width="2.5" height="10" rx="1"/>
-                        </svg>
-                    </button>
+                    <div class="showcase-meta">
+                        <p class="sc-title-zh"></p>
+                        <p class="sc-title-en"></p>
+                    </div>
+                    <div class="showcase-controls">
+                        <div class="showcase-dots" id="showcaseDots"></div>
+                        <button class="showcase-pause" id="pauseBtn" aria-label="暫停輪播">
+                            <svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10">
+                                <rect x="0" y="0" width="2.5" height="10" rx="1"/>
+                                <rect x="5.5" y="0" width="2.5" height="10" rx="1"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
