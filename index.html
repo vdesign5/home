@@ -21,132 +21,57 @@
         }
         .en { font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; }
 
-        /* ══════════════════════════════════════════════════════
-           HERO — Logo 展開互動
-        ══════════════════════════════════════════════════════ */
+        /* ══ HERO ══════════════════════════════════════════════ */
         .hero {
             position: relative; z-index: 6;
-            background: #fff;
-            min-height: 100vh;
-            display: flex; flex-direction: column;
+            width: 100%; height: 100vh;
+            overflow: hidden; background: #fff;
             border-bottom: 1px solid #ebebeb;
         }
-
-        .hero-topbar { display: none; }
-
-        /* ── Logo Stage ─────────────────────────────────────── */
-        .logo-stage {
-            flex: 1;
-            position: relative;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-        }
-
-        .logo-wrap {
-            width: min(46vw, 580px);
-            position: relative; z-index: 3; /* arch 在 showcase 之上 */
-            flex-shrink: 0;
-        }
-        .logo-wrap svg {
-            width: 100%; height: auto; display: block;
-            overflow: visible;
-        }
-
-        /* ── SVG 文字圖層淡出（hover） ── */
-        .logo-ch,
-        .logo-en-text {
-            transition: opacity 0.25s ease;
-        }
-        .logo-stage:hover .logo-ch,
-        .logo-stage:hover .logo-en-text {
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        /* ── Arch 左右滑開 ── */
-        .arch-left,
-        .arch-right {
-            transition: transform 0.95s cubic-bezier(0.76, 0, 0.24, 1);
-        }
-        .logo-stage:hover .arch-left  { transform: translateX(-42vw); }
-        .logo-stage:hover .arch-right { transform: translateX(42vw);  }
-
-        /* ── Showcase 置中疊層（在 arch SVG 之下） ── */
-        .showcase {
+        .hero-logo {
             position: absolute; inset: 0;
-            display: flex;
-            align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.45s ease 0s;
-            z-index: 2;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2; pointer-events: none;
+            /* delay fade-in until clip-path has mostly collapsed */
+            transition: opacity 0.35s ease 0.72s;
         }
-        .logo-stage:hover .showcase {
-            opacity: 1; pointer-events: auto;
-            transition: opacity 0.45s ease 0.45s;
+        .hero-logo img { width: min(46vw, 560px); height: auto; display: block; }
+        .hero.is-expanded .hero-logo {
+            opacity: 0;
+            /* fast fade-out on expand, no delay */
+            transition: opacity 0.2s ease 0s;
         }
-
-        .showcase-images {
-            width: min(54vw, 660px);
-            height: 100%;
-            position: relative; overflow: hidden;
-            flex-shrink: 0;
+        .hero-mask {
+            position: absolute; inset: 0; z-index: 1;
+            will-change: clip-path;
+            transition: clip-path 0.95s cubic-bezier(0.65, 0, 0.35, 1);
         }
-        .showcase-img {
+        .hero-slide {
             position: absolute; inset: 0;
             width: 100%; height: 100%; object-fit: cover;
             opacity: 0; transition: opacity 0.7s ease;
         }
-        .showcase-img.active { opacity: 1; }
-
-        /* 分類列移除 */
-        .showcase-overlay { display: none; }
-
-        /* 作品標題：壓在圖片上 */
-        .showcase-meta {
-            position: absolute; left: 0; right: 0; bottom: 52px;
-            padding: 0 20px;
+        .hero-slide.active { opacity: 1; }
+        .hero-title {
+            position: absolute;
+            right: 48px; top: 50%; transform: translateY(-50%);
+            z-index: 1; /* below hero-logo (z-index:2) — logo obscures it when collapsed */
+            pointer-events: none; text-align: right;
         }
-        .sc-title-zh {
-            font-size: 20px; color: #fff; line-height: 1.4; font-weight: 200;
-            letter-spacing: 0.04em;
+        .hero-title-zh {
+            font-size: clamp(18px, 1.9vw, 28px);
+            color: #111; font-weight: 700;
+            line-height: 1.4; letter-spacing: 0.04em;
+            white-space: pre-wrap;
         }
-        .sc-title-en {
-            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 11px; color: rgba(255,255,255,0.65); letter-spacing: 0.2em;
-            margin-top: 6px; font-weight: 200; text-transform: uppercase;
+        .hero-title-en {
+            font-family: 'Hanken Grotesk', sans-serif;
+            font-size: clamp(8px, 0.72vw, 11px);
+            color: #111; font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase; margin-top: 8px;
+            white-space: pre-wrap;
         }
-        .sc-title-en.is-primary {
-            font-size: 20px; color: #fff; font-weight: 200; margin-top: 0; letter-spacing: 0.04em;
-        }
-
-        /* ── 輪播控制列：壓在圖片底部 ── */
-        .showcase-controls {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            display: flex; align-items: center; gap: 10px;
-            padding: 14px 20px;
-        }
-        .showcase-dots {
-            display: flex; gap: 6px; align-items: center;
-        }
-        .showcase-dot {
-            width: 5px; height: 5px; border-radius: 3px;
-            background: rgba(255,255,255,0.35); cursor: pointer; flex-shrink: 0;
-            position: relative; overflow: hidden;
-            transition: width 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s;
-        }
-        .showcase-dot.active { width: 44px; background: rgba(255,255,255,0.2); }
-        .dot-progress {
-            position: absolute; left: 0; top: 0; height: 100%; width: 0%;
-            background: rgba(255,255,255,0.9); border-radius: inherit; pointer-events: none;
-        }
-        .showcase-pause {
-            width: 24px; height: 24px; border-radius: 50%;
-            background: rgba(255,255,255,0.15); border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.2s; padding: 0; flex-shrink: 0;
-        }
-        .showcase-pause:hover { background: rgba(255,255,255,0.25); }
-        .showcase-pause svg { display: block; fill: rgba(255,255,255,0.8); }
 
         /* ── FILTER BAR ──────────────────────────────────────── */
         .filter-bar {
@@ -301,40 +226,7 @@
         @media (max-width: 968px) {
             body { padding-top: 60px; padding-bottom: 360px; }
 
-            .hero-topbar { padding: 20px 36px; }
-
-            /* 手機版 hero：logo 縮成 Dynamic Island 寬，showcase 預設隱藏 */
-            .logo-wrap { width: min(38vw, 160px); }
-            .showcase {
-                position: static;
-                flex-direction: column;
-                padding: 28px 36px 36px;
-                gap: 16px;
-                /* opacity/pointer-events 由 .is-top 控制，基礎值沿用 desktop（opacity:0） */
-            }
-            .showcase-overlay { width: 100%; padding-bottom: 4px; }
-            /* 圖片尺寸純 viewport 計算，不依賴內容，避免抖動 */
-            .showcase-images {
-                width: calc(100vw - 72px);
-                height: min(calc((100vw - 72px) * 0.625), 310px);
-                flex-shrink: 0;
-            }
-            .showcase-meta { width: 100%; }
-            .showcase-controls { justify-content: center; }
-
-            .logo-stage {
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-                overflow: visible;
-                padding: 36px 0 0;
-            }
-
-            /* 手機：is-top 僅顯示 showcase，logo 保持完整可見 */
-            .logo-stage.is-top .showcase {
-                opacity: 1; pointer-events: auto;
-                transition: opacity 0.45s ease;
-            }
+            .hero-logo img { width: min(72vw, 400px); }
 
             .filter-bar { padding: 36px 24px 0; }
             .projects { padding: 28px 24px 60px; }
@@ -352,14 +244,7 @@
 
         @media (max-width: 640px) {
             body { padding-bottom: 400px; }
-            .hero-topbar { padding: 16px 20px; font-size: 10px; letter-spacing: 0.12em; }
-            .logo-wrap { width: min(34vw, 130px); }
-            .logo-stage { padding: 28px 0 0; }
-            .showcase { padding: 24px 20px 32px; gap: 14px; }
-            .showcase-images {
-                width: calc(100vw - 40px);
-                height: min(calc((100vw - 40px) * 0.625), 260px);
-            }
+            .hero-logo img { width: 80vw; }
             .filter-bar { padding: 28px 16px 0; gap: 0; }
             .projects { padding: 24px 16px 48px; }
             .projects-grid { grid-template-columns: 1fr; }
@@ -377,12 +262,23 @@
 <body>
 
     <!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-    <section class="hero">
+    <section class="hero" id="hero">
+        <div class="hero-logo">
+            <img src="./assets/logo_full.svg" alt="WU DESIGN STUDIO" id="heroLogoImg">
+        </div>
+        <div class="hero-mask" id="heroMask">
+            <img src="./assets/202511_showcase_I.webp"   class="hero-slide active" alt="" loading="eager">
+            <video src="./assets/Sung%20hospital/VDesign_workII_1.mp4" class="hero-slide" autoplay loop muted playsinline></video>
+            <img src="./assets/202511_showcase_III.webp" class="hero-slide" alt="" loading="lazy">
+            <video src="./assets/Wu_Design/vdesign_work_XIII_1.mp4"    class="hero-slide" autoplay loop muted playsinline></video>
+        </div>
+        <div class="hero-title" id="heroTitle">
+            <p class="hero-title-zh" id="heroTitleZh"></p>
+            <p class="hero-title-en" id="heroTitleEn"></p>
+        </div>
+    </section>
 
-        <div class="logo-stage" id="logoStage">
-
-            <!-- Inline SVG logo — arch 拆成 .arch-left / .arch-right 以便動畫 -->
-            <div class="logo-wrap">
+    <div style="display:none"><!-- old hero placeholder --><div class="logo-wrap">
                 <svg viewBox="0 0 877.55 426.35" xmlns="http://www.w3.org/2000/svg" aria-label="WU DESIGN STUDIO 伍設計事務所">
 
                     <!-- 組 1：漢字字體 -->
@@ -466,9 +362,7 @@
                 </div>
             </div>
 
-        </div><!-- /.logo-stage -->
-
-    </section>
+        </div><!-- /.logo-stage (hidden) + end hidden old hero -->
 
     <!-- ── FILTER BAR ─────────────────────────────────────────────────────────── -->
     <div class="filter-bar" id="filterBar">
@@ -552,145 +446,145 @@
         { catZh:'識別',        catEn:'Identity',          titleZh:'伍設計事務所',             titleEn:'WU DESIGN STUDIO'                         }
     ];
 
-    /* ── 輪播 ── */
-    var slides  = document.querySelectorAll('.showcase-img');
-    var dots    = [];
-    var current = 0;
+    /* ══ HERO ANIMATION ══════════════════════════════════════════ */
+    var MARK = { xL:223.19, mW:754.43, mH:697.39,
+                 notchW:43.85, notchY:493.45, arcStep:43.85,
+                 arcCy:128.39, arcCx:104.08, arcR:232.46 };
 
-    var scCatZh   = document.querySelector('.sc-cat-zh');
-    var scCatEn   = document.querySelector('.sc-cat-en');
-    var scTitleZh = document.querySelector('.sc-title-zh');
-    var scTitleEn = document.querySelector('.sc-title-en');
+    function rnd(n) { return Math.round(n * 10) / 10; }
 
-    function updateShowcaseInfo(idx, animate) {
+    function buildMarkPath(ox, oy, mW, mH, nW, nY, aStep, aOuter, aCy, aCx, aR) {
+        return 'M' + rnd(ox+mW) + ',' + rnd(oy) +
+               'H' + rnd(ox) +
+               'V' + rnd(oy+nY) +
+               'H' + rnd(ox+nW) +
+               'V' + rnd(oy+mH) +
+               'H' + rnd(ox+mW) +
+               'V' + rnd(oy+aOuter) +
+               'H' + rnd(ox+mW-aStep) +
+               'c0,' + rnd(-aCy) + ' ' + rnd(-aCx) + ',' + rnd(-aR) + ' ' + rnd(-aR) + ',' + rnd(-aR) +
+               'H' + rnd(ox+mW) +
+               'V' + rnd(oy) + 'Z';
+    }
+
+    function collapsedPath(heroW, heroH) {
+        var logoW = Math.min(0.46 * heroW, 560);
+        var s = logoW / 1200;
+        var ox = (heroW - logoW) / 2 + MARK.xL * s;
+        var oy = (heroH - logoW) / 2;
+        return buildMarkPath(ox, oy,
+            MARK.mW*s, MARK.mH*s,
+            MARK.notchW*s, MARK.notchY*s,
+            MARK.arcStep*s, (MARK.mH - MARK.arcR)*s,
+            MARK.arcCy*s, MARK.arcCx*s, MARK.arcR*s);
+    }
+
+    function expandedPath(heroW, heroH) {
+        var sf = heroH / MARK.mH;
+        return buildMarkPath(0, 0,
+            heroW, heroH,
+            MARK.notchW*sf, MARK.notchY*sf,
+            MARK.arcStep*sf, (MARK.mH - MARK.arcR)*sf,
+            MARK.arcCy*sf, MARK.arcCx*sf, MARK.arcR*sf);
+    }
+
+    var heroEl       = document.getElementById('hero');
+    var heroMask     = document.getElementById('heroMask');
+    var heroTitle    = document.getElementById('heroTitle');
+    var heroTitleZh  = document.getElementById('heroTitleZh');
+    var heroTitleEn  = document.getElementById('heroTitleEn');
+    var heroExpanded = false;
+
+    /* cache path strings so expand/collapse don't force layout sync */
+    var _pathC = '', _pathE = '';
+    function refreshPaths() {
+        var W = heroEl.offsetWidth, H = heroEl.offsetHeight;
+        _pathC = collapsedPath(W, H);
+        _pathE = expandedPath(W, H);
+    }
+    refreshPaths();
+    heroMask.style.clipPath = 'path("' + _pathC + '")';
+
+    function applyPath(expanded) {
+        heroMask.style.clipPath = 'path("' + (expanded ? _pathE : _pathC) + '")';
+    }
+
+    function expand() {
+        if (heroExpanded) return;
+        heroExpanded = true;
+        heroEl.classList.add('is-expanded');
+        applyPath(true);
+        updateHeroTitle(heroCurrent, true);
+    }
+    function collapse() {
+        if (!heroExpanded) return;
+        heroExpanded = false;
+        heroEl.classList.remove('is-expanded');
+        applyPath(false);
+    }
+
+    var isTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    if (!isTouch) {
+        heroEl.addEventListener('mouseenter', expand);
+        heroEl.addEventListener('mouseleave', collapse);
+    } else {
+        heroEl.addEventListener('click', function() { if (heroExpanded) collapse(); else expand(); });
+    }
+
+    window.addEventListener('resize', function() {
+        refreshPaths();
+        applyPath(heroExpanded);
+    }, { passive: true });
+
+    /* ── Hero Carousel ──────────────────────────────────────── */
+    var heroSlides  = document.querySelectorAll('.hero-slide');
+    var heroCurrent = 0;
+    var heroTimer   = null;
+    var HERO_INT    = 3800;
+
+    /* split helpers — insert \n so white-space:pre-wrap renders lines */
+    function splitZh(text) {
+        if (!text || text.length <= 3) return text;
+        var mid = Math.ceil(text.length / 2);
+        return text.slice(0, mid) + '\n' + text.slice(mid);
+    }
+    function splitEn(text) {
+        if (!text) return text;
+        var words = text.split(' ');
+        if (words.length <= 2) return text;
+        var per = Math.ceil(words.length / 3);
+        return [
+            words.slice(0, per).join(' '),
+            words.slice(per, per * 2).join(' '),
+            words.slice(per * 2).join(' ')
+        ].filter(Boolean).join('\n');
+    }
+
+    function updateHeroTitle(idx, animate) {
         var s = SHOWCASE[idx];
         if (!s) return;
-        var hasCn = !!s.titleZh;
-        if (scTitleEn) scTitleEn.classList.toggle('is-primary', !hasCn);
+        var zh = splitZh(s.titleZh);
+        var en = splitEn(s.titleEn);
         if (animate) {
-            if (scCatZh) scrambleText(scCatZh, s.catZh, true);
-            if (scCatEn) scrambleText(scCatEn, s.catEn, false);
-            if (scTitleZh) {
-                scTitleZh.style.display = hasCn ? '' : 'none';
-                if (hasCn) scrambleText(scTitleZh, s.titleZh, true);
-                else scTitleZh.textContent = '';
-            }
-            if (scTitleEn) scrambleText(scTitleEn, s.titleEn, false);
+            if (heroTitleZh) scrambleText(heroTitleZh, zh, true);
+            if (heroTitleEn) scrambleText(heroTitleEn, en, false);
         } else {
-            if (scCatZh)   scCatZh.textContent  = s.catZh;
-            if (scCatEn)   scCatEn.textContent   = s.catEn;
-            if (scTitleZh) { scTitleZh.textContent = hasCn ? s.titleZh : ''; scTitleZh.style.display = hasCn ? '' : 'none'; }
-            if (scTitleEn) scTitleEn.textContent = s.titleEn;
+            if (heroTitleZh) heroTitleZh.textContent = zh;
+            if (heroTitleEn) heroTitleEn.textContent = en;
         }
     }
 
-    var INTERVAL    = 3600;
-    var paused      = false;
-    var autoTimer   = null;
-    var progressRaf = null;
-    var slideStart  = 0;
-
-    var ICON_PAUSE = '<svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10"><rect x="0" y="0" width="2.5" height="10" rx="1"/><rect x="5.5" y="0" width="2.5" height="10" rx="1"/></svg>';
-    var ICON_PLAY  = '<svg viewBox="0 0 8 10" xmlns="http://www.w3.org/2000/svg" width="8" height="10"><path d="M0 0l8 5-8 5z"/></svg>';
-
-    (function buildDots() {
-        var container = document.getElementById('showcaseDots');
-        slides.forEach(function(_, i) {
-            var d   = document.createElement('span');
-            d.className = 'showcase-dot' + (i === 0 ? ' active' : '');
-            var bar = document.createElement('span');
-            bar.className = 'dot-progress';
-            d.appendChild(bar);
-            d.addEventListener('click', function() { goTo(i); });
-            container.appendChild(d);
-            dots.push(d);
-        });
-    })();
-
-    updateShowcaseInfo(0, false);
-
-    function startProgress() {
-        cancelAnimationFrame(progressRaf);
-        var bar = dots[current] && dots[current].querySelector('.dot-progress');
-        if (!bar) return;
-        bar.style.width = '0%';
-        slideStart = performance.now();
-        (function frame(now) {
-            var pct = Math.min((now - slideStart) / INTERVAL * 100, 100);
-            bar.style.width = pct + '%';
-            if (!paused && pct < 100) progressRaf = requestAnimationFrame(frame);
-        })(performance.now());
+    function heroGoTo(n) {
+        clearTimeout(heroTimer);
+        heroSlides[heroCurrent].classList.remove('active');
+        heroCurrent = (n + heroSlides.length) % heroSlides.length;
+        heroSlides[heroCurrent].classList.add('active');
+        updateHeroTitle(heroCurrent, true);
+        heroTimer = setTimeout(function() { heroGoTo(heroCurrent + 1); }, HERO_INT);
     }
 
-    function scheduleNext() {
-        clearTimeout(autoTimer);
-        if (!paused) autoTimer = setTimeout(function() { goTo(current + 1); }, INTERVAL);
-    }
-
-    function goTo(n) {
-        clearTimeout(autoTimer);
-        cancelAnimationFrame(progressRaf);
-        slides[current].classList.remove('active');
-        dots[current].classList.remove('active');
-        var oldBar = dots[current].querySelector('.dot-progress');
-        if (oldBar) oldBar.style.width = '0%';
-        current = (n + slides.length) % slides.length;
-        slides[current].classList.add('active');
-        dots[current].classList.add('active');
-        updateShowcaseInfo(current, true);
-        if (!paused) { startProgress(); scheduleNext(); }
-    }
-
-    function togglePause() {
-        paused = !paused;
-        var btn = document.getElementById('pauseBtn');
-        if (paused) {
-            clearTimeout(autoTimer);
-            cancelAnimationFrame(progressRaf);
-            if (btn) btn.innerHTML = ICON_PLAY;
-        } else {
-            startProgress();
-            scheduleNext();
-            if (btn) btn.innerHTML = ICON_PAUSE;
-        }
-    }
-
-    var pauseBtn = document.getElementById('pauseBtn');
-    if (pauseBtn) pauseBtn.addEventListener('click', togglePause);
-
-    startProgress();
-    scheduleNext();
-
-    /* logo-stage 展開時觸發 scramble（桌機 hover） */
-    var logoStage = document.getElementById('logoStage');
-    if (logoStage) {
-        logoStage.addEventListener('mouseenter', function() {
-            updateShowcaseInfo(current, true);
-        });
-    }
-
-    /* 手機：捲動到頂部時展開 hero（等同 hover 互動） */
-    if (window.matchMedia('(max-width: 968px)').matches && logoStage) {
-        var heroRevealed = false;
-        function checkHeroReveal() {
-            var atTop = window.scrollY < window.innerHeight * 0.5;
-            if (atTop === heroRevealed) return;
-            heroRevealed = atTop;
-            if (atTop) {
-                logoStage.classList.add('is-top');
-                setTimeout(function() { updateShowcaseInfo(current, true); }, 150);
-            } else {
-                logoStage.classList.remove('is-top');
-            }
-        }
-        window.addEventListener('scroll', checkHeroReveal, { passive: true });
-        /* 初始狀態：頁面一載入即展開 */
-        if (window.scrollY < window.innerHeight * 0.5) {
-            heroRevealed = true;
-            logoStage.classList.add('is-top');
-            setTimeout(function() { updateShowcaseInfo(current, true); }, 400);
-        }
-    }
+    updateHeroTitle(0, false);
+    heroTimer = setTimeout(function() { heroGoTo(1); }, HERO_INT);
 
     /* ── 亂碼打字效果 ── */
     var CHARS_ZH = '一七八十丁戊己甲乙丙!@#%&*?';
@@ -702,7 +596,7 @@
         var iter = 0;
         function tick() {
             el.textContent = finalText.split('').map(function(ch, i) {
-                if (ch === ' ' || ch === '/' || ch === '·' || ch === '&') return ch;
+                if (ch === ' ' || ch === '/' || ch === '·' || ch === '&' || ch === '\n') return ch;
                 if (i < Math.floor(iter / 2)) return ch;
                 return chars[Math.floor(Math.random() * chars.length)];
             }).join('');
