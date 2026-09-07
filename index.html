@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WU DESIGN STUDIO — 伍設計事務所</title>
+    <title>STUDIO 5 — 伍設計事務所</title>
     <link rel="icon" type="image/png" href="./assets/logo_mark.png">
     <link rel="apple-touch-icon" href="./assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -496,8 +496,14 @@
     var heroExpanded = false;
 
     /* ── rAF animation: interpolates path params each frame, no CSS transition ── */
-    var _heroW = 0, _heroH = 0;
-    function refreshDims() { _heroW = heroEl.offsetWidth; _heroH = heroEl.offsetHeight; }
+    var _heroW = 0, _heroH = 0, _logoW = 0;
+    var heroLogoImg = document.getElementById('heroLogoImg');
+    function refreshDims() {
+        _heroW = heroEl.offsetWidth;
+        _heroH = heroEl.offsetHeight;
+        /* read actual rendered width so mobile CSS breakpoints are respected */
+        _logoW = heroLogoImg ? heroLogoImg.offsetWidth : Math.min(0.46 * _heroW, 560);
+    }
     refreshDims();
 
     function markParams(W, H, isExpanded) {
@@ -507,7 +513,7 @@
                      nW:MARK.notchW*sf, nY:MARK.notchY*sf, aS:MARK.arcStep*sf,
                      aO:(MARK.mH-MARK.arcR)*sf, aCy:MARK.arcCy*sf, aCx:MARK.arcCx*sf, aR:MARK.arcR*sf };
         } else {
-            var logoW = Math.min(0.46*W, 560), s = logoW/1200;
+            var logoW = _logoW, s = logoW/1200;
             return { ox:(W-logoW)/2+MARK.xL*s, oy:(H-logoW)/2,
                      mW:MARK.mW*s, mH:MARK.mH*s,
                      nW:MARK.notchW*s, nY:MARK.notchY*s, aS:MARK.arcStep*s,
@@ -558,7 +564,7 @@
         _animRaf = requestAnimationFrame(frame);
     }
 
-    heroMask.style.clipPath = 'path("' + collapsedPath(_heroW, _heroH) + '")';
+    heroMask.style.clipPath = 'path("' + lerpAndBuild(markParams(_heroW, _heroH, false), markParams(_heroW, _heroH, true), 0) + '")';
 
     function expand() {
         if (heroExpanded) return;

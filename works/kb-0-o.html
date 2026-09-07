@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KB_0/O - Vdesign</title>
-    <link rel="icon" type="image/png" href="../assets/favicon.ico.png">
-    <link rel="apple-touch-icon" href="../assets/favicon.ico.png">
+    <link rel="icon" type="image/png" href="../assets/logo_mark.png">
+    <link rel="apple-touch-icon" href="../assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -177,6 +177,53 @@
             .menu-container.open { max-width: 240px; }
             .menu-container { gap: 18px; }
         }
+
+        /* ══ Nav override ══════════════════════════════════════ */
+        .dynamic-island {
+            position: fixed !important;
+            top: 0 !important; bottom: auto !important;
+            left: 0 !important; right: 0 !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 14px 48px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            flex-direction: row !important;
+            mix-blend-mode: difference;
+            transform: translateY(-100%);
+            animation: slideDownNav 0.8s ease 0.3s forwards !important;
+        }
+        @keyframes slideDownNav { to { transform: translateY(0); } }
+        @keyframes slideUpIsland { to { transform: translateY(0); } }
+        .island-logo { display: block !important; transition: opacity 0.3s; }
+        .island-logo:hover { opacity: 0.7 !important; }
+        .island-logo img { height: 42px; display: block !important; filter: invert(1); }
+        .island-nav { display: flex !important; gap: 24px; align-items: center; }
+        .menu-item {
+            display: block !important;
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif !important;
+            font-size: 15px !important; letter-spacing: 0.06em;
+            font-weight: 600 !important;
+            color: white !important; text-decoration: none;
+            transition: opacity 0.25s;
+            max-width: none !important; overflow: visible !important; opacity: 1 !important;
+        }
+        .menu-item:hover { opacity: 0.6 !important; color: white !important; }
+        .island-left, .island-center, .island-right,
+        .menu-toggle, .menu-container { display: none !important; }
+        @media (max-width: 968px) {
+            .dynamic-island { padding: 12px 20px !important; }
+            .island-logo img { height: 36px; }
+        }
+        @media (max-width: 640px) {
+            .dynamic-island { padding: 10px 16px !important; }
+            .island-logo img { height: 32px; }
+            .menu-item { font-size: 12px !important; }
+            .island-nav { gap: 16px; }
+        }
+        body { padding-top: 72px !important; }
     </style>
 </head>
 <body>
@@ -205,27 +252,14 @@
     </div>
 
     <div class="dynamic-island">
-        <div class="island-left">
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="menu-container" id="menuContainer">
-                <a href="https://vdesign5.github.io/home/" class="menu-item active">Works</a>
-                <a href="https://vdesign5.github.io/home/works/about" class="menu-item">About</a>
-                <a href="https://vdesign5.github.io/home/#contact" class="menu-item">Contact</a>
-            </div>
-        </div>
-        <div class="island-center">
-            <a href="https://vdesign5.github.io/home/">
-                <img src="../assets/logo.png" alt="Vdesign Logo">
-            </a>
-        </div>
-        <div class="island-right">
-            <span class="zh">KB_0/O 海報設計</span>
-            <span class="en">KB_0/O - Poster Design</span>
-        </div>
+        <a href="https://vdesign5.github.io/home/" class="island-logo">
+            <img src="../assets/logo_mark.png" alt="STUDIO 5">
+        </a>
+        <nav class="island-nav">
+            <a href="https://vdesign5.github.io/home/" class="menu-item">Works</a>
+            <a href="https://vdesign5.github.io/home/works/about" class="menu-item">About</a>
+            <a href="https://vdesign5.github.io/home/#contact" class="menu-item">Contact</a>
+        </nav>
     </div>
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
