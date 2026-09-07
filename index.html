@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WU DESIGN STUDIO — 伍設計事務所</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.ico.png">
-    <link rel="apple-touch-icon" href="./assets/favicon.ico.png">
+    <link rel="icon" type="image/png" href="./assets/logo_mark.png">
+    <link rel="apple-touch-icon" href="./assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
@@ -44,8 +44,6 @@
         .hero-mask {
             position: absolute; inset: 0; z-index: 1;
             will-change: clip-path;
-            transform: translateZ(0);
-            transition: clip-path 0.95s cubic-bezier(0.65, 0, 0.35, 1);
         }
         .hero-slide {
             position: absolute; inset: 0;
@@ -87,7 +85,7 @@
         }
         .filter-btn {
             background: none; border: none; outline: none;
-            padding: 2px 8px; font-size: 20px; font-weight: 200;
+            padding: 2px 8px; font-size: 20px; font-weight: 400;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: color 0.2s; color: #c0c0c0;
         }
@@ -96,7 +94,7 @@
         .filter-btn:hover:not(.active) { color: #444; }
         .filter-btn:active:not(.active) { color: #e0e0e0; }
         .filter-count {
-            font-size: 17px; color: #bbb; padding-left: 8px; font-weight: 200;
+            font-size: 17px; color: #bbb; padding-left: 8px; font-weight: 400;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
         }
 
@@ -121,40 +119,39 @@
         .project-item:hover .project-image img,
         .project-item:hover .project-image video { transform: scale(1.1) !important; }
 
-        /* 圖片內浮層：英文齊上、中文齊下 */
+        /* 圖片內浮層：中文齊左下、英文齊右下 */
         .project-overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             padding: 16px 18px;
-            display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;
+            display: flex; flex-direction: row; align-items: flex-end; justify-content: space-between;
             opacity: 0; transition: opacity 0.22s ease;
             pointer-events: none;
         }
         .project-item:hover .project-overlay { opacity: 1; }
 
         .project-cat-zh {
-            font-size: 22px; color: #fff; letter-spacing: 0.06em;
-            line-height: 1; font-weight: 200;
-            order: 2;
+            font-size: 20px; color: #fff; letter-spacing: 0.06em;
+            line-height: 1; font-weight: 400;
         }
         .project-cat-en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 12px; color: #fff; letter-spacing: 0.2em;
-            line-height: 1; text-transform: uppercase; font-weight: 200;
-            order: 1;
+            font-size: 11px; color: #fff; letter-spacing: 0.2em;
+            line-height: 1; text-transform: uppercase; font-weight: 400;
+            text-align: right;
         }
 
         /* 圖片下方：主標中文 + 副標英文 */
         .project-info { padding: 16px 0; }
         .project-title-zh {
-            font-size: 20px; color: #111; line-height: 1.55; font-weight: 200;
+            font-size: 20px; color: #111; line-height: 1.55; font-weight: 400;
         }
         .project-title-en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 14px; color: #aaa; line-height: 1.5; margin-top: 5px; font-weight: 200;
+            font-size: 14px; color: #aaa; line-height: 1.5; margin-top: 5px; font-weight: 400;
         }
         /* 無中文標題時英文升格為主標 */
         .project-title-en.is-primary {
-            font-size: 20px; color: #111; font-weight: 200; margin-top: 0;
+            font-size: 20px; color: #111; font-weight: 400; margin-top: 0;
         }
 
         /* ── DYNAMIC ISLAND ──────────────────────────────────── */
@@ -199,13 +196,13 @@
         .footer-nav { display: flex; flex-direction: column; gap: 8px; }
         .footer-nav-item a {
             font-size: 16px; color: #666; text-decoration: none; transition: color 0.3s;
-            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 400;
         }
         .footer-nav-item a:hover { color: #333; }
         .footer-social { display: flex; flex-direction: column; gap: 8px; }
         .footer-social-item a {
             font-size: 16px; color: #666; text-decoration: none; transition: color 0.3s;
-            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 400;
         }
         .footer-social-item a:hover { color: #333; }
         .footer-bottom {
@@ -213,19 +210,14 @@
             display: flex; justify-content: space-between; align-items: center;
             padding-top: 30px; border-top: 1px solid #ddd;
         }
-        .back-to-top {
-            font-size: 14px; color: #999; cursor: pointer; transition: color 0.3s;
-            display: flex; align-items: center; gap: 5px;
-            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
-        }
-        .back-to-top:hover { color: #333; }
+        .footer-logo-horizontal { height: 24px; display: block; filter: brightness(0) saturate(100%) invert(60%); }
         .footer-copyright {
             font-size: 12px; color: #999; letter-spacing: 0.5px;
-            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 200;
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif; font-weight: 400;
         }
         .footer-contact-label {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 13px; color: #bbb; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 200;
+            font-size: 13px; color: #bbb; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400;
         }
 
         /* ── RESPONSIVE ───────────────────────────────────────── */
@@ -419,8 +411,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Go back to top</div>
-            <div class="footer-copyright">&copy; 2025 WU DESIGN STUDIO. All rights reserved.</div>
+            <img src="./assets/logo_horizontal.png" alt="WU DESIGN STUDIO" class="footer-logo-horizontal">
+            <div class="footer-copyright">&copy; 2025 STUDIO 5. All rights reserved.</div>
         </div>
     </footer>
 
@@ -503,47 +495,83 @@
     var heroTitleEn  = document.getElementById('heroTitleEn');
     var heroExpanded = false;
 
-    /* cache path strings so expand/collapse don't force layout sync */
-    var _pathC = '', _pathE = '';
-    function refreshPaths() {
-        var W = heroEl.offsetWidth, H = heroEl.offsetHeight;
-        _pathC = collapsedPath(W, H);
-        _pathE = expandedPath(W, H);
-    }
-    refreshPaths();
+    /* ── rAF animation: interpolates path params each frame, no CSS transition ── */
+    var _heroW = 0, _heroH = 0;
+    function refreshDims() { _heroW = heroEl.offsetWidth; _heroH = heroEl.offsetHeight; }
+    refreshDims();
 
-    /* GPU warmup: pre-rasterize all tiles for both states so first expand is smooth.
-       visibility:hidden paints but hides; we flash expanded→collapsed with no transition
-       so Chrome rasterizes the full viewport tile set before user interaction. */
-    heroMask.style.transition = 'none';
-    heroMask.style.visibility = 'hidden';
-    heroMask.style.clipPath = 'path("' + _pathE + '")'; /* expanded — rasterize all tiles */
-    void heroMask.getBoundingClientRect();
-    requestAnimationFrame(function() {
-        heroMask.style.clipPath = 'path("' + _pathC + '")'; /* snap back to collapsed */
-        void heroMask.getBoundingClientRect();
-        requestAnimationFrame(function() {
-            heroMask.style.visibility = '';  /* show */
-            heroMask.style.transition = '';  /* restore CSS transition */
-        });
-    });
-
-    function applyPath(expanded) {
-        heroMask.style.clipPath = 'path("' + (expanded ? _pathE : _pathC) + '")';
+    function markParams(W, H, isExpanded) {
+        if (isExpanded) {
+            var sf = H / MARK.mH;
+            return { ox:0, oy:0, mW:W, mH:H,
+                     nW:MARK.notchW*sf, nY:MARK.notchY*sf, aS:MARK.arcStep*sf,
+                     aO:(MARK.mH-MARK.arcR)*sf, aCy:MARK.arcCy*sf, aCx:MARK.arcCx*sf, aR:MARK.arcR*sf };
+        } else {
+            var logoW = Math.min(0.46*W, 560), s = logoW/1200;
+            return { ox:(W-logoW)/2+MARK.xL*s, oy:(H-logoW)/2,
+                     mW:MARK.mW*s, mH:MARK.mH*s,
+                     nW:MARK.notchW*s, nY:MARK.notchY*s, aS:MARK.arcStep*s,
+                     aO:(MARK.mH-MARK.arcR)*s, aCy:MARK.arcCy*s, aCx:MARK.arcCx*s, aR:MARK.arcR*s };
+        }
     }
+
+    function lerpAndBuild(cP, eP, t) {
+        function L(a, b) { return a + (b-a)*t; }
+        return buildMarkPath(L(cP.ox,eP.ox), L(cP.oy,eP.oy), L(cP.mW,eP.mW), L(cP.mH,eP.mH),
+            L(cP.nW,eP.nW), L(cP.nY,eP.nY), L(cP.aS,eP.aS), L(cP.aO,eP.aO),
+            L(cP.aCy,eP.aCy), L(cP.aCx,eP.aCx), L(cP.aR,eP.aR));
+    }
+
+    function bezierEase(t) {
+        /* cubic-bezier(0.65,0,0.35,1): Newton-solve x(s)=t, return y(s) */
+        var s = t;
+        for (var i = 0; i < 8; i++) {
+            var xs = 1.95*s - 2.85*s*s + 1.9*s*s*s;
+            var dxs = 1.95 - 5.7*s + 5.7*s*s;
+            if (Math.abs(xs-t) < 1e-6 || Math.abs(dxs) < 1e-10) break;
+            s -= (xs-t)/dxs;
+        }
+        s = Math.max(0, Math.min(1, s));
+        return 3*s*s - 2*s*s*s;
+    }
+
+    var _animRaf = null, _heroProgress = 0, ANIM_DUR = 950;
+
+    function startAnim(toExpanded) {
+        if (_animRaf) { cancelAnimationFrame(_animRaf); _animRaf = null; }
+        var toP = toExpanded ? 1 : 0;
+        var fromP = _heroProgress;
+        var dist = Math.abs(toP - fromP);
+        if (dist < 0.001) return;
+        var dur = ANIM_DUR * dist;
+        var t0 = performance.now();
+        var cP = markParams(_heroW, _heroH, false);
+        var eP = markParams(_heroW, _heroH, true);
+        function frame(now) {
+            var raw = Math.min((now - t0) / dur, 1);
+            var eased = bezierEase(raw);
+            _heroProgress = fromP + (toP - fromP) * eased;
+            heroMask.style.clipPath = 'path("' + lerpAndBuild(cP, eP, _heroProgress) + '")';
+            if (raw < 1) { _animRaf = requestAnimationFrame(frame); }
+            else { _heroProgress = toP; _animRaf = null; }
+        }
+        _animRaf = requestAnimationFrame(frame);
+    }
+
+    heroMask.style.clipPath = 'path("' + collapsedPath(_heroW, _heroH) + '")';
 
     function expand() {
         if (heroExpanded) return;
         heroExpanded = true;
         heroEl.classList.add('is-expanded');
-        applyPath(true);
+        startAnim(true);
         updateHeroTitle(heroCurrent, true);
     }
     function collapse() {
         if (!heroExpanded) return;
         heroExpanded = false;
         heroEl.classList.remove('is-expanded');
-        applyPath(false);
+        startAnim(false);
     }
 
     var isTouch = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
@@ -555,8 +583,11 @@
     }
 
     window.addEventListener('resize', function() {
-        refreshPaths();
-        applyPath(heroExpanded);
+        refreshDims();
+        if (_animRaf) { cancelAnimationFrame(_animRaf); _animRaf = null; }
+        var cP = markParams(_heroW, _heroH, false);
+        var eP = markParams(_heroW, _heroH, true);
+        heroMask.style.clipPath = 'path("' + lerpAndBuild(cP, eP, _heroProgress) + '")';
     }, { passive: true });
 
     /* ── Hero Carousel ──────────────────────────────────────── */
