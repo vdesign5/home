@@ -85,12 +85,18 @@
         }
         .filter-btn {
             background: none; border: none; outline: none;
-            padding: 2px 8px; font-size: 20px; font-weight: 400;
+            padding: 2px 8px 6px; font-size: 20px; font-weight: 400;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: color 0.2s; color: #c0c0c0;
+            position: relative;
         }
-        .filter-btn:not(:last-of-type)::after { content: ' /'; color: #d8d8d8; pointer-events: none; user-select: none; }
-        .filter-btn.active { color: #333; text-decoration: underline; text-underline-offset: 3px; }
+        .filter-btn:not(:last-of-type)::after { content: '｜'; color: #d8d8d8; pointer-events: none; user-select: none; }
+        .filter-btn.active { color: #333; }
+        .filter-btn.active::before {
+            content: '';
+            position: absolute; bottom: 0; left: 8px; right: 8px;
+            height: 3px; background: #ed1c25;
+        }
         .filter-btn:hover:not(.active) { color: #444; }
         .filter-btn:active:not(.active) { color: #e0e0e0; }
         .filter-count {
