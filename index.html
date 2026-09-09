@@ -88,16 +88,16 @@
             padding: 2px 8px 6px; font-size: 20px; font-weight: 400;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
             cursor: pointer; transition: color 0.2s; color: #c0c0c0;
-            position: relative;
         }
         .filter-btn:not(:last-of-type)::after { content: '｜'; color: #d8d8d8; pointer-events: none; user-select: none; }
-        .filter-btn.active { color: #333; }
-        .filter-btn.active::before {
+        .filter-label { display: inline-block; position: relative; transition: color 0.2s; }
+        .filter-btn.active .filter-label { color: #ed1c25; }
+        .filter-btn.active .filter-label::after {
             content: '';
-            position: absolute; bottom: 0; left: 8px; right: 8px;
+            position: absolute; bottom: -4px; left: 0; right: 0;
             height: 3px; background: #ed1c25;
         }
-        .filter-btn:hover:not(.active) { color: #444; }
+        .filter-btn:hover:not(.active) .filter-label { color: #444; }
         .filter-btn:active:not(.active) { color: #e0e0e0; }
         .filter-count {
             font-size: 17px; color: #bbb; padding-left: 8px; font-weight: 400;
@@ -372,13 +372,13 @@
 
     <!-- ── FILTER BAR ─────────────────────────────────────────────────────────── -->
     <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="identity">Identity</button>
-        <button class="filter-btn" data-filter="event">Event</button>
-        <button class="filter-btn" data-filter="packaging">Packaging</button>
-        <button class="filter-btn" data-filter="motion">Motion</button>
-        <button class="filter-btn" data-filter="poster">Poster</button>
-        <button class="filter-btn" data-filter="fun">Fun</button>
+        <button class="filter-btn active" data-filter="all"><span class="filter-label">All</span></button>
+        <button class="filter-btn" data-filter="identity"><span class="filter-label">Identity</span></button>
+        <button class="filter-btn" data-filter="event"><span class="filter-label">Event</span></button>
+        <button class="filter-btn" data-filter="packaging"><span class="filter-label">Packaging</span></button>
+        <button class="filter-btn" data-filter="motion"><span class="filter-label">Motion</span></button>
+        <button class="filter-btn" data-filter="poster"><span class="filter-label">Poster</span></button>
+        <button class="filter-btn" data-filter="fun"><span class="filter-label">Fun</span></button>
         <span class="filter-count en" id="filterCount"></span>
     </div>
 
