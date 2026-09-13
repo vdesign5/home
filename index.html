@@ -802,9 +802,10 @@
         resize();
         window.addEventListener('resize', resize, { passive: true });
 
-        var G = 0.38, BOUNCE = 0.38, FRIC = 0.84, AIR = 0.993, ANG_D = 0.985;
+        var G = 0.55, BOUNCE = 0.42, FRIC = 0.84, AIR = 0.993, ANG_D = 0.985;
         var IMG_H = isMobile ? 120 : 180;
         var PAD_B = 18, M_RAD = 135, M_STR = 0.4, FLAT_K = 0.001;
+        var pendingImp = 0; /* 每幀累積的捲動衝量，tick 內一次套用 */
 
         var SRCS = [
             './assets/logo_5_texture.png',
@@ -962,33 +963,29 @@
             if (touchDragId !== null) return;
             var dy = lastDocTouchY - e.touches[0].clientY; /* 正值 = 手指向上 = 頁面往下捲 */
             lastDocTouchY = e.touches[0].clientY;
-            if (dy > 3) {
-                var scrollImp = Math.min(dy * 0.18, 5);
-                bodies.forEach(function(b) {
-                    if (!b.ok || b.drag) return;
-                    b.sleep = 0;
-                    b.vy -= scrollImp + Math.random() * 0.8;
-                    b.av += (Math.random() - 0.5) * 0.01;
-                });
-            }
+            if (dy > 3) pendingImp += Math.min(dy * 0.18, 4);
         }, { passive: true });
 
-        /* ── 桌機滾輪彈起 ── */
+        /* ── 桌機滾輪彈起（只累積，tick 內統一套用，避免多事件疊加飛出天花板） ── */
         window.addEventListener('wheel', function(e) {
-            if (e.deltaY > 1) {
-                var imp = Math.min(e.deltaY * 0.07, 7);
-                bodies.forEach(function(b) {
-                    if (!b.ok || b.drag) return;
-                    b.sleep = 0;
-                    b.vy -= imp + Math.random() * 1.8;
-                    b.av += (Math.random() - 0.5) * 0.015;
-                });
-            }
+            if (e.deltaY > 1) pendingImp += Math.min(e.deltaY * 0.07, 5);
         }, { passive: true });
 
         (function tick() {
             requestAnimationFrame(tick);
             ctx.clearRect(0, 0, heroW, heroH);
+
+            /* 每幀最多套用 8px 衝量，剩餘留到下幀，避免瞬間多事件導致飛出畫面 */
+            if (pendingImp > 0) {
+                var applyImp = Math.min(pendingImp, 8);
+                pendingImp = Math.max(0, pendingImp - applyImp);
+                bodies.forEach(function(b) {
+                    if (!b.ok || b.drag) return;
+                    b.sleep = 0;
+                    b.vy -= applyImp + Math.random() * 0.5;
+                    b.av += (Math.random() - 0.5) * 0.01;
+                });
+            }
 
             bodies.forEach(function(b) {
                 if (!b.ok || b.drag) return;
@@ -1033,7 +1030,7 @@
                     }
                 }
 
-                if (b.y < -b.h * 3) { b.y = -b.h * 3; b.vy = Math.abs(b.vy) * 0.2; }
+                if (b.y < -b.h * 3) b.y = -b.h * 3; /* 只鎖位置，讓重力自然反向加速 */
 
                 if (b.x - hW < 0) {
                     b.x = hW; b.vx = Math.abs(b.vx) * 0.52;
