@@ -264,17 +264,6 @@
             .footer-bottom { gap: 12px; }
         }
 
-        /* ── HERO PHYSICS ─────────────────────────────────── */
-        .hero-physics {
-            position: absolute; inset: 0; z-index: 4;
-            pointer-events: none;
-        }
-        .hero-physics img {
-            position: absolute; width: auto;
-            pointer-events: auto; user-select: none;
-            will-change: transform; top: 0; left: 0;
-            transform-origin: center center;
-        }
     </style>
 </head>
 <body>
@@ -294,7 +283,6 @@
             <p class="hero-title-zh" id="heroTitleZh"></p>
             <p class="hero-title-en" id="heroTitleEn"></p>
         </div>
-        <div class="hero-physics" id="heroPhysics"></div>
     </section>
 
     <div style="display:none"><!-- old hero placeholder --><div class="logo-wrap">
@@ -794,29 +782,27 @@
     updateParallax();
 
     /* ════════════════════════════════════════════════════════════
-       HERO PHYSICS — 四個 logo 元素掉落、滑鼠撥動、滾動彈起
+       HERO PHYSICS (Canvas) — 矩形拖曳、堆疊、落平
     ════════════════════════════════════════════════════════════ */
     (function() {
-        var hero  = document.getElementById('hero');
-        var layer = document.getElementById('heroPhysics');
-        var heroW = hero.offsetWidth, heroH = hero.offsetHeight;
+        var hero   = document.getElementById('hero');
+        var canvas = document.createElement('canvas');
+        canvas.style.cssText = 'position:absolute;inset:0;z-index:4;cursor:default;touch-action:pan-y;';
+        hero.appendChild(canvas);
+        var ctx = canvas.getContext('2d');
 
+        var heroW = 0, heroH = 0, heroRect;
         function resize() {
             heroW = hero.offsetWidth; heroH = hero.offsetHeight;
+            canvas.width = heroW; canvas.height = heroH;
             heroRect = hero.getBoundingClientRect();
         }
+        resize();
         window.addEventListener('resize', resize, { passive: true });
 
-        /* 物理常數 */
-        var G      = 0.38;   /* 重力 px/frame² */
-        var BOUNCE = 0.42;   /* 地板反彈保留能量 */
-        var FRIC   = 0.86;   /* 地板摩擦係數 */
-        var AIR    = 0.993;  /* 空氣阻力（每幀乘法） */
-        var ANG_D  = 0.985;  /* 轉速阻尼（更慢衰減，慣性更明顯） */
-        var M_RAD  = 135;    /* 滑鼠影響半徑 px */
-        var M_STR  = 0.4;    /* 滑鼠推力強度 */
-        var IMG_H  = 180;    /* 渲染高度 px */
-        var PAD_B  = 18;     /* 距底部留白 px */
+        var G = 0.38, BOUNCE = 0.38, FRIC = 0.84, AIR = 0.993, ANG_D = 0.985;
+        var IMG_H = 180, PAD_B = 18, M_RAD = 135, M_STR = 0.4;
+        var FLAT_K = 0.001;
 
         var SRCS = [
             './assets/logo_5_texture.png',
@@ -826,175 +812,199 @@
         ];
 
         var bodies = [];
-        var mx = -9999, my = -9999, pmx = -9999, pmy = -9999;
-        var dvx = 0, dvy = 0;
-        var heroRect = hero.getBoundingClientRect();
-
         SRCS.forEach(function(src, i) {
-            var img = document.createElement('img');
-            img.src = src;
-            img.draggable = false;
-            img.style.height = IMG_H + 'px'; /* 由 JS 控制尺寸，CSS 不設 height */
-
-            var initVx = (Math.random() - 0.5) * 1.2;
+            var img = new Image();
+            var ivx = (Math.random() - 0.5) * 1.2;
             var b = {
-                el: img,
-                x: 20 + i * 55 + Math.random() * 25,   /* 全部集中在左側 */
-                y: -(200 + i * 230 + Math.random() * 60),
-                vx: initVx,
-                vy: 0,
-                rot: Math.random() * 26 - 13,
-                av: initVx * 0.04 + (Math.random() - 0.5) * 0.2, /* 初始轉向與飄移方向對應 */
+                img: img,
+                x: 90 + i * 65 + Math.random() * 20,
+                y: -(230 + i * 250 + Math.random() * 60),
+                vx: ivx, vy: 0,
+                rot: (Math.random() - 0.5) * 0.45,
+                av:  ivx * 0.0007 + (Math.random() - 0.5) * 0.003,
                 w: IMG_H, h: IMG_H,
-                ok: false, sleep: 0
+                ok: false, sleep: 0,
+                drag: false, dox: 0, doy: 0
             };
-
-            /* 初始位置設定，避免第一幀閃現 */
-            img.style.transform = 'translate(' + b.x + 'px,' + b.y + 'px) rotate(' + b.rot + 'deg)';
             bodies.push(b);
-            layer.appendChild(img);
-
             img.onload = function() {
-                b.w = img.offsetWidth  || IMG_H * (img.naturalWidth / (img.naturalHeight || 1));
-                b.h = img.offsetHeight || IMG_H;
+                b.w = IMG_H * img.naturalWidth / (img.naturalHeight || 1);
+                b.h = IMG_H;
                 b.ok = true;
             };
+            img.src = src;
         });
 
-        /* 滑鼠追蹤（使用快取 rect，避免每次 mousemove 觸發 reflow） */
-        document.addEventListener('mousemove', function(e) {
-            pmx = mx; pmy = my;
-            mx = e.clientX - heroRect.left;
-            my = e.clientY - heroRect.top;
-            dvx = mx - pmx;
-            dvy = my - pmy;
+        var mx = -9999, my = -9999, dvx = 0, dvy = 0;
+
+        function toLocal(e) {
+            return [e.clientX - heroRect.left, e.clientY - heroRect.top];
+        }
+        function hitTest(b, px, py) {
+            var dx = px - b.x, dy = py - b.y;
+            var c = Math.cos(-b.rot), s = Math.sin(-b.rot);
+            return Math.abs(dx*c - dy*s) < b.w*0.5 + 6 &&
+                   Math.abs(dx*s + dy*c) < b.h*0.5 + 6;
+        }
+
+        canvas.addEventListener('pointerdown', function(e) {
+            var p = toLocal(e);
+            for (var i = bodies.length - 1; i >= 0; i--) {
+                var b = bodies[i]; if (!b.ok) continue;
+                if (hitTest(b, p[0], p[1])) {
+                    b.drag = true; b.sleep = 0;
+                    b.dox = p[0] - b.x; b.doy = p[1] - b.y;
+                    canvas.setPointerCapture(e.pointerId);
+                    canvas.style.cursor = 'grabbing';
+                    bodies.splice(i, 1); bodies.push(b);
+                    e.preventDefault();
+                    break;
+                }
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('pointermove', function(e) {
+            var p = toLocal(e);
+            dvx = p[0] - mx; dvy = p[1] - my;
+            mx = p[0]; my = p[1];
+            var anyDrag = false;
+            bodies.forEach(function(b) {
+                if (!b.drag) return;
+                anyDrag = true;
+                var nx = p[0] - b.dox, ny = p[1] - b.doy;
+                b.vx = nx - b.x; b.vy = ny - b.y;
+                b.x = nx; b.y = ny;
+            });
+            if (!anyDrag) {
+                var hover = bodies.some(function(b) { return b.ok && hitTest(b, p[0], p[1]); });
+                canvas.style.cursor = hover ? 'grab' : 'default';
+            }
         });
 
-        /* 向下滾動時給予向上衝量（真實感慣性） */
+        canvas.addEventListener('pointerup', function() {
+            bodies.forEach(function(b) { if (b.drag) { b.drag = false; } });
+            canvas.style.cursor = 'default';
+        });
+
+        canvas.addEventListener('mouseleave', function() {
+            mx = -9999; my = -9999; dvx = 0; dvy = 0;
+        });
+
         window.addEventListener('wheel', function(e) {
             if (e.deltaY > 1) {
                 var imp = Math.min(e.deltaY * 0.07, 7);
                 bodies.forEach(function(b) {
-                    if (!b.ok) return;
-                    b.sleep = 0; /* 喚醒 */
+                    if (!b.ok || b.drag) return;
+                    b.sleep = 0;
                     b.vy -= imp + Math.random() * 1.8;
-                    b.av += (Math.random() - 0.5) * 0.6;
+                    b.av += (Math.random() - 0.5) * 0.015;
                 });
             }
         }, { passive: true });
 
-        /* 物理主循環 */
         (function tick() {
             requestAnimationFrame(tick);
+            ctx.clearRect(0, 0, heroW, heroH);
+
             bodies.forEach(function(b) {
-                if (!b.ok) return;
+                if (!b.ok || b.drag) return;
+                if (b.sleep > 60) return;
 
-                /* 靜止偵測：速度接近零時進入睡眠，跳過物理計算 */
-                if (b.sleep > 0) {
-                    var spd2 = b.vx*b.vx + b.vy*b.vy + b.av*b.av*8;
-                    if (spd2 < 0.008) { b.sleep++; return; }
-                    b.sleep = 0;
-                }
-
-                /* 重力 + 空氣阻力 */
                 b.vy += G;
-                b.vx *= AIR;
-                b.vy *= AIR;
+                b.vx *= AIR; b.vy *= AIR;
 
-                /* 滑鼠推力 */
-                var cx = b.x + b.w * 0.5, cy = b.y + b.h * 0.5;
-                var ddx = cx - mx, ddy = cy - my;
-                var dist = Math.sqrt(ddx * ddx + ddy * ddy);
-                if (dist < M_RAD && dist > 0.5) {
-                    b.sleep = 0; /* 喚醒 */
-                    var f = ((M_RAD - dist) / M_RAD) * M_STR;
-                    b.vx += ddx / dist * f + dvx * 0.07;
-                    b.vy += ddy / dist * f + dvy * 0.07;
-                    b.av += dvx * 0.005;
-                }
-
-                /* 位移積分 */
-                b.x += b.vx;
-                b.y += b.vy;
-                b.rot += b.av;
-                b.av  *= ANG_D;
-
-                /* 地板碰撞 */
-                var flY = heroH - b.h - PAD_B;
-                if (b.y >= flY) {
-                    b.y  = flY;
-                    b.vy = -Math.abs(b.vy) * BOUNCE;
-                    b.vx *= FRIC;
-                    /* 滾動方程式：av 趨向 vx/radius（右移順時、左移逆時） */
-                    var radius = (b.w + b.h) * 0.25;
-                    b.av = b.av * 0.6 + (b.vx / radius) * 0.4;
-                    if (Math.abs(b.vy) < 0.7) {
-                        b.vy = 0;
-                        /* 幾乎靜止時開始累積睡眠計數 */
-                        if (Math.abs(b.vx) < 0.12 && Math.abs(b.av) < 0.04) b.sleep++;
+                if (mx > -1000) {
+                    var ddx = b.x - mx, ddy = b.y - my;
+                    var d2 = ddx*ddx + ddy*ddy;
+                    if (d2 < M_RAD*M_RAD && d2 > 0.25) {
+                        var d = Math.sqrt(d2);
+                        b.sleep = 0;
+                        var f = (1 - d/M_RAD) * M_STR;
+                        b.vx += ddx/d * f + dvx*0.07;
+                        b.vy += ddy/d * f + dvy*0.07;
+                        b.av += dvx * 0.0001;
                     }
                 }
 
-                /* 天花板上限（往上衝不能無限飛） */
-                if (b.y < -(b.h * 3)) {
-                    b.y  = -(b.h * 3);
-                    b.vy = Math.abs(b.vy) * 0.2;
+                b.x += b.vx; b.y += b.vy;
+                b.rot += b.av; b.av *= ANG_D;
+
+                var sinR = Math.abs(Math.sin(b.rot));
+                var cosR = Math.abs(Math.cos(b.rot));
+                var hH = b.w*sinR*0.5 + b.h*cosR*0.5;
+                var hW = b.w*cosR*0.5 + b.h*sinR*0.5;
+
+                var flY = heroH - PAD_B - hH;
+                if (b.y >= flY) {
+                    b.y = flY;
+                    b.vy = -Math.abs(b.vy) * BOUNCE;
+                    b.vx *= FRIC;
+                    b.av *= 0.88;
+                    var r = (b.w + b.h) * 0.25;
+                    b.av = b.av * 0.7 + (b.vx / r) * 0.3;
+                    b.av -= Math.sin(2 * b.rot) * FLAT_K;
+                    if (Math.abs(b.vy) < 0.7) {
+                        b.vy = 0;
+                        if (Math.abs(b.vx) < 0.12 && Math.abs(b.av) < 0.003) b.sleep++;
+                    }
                 }
 
-                /* 左右牆壁（切向摩擦決定轉向：落下碰左壁→順時，落下碰右壁→逆時） */
-                if (b.x < 0) {
-                    b.x  = 0;
-                    b.vx = Math.abs(b.vx) * 0.52;
-                    b.av = b.av * 0.5 + b.vy * 0.006;
-                }
-                if (b.x > heroW - b.w) {
-                    b.x  = heroW - b.w;
-                    b.vx = -Math.abs(b.vx) * 0.52;
-                    b.av = b.av * 0.5 - b.vy * 0.006;
-                }
+                if (b.y < -b.h * 3) { b.y = -b.h * 3; b.vy = Math.abs(b.vy) * 0.2; }
 
-                /* 套用 transform */
-                b.el.style.transform =
-                    'translate(' + b.x.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px)' +
-                    ' rotate(' + b.rot.toFixed(2) + 'deg)';
+                if (b.x - hW < 0) {
+                    b.x = hW; b.vx = Math.abs(b.vx) * 0.52;
+                    b.av = b.av * 0.5 + b.vy * 0.0002;
+                }
+                if (b.x + hW > heroW) {
+                    b.x = heroW - hW; b.vx = -Math.abs(b.vx) * 0.52;
+                    b.av = b.av * 0.5 - b.vy * 0.0002;
+                }
             });
 
-            /* 物件間碰撞解算（2 次疊代） */
             for (var iter = 0; iter < 2; iter++) {
                 for (var ci = 0; ci < bodies.length - 1; ci++) {
-                    var bi = bodies[ci]; if (!bi.ok) continue;
+                    var bi = bodies[ci];
+                    if (!bi.ok || (bi.sleep > 60 && !bi.drag)) continue;
                     for (var cj = ci + 1; cj < bodies.length; cj++) {
-                        var bj = bodies[cj]; if (!bj.ok) continue;
-                        var ri  = (bi.w + bi.h) * 0.25;
-                        var rj  = (bj.w + bj.h) * 0.25;
-                        var cxi = bi.x + bi.w * 0.5, cyi = bi.y + bi.h * 0.5;
-                        var cxj = bj.x + bj.w * 0.5, cyj = bj.y + bj.h * 0.5;
-                        var cdx = cxj - cxi, cdy = cyj - cyi;
-                        var cd2 = cdx * cdx + cdy * cdy;
-                        var minD = ri + rj;
-                        if (cd2 < minD * minD && cd2 > 0.01) {
-                            bi.sleep = 0; bj.sleep = 0; /* 碰撞時喚醒 */
-                            var cd  = Math.sqrt(cd2);
+                        var bj = bodies[cj];
+                        if (!bj.ok || (bj.sleep > 60 && !bj.drag)) continue;
+                        var ri = (bi.w+bi.h)*0.25, rj = (bj.w+bj.h)*0.25;
+                        var cdx = bj.x - bi.x, cdy = bj.y - bi.y;
+                        var cd2 = cdx*cdx + cdy*cdy, minD = ri+rj;
+                        if (cd2 < minD*minD && cd2 > 0.01) {
+                            bi.sleep = 0; bj.sleep = 0;
+                            var cd = Math.sqrt(cd2);
                             var pen = (minD - cd) * 0.55;
-                            var nx  = cdx / cd, ny = cdy / cd;
-                            bi.x -= nx * pen; bi.y -= ny * pen;
-                            bj.x += nx * pen; bj.y += ny * pen;
+                            var nx = cdx/cd, ny = cdy/cd;
+                            if (!bi.drag) { bi.x -= nx*pen; bi.y -= ny*pen; }
+                            if (!bj.drag) { bj.x += nx*pen; bj.y += ny*pen; }
                             var rvx = bj.vx - bi.vx, rvy = bj.vy - bi.vy;
-                            var dot = rvx * nx + rvy * ny;
+                            var dot = rvx*nx + rvy*ny;
                             if (dot < 0) {
-                                var imp = dot * 0.7; /* (1+e)/2, e≈0.4 */
-                                bi.vx += imp * nx; bi.vy += imp * ny;
-                                bj.vx -= imp * nx; bj.vy -= imp * ny;
-                                /* 切向相對速度產生轉矩（符合物理：接觸面滑動摩擦） */
+                                var imp = dot * 0.7;
+                                if (!bi.drag) { bi.vx += imp*nx; bi.vy += imp*ny; }
+                                if (!bj.drag) { bj.vx -= imp*nx; bj.vy -= imp*ny; }
                                 var tx = -ny, ty = nx;
-                                var rtv = rvx * tx + rvy * ty;
-                                bi.av += rtv / ((bi.w + bi.h) * 0.25) * 0.05;
-                                bj.av -= rtv / ((bj.w + bj.h) * 0.25) * 0.05;
+                                var rtv = rvx*tx + rvy*ty;
+                                var ra = 0.0003;
+                                if (!bi.drag) bi.av += rtv/((bi.w+bi.h)*0.25) * ra;
+                                if (!bj.drag) bj.av -= rtv/((bj.w+bj.h)*0.25) * ra;
                             }
                         }
                     }
                 }
             }
+
+            bodies.forEach(function(b) {
+                if (!b.ok) return;
+                ctx.save();
+                ctx.translate(b.x, b.y);
+                ctx.rotate(b.rot);
+                ctx.drawImage(b.img, -b.w*0.5, -b.h*0.5, b.w, b.h);
+                ctx.restore();
+            });
+
+            dvx *= 0.8; dvy *= 0.8;
         })();
     })();
 
