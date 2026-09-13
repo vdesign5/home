@@ -1039,13 +1039,14 @@
                 }
             });
 
-            for (var iter = 0; iter < 2; iter++) {
+            for (var iter = 0; iter < 3; iter++) {
                 for (var ci = 0; ci < bodies.length - 1; ci++) {
                     var bi = bodies[ci];
-                    if (!bi.ok || (bi.sleep > 60 && !bi.drag)) continue;
+                    if (!bi.ok) continue;
                     for (var cj = ci + 1; cj < bodies.length; cj++) {
                         var bj = bodies[cj];
-                        if (!bj.ok || (bj.sleep > 60 && !bj.drag)) continue;
+                        if (!bj.ok) continue;
+                        if (bi.sleep > 60 && bj.sleep > 60) continue; /* 兩者都靜止才跳過 */
                         var ri = (bi.w+bi.h)*0.25, rj = (bj.w+bj.h)*0.25;
                         var cdx = bj.x - bi.x, cdy = bj.y - bi.y;
                         var cd2 = cdx*cdx + cdy*cdy, minD = ri+rj;
