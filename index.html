@@ -819,6 +819,7 @@
             var ivx = (Math.random() - 0.5) * 1.2;
             var b = {
                 img: img,
+                bmp: null, /* ImageBitmap，解碼完成後才設定 */
                 x: 90 + i * 65 + Math.random() * 20,
                 y: -(230 + i * 250 + Math.random() * 60),
                 vx: ivx, vy: 0,
@@ -832,7 +833,12 @@
             img.onload = function() {
                 b.w = IMG_H * img.naturalWidth / (img.naturalHeight || 1);
                 b.h = IMG_H;
-                b.ok = true;
+                /* createImageBitmap 非同步 GPU 上傳，避免首幀主執行緒解碼卡頓 */
+                if (typeof createImageBitmap === 'function') {
+                    createImageBitmap(img).then(function(bmp) { b.bmp = bmp; b.ok = true; });
+                } else {
+                    b.bmp = img; b.ok = true;
+                }
             };
             img.src = src;
         });
@@ -1085,7 +1091,7 @@
                 ctx.save();
                 ctx.translate(b.x, b.y);
                 ctx.rotate(b.rot);
-                ctx.drawImage(b.img, -b.w*0.5, -b.h*0.5, b.w, b.h);
+                ctx.drawImage(b.bmp, -b.w*0.5, -b.h*0.5, b.w, b.h);
                 ctx.restore();
             });
 
