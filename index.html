@@ -792,8 +792,10 @@
         var ctx = canvas.getContext('2d');
 
         var heroW = 0, heroH = 0, heroRect;
+        var isMobile = hero.offsetWidth < 768;
         function resize() {
             heroW = hero.offsetWidth; heroH = hero.offsetHeight;
+            isMobile = heroW < 768;
             canvas.width = heroW; canvas.height = heroH;
             heroRect = hero.getBoundingClientRect();
         }
@@ -801,8 +803,8 @@
         window.addEventListener('resize', resize, { passive: true });
 
         var G = 0.38, BOUNCE = 0.38, FRIC = 0.84, AIR = 0.993, ANG_D = 0.985;
-        var IMG_H = 180, PAD_B = 18, M_RAD = 135, M_STR = 0.4;
-        var FLAT_K = 0.001;
+        var IMG_H = isMobile ? 120 : 180;
+        var PAD_B = 18, M_RAD = 135, M_STR = 0.4, FLAT_K = 0.001;
 
         var SRCS = [
             './assets/logo_5_texture.png',
@@ -836,27 +838,45 @@
         });
 
         var mx = -9999, my = -9999, dvx = 0, dvy = 0;
+        var touchDragId = null, lastDocTouchY = 0;
 
-        function toLocal(e) {
-            return [e.clientX - heroRect.left, e.clientY - heroRect.top];
+        function toLocal(cx, cy) {
+            return [cx - heroRect.left, cy - heroRect.top];
         }
-        function hitTest(b, px, py) {
+        function hitTest(b, px, py, pad) {
+            pad = (pad === undefined) ? 6 : pad;
             var dx = px - b.x, dy = py - b.y;
             var c = Math.cos(-b.rot), s = Math.sin(-b.rot);
-            return Math.abs(dx*c - dy*s) < b.w*0.5 + 6 &&
-                   Math.abs(dx*s + dy*c) < b.h*0.5 + 6;
+            return Math.abs(dx*c - dy*s) < b.w*0.5 + pad &&
+                   Math.abs(dx*s + dy*c) < b.h*0.5 + pad;
+        }
+        function startDrag(b, px, py, idx) {
+            b.drag = true; b.sleep = 0;
+            b.dox = px - b.x; b.doy = py - b.y;
+            bodies.splice(idx, 1); bodies.push(b);
+        }
+        function moveDrag(px, py) {
+            bodies.forEach(function(b) {
+                if (!b.drag) return;
+                var nx = px - b.dox, ny = py - b.doy;
+                b.vx = nx - b.x; b.vy = ny - b.y;
+                b.x = nx; b.y = ny;
+            });
+        }
+        function endDrag() {
+            bodies.forEach(function(b) { if (b.drag) b.drag = false; });
         }
 
+        /* ── 滑鼠 / Pointer（非 touch） ── */
         canvas.addEventListener('pointerdown', function(e) {
-            var p = toLocal(e);
+            if (e.pointerType === 'touch') return;
+            var p = toLocal(e.clientX, e.clientY);
             for (var i = bodies.length - 1; i >= 0; i--) {
                 var b = bodies[i]; if (!b.ok) continue;
                 if (hitTest(b, p[0], p[1])) {
-                    b.drag = true; b.sleep = 0;
-                    b.dox = p[0] - b.x; b.doy = p[1] - b.y;
+                    startDrag(b, p[0], p[1], i);
                     canvas.setPointerCapture(e.pointerId);
                     canvas.style.cursor = 'grabbing';
-                    bodies.splice(i, 1); bodies.push(b);
                     e.preventDefault();
                     break;
                 }
@@ -864,25 +884,22 @@
         }, { passive: false });
 
         canvas.addEventListener('pointermove', function(e) {
-            var p = toLocal(e);
+            if (e.pointerType === 'touch') return;
+            var p = toLocal(e.clientX, e.clientY);
             dvx = p[0] - mx; dvy = p[1] - my;
             mx = p[0]; my = p[1];
-            var anyDrag = false;
-            bodies.forEach(function(b) {
-                if (!b.drag) return;
-                anyDrag = true;
-                var nx = p[0] - b.dox, ny = p[1] - b.doy;
-                b.vx = nx - b.x; b.vy = ny - b.y;
-                b.x = nx; b.y = ny;
-            });
-            if (!anyDrag) {
+            var anyDrag = bodies.some(function(b) { return b.drag; });
+            if (anyDrag) {
+                moveDrag(p[0], p[1]);
+            } else {
                 var hover = bodies.some(function(b) { return b.ok && hitTest(b, p[0], p[1]); });
                 canvas.style.cursor = hover ? 'grab' : 'default';
             }
         });
 
-        canvas.addEventListener('pointerup', function() {
-            bodies.forEach(function(b) { if (b.drag) { b.drag = false; } });
+        canvas.addEventListener('pointerup', function(e) {
+            if (e.pointerType === 'touch') return;
+            endDrag();
             canvas.style.cursor = 'default';
         });
 
@@ -890,6 +907,67 @@
             mx = -9999; my = -9999; dvx = 0; dvy = 0;
         });
 
+        /* ── 觸控拖曳 ── */
+        canvas.addEventListener('touchstart', function(e) {
+            if (touchDragId !== null) return;
+            var touch = e.changedTouches[0];
+            var p = toLocal(touch.clientX, touch.clientY);
+            mx = p[0]; my = p[1];
+            for (var i = bodies.length - 1; i >= 0; i--) {
+                var b = bodies[i]; if (!b.ok) continue;
+                if (hitTest(b, p[0], p[1], 24)) {
+                    e.preventDefault();
+                    touchDragId = touch.identifier;
+                    startDrag(b, p[0], p[1], i);
+                    break;
+                }
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', function(e) {
+            for (var t = 0; t < e.changedTouches.length; t++) {
+                var touch = e.changedTouches[t];
+                if (touch.identifier !== touchDragId) continue;
+                var p = toLocal(touch.clientX, touch.clientY);
+                e.preventDefault();
+                dvx = p[0] - mx; dvy = p[1] - my;
+                mx = p[0]; my = p[1];
+                moveDrag(p[0], p[1]);
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', function(e) {
+            for (var t = 0; t < e.changedTouches.length; t++) {
+                if (e.changedTouches[t].identifier === touchDragId) {
+                    touchDragId = null;
+                    endDrag();
+                    break;
+                }
+            }
+            if (e.touches.length === 0) { mx = -9999; my = -9999; }
+        });
+
+        /* ── 手機向下滑動彈起（文件層偵測，不影響頁面捲動） ── */
+        document.addEventListener('touchstart', function(e) {
+            lastDocTouchY = e.touches[0].clientY;
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function(e) {
+            if (touchDragId !== null) return;
+            var dy = lastDocTouchY - e.touches[0].clientY; /* 正值 = 手指向上 = 頁面往下捲 */
+            lastDocTouchY = e.touches[0].clientY;
+            if (dy > 3) {
+                var scrollImp = Math.min(dy * 0.18, 5);
+                bodies.forEach(function(b) {
+                    if (!b.ok || b.drag) return;
+                    b.sleep = 0;
+                    b.vy -= scrollImp + Math.random() * 0.8;
+                    b.av += (Math.random() - 0.5) * 0.01;
+                });
+            }
+        }, { passive: true });
+
+        /* ── 桌機滾輪彈起 ── */
         window.addEventListener('wheel', function(e) {
             if (e.deltaY > 1) {
                 var imp = Math.min(e.deltaY * 0.07, 7);
@@ -995,7 +1073,13 @@
                 }
             }
 
-            bodies.forEach(function(b) {
+            /* y 小者（物理上層）後畫 → 顯示在前；y 大者（物理下層）先畫 → 顯示在後 */
+            var toRender = bodies.slice().sort(function(a, b) {
+                if (a.drag) return 1;
+                if (b.drag) return -1;
+                return b.y - a.y;
+            });
+            toRender.forEach(function(b) {
                 if (!b.ok) return;
                 ctx.save();
                 ctx.translate(b.x, b.y);
