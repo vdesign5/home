@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="./assets/202511_showcase_I.webp">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
 
@@ -275,7 +276,7 @@
         </div>
         <div class="hero-mask" id="heroMask">
             <img src="./assets/202511_showcase_I.webp"   class="hero-slide active" alt="" loading="eager">
-            <video src="./assets/Sung%20hospital/VDesign_workII_1.mp4" class="hero-slide" autoplay loop muted playsinline></video>
+            <video data-src="./assets/Sung%20hospital/VDesign_workII_1.mp4" class="hero-slide" autoplay loop muted playsinline></video>
             <img src="./assets/202511_showcase_III.webp" class="hero-slide" alt="" loading="lazy">
             <img src="./assets/Zhao_Mei/Vdesign_work_XV_2.webp" class="hero-slide" alt="" loading="lazy">
         </div>
@@ -350,7 +351,7 @@
             <div class="showcase" id="showcase">
                 <div class="showcase-images">
                     <img src="./assets/202511_showcase_I.webp"   class="showcase-img active" alt="Showcase 1" loading="eager">
-                    <video src="./assets/Sung%20hospital/VDesign_workII_1.mp4" class="showcase-img" autoplay loop muted playsinline></video>
+                    <video data-src="./assets/Sung%20hospital/VDesign_workII_1.mp4" class="showcase-img" autoplay loop muted playsinline></video>
                     <img src="./assets/202511_showcase_III.webp" class="showcase-img"        alt="Showcase 3" loading="lazy">
                     <img src="./assets/Zhao_Mei/Vdesign_work_XV_2.webp" class="showcase-img" alt="鍘美藝術節" loading="lazy">
                     <div class="showcase-meta">
@@ -642,17 +643,39 @@
         }
     }
 
+    function lazyLoadVideo(vid) {
+        if (vid && vid.dataset.src && !vid.getAttribute('src')) {
+            vid.src = vid.dataset.src;
+            vid.load();
+            vid.play().catch(function() {});
+        }
+    }
+
     function heroGoTo(n) {
         clearTimeout(heroTimer);
         heroSlides[heroCurrent].classList.remove('active');
         heroCurrent = (n + heroSlides.length) % heroSlides.length;
-        heroSlides[heroCurrent].classList.add('active');
+        var slide = heroSlides[heroCurrent];
+        slide.classList.add('active');
+        if (slide.tagName === 'VIDEO') lazyLoadVideo(slide);
         updateHeroTitle(heroCurrent, true);
         heroTimer = setTimeout(function() { heroGoTo(heroCurrent + 1); }, HERO_INT);
     }
 
     updateHeroTitle(0, false);
     heroTimer = setTimeout(function() { heroGoTo(1); }, HERO_INT);
+
+    /* showcase 影片在 showcase 區塊進入視窗時才載入 */
+    (function() {
+        var scVids = document.querySelectorAll('.showcase-img[data-src]');
+        if (!scVids.length) return;
+        var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) { lazyLoadVideo(entry.target); obs.unobserve(entry.target); }
+            });
+        }, { threshold: 0.01 });
+        scVids.forEach(function(v) { obs.observe(v); });
+    })();
 
     /* ── 亂碼打字效果 ── */
     var CHARS_ZH = '一七八十丁戊己甲乙丙!@#%&*?';
@@ -702,7 +725,7 @@
             if (filter !== 'all' && p.categories.indexOf(filter) === -1) return;
             count++;
             var mediaEl = p.thumb.type === 'video'
-                ? '<video src="' + p.thumb.src + '" autoplay loop muted playsinline></video>'
+                ? '<video data-src="' + p.thumb.src + '" preload="none" autoplay loop muted playsinline></video>'
                 : '<img src="' + p.thumb.src + '" alt="' + p.titleEn + '" loading="lazy">';
             var titleHtml = p.titleZh
                 ? '<div class="project-title-zh">' + p.titleZh + '</div>' +
@@ -740,7 +763,11 @@
     function attachObserver() {
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
-                if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    lazyLoadVideo(entry.target.querySelector('video[data-src]'));
+                    observer.unobserve(entry.target);
+                }
             });
         }, { threshold: 0.08 });
         document.querySelectorAll('.project-item').forEach(function(item) { observer.observe(item); });
