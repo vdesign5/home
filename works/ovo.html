@@ -3,422 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OVO 京典衛浴 - Vdesign</title>
+    <title>OVO 京典衛浴 — STUDIO 5</title>
     <link rel="icon" type="image/png" href="../assets/logo_mark.png">
     <link rel="apple-touch-icon" href="../assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;300;400;500;600;700&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            color: #333; 
-            background: #fff; 
-            overflow-x: hidden; 
-            padding-bottom: 180px; 
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #111;
+            background: #fff;
+            overflow-x: hidden;
+            padding-bottom: 80px;
         }
-        .english { font-family: Arial, sans-serif; }
-        
-        /* Hero Image */
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDownNav { to { transform: translateY(0); } }
         .hero-image {
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            position: relative;
-            z-index: 6;
-            opacity: 0;
-            animation: fadeIn 1s ease 0.3s forwards;
+            width: 100%; height: 400px; overflow: hidden;
+            position: relative; z-index: 6;
+            opacity: 0; animation: fadeIn 1s ease 0.3s forwards;
         }
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .work-header {
+            background: #fff; padding: 36px 48px 68px 36px;
+            position: relative; z-index: 6;
+            opacity: 0; animation: fadeIn 0.8s ease 0.5s forwards;
         }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        .work-title { font-weight: 500; color: #111; line-height: 1.1; margin-bottom: 120px; }
+        .title-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(34px, 5.47vw, 101px);
+            letter-spacing: 0.07em; margin-right: 0.28em;
         }
-        
-        /* Content Container */
+        .title-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(38px, 6.2vw, 114px);
+            letter-spacing: -0.02em;
+        }
+        .work-categories { display: flex; align-items: baseline; }
+        .category-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 15px; font-weight: 400; color: #111;
+            flex: 0 0 160px; letter-spacing: 0.02em;
+        }
+        .category-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 15px; font-weight: 400; color: #111; letter-spacing: 0.01em;
+        }
         .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 60px;
-            position: relative;
-            z-index: 6;
+            max-width: 1200px; margin: 0 auto;
+            padding: 36px 60px 0; position: relative; z-index: 6;
         }
-        
-        /* Title */
-        .project-title {
-            font-size: 44px;
-            font-weight: 200;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.5s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-        
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Description */
         .description {
-            font-size: 20px;
-            font-weight: 200;
-            line-height: 2;
-            color: #666;
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.7s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
+            margin-top: -40px; margin-bottom: 80px; max-width: 640px;
+            opacity: 0; transform: translateY(30px);
         }
-        
-        /* Image Gallery Section */
+        .description.in-view { animation: slideUp 0.8s ease forwards; }
+        .desc-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+            line-height: 1.95; color: #111; margin-bottom: 28px;
+        }
+        .desc-zh p + p { margin-top: 0.9em; }
+        .desc-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+            line-height: 1.85; color: #111;
+        }
+        .desc-en p + p { margin-top: 1em; }
         .gallery-section {
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(40px);
+            margin-bottom: 80px; opacity: 0; transform: translateY(40px);
         }
-        
-        .gallery-section.in-view {
-            animation: slideUp 0.8s ease forwards;
-        }
-        
-        /* Slider Container */
+        .gallery-section.in-view { animation: slideUp 0.8s ease forwards; }
         .slider-container {
-            position: relative;
-            width: 100%;
-            margin-bottom: 40px;
-            border-radius: 12px;
-            overflow: hidden;
+            position: relative; width: 100%;
+            border-radius: 12px; overflow: hidden; margin-bottom: 40px;
         }
-        
-        .slider-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1200 / 750;
-            overflow: hidden;
-        }
-        
-        .slider-slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        
-        .slider-slide.active {
-            opacity: 1;
-        }
-        
-        .slider-slide img,
-        .slider-slide video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        
-        /* Slider Navigation */
-        .slider-nav {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            z-index: 5;
-        }
-        
-        .slider-nav-left,
-        .slider-nav-right {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            transition: background 0.3s;
-        }
-        
-        .slider-nav-left {
-            justify-content: flex-start;
-            cursor: w-resize;
-        }
-        
-        .slider-nav-right {
-            justify-content: flex-end;
-            cursor: e-resize;
-        }
-        
-        /* Progress Dots */
+        .slider-wrapper { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; }
+        .slider-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s ease; }
+        .slider-slide.active { opacity: 1; }
+        .slider-slide img, .slider-slide video { width: 100%; height: 100%; object-fit: cover; }
+        .slider-nav { position: absolute; top: 0; width: 100%; height: 100%; display: flex; z-index: 5; }
+        .slider-nav-left, .slider-nav-right { flex: 1; display: flex; align-items: center; }
+        .slider-nav-left { justify-content: flex-start; cursor: w-resize; }
+        .slider-nav-right { justify-content: flex-end; cursor: e-resize; }
         .progress-container {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 12px; z-index: 10;
         }
-        
         .progress-dot {
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            transition: all 0.3s;
-            cursor: pointer;
+            position: relative; width: 8px; height: 8px;
+            background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; cursor: pointer;
         }
-        
-        .progress-dot.active {
-            width: 60px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.3);
-        }
-        
+        .progress-dot.active { width: 60px; border-radius: 4px; background: rgba(255,255,255,0.3); }
         .progress-dot-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: white;
-            border-radius: 4px;
-            transition: width 0.1s linear;
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            background: white; border-radius: 4px; transition: width 0.1s linear;
         }
-        
-        /* Video Container */
-        .video-container {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 40px;
+        .single-image { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
+        .single-image img, .single-image video { width: 100%; height: auto; display: block; }
+        .two-image {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            border-radius: 12px; overflow: hidden; margin-bottom: 40px;
         }
-
-        .video-container.widescreen {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-        }
-
-        .video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Video Controls */
+        .two-image img { width: 100%; height: auto; display: block; }
+        .video-container { position: relative; width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
+        .video-container.widescreen { aspect-ratio: 16 / 9; }
+        .video-container video { width: 100%; height: 100%; object-fit: cover; display: block; }
         .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-            padding: 40px 20px 16px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 10;
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
+            padding: 40px 20px 16px; opacity: 0; transition: opacity 0.3s; z-index: 5;
         }
-
-        .video-container:hover .video-controls {
-            opacity: 1;
+        .video-container:hover .video-controls { opacity: 1; }
+        .controls-wrapper { display: flex; align-items: center; gap: 12px; }
+        .play-pause-btn, .volume-btn {
+            background: none; border: none; cursor: pointer; padding: 4px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-
-        .controls-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .play-pause-btn {
-            width: 36px;
-            height: 36px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            padding: 0;
-            flex-shrink: 0;
-        }
-
-        .play-pause-btn:hover { transform: scale(1.1); }
-
-        .play-pause-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-
+        .play-pause-btn svg, .volume-btn svg { width: 20px; height: 20px; fill: white; }
         .progress-bar {
-            flex: 1;
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 2px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            flex: 1; height: 3px; background: rgba(255,255,255,0.3);
+            border-radius: 2px; cursor: pointer; position: relative;
         }
-
-        .progress-bar:hover { height: 6px; }
-
-        .progress-fill {
-            height: 100%;
-            background: white;
-            width: 0%;
-            border-radius: 2px;
-            transition: width 0.1s linear;
-        }
-
-        .volume-btn {
-            width: 36px;
-            height: 36px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            padding: 0;
-            flex-shrink: 0;
-        }
-
-        .volume-btn:hover { transform: scale(1.1); }
-
-        .volume-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: white;
-        }
-        /* Dynamic Island */
+        .progress-fill { height: 100%; background: white; border-radius: 2px; width: 0%; pointer-events: none; }
         .dynamic-island {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 14px 48px;
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 10;
-            border-top-left-radius: 32px; border-top-right-radius: 32px;
-            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
-            transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
-        }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
-        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
-        .menu-toggle {
-            display: flex; flex-direction: column; gap: 5px;
-            cursor: pointer; padding: 6px; flex-shrink: 0;
-            background: transparent; border: none; outline: none;
-            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-        }
-        .menu-toggle span {
-            width: 24px; height: 2px; background: #ccc;
-            border-radius: 2px; transition: all 0.3s; pointer-events: none;
-        }
-        .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-        .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-        .menu-container {
-            display: flex; gap: 24px; align-items: center;
-            max-width: 0; overflow: hidden; opacity: 0;
-            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
-        }
-        .menu-container.open { max-width: 320px; opacity: 1; }
-        .menu-item {
-            cursor: pointer; flex-shrink: 0;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 15px; letter-spacing: 0.06em; font-weight: 200;
-            color: #aaa; text-decoration: none; transition: color 0.25s;
-        }
-        .menu-item:hover { color: #FF0000; }
-        .menu-item.active { color: #222; }
-        .island-center {
-            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
-        }
-        .island-center a { display: block; transition: opacity 0.3s; }
-        .island-center a:hover { opacity: 0.6; }
-        .island-center img { height: 42px; display: block; pointer-events: none; }
-        .island-right { flex: 1; text-align: right; line-height: 1.6; }
-        .island-right .zh { display: block; font-size: 15px; color: #333; font-weight: 200; }
-        .island-right .en {
-            display: block; font-size: 13px; color: #888; font-weight: 200;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            letter-spacing: 0.04em; margin-top: 2px;
-        }
-
-        @media (max-width: 968px) {
-            body { padding-bottom: 120px; }
-            .content { padding: 60px 30px; }
-            .project-title, .description { max-width: 100%; }
-            .project-title { font-size: 36px; margin-bottom: 40px; }
-            .description { font-size: 18px; margin-bottom: 60px; }
-            .gallery-section { margin-bottom: 60px; }
-            .progress-container { gap: 10px; bottom: 18px; }
-            .progress-dot.active { width: 55px; }
-            .video-controls { padding: 30px 16px 14px; }
-            .play-pause-btn, .volume-btn { width: 32px; height: 32px; }
-            .play-pause-btn svg, .volume-btn svg { width: 20px; height: 20px; }
-            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-            .island-right { display: none; }
-            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
-            .island-center img { height: 36px; }
-        }
-        
-        @media (max-width: 640px) {
-            body { padding-bottom: 110px; }
-            .hero-image { height: 250px; }
-            .content { padding: 40px 20px; }
-            .project-title { font-size: 30px; margin-bottom: 30px; }
-            .description { font-size: 16px; line-height: 1.8; }
-            .dynamic-island { padding: 10px 16px; }
-            .island-center img { height: 32px; }
-            .menu-toggle span { width: 20px; }
-            .menu-item { font-size: 12px; }
-            .menu-container.open { max-width: 240px; }
-            .menu-container { gap: 18px; }
-            .progress-container { gap: 8px; bottom: 16px; }
-            .progress-dot.active { width: 45px; }
-            .video-controls { padding: 24px 12px 12px; }
-            .controls-wrapper { gap: 8px; }
-            .play-pause-btn, .volume-btn { width: 28px; height: 28px; }
-            .play-pause-btn svg, .volume-btn svg { width: 18px; height: 18px; }
-            .progress-bar { height: 3px; }
-            .progress-bar:hover { height: 4px; }
-        }
-
-        /* ══ Nav override ══════════════════════════════════════ */
-        .dynamic-island {
-            position: fixed !important;
-            top: 0 !important; bottom: auto !important;
+            position: fixed !important; top: 0 !important; bottom: auto !important;
             left: 0 !important; right: 0 !important;
-            background: transparent !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            padding: 14px 48px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            flex-direction: row !important;
+            background: transparent !important; border-radius: 0 !important;
+            box-shadow: none !important; padding: 14px 48px !important;
+            display: flex !important; align-items: center !important;
+            justify-content: space-between !important; flex-direction: row !important;
             mix-blend-mode: difference;
             transform: translateY(-100%);
             animation: slideDownNav 0.8s ease 0.3s forwards !important;
+            z-index: 10;
         }
-        @keyframes slideDownNav { to { transform: translateY(0); } }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
         .island-logo { display: block !important; transition: opacity 0.3s; }
         .island-logo:hover { opacity: 0.7 !important; }
         .island-logo img { height: 42px; display: block !important; filter: invert(1); }
@@ -427,34 +150,58 @@
             display: block !important;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif !important;
             font-size: 15px !important; letter-spacing: 0.06em;
-            font-weight: 600 !important;
-            color: white !important; text-decoration: none;
-            transition: opacity 0.25s;
+            font-weight: 600 !important; color: white !important;
+            text-decoration: none; transition: opacity 0.25s;
             max-width: none !important; overflow: visible !important; opacity: 1 !important;
         }
         .menu-item:hover { opacity: 0.6 !important; color: white !important; }
-        .island-left, .island-center, .island-right,
-        .menu-toggle, .menu-container { display: none !important; }
+        body { padding-top: 72px !important; }
         @media (max-width: 968px) {
+            .work-header { padding: 52px 28px 56px; }
+            .work-title { margin-bottom: 40px; }
+            .category-zh { flex: 0 0 130px; }
+            .content { padding: 50px 30px 0; }
+            .description { max-width: 100%; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
+            .hero-image { height: 280px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
+            .work-header { padding: 40px 20px 48px; }
+            .work-title { margin-bottom: 32px; }
+            .work-categories { flex-direction: column; gap: 6px; }
+            .category-zh { flex: none; }
+            .content { padding: 40px 20px 0; }
+            .hero-image { height: 220px; }
+            .desc-zh { font-size: 17px; }
+            .desc-en { font-size: 15px; }
+            .two-image { grid-template-columns: 1fr; gap: 12px; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
             .island-nav { gap: 16px; }
         }
-        body { padding-top: 72px !important; }
     </style>
 </head>
 <body>
     <div class="hero-image">
-        <img src="../assets/OVO/VDesign_workIV_0.webp" alt="OVO 京典衛浴 首圖">
+        <img src="../assets/OVO/VDesign_workIV_0.webp" alt="OVO 京典衛浴">
+    </div>
+
+    <div class="work-header">
+        <div class="work-header-inner">
+            <h1 class="work-title">
+                <span class="title-zh">OVO 京典衛浴</span><span class="title-en">OVO Jing Dian Bathroom</span>
+            </h1>
+            <div class="work-categories">
+                <span class="category-zh">品牌設計</span>
+                <span class="category-en">Branding</span>
+            </div>
+        </div>
     </div>
 
     <div class="content">
-        <h1 class="project-title">OVO 京典衛浴</h1>
 
         <div class="gallery-section">
             <div class="video-container widescreen">
@@ -464,32 +211,29 @@
                 <div class="video-controls">
                     <div class="controls-wrapper">
                         <button class="play-pause-btn" data-video="mainVideo">
-                            <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                            <svg class="icon-pause" viewBox="0 0 24 24">
-                                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                            </svg>
+                            <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                         </button>
                         <div class="progress-bar" data-video="mainVideo">
                             <div class="progress-fill"></div>
                         </div>
                         <button class="volume-btn" data-video="mainVideo">
-                            <svg class="icon-muted" viewBox="0 0 24 24">
-                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                            </svg>
-                            <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                            </svg>
+                            <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                            <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <p class="description">
-            透過 Vibe Coding 協作進行品牌官方網站優化。執行方向聚焦於三點：1. 梳理並重構呈現資訊。2. 優化及統整介面視覺呈現。3. 增加可互動按鈕、選單，提升瀏覽使用體驗。藉此讓網站更清晰、直覺傳遞資訊，進而加深使用者對品牌與產品的了解。
-        </p>
+        <div class="description">
+            <div class="desc-zh">
+                <p>透過 Vibe Coding 協作進行品牌官方網站優化。執行方向聚焦於三點：1. 梳理並重構呈現資訊。2. 優化及統整介面視覺呈現。3. 增加可互動按鈕、選單，提升瀏覽使用體驗。藉此讓網站更清晰、直覺傳遞資訊，進而加深使用者對品牌與產品的了解。</p>
+            </div>
+            <div class="desc-en">
+                <p>The brand's official website was optimized through Vibe Coding collaboration, focusing on three directions: restructuring and clarifying information presentation; refining and unifying the visual interface; and adding interactive buttons and menus to improve the browsing experience — making the site more intuitive and deepening users' understanding of the brand and its products.</p>
+            </div>
+        </div>
 
         <div class="gallery-section">
             <div class="slider-container">
@@ -516,9 +260,14 @@
             </div>
         </div>
 
-        <p class="description">
-            為品牌繪製符合品牌調性的插畫視覺設定，並應用社群素材、型錄、官網及實體周邊等多樣載體。插畫導入不僅為品牌增活力與視覺變化，更能呈現出攝影較難表現的抽象情境，提升資訊傳遞清晰直覺與品牌親和力。
-        </p>
+        <div class="description">
+            <div class="desc-zh">
+                <p>為品牌繪製符合品牌調性的插畫視覺設定，並應用社群素材、型錄、官網及實體周邊等多樣載體。插畫導入不僅為品牌增活力與視覺變化，更能呈現出攝影較難表現的抽象情境，提升資訊傳遞清晰直覺與品牌親和力。</p>
+            </div>
+            <div class="desc-en">
+                <p>Brand-aligned illustrations were created and applied across social media assets, catalogues, the official website, and physical merchandise. Beyond adding vitality and visual variety, the illustrations convey abstract scenarios that photography struggles to capture — enhancing clarity of communication and strengthening brand affinity.</p>
+            </div>
+        </div>
 
         <div class="gallery-section">
             <div class="slider-container">
@@ -549,9 +298,14 @@
             </div>
         </div>
 
-        <p class="description">
-            製作品牌社群素材與數位廣告設計，配合節慶與行銷檔期發展多元的視覺呈現。社群貼文著重資訊易讀性與品牌調性，IG 限時動態則呈現較活潑的設計形式，以適應不同平台的瀏覽習慣；數位廣告聚焦於梳理視覺層級與建立清晰的行動呼籲，並配合行銷策略製作 A/B 測試圖素，後續延伸產出多尺寸 Banner，確保跨載體的顯示品質。
-        </p>
+        <div class="description">
+            <div class="desc-zh">
+                <p>製作品牌社群素材與數位廣告設計，配合節慶與行銷檔期發展多元的視覺呈現。社群貼文著重資訊易讀性與品牌調性，IG 限時動態則呈現較活潑的設計形式，以適應不同平台的瀏覽習慣；數位廣告聚焦於梳理視覺層級與建立清晰的行動呼籲，並配合行銷策略製作 A/B 測試圖素，後續延伸產出多尺寸 Banner，確保跨載體的顯示品質。</p>
+            </div>
+            <div class="desc-en">
+                <p>Brand social media assets and digital advertising were created across seasonal campaigns, balancing varied visual styles with consistent brand tone. Posts prioritized readability and brand alignment; Stories leaned toward a more lively format suited to platform habits. Digital ads focused on visual hierarchy and clear calls-to-action, including A/B test creatives and multi-size banners to ensure display quality across placements.</p>
+            </div>
+        </div>
 
         <div class="gallery-section">
             <div class="slider-container">
@@ -582,9 +336,14 @@
             </div>
         </div>
 
-        <p class="description">
-            製作品牌內部與外部活動主視覺設計，包含員工旅遊與品牌贈禮等專案。在維持既有品牌調性的基礎上，依據不同的活動性質，結合多元的風格呈現，確保設計維持品牌一致性，又能傳達該活動的氛圍。
-        </p>
+        <div class="description">
+            <div class="desc-zh">
+                <p>製作品牌內部與外部活動主視覺設計，包含員工旅遊與品牌贈禮等專案。在維持既有品牌調性的基礎上，依據不同的活動性質，結合多元的風格呈現，確保設計維持品牌一致性，又能傳達該活動的氛圍。</p>
+            </div>
+            <div class="desc-en">
+                <p>Key visual designs were produced for both internal and external brand events, including employee travel and brand gifting campaigns. While maintaining established brand consistency, each project adapted stylistically to the nature of the event, ensuring the design both preserved brand identity and conveyed the appropriate atmosphere.</p>
+            </div>
+        </div>
 
         <div class="gallery-section">
             <div class="slider-container">
@@ -606,6 +365,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="dynamic-island">
@@ -624,23 +384,13 @@
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
+            orientation: 'vertical', gestureOrientation: 'vertical',
+            smoothWheel: true, wheelMultiplier: 1,
+            smoothTouch: false, touchMultiplier: 2, infinite: false,
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // Video Controls
         class VideoPlayer {
             constructor(videoId) {
                 this.video = document.getElementById(videoId);
@@ -655,52 +405,30 @@
                 this.iconUnmuted = this.volumeBtn.querySelector('.icon-unmuted');
                 this.init();
             }
-
             init() {
                 this.playPauseBtn.addEventListener('click', () => {
-                    if (this.video.paused) {
-                        this.video.play();
-                        this.iconPlay.style.display = 'none';
-                        this.iconPause.style.display = 'block';
-                    } else {
-                        this.video.pause();
-                        this.iconPlay.style.display = 'block';
-                        this.iconPause.style.display = 'none';
-                    }
+                    if (this.video.paused) { this.video.play(); this.iconPlay.style.display = 'none'; this.iconPause.style.display = 'block'; }
+                    else { this.video.pause(); this.iconPlay.style.display = 'block'; this.iconPause.style.display = 'none'; }
                 });
-
                 this.video.addEventListener('timeupdate', () => {
                     const progress = (this.video.currentTime / this.video.duration) * 100;
                     this.progressFill.style.width = progress + '%';
                 });
-
                 this.progressBar.addEventListener('click', (e) => {
                     const rect = this.progressBar.getBoundingClientRect();
                     const pos = (e.clientX - rect.left) / rect.width;
                     this.video.currentTime = pos * this.video.duration;
                 });
-
                 this.volumeBtn.addEventListener('click', () => {
-                    if (this.video.muted) {
-                        this.video.muted = false;
-                        this.iconMuted.style.display = 'none';
-                        this.iconUnmuted.style.display = 'block';
-                    } else {
-                        this.video.muted = true;
-                        this.iconMuted.style.display = 'block';
-                        this.iconUnmuted.style.display = 'none';
-                    }
+                    if (this.video.muted) { this.video.muted = false; this.iconMuted.style.display = 'none'; this.iconUnmuted.style.display = 'block'; }
+                    else { this.video.muted = true; this.iconMuted.style.display = 'block'; this.iconUnmuted.style.display = 'none'; }
                 });
-
-                this.video.addEventListener('click', () => {
-                    this.playPauseBtn.click();
-                });
+                this.video.addEventListener('click', () => { this.playPauseBtn.click(); });
             }
         }
 
         new VideoPlayer('mainVideo');
 
-        // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
             constructor(container) {
                 this.container = container;
@@ -715,112 +443,53 @@
                 this.autoPlayInterval = null;
                 this.progressStartTime = null;
                 this.progressAnimationFrame = null;
-                
                 this.init();
             }
-            
             init() {
-                if (this.navLeft) {
-                    this.navLeft.addEventListener('click', () => {
-                        this.showSlide(this.currentSlide - 1);
-                        this.resetAutoPlay();
-                    });
-                }
-                
-                if (this.navRight) {
-                    this.navRight.addEventListener('click', () => {
-                        this.showSlide(this.currentSlide + 1);
-                        this.resetAutoPlay();
-                    });
-                }
-                
+                if (this.navLeft) this.navLeft.addEventListener('click', () => { this.showSlide(this.currentSlide - 1); this.resetAutoPlay(); });
+                if (this.navRight) this.navRight.addEventListener('click', () => { this.showSlide(this.currentSlide + 1); this.resetAutoPlay(); });
                 this.progressDots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => {
-                        this.showSlide(index);
-                        this.resetAutoPlay();
-                    });
+                    dot.addEventListener('click', () => { this.showSlide(index); this.resetAutoPlay(); });
                 });
-                
                 this.startAutoPlay();
                 this.startProgressAnimation();
             }
-            
             showSlide(index) {
                 this.slides.forEach(slide => slide.classList.remove('active'));
                 this.currentSlide = (index + this.slides.length) % this.slides.length;
                 this.slides[this.currentSlide].classList.add('active');
-                
-                this.progressDots.forEach((dot, i) => {
-                    dot.classList.remove('active');
-                    this.progressFills[i].style.width = '0%';
-                });
+                this.progressDots.forEach((dot, i) => { dot.classList.remove('active'); this.progressFills[i].style.width = '0%'; });
                 this.progressDots[this.currentSlide].classList.add('active');
-                
                 this.startProgressAnimation();
             }
-            
             startProgressAnimation() {
                 this.progressStartTime = Date.now();
-                
                 const animate = () => {
                     const elapsed = Date.now() - this.progressStartTime;
                     const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
-                    
                     const currentFill = this.progressFills[this.currentSlide];
-                    if (currentFill) {
-                        currentFill.style.width = progress + '%';
-                    }
-                    
-                    if (progress < 100) {
-                        this.progressAnimationFrame = requestAnimationFrame(animate);
-                    }
+                    if (currentFill) currentFill.style.width = progress + '%';
+                    if (progress < 100) this.progressAnimationFrame = requestAnimationFrame(animate);
                 };
-                
-                if (this.progressAnimationFrame) {
-                    cancelAnimationFrame(this.progressAnimationFrame);
-                }
-                
+                if (this.progressAnimationFrame) cancelAnimationFrame(this.progressAnimationFrame);
                 animate();
             }
-            
             startAutoPlay() {
-                if (this.autoPlayInterval) {
-                    clearInterval(this.autoPlayInterval);
-                }
-                
-                this.autoPlayInterval = setInterval(() => {
-                    this.showSlide(this.currentSlide + 1);
-                }, this.autoPlayDuration);
+                if (this.autoPlayInterval) clearInterval(this.autoPlayInterval);
+                this.autoPlayInterval = setInterval(() => { this.showSlide(this.currentSlide + 1); }, this.autoPlayDuration);
             }
-            
-            resetAutoPlay() {
-                this.startAutoPlay();
-            }
+            resetAutoPlay() { this.startAutoPlay(); }
         }
-        
-        document.querySelectorAll('.slider-container').forEach(container => {
-            new AutoSlider(container);
-        });
 
-        // Intersection Observer
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        document.querySelectorAll('.slider-container').forEach(container => { new AutoSlider(container); });
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
             });
-        }, observerOptions);
+        }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-        document.querySelectorAll('.gallery-section').forEach(section => {
-            observer.observe(section);
-        });
+        document.querySelectorAll('.gallery-section, .description').forEach(el => { observer.observe(el); });
     </script>
 </body>
 </html>

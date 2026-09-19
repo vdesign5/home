@@ -3,506 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>制菸所 - Vdesign</title>
+    <title>制菸所 — STUDIO 5</title>
     <link rel="icon" type="image/png" href="../assets/logo_mark.png">
     <link rel="apple-touch-icon" href="../assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;300;400;500;600;700&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            color: #333; 
-            background: #fff; 
-            overflow-x: hidden; 
-            padding-bottom: 180px; 
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #111;
+            background: #fff;
+            overflow-x: hidden;
+            padding-bottom: 80px;
         }
-        .english { font-family: Arial, sans-serif; }
-        
-        /* Hero Image */
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDownNav { to { transform: translateY(0); } }
         .hero-image {
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            position: relative;
-            z-index: 6;
-            opacity: 0;
-            animation: fadeIn 1s ease 0.3s forwards;
+            width: 100%; height: 400px; overflow: hidden;
+            position: relative; z-index: 6;
+            opacity: 0; animation: fadeIn 1s ease 0.3s forwards;
         }
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .work-header {
+            background: #fff; padding: 36px 48px 68px 36px;
+            position: relative; z-index: 6;
+            opacity: 0; animation: fadeIn 0.8s ease 0.5s forwards;
         }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        .work-title { font-weight: 500; color: #111; line-height: 1.1; margin-bottom: 120px; }
+        .title-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(34px, 5.47vw, 101px);
+            letter-spacing: 0.07em; margin-right: 0.28em;
         }
-        
-        /* Content Container */
+        .title-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(38px, 6.2vw, 114px);
+            letter-spacing: -0.02em;
+        }
+        .work-categories { display: flex; align-items: baseline; }
+        .category-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 15px; font-weight: 400; color: #111;
+            flex: 0 0 160px; letter-spacing: 0.02em;
+        }
+        .category-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 15px; font-weight: 400; color: #111; letter-spacing: 0.01em;
+        }
         .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 60px;
-            position: relative;
-            z-index: 6;
+            max-width: 1200px; margin: 0 auto;
+            padding: 36px 60px 0; position: relative; z-index: 6;
         }
-        
-        /* Title */
-        .project-title {
-            font-size: 44px;
-            font-weight: 200;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.5s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-        
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Description */
         .description {
-            font-size: 20px;
-            font-weight: 200;
-            line-height: 2;
-            color: #666;
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.7s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
+            margin-top: -40px; margin-bottom: 80px; max-width: 640px;
+            opacity: 0; transform: translateY(30px);
         }
-        
-        /* Section Caption with Triangle */
-        .section-caption {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #666;
-            margin-bottom: 60px;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-            position: relative;
-            padding-left: 30px;
+        .description.in-view { animation: slideUp 0.8s ease forwards; }
+        .desc-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+            line-height: 1.95; color: #111; margin-bottom: 28px;
         }
-        
-        .section-caption::before {
-            content: '▲';
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 16px;
-            color: #666;
+        .desc-zh p + p { margin-top: 0.9em; }
+        .desc-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+            line-height: 1.85; color: #111;
         }
-        
-        /* Image Gallery Section */
+        .desc-en p + p { margin-top: 1em; }
         .gallery-section {
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(40px);
+            margin-bottom: 80px; opacity: 0; transform: translateY(40px);
         }
-        
-        .gallery-section.in-view {
-            animation: slideUp 0.8s ease forwards;
-        }
-        
-        /* Slider Container */
+        .gallery-section.in-view { animation: slideUp 0.8s ease forwards; }
         .slider-container {
-            position: relative;
-            width: 100%;
-            margin-bottom: 40px;
-            border-radius: 12px;
-            overflow: hidden;
+            position: relative; width: 100%;
+            border-radius: 12px; overflow: hidden; margin-bottom: 40px;
         }
-        
-        .slider-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1200 / 750;
-            overflow: hidden;
-        }
-        
-        .slider-slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        
-        .slider-slide.active {
-            opacity: 1;
-        }
-        
-        .slider-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Slider Navigation */
-        .slider-nav {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            z-index: 5;
-        }
-        
-        .slider-nav-left,
-        .slider-nav-right {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            transition: background 0.3s;
-        }
-        
-        .slider-nav-left {
-            justify-content: flex-start;
-            cursor: w-resize;
-        }
-        
-        .slider-nav-right {
-            justify-content: flex-end;
-            cursor: e-resize;
-        }
-        
-        /* Progress Dots Container */
+        .slider-wrapper { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; }
+        .slider-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s ease; }
+        .slider-slide.active { opacity: 1; }
+        .slider-slide img, .slider-slide video { width: 100%; height: 100%; object-fit: cover; }
+        .slider-nav { position: absolute; top: 0; width: 100%; height: 100%; display: flex; z-index: 5; }
+        .slider-nav-left, .slider-nav-right { flex: 1; display: flex; align-items: center; }
+        .slider-nav-left { justify-content: flex-start; cursor: w-resize; }
+        .slider-nav-right { justify-content: flex-end; cursor: e-resize; }
         .progress-container {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 12px; z-index: 10;
         }
-        
         .progress-dot {
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            transition: all 0.3s;
-            cursor: pointer;
+            position: relative; width: 8px; height: 8px;
+            background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; cursor: pointer;
         }
-        
-        .progress-dot.active {
-            width: 60px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.3);
-        }
-        
+        .progress-dot.active { width: 60px; border-radius: 4px; background: rgba(255,255,255,0.3); }
         .progress-dot-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: white;
-            border-radius: 4px;
-            transition: width 0.1s linear;
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            background: white; border-radius: 4px; transition: width 0.1s linear;
         }
-        
-        /* Single Image */
-        .single-image {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 40px;
+        .single-image { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
+        .single-image img, .single-image video { width: 100%; height: auto; display: block; }
+        .two-image {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            border-radius: 12px; overflow: hidden; margin-bottom: 40px;
         }
-        
-        .single-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Video Switcher Section */
+        .two-image img { width: 100%; height: auto; display: block; }
+        /* Video Switcher */
         .video-switcher {
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(40px);
+            margin-bottom: 80px; opacity: 0; transform: translateY(40px);
         }
-        
-        .video-switcher.in-view {
-            animation: slideUp 0.8s ease forwards;
-        }
-        
-        /* Tabs */
+        .video-switcher.in-view { animation: slideUp 0.8s ease forwards; }
         .tabs {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-bottom: 40px;
+            display: flex; gap: 20px; justify-content: center; margin-bottom: 40px;
         }
-        
         .tab {
-            padding: 16px 40px;
-            background: #e0e0e0;
-            border-radius: 50px;
-            font-size: 16px;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            outline: none;
+            padding: 16px 40px; background: #e0e0e0; border-radius: 50px;
+            font-size: 16px; color: #666; cursor: pointer; transition: all 0.3s;
+            border: none; outline: none;
         }
-        
-        .tab:hover {
-            background: #d0d0d0;
-        }
-        
-        .tab.active {
-            background: #333;
-            color: white;
-        }
-        
-        /* Video Grid */
-        .video-grid {
-            display: none;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        
-        .video-grid.active {
-            display: grid;
-        }
-        
+        .tab:hover { background: #d0d0d0; }
+        .tab.active { background: #333; color: white; }
+        .video-grid { display: none; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .video-grid.active { display: grid; }
         .video-item {
-            position: relative;
-            aspect-ratio: 1 / 1;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #000;
+            position: relative; aspect-ratio: 1 / 1;
+            border-radius: 12px; overflow: hidden; background: #000;
         }
-        
-        .video-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Video Controls */
+        .video-item video { width: 100%; height: 100%; object-fit: cover; }
         .video-controls {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
-            padding: 40px 12px 12px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 10;
+            padding: 40px 12px 12px; opacity: 0; transition: opacity 0.3s; z-index: 10;
         }
-        
-        .video-item:hover .video-controls {
-            opacity: 1;
-        }
-        
-        .controls-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        /* Play/Pause Button */
+        .video-item:hover .video-controls { opacity: 1; }
+        .controls-wrapper { display: flex; align-items: center; gap: 8px; }
         .play-pause-btn {
-            width: 28px;
-            height: 28px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            padding: 0;
-            flex-shrink: 0;
+            width: 28px; height: 28px; background: transparent; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s; padding: 0; flex-shrink: 0;
         }
-        
-        .play-pause-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .play-pause-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: white;
-        }
-        
-        /* Progress Bar */
+        .play-pause-btn:hover { transform: scale(1.1); }
+        .play-pause-btn svg { width: 18px; height: 18px; fill: white; }
         .progress-bar {
-            flex: 1;
-            height: 3px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 2px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            flex: 1; height: 3px; background: rgba(255,255,255,0.3);
+            border-radius: 2px; cursor: pointer; position: relative; overflow: hidden;
         }
-        
-        .progress-bar:hover {
-            height: 4px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: white;
-            width: 0%;
-            border-radius: 2px;
-            transition: width 0.1s linear;
-        }
-        
-        /* Volume Button */
+        .progress-bar:hover { height: 4px; }
+        .progress-fill { height: 100%; background: white; width: 0%; border-radius: 2px; transition: width 0.1s linear; }
         .volume-btn {
-            width: 28px;
-            height: 28px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-            padding: 0;
-            flex-shrink: 0;
+            width: 28px; height: 28px; background: transparent; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s; padding: 0; flex-shrink: 0;
         }
-        
-        .volume-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .volume-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: white;
-        }
-        /* Dynamic Island */
+        .volume-btn:hover { transform: scale(1.1); }
+        .volume-btn svg { width: 18px; height: 18px; fill: white; }
         .dynamic-island {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 14px 48px;
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 10;
-            border-top-left-radius: 32px; border-top-right-radius: 32px;
-            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
-            transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
-        }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
-        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
-        .menu-toggle {
-            display: flex; flex-direction: column; gap: 5px;
-            cursor: pointer; padding: 6px; flex-shrink: 0;
-            background: transparent; border: none; outline: none;
-            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-        }
-        .menu-toggle span {
-            width: 24px; height: 2px; background: #ccc;
-            border-radius: 2px; transition: all 0.3s; pointer-events: none;
-        }
-        .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-        .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-        .menu-container {
-            display: flex; gap: 24px; align-items: center;
-            max-width: 0; overflow: hidden; opacity: 0;
-            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
-        }
-        .menu-container.open { max-width: 320px; opacity: 1; }
-        .menu-item {
-            cursor: pointer; flex-shrink: 0;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 15px; letter-spacing: 0.06em; font-weight: 200;
-            color: #aaa; text-decoration: none; transition: color 0.25s;
-        }
-        .menu-item:hover { color: #FF0000; }
-        .menu-item.active { color: #222; }
-        .island-center {
-            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
-        }
-        .island-center a { display: block; transition: opacity 0.3s; }
-        .island-center a:hover { opacity: 0.6; }
-        .island-center img { height: 42px; display: block; pointer-events: none; }
-        .island-right { flex: 1; text-align: right; line-height: 1.6; }
-        .island-right .zh { display: block; font-size: 15px; color: #333; font-weight: 200; }
-        .island-right .en {
-            display: block; font-size: 13px; color: #888; font-weight: 200;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            letter-spacing: 0.04em; margin-top: 2px;
-        }
-
-        @media (max-width: 968px) {
-            body { padding-bottom: 120px; }
-            .content { padding: 60px 30px; }
-            .project-title, .description { max-width: 100%; }
-            .project-title { font-size: 36px; margin-bottom: 40px; }
-            .description { font-size: 18px; margin-bottom: 60px; }
-            .gallery-section { margin-bottom: 60px; }
-            .progress-container { gap: 10px; bottom: 18px; }
-            .progress-dot.active { width: 55px; }
-            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-            .island-right { display: none; }
-            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
-            .island-center img { height: 36px; }
-        }
-        
-        @media (max-width: 640px) {
-            body { padding-bottom: 110px; }
-            .hero-image { height: 250px; }
-            .content { padding: 40px 20px; }
-            .project-title { font-size: 30px; margin-bottom: 30px; }
-            .description { font-size: 16px; line-height: 1.8; }
-            .section-caption { font-size: 14px; padding-left: 24px; }
-            .tabs { flex-direction: column; gap: 10px; }
-            .tab { padding: 12px 24px; font-size: 14px; width: 100%; text-align: center; }
-            .video-grid { grid-template-columns: 1fr; gap: 12px; }
-            .dynamic-island { padding: 10px 16px; }
-            .island-center img { height: 32px; }
-            .menu-toggle span { width: 20px; }
-            .menu-item { font-size: 12px; }
-            .menu-container.open { max-width: 240px; }
-            .menu-container { gap: 18px; }
-            .progress-container { gap: 8px; bottom: 16px; }
-            .progress-dot.active { width: 45px; }
-        }
-
-        /* ══ Nav override ══════════════════════════════════════ */
-        .dynamic-island {
-            position: fixed !important;
-            top: 0 !important; bottom: auto !important;
+            position: fixed !important; top: 0 !important; bottom: auto !important;
             left: 0 !important; right: 0 !important;
-            background: transparent !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            padding: 14px 48px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            flex-direction: row !important;
+            background: transparent !important; border-radius: 0 !important;
+            box-shadow: none !important; padding: 14px 48px !important;
+            display: flex !important; align-items: center !important;
+            justify-content: space-between !important; flex-direction: row !important;
             mix-blend-mode: difference;
             transform: translateY(-100%);
             animation: slideDownNav 0.8s ease 0.3s forwards !important;
+            z-index: 10;
         }
-        @keyframes slideDownNav { to { transform: translateY(0); } }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
         .island-logo { display: block !important; transition: opacity 0.3s; }
         .island-logo:hover { opacity: 0.7 !important; }
         .island-logo img { height: 42px; display: block !important; filter: invert(1); }
@@ -511,25 +179,41 @@
             display: block !important;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif !important;
             font-size: 15px !important; letter-spacing: 0.06em;
-            font-weight: 600 !important;
-            color: white !important; text-decoration: none;
-            transition: opacity 0.25s;
+            font-weight: 600 !important; color: white !important;
+            text-decoration: none; transition: opacity 0.25s;
             max-width: none !important; overflow: visible !important; opacity: 1 !important;
         }
         .menu-item:hover { opacity: 0.6 !important; color: white !important; }
-        .island-left, .island-center, .island-right,
-        .menu-toggle, .menu-container { display: none !important; }
+        body { padding-top: 72px !important; }
         @media (max-width: 968px) {
+            .work-header { padding: 52px 28px 56px; }
+            .work-title { margin-bottom: 40px; }
+            .category-zh { flex: 0 0 130px; }
+            .content { padding: 50px 30px 0; }
+            .description { max-width: 100%; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
+            .hero-image { height: 280px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
+            .work-header { padding: 40px 20px 48px; }
+            .work-title { margin-bottom: 32px; }
+            .work-categories { flex-direction: column; gap: 6px; }
+            .category-zh { flex: none; }
+            .content { padding: 40px 20px 0; }
+            .hero-image { height: 220px; }
+            .desc-zh { font-size: 17px; }
+            .desc-en { font-size: 15px; }
+            .two-image { grid-template-columns: 1fr; gap: 12px; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
             .island-nav { gap: 16px; }
+            .tabs { flex-direction: column; gap: 10px; }
+            .tab { padding: 12px 24px; font-size: 14px; width: 100%; text-align: center; }
+            .video-grid { grid-template-columns: 1fr; gap: 12px; }
         }
-        body { padding-top: 72px !important; }
     </style>
 </head>
 <body>
@@ -537,17 +221,32 @@
         <img src="../assets/202511_showcase_III.webp" alt="制菸所">
     </div>
 
-    <div class="content">
-        <h1 class="project-title">制菸所</h1>
+    <div class="work-header">
+        <div class="work-header-inner">
+            <h1 class="work-title">
+                <span class="title-zh">制菸所</span><span class="title-en">Cigarette Obstruction</span>
+            </h1>
+            <div class="work-categories">
+                <span class="category-zh">包裝設計</span>
+                <span class="category-en">Packaging</span>
+            </div>
+        </div>
+    </div>
 
-        <p class="description">
-            這不是一個為了「好開」而存在的包裝，而是為了「阻礙」而生。<br>
-            「制菸所」是一系列反直覺的菸盒結構設計，我們利用干擾的結構、令人分心的互動，讓抽一根菸變得不再順手，或許就是那短暫的停頓與不便，進而引發使用者對吸菸議題的反思。
-        </p>
+    <div class="content">
 
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_1.webp" alt="制菸所設計 1">
+            </div>
+        </div>
+
+        <div class="description">
+            <div class="desc-zh">
+                <p>這不是一個為了「好開」而存在的包裝，而是為了「阻礙」而生。「制菸所」是一系列反直覺的菸盒結構設計，我們利用干擾的結構、令人分心的互動，讓抽一根菸變得不再順手，或許就是那短暫的停頓與不便，進而引發使用者對吸菸議題的反思。</p>
+            </div>
+            <div class="desc-en">
+                <p>This packaging was not designed to open easily — it was designed to obstruct. Cigarette Obstruction is a series of counter-intuitive cigarette box structures. By incorporating disruptive mechanisms and distracting interactions, we make the act of smoking less effortless. It is in that brief pause, that small inconvenience, where reflection on the habit might begin.</p>
             </div>
         </div>
 
@@ -592,29 +291,17 @@
             </div>
         </div>
 
-        <p class="section-caption">
-            「吵吵菸盒」，在開盒瞬間觸發擬真的劇烈咳嗽聲，不僅將旁人吸入二手菸的不適，轉化為對使用者的直接聽覺衝擊，強制喚醒換位思考；更利用聲音打破抽菸的隱蔽性，藉由引來路人側目所產生的尷尬感與公眾壓力，轉化為抑制吸菸頻率的心理阻力。
-        </p>
-
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_4.webp" alt="問籤菸盒">
             </div>
         </div>
 
-        <p class="section-caption">
-            「問籤菸盒」，將取菸行為重塑為充滿不確定性的求籤儀式。透過搖晃動作增加物理上的取用難度，更將菸設計為多數標示「凶」的命運籤。藉由隨機性的負面心理暗示，讓吸菸者在尋求吸菸慰藉時反而獲得運勢警訊，利用潛意識中對厄運的顧慮，達到阻礙吸菸的效果。
-        </p>
-
         <div class="gallery-section">
             <div class="single-image">
                 <img src="../assets/No_Smoking/VDesign_work_VI_5.webp" alt="垂垂菸盒">
             </div>
         </div>
-
-        <p class="section-caption">
-            「垂垂菸盒」，利用互動式結構，側面的男性性徵符號會隨著開盒產生由筆挺轉為下垂的變化。設計直擊男性對於生理機能衰退的深層焦慮，透過抽菸行為與性功能障礙建立因果聯想，將恐懼具象化，藉此達到阻礙吸菸的目的。
-        </p>
 
         <div class="video-switcher">
             <div class="tabs">
@@ -631,23 +318,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -659,23 +336,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -687,23 +354,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -715,23 +372,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -746,23 +393,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -774,23 +411,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -802,23 +429,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -830,23 +447,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -861,23 +468,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -889,23 +486,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -917,23 +504,13 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
@@ -945,29 +522,20 @@
                     <div class="video-controls">
                         <div class="controls-wrapper">
                             <button class="play-pause-btn">
-                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                                <svg class="icon-pause" viewBox="0 0 24 24">
-                                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                                </svg>
+                                <svg class="icon-play" style="display: none;" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>
                             </button>
-                            <div class="progress-bar">
-                                <div class="progress-fill"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill"></div></div>
                             <button class="volume-btn">
-                                <svg class="icon-muted" viewBox="0 0 24 24">
-                                    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                                </svg>
-                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24">
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
+                                <svg class="icon-muted" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="icon-unmuted" style="display: none;" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="dynamic-island">
@@ -983,42 +551,27 @@
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
-        // Initialize Lenis smooth scroll
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
+            orientation: 'vertical', gestureOrientation: 'vertical',
+            smoothWheel: true, wheelMultiplier: 1,
+            smoothTouch: false, touchMultiplier: 2, infinite: false,
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
         // Tab Switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 const category = this.getAttribute('data-category');
-                
-                // Update tabs
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                
-                // Update video grids
                 document.querySelectorAll('.video-grid').forEach(grid => grid.classList.remove('active'));
                 document.querySelector(`.video-grid[data-category="${category}"]`).classList.add('active');
             });
         });
 
-        // Video Player Class for Grid Videos
         class GridVideoPlayer {
             constructor(videoElement) {
                 this.video = videoElement;
@@ -1031,61 +584,33 @@
                 this.iconPause = this.playPauseBtn.querySelector('.icon-pause');
                 this.iconMuted = this.volumeBtn.querySelector('.icon-muted');
                 this.iconUnmuted = this.volumeBtn.querySelector('.icon-unmuted');
-                
                 this.init();
             }
-            
             init() {
-                // Play/Pause
                 this.playPauseBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (this.video.paused) {
-                        this.video.play();
-                        this.iconPlay.style.display = 'none';
-                        this.iconPause.style.display = 'block';
-                    } else {
-                        this.video.pause();
-                        this.iconPlay.style.display = 'block';
-                        this.iconPause.style.display = 'none';
-                    }
+                    if (this.video.paused) { this.video.play(); this.iconPlay.style.display = 'none'; this.iconPause.style.display = 'block'; }
+                    else { this.video.pause(); this.iconPlay.style.display = 'block'; this.iconPause.style.display = 'none'; }
                 });
-                
-                // Progress Bar Update
                 this.video.addEventListener('timeupdate', () => {
                     const progress = (this.video.currentTime / this.video.duration) * 100;
                     this.progressFill.style.width = progress + '%';
                 });
-                
-                // Progress Bar Click
                 this.progressBar.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const rect = this.progressBar.getBoundingClientRect();
                     const pos = (e.clientX - rect.left) / rect.width;
                     this.video.currentTime = pos * this.video.duration;
                 });
-                
-                // Volume Control
                 this.volumeBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (this.video.muted) {
-                        this.video.muted = false;
-                        this.iconMuted.style.display = 'none';
-                        this.iconUnmuted.style.display = 'block';
-                    } else {
-                        this.video.muted = true;
-                        this.iconMuted.style.display = 'block';
-                        this.iconUnmuted.style.display = 'none';
-                    }
+                    if (this.video.muted) { this.video.muted = false; this.iconMuted.style.display = 'none'; this.iconUnmuted.style.display = 'block'; }
+                    else { this.video.muted = true; this.iconMuted.style.display = 'block'; this.iconUnmuted.style.display = 'none'; }
                 });
-                
-                // Video Click to Play/Pause
-                this.video.addEventListener('click', () => {
-                    this.playPauseBtn.click();
-                });
+                this.video.addEventListener('click', () => { this.playPauseBtn.click(); });
             }
         }
 
-        // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
             constructor(container) {
                 this.container = container;
@@ -1100,117 +625,54 @@
                 this.autoPlayInterval = null;
                 this.progressStartTime = null;
                 this.progressAnimationFrame = null;
-                
                 this.init();
             }
-            
             init() {
-                if (this.navLeft) {
-                    this.navLeft.addEventListener('click', () => {
-                        this.showSlide(this.currentSlide - 1);
-                        this.resetAutoPlay();
-                    });
-                }
-                
-                if (this.navRight) {
-                    this.navRight.addEventListener('click', () => {
-                        this.showSlide(this.currentSlide + 1);
-                        this.resetAutoPlay();
-                    });
-                }
-                
+                if (this.navLeft) this.navLeft.addEventListener('click', () => { this.showSlide(this.currentSlide - 1); this.resetAutoPlay(); });
+                if (this.navRight) this.navRight.addEventListener('click', () => { this.showSlide(this.currentSlide + 1); this.resetAutoPlay(); });
                 this.progressDots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => {
-                        this.showSlide(index);
-                        this.resetAutoPlay();
-                    });
+                    dot.addEventListener('click', () => { this.showSlide(index); this.resetAutoPlay(); });
                 });
-                
                 this.startAutoPlay();
                 this.startProgressAnimation();
             }
-            
             showSlide(index) {
                 this.slides.forEach(slide => slide.classList.remove('active'));
                 this.currentSlide = (index + this.slides.length) % this.slides.length;
                 this.slides[this.currentSlide].classList.add('active');
-                
-                this.progressDots.forEach((dot, i) => {
-                    dot.classList.remove('active');
-                    this.progressFills[i].style.width = '0%';
-                });
+                this.progressDots.forEach((dot, i) => { dot.classList.remove('active'); this.progressFills[i].style.width = '0%'; });
                 this.progressDots[this.currentSlide].classList.add('active');
-                
                 this.startProgressAnimation();
             }
-            
             startProgressAnimation() {
                 this.progressStartTime = Date.now();
-                
                 const animate = () => {
                     const elapsed = Date.now() - this.progressStartTime;
                     const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
-                    
                     const currentFill = this.progressFills[this.currentSlide];
-                    if (currentFill) {
-                        currentFill.style.width = progress + '%';
-                    }
-                    
-                    if (progress < 100) {
-                        this.progressAnimationFrame = requestAnimationFrame(animate);
-                    }
+                    if (currentFill) currentFill.style.width = progress + '%';
+                    if (progress < 100) this.progressAnimationFrame = requestAnimationFrame(animate);
                 };
-                
-                if (this.progressAnimationFrame) {
-                    cancelAnimationFrame(this.progressAnimationFrame);
-                }
-                
+                if (this.progressAnimationFrame) cancelAnimationFrame(this.progressAnimationFrame);
                 animate();
             }
-            
             startAutoPlay() {
-                if (this.autoPlayInterval) {
-                    clearInterval(this.autoPlayInterval);
-                }
-                
-                this.autoPlayInterval = setInterval(() => {
-                    this.showSlide(this.currentSlide + 1);
-                }, this.autoPlayDuration);
+                if (this.autoPlayInterval) clearInterval(this.autoPlayInterval);
+                this.autoPlayInterval = setInterval(() => { this.showSlide(this.currentSlide + 1); }, this.autoPlayDuration);
             }
-            
-            resetAutoPlay() {
-                this.startAutoPlay();
-            }
+            resetAutoPlay() { this.startAutoPlay(); }
         }
-        
-        // Initialize all components
-        document.querySelectorAll('.slider-container').forEach(container => {
-            new AutoSlider(container);
-        });
 
-        document.querySelectorAll('.video-item video').forEach(video => {
-            new GridVideoPlayer(video);
-        });
-
-        // Intersection Observer
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        document.querySelectorAll('.slider-container').forEach(container => { new AutoSlider(container); });
+        document.querySelectorAll('.video-item video').forEach(video => { new GridVideoPlayer(video); });
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
             });
-        }, observerOptions);
+        }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-        document.querySelectorAll('.gallery-section, .video-switcher').forEach(section => {
-            observer.observe(section);
-        });
+        document.querySelectorAll('.gallery-section, .description, .video-switcher').forEach(el => { observer.observe(el); });
     </script>
 </body>
 </html>

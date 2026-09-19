@@ -3,318 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tear of war - Vdesign</title>
+    <title>Tear of War — STUDIO 5</title>
     <link rel="icon" type="image/png" href="../assets/logo_mark.png">
     <link rel="apple-touch-icon" href="../assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;300;400;500;600;700&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            color: #333; 
-            background: #fff; 
-            overflow-x: hidden; 
-            padding-bottom: 180px; 
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #111;
+            background: #fff;
+            overflow-x: hidden;
+            padding-bottom: 80px;
         }
-        .english { font-family: Arial, sans-serif; }
-        
-        /* Hero Image */
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDownNav { to { transform: translateY(0); } }
         .hero-image {
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            position: relative;
-            z-index: 6;
-            opacity: 0;
-            animation: fadeIn 1s ease 0.3s forwards;
+            width: 100%; height: 400px; overflow: hidden;
+            position: relative; z-index: 6;
+            opacity: 0; animation: fadeIn 1s ease 0.3s forwards;
         }
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .work-header {
+            background: #fff; padding: 36px 48px 68px 36px;
+            position: relative; z-index: 6;
+            opacity: 0; animation: fadeIn 0.8s ease 0.5s forwards;
         }
-        
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        .work-title { font-weight: 500; color: #111; line-height: 1.1; margin-bottom: 120px; }
+        .title-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(34px, 5.47vw, 101px);
+            letter-spacing: 0.07em; margin-right: 0.28em;
         }
-        
-        /* Content Container */
+        .title-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(38px, 6.2vw, 114px);
+            letter-spacing: -0.02em;
+        }
+        .work-categories { display: flex; align-items: baseline; }
+        .category-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 15px; font-weight: 400; color: #111;
+            flex: 0 0 160px; letter-spacing: 0.02em;
+        }
+        .category-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 15px; font-weight: 400; color: #111; letter-spacing: 0.01em;
+        }
         .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 60px;
-            position: relative;
-            z-index: 6;
+            max-width: 1200px; margin: 0 auto;
+            padding: 36px 60px 0; position: relative; z-index: 6;
         }
-        
-        /* Title */
-        .project-title {
-            font-size: 44px;
-            font-weight: 200;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.5s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-        
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Description */
         .description {
-            font-size: 20px;
-            font-weight: 200;
-            line-height: 2;
-            color: #666;
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.7s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
+            margin-top: -40px; margin-bottom: 80px; max-width: 640px;
+            opacity: 0; transform: translateY(30px);
         }
-        
-        /* Image Gallery Section */
+        .description.in-view { animation: slideUp 0.8s ease forwards; }
+        .desc-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+            line-height: 1.95; color: #111; margin-bottom: 28px;
+        }
+        .desc-zh p + p { margin-top: 0.9em; }
+        .desc-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px); font-weight: 400;
+            line-height: 1.85; color: #111;
+        }
+        .desc-en p + p { margin-top: 1em; }
         .gallery-section {
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(40px);
+            margin-bottom: 80px; opacity: 0; transform: translateY(40px);
         }
-        
-        .gallery-section.in-view {
-            animation: slideUp 0.8s ease forwards;
-        }
-        
-        /* Slider Container */
+        .gallery-section.in-view { animation: slideUp 0.8s ease forwards; }
         .slider-container {
-            position: relative;
-            width: 100%;
-            margin-bottom: 40px;
-            border-radius: 12px;
-            overflow: hidden;
+            position: relative; width: 100%;
+            border-radius: 12px; overflow: hidden; margin-bottom: 40px;
         }
-        
-        .slider-wrapper {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 1200 / 750;
-            overflow: hidden;
-        }
-        
-        .slider-slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-        
-        .slider-slide.active {
-            opacity: 1;
-        }
-        
-        .slider-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Slider Navigation */
-        .slider-nav {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            z-index: 5;
-        }
-        
-        .slider-nav-left,
-        .slider-nav-right {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            transition: background 0.3s;
-        }
-        
-        .slider-nav-left {
-            justify-content: flex-start;
-            cursor: w-resize;
-        }
-        
-        .slider-nav-right {
-            justify-content: flex-end;
-            cursor: e-resize;
-        }
-        
-        /* Progress Dots Container */
+        .slider-wrapper { position: relative; width: 100%; aspect-ratio: 3 / 2; overflow: hidden; }
+        .slider-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 0.6s ease; }
+        .slider-slide.active { opacity: 1; }
+        .slider-slide img, .slider-slide video { width: 100%; height: 100%; object-fit: cover; }
+        .slider-nav { position: absolute; top: 0; width: 100%; height: 100%; display: flex; z-index: 5; }
+        .slider-nav-left, .slider-nav-right { flex: 1; display: flex; align-items: center; }
+        .slider-nav-left { justify-content: flex-start; cursor: w-resize; }
+        .slider-nav-right { justify-content: flex-end; cursor: e-resize; }
         .progress-container {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 12px; z-index: 10;
         }
-        
         .progress-dot {
-            position: relative;
-            width: 8px;
-            height: 8px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            transition: all 0.3s;
-            cursor: pointer;
+            position: relative; width: 8px; height: 8px;
+            background: rgba(255,255,255,0.4); border-radius: 50%; transition: all 0.3s; cursor: pointer;
         }
-        
-        .progress-dot.active {
-            width: 60px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.3);
-        }
-        
+        .progress-dot.active { width: 60px; border-radius: 4px; background: rgba(255,255,255,0.3); }
         .progress-dot-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 0%;
-            background: white;
-            border-radius: 4px;
-            transition: width 0.1s linear;
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            background: white; border-radius: 4px; transition: width 0.1s linear;
         }
-        
-        /* Single Image */
-        .single-image {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 40px;
+        .single-image { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
+        .single-image img, .single-image video { width: 100%; height: auto; display: block; }
+        .two-image {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            border-radius: 12px; overflow: hidden; margin-bottom: 40px;
         }
-        
-        .single-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        /* Dynamic Island */
+        .two-image img { width: 100%; height: auto; display: block; }
         .dynamic-island {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 14px 48px;
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 10;
-            border-top-left-radius: 32px; border-top-right-radius: 32px;
-            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
-            transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
-        }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
-        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
-        .menu-toggle {
-            display: flex; flex-direction: column; gap: 5px;
-            cursor: pointer; padding: 6px; flex-shrink: 0;
-            background: transparent; border: none; outline: none;
-            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-        }
-        .menu-toggle span {
-            width: 24px; height: 2px; background: #ccc;
-            border-radius: 2px; transition: all 0.3s; pointer-events: none;
-        }
-        .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-        .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-        .menu-container {
-            display: flex; gap: 24px; align-items: center;
-            max-width: 0; overflow: hidden; opacity: 0;
-            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
-        }
-        .menu-container.open { max-width: 320px; opacity: 1; }
-        .menu-item {
-            cursor: pointer; flex-shrink: 0;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 15px; letter-spacing: 0.06em; font-weight: 200;
-            color: #aaa; text-decoration: none; transition: color 0.25s;
-        }
-        .menu-item:hover { color: #FF0000; }
-        .menu-item.active { color: #222; }
-        .island-center {
-            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
-        }
-        .island-center a { display: block; transition: opacity 0.3s; }
-        .island-center a:hover { opacity: 0.6; }
-        .island-center img { height: 42px; display: block; pointer-events: none; }
-        .island-right { flex: 1; text-align: right; line-height: 1.6; }
-        .island-right .zh { display: block; font-size: 15px; color: #333; font-weight: 200; }
-        .island-right .en {
-            display: block; font-size: 13px; color: #888; font-weight: 200;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            letter-spacing: 0.04em; margin-top: 2px;
-        }
-
-        @media (max-width: 968px) {
-            body { padding-bottom: 120px; }
-            .content { padding: 60px 30px; }
-            .project-title, .description { max-width: 100%; }
-            .project-title { font-size: 36px; margin-bottom: 40px; }
-            .description { font-size: 18px; margin-bottom: 60px; }
-            .gallery-section { margin-bottom: 60px; }
-            .progress-container { gap: 10px; bottom: 18px; }
-            .progress-dot.active { width: 55px; }
-            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-            .island-right { display: none; }
-            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
-            .island-center img { height: 36px; }
-        }
-        
-        @media (max-width: 640px) {
-            body { padding-bottom: 110px; }
-            .hero-image { height: 250px; }
-            .content { padding: 40px 20px; }
-            .project-title { font-size: 30px; margin-bottom: 30px; }
-            .description { font-size: 16px; line-height: 1.8; }
-            .dynamic-island { padding: 10px 16px; }
-            .island-center img { height: 32px; }
-            .menu-toggle span { width: 20px; }
-            .menu-item { font-size: 12px; }
-            .menu-container.open { max-width: 240px; }
-            .menu-container { gap: 18px; }
-            .progress-container { gap: 8px; bottom: 16px; }
-            .progress-dot.active { width: 45px; }
-        }
-
-        /* ══ Nav override ══════════════════════════════════════ */
-        .dynamic-island {
-            position: fixed !important;
-            top: 0 !important; bottom: auto !important;
+            position: fixed !important; top: 0 !important; bottom: auto !important;
             left: 0 !important; right: 0 !important;
-            background: transparent !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            padding: 14px 48px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            flex-direction: row !important;
+            background: transparent !important; border-radius: 0 !important;
+            box-shadow: none !important; padding: 14px 48px !important;
+            display: flex !important; align-items: center !important;
+            justify-content: space-between !important; flex-direction: row !important;
             mix-blend-mode: difference;
             transform: translateY(-100%);
             animation: slideDownNav 0.8s ease 0.3s forwards !important;
+            z-index: 10;
         }
-        @keyframes slideDownNav { to { transform: translateY(0); } }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
         .island-logo { display: block !important; transition: opacity 0.3s; }
         .island-logo:hover { opacity: 0.7 !important; }
         .island-logo img { height: 42px; display: block !important; filter: invert(1); }
@@ -323,51 +130,70 @@
             display: block !important;
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif !important;
             font-size: 15px !important; letter-spacing: 0.06em;
-            font-weight: 600 !important;
-            color: white !important; text-decoration: none;
-            transition: opacity 0.25s;
+            font-weight: 600 !important; color: white !important;
+            text-decoration: none; transition: opacity 0.25s;
             max-width: none !important; overflow: visible !important; opacity: 1 !important;
         }
         .menu-item:hover { opacity: 0.6 !important; color: white !important; }
-        .island-left, .island-center, .island-right,
-        .menu-toggle, .menu-container { display: none !important; }
+        body { padding-top: 72px !important; }
         @media (max-width: 968px) {
+            .work-header { padding: 52px 28px 56px; }
+            .work-title { margin-bottom: 40px; }
+            .category-zh { flex: 0 0 130px; }
+            .content { padding: 50px 30px 0; }
+            .description { max-width: 100%; margin-bottom: 60px; }
+            .gallery-section { margin-bottom: 60px; }
+            .hero-image { height: 280px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
+            .work-header { padding: 40px 20px 48px; }
+            .work-title { margin-bottom: 32px; }
+            .work-categories { flex-direction: column; gap: 6px; }
+            .category-zh { flex: none; }
+            .content { padding: 40px 20px 0; }
+            .hero-image { height: 220px; }
+            .desc-zh { font-size: 17px; }
+            .desc-en { font-size: 15px; }
+            .two-image { grid-template-columns: 1fr; gap: 12px; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
             .island-nav { gap: 16px; }
         }
-        body { padding-top: 72px !important; }
     </style>
 </head>
 <body>
     <div class="hero-image">
-        <img src="../assets/Tear_Of_War/VDesign_workIX_0.webp" alt="Tear of war">
+        <img src="../assets/Tear_Of_War/VDesign_workIX_0.webp" alt="Tear of War">
+    </div>
+
+    <div class="work-header">
+        <div class="work-header-inner">
+            <h1 class="work-title">
+                <span class="title-zh">Tear of War</span><span class="title-en">Tear of War</span>
+            </h1>
+            <div class="work-categories">
+                <span class="category-zh">海報</span>
+                <span class="category-en">Poster</span>
+            </div>
+        </div>
     </div>
 
     <div class="content">
-        <h1 class="project-title">Tear of war</h1>
-
-        <p class="description">
-            在烏克蘭的戰火中，看見了台灣相似的處境與危機。鐵網交織成一雙凝視的眼睛，落下一滴沈重眼淚，它源自烏克蘭人民的傷痛，也映照出台灣相似焦慮。<br>
-            願眼淚之後，是重生的堅韌。
-        </p>
 
         <div class="gallery-section">
             <div class="slider-container">
                 <div class="slider-wrapper">
                     <div class="slider-slide active">
-                        <img src="../assets/Tear_Of_War/VDesign_workIX_1.webp" alt="Poster Design 1">
+                        <img src="../assets/Tear_Of_War/VDesign_workIX_1.webp" alt="Tear of War 1">
                     </div>
                     <div class="slider-slide">
-                        <img src="../assets/Tear_Of_War/VDesign_workIX_2.webp" alt="Poster Design 2">
+                        <img src="../assets/Tear_Of_War/VDesign_workIX_2.webp" alt="Tear of War 2">
                     </div>
                     <div class="slider-slide">
-                        <img src="../assets/Tear_Of_War/VDesign_workIX_3.webp" alt="Poster Design 3">
+                        <img src="../assets/Tear_Of_War/VDesign_workIX_3.webp" alt="Tear of War 3">
                     </div>
                 </div>
                 <div class="slider-nav">
@@ -382,11 +208,21 @@
             </div>
         </div>
 
-        <div class="gallery-section">
-            <div class="single-image">
-                <img src="../assets/Tear_Of_War/VDesign_workIX_4.webp" alt="Poster Application">
+        <div class="description">
+            <div class="desc-zh">
+                <p>在烏克蘭的戰火中，看見了台灣相似的處境與危機。鐵網交織成一雙凝視的眼睛，落下一滴沈重眼淚，它源自烏克蘭人民的傷痛，也映照出台灣相似焦慮。願眼淚之後，是重生的堅韌。</p>
+            </div>
+            <div class="desc-en">
+                <p>In the fires of Ukraine, a mirror of Taiwan's own situation and vulnerability. Wire mesh weaves into a pair of watching eyes, from which falls a heavy tear — drawn from the pain of the Ukrainian people, reflecting the shared anxiety of Taiwan. May what follows the tears be the resilience of rebirth.</p>
             </div>
         </div>
+
+        <div class="gallery-section">
+            <div class="single-image">
+                <img src="../assets/Tear_Of_War/VDesign_workIX_4.webp" alt="Tear of War">
+            </div>
+        </div>
+
     </div>
 
     <div class="dynamic-island">
@@ -402,27 +238,16 @@
 
     <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
     <script>
-        // Initialize Lenis smooth scroll
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
+            orientation: 'vertical', gestureOrientation: 'vertical',
+            smoothWheel: true, wheelMultiplier: 1,
+            smoothTouch: false, touchMultiplier: 2, infinite: false,
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // Enhanced Slider Functionality with Auto-play
         class AutoSlider {
             constructor(container) {
                 this.container = container;
@@ -433,122 +258,57 @@
                 this.progressDots = this.progressContainer.querySelectorAll('.progress-dot');
                 this.progressFills = this.progressContainer.querySelectorAll('.progress-dot-fill');
                 this.currentSlide = 0;
-                this.autoPlayDuration = 5000; // 5 seconds
+                this.autoPlayDuration = 5000;
                 this.autoPlayInterval = null;
                 this.progressStartTime = null;
                 this.progressAnimationFrame = null;
-                
                 this.init();
             }
-            
             init() {
-                // Navigation events
-                if (this.navLeft) {
-                    this.navLeft.addEventListener('click', () => {
-                        this.showSlide(this.currentSlide - 1);
-                        this.resetAutoPlay();
-                    });
-                }
-                
-                if (this.navRight) {
-                    this.navRight.addEventListener('click', () => {
-                        this.showSlide(this.currentSlide + 1);
-                        this.resetAutoPlay();
-                    });
-                }
-                
-                // Progress dot clicks
+                if (this.navLeft) this.navLeft.addEventListener('click', () => { this.showSlide(this.currentSlide - 1); this.resetAutoPlay(); });
+                if (this.navRight) this.navRight.addEventListener('click', () => { this.showSlide(this.currentSlide + 1); this.resetAutoPlay(); });
                 this.progressDots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => {
-                        this.showSlide(index);
-                        this.resetAutoPlay();
-                    });
+                    dot.addEventListener('click', () => { this.showSlide(index); this.resetAutoPlay(); });
                 });
-                
-                // Start auto-play
                 this.startAutoPlay();
                 this.startProgressAnimation();
             }
-            
             showSlide(index) {
                 this.slides.forEach(slide => slide.classList.remove('active'));
                 this.currentSlide = (index + this.slides.length) % this.slides.length;
                 this.slides[this.currentSlide].classList.add('active');
-                
-                // Update progress dots
-                this.progressDots.forEach((dot, i) => {
-                    dot.classList.remove('active');
-                    this.progressFills[i].style.width = '0%';
-                });
+                this.progressDots.forEach((dot, i) => { dot.classList.remove('active'); this.progressFills[i].style.width = '0%'; });
                 this.progressDots[this.currentSlide].classList.add('active');
-                
-                // Restart progress animation
                 this.startProgressAnimation();
             }
-            
             startProgressAnimation() {
                 this.progressStartTime = Date.now();
-                
                 const animate = () => {
                     const elapsed = Date.now() - this.progressStartTime;
                     const progress = Math.min((elapsed / this.autoPlayDuration) * 100, 100);
-                    
                     const currentFill = this.progressFills[this.currentSlide];
-                    if (currentFill) {
-                        currentFill.style.width = progress + '%';
-                    }
-                    
-                    if (progress < 100) {
-                        this.progressAnimationFrame = requestAnimationFrame(animate);
-                    }
+                    if (currentFill) currentFill.style.width = progress + '%';
+                    if (progress < 100) this.progressAnimationFrame = requestAnimationFrame(animate);
                 };
-                
-                if (this.progressAnimationFrame) {
-                    cancelAnimationFrame(this.progressAnimationFrame);
-                }
-                
+                if (this.progressAnimationFrame) cancelAnimationFrame(this.progressAnimationFrame);
                 animate();
             }
-            
             startAutoPlay() {
-                if (this.autoPlayInterval) {
-                    clearInterval(this.autoPlayInterval);
-                }
-                
-                this.autoPlayInterval = setInterval(() => {
-                    this.showSlide(this.currentSlide + 1);
-                }, this.autoPlayDuration);
+                if (this.autoPlayInterval) clearInterval(this.autoPlayInterval);
+                this.autoPlayInterval = setInterval(() => { this.showSlide(this.currentSlide + 1); }, this.autoPlayDuration);
             }
-            
-            resetAutoPlay() {
-                this.startAutoPlay();
-            }
+            resetAutoPlay() { this.startAutoPlay(); }
         }
-        
-        // Initialize all sliders with auto-play
-        document.querySelectorAll('.slider-container').forEach(container => {
-            new AutoSlider(container);
-        });
 
-        // Intersection Observer for gallery sections
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        document.querySelectorAll('.slider-container').forEach(container => { new AutoSlider(container); });
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
+                if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
             });
-        }, observerOptions);
+        }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-        document.querySelectorAll('.gallery-section').forEach(section => {
-            observer.observe(section);
-        });
+        document.querySelectorAll('.gallery-section, .description').forEach(el => { observer.observe(el); });
     </script>
 </body>
 </html>
