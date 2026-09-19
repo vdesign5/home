@@ -20,6 +20,10 @@
             padding-bottom: 80px;
         }
 
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDownNav { to { transform: translateY(0); } }
+
         /* Hero Image */
         .hero-image {
             width: 100%;
@@ -36,7 +40,61 @@
             object-fit: cover;
         }
 
-        @keyframes fadeIn { to { opacity: 1; } }
+        /* Work Header (dark block) */
+        .work-header {
+            background: #111;
+            padding: 72px 60px 64px;
+            position: relative;
+            z-index: 6;
+            opacity: 0;
+            animation: fadeIn 0.8s ease 0.5s forwards;
+        }
+        .work-header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .work-title-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(52px, 7vw, 108px);
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 12px;
+        }
+        .work-title-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(15px, 1.5vw, 20px);
+            font-weight: 200;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 0.1em;
+            margin-bottom: 52px;
+        }
+        .work-categories {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .category-label {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-right: 8px;
+        }
+        .category-tag {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.6);
+            padding: 5px 14px;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 100px;
+            letter-spacing: 0.04em;
+        }
 
         /* Content Container */
         .content {
@@ -47,37 +105,18 @@
             z-index: 6;
         }
 
-        /* Title */
-        .project-title {
-            font-size: 44px;
-            font-weight: 200;
-            margin-bottom: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.5s forwards;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-
-        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-
         /* Description */
         .description {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 200;
             line-height: 2;
             color: #666;
             margin-bottom: 80px;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
+            max-width: 640px;
             opacity: 0;
             transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.7s forwards;
         }
+        .description.in-view { animation: slideUp 0.8s ease forwards; }
         .description p + p { margin-top: 1.2em; }
 
         /* Gallery */
@@ -147,31 +186,7 @@
         .single-image { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
         .single-image img { width: 100%; height: auto; display: block; }
 
-        /* Dynamic Island */
-        .dynamic-island {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 14px 48px;
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 10;
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .content { padding: 60px 30px; }
-            .project-title, .description { max-width: 100%; }
-            .project-title { font-size: 36px; margin-bottom: 40px; }
-            .description { font-size: 18px; margin-bottom: 60px; }
-            .gallery-section { margin-bottom: 60px; }
-            .hero-image { height: 280px; }
-        }
-        @media (max-width: 640px) {
-            .content { padding: 40px 20px; }
-            .hero-image { height: 220px; }
-            .project-title { font-size: 30px; margin-bottom: 30px; }
-            .description { font-size: 16px; line-height: 1.8; }
-        }
-
-        /* ══ Nav override ══════════════════════════════════════ */
+        /* Nav */
         .dynamic-island {
             position: fixed !important;
             top: 0 !important; bottom: auto !important;
@@ -187,8 +202,8 @@
             mix-blend-mode: difference;
             transform: translateY(-100%);
             animation: slideDownNav 0.8s ease 0.3s forwards !important;
+            z-index: 10;
         }
-        @keyframes slideDownNav { to { transform: translateY(0); } }
         .island-logo { display: block !important; transition: opacity 0.3s; }
         .island-logo:hover { opacity: 0.7 !important; }
         .island-logo img { height: 42px; display: block !important; filter: invert(1); }
@@ -203,17 +218,30 @@
             max-width: none !important; overflow: visible !important; opacity: 1 !important;
         }
         .menu-item:hover { opacity: 0.6 !important; color: white !important; }
+
+        body { padding-top: 72px !important; }
+
         @media (max-width: 968px) {
+            .work-header { padding: 56px 30px 48px; }
+            .work-title-en { margin-bottom: 36px; }
+            .content { padding: 60px 30px; }
+            .description { font-size: 17px; margin-bottom: 60px; max-width: 100%; }
+            .gallery-section { margin-bottom: 60px; }
+            .hero-image { height: 280px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
+            .work-header { padding: 40px 20px 36px; }
+            .work-title-en { margin-bottom: 28px; }
+            .content { padding: 40px 20px; }
+            .hero-image { height: 220px; }
+            .description { font-size: 15px; line-height: 1.85; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
             .island-nav { gap: 16px; }
         }
-        body { padding-top: 72px !important; }
     </style>
 </head>
 <body>
@@ -221,13 +249,20 @@
         <img src="../assets/Zhao_Mei/Vdesign_work_XV_0.webp" alt="鍘美藝術節">
     </div>
 
-    <div class="content">
-        <h1 class="project-title">2026 年鍘美藝術節</h1>
-
-        <div class="description">
-            <p>畫面以「看戲」與「辦桌」為構圖核心，拉開的布幕、碗、筷與圓桌同框，台上演的情義與台下的人情，在同一畫面共存。</p>
-            <p>本案以簡約幾何色塊為語彙延伸視覺系統；褪去繁飾，保留傳統戲曲的氣韻，讓視覺在各式製作物上有更大的彈性。</p>
+    <div class="work-header">
+        <div class="work-header-inner">
+            <h1 class="work-title-zh">鍘美藝術節</h1>
+            <p class="work-title-en">Zhao Mei Arts Festival — 2026</p>
+            <div class="work-categories">
+                <span class="category-label">Services</span>
+                <span class="category-tag">視覺識別</span>
+                <span class="category-tag">活動海報</span>
+                <span class="category-tag">應用設計</span>
+            </div>
         </div>
+    </div>
+
+    <div class="content">
 
         <div class="gallery-section">
             <div class="slider-container">
@@ -248,6 +283,11 @@
                     <div class="progress-dot" data-slide="1"><div class="progress-dot-fill"></div></div>
                 </div>
             </div>
+        </div>
+
+        <div class="description">
+            <p>畫面以「看戲」與「辦桌」為構圖核心，拉開的布幕、碗、筷與圓桌同框，台上演的情義與台下的人情，在同一畫面共存。</p>
+            <p>本案以簡約幾何色塊為語彙延伸視覺系統；褪去繁飾，保留傳統戲曲的氣韻，讓視覺在各式製作物上有更大的彈性。</p>
         </div>
 
         <div class="gallery-section">
@@ -297,6 +337,7 @@
                 <img src="../assets/Zhao_Mei/Vdesign_work_XV_7.webp" alt="鍘美藝術節 全圖">
             </div>
         </div>
+
     </div>
 
     <div class="dynamic-island">
@@ -386,7 +427,7 @@
             });
         }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-        document.querySelectorAll('.gallery-section').forEach(section => { observer.observe(section); });
+        document.querySelectorAll('.gallery-section, .description').forEach(el => { observer.observe(el); });
     </script>
 </body>
 </html>
