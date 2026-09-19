@@ -43,31 +43,31 @@
         /* Work Header */
         .work-header {
             background: #fff;
-            padding: 52px 60px 60px;
+            padding: 64px 48px 68px;
             position: relative;
             z-index: 6;
             opacity: 0;
             animation: fadeIn 0.8s ease 0.5s forwards;
         }
         .work-header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
+            /* no max-width — title hugs left edge */
         }
         .work-title {
-            font-size: clamp(36px, 5vw, 74px);
             font-weight: 700;
             color: #111;
-            line-height: 1.15;
-            margin-bottom: 52px;
+            line-height: 1.1;
+            margin-bottom: 56px;
         }
         .title-zh {
             font-family: 'Noto Sans TC', sans-serif;
-            letter-spacing: 0.08em;
-            margin-right: 0.35em;
+            font-size: clamp(32px, 5.21vw, 96px); /* 75pt @ 1440px */
+            letter-spacing: 0.07em;
+            margin-right: 0.28em;
         }
         .title-en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            letter-spacing: -0.01em;
+            font-size: clamp(36px, 5.9vw, 108px);  /* 85pt @ 1440px */
+            letter-spacing: -0.02em;
         }
         .work-categories {
             display: flex;
@@ -227,7 +227,7 @@
         body { padding-top: 72px !important; }
 
         @media (max-width: 968px) {
-            .work-header { padding: 44px 30px 52px; }
+            .work-header { padding: 52px 28px 56px; }
             .work-title { margin-bottom: 40px; }
             .category-zh { flex: 0 0 130px; }
             .content { padding: 50px 30px 0; }
@@ -238,7 +238,7 @@
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
-            .work-header { padding: 36px 20px 44px; }
+            .work-header { padding: 40px 20px 48px; }
             .work-title { margin-bottom: 32px; }
             .work-categories { flex-direction: column; gap: 6px; }
             .category-zh { flex: none; }
