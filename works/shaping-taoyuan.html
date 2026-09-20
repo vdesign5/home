@@ -88,6 +88,7 @@
         .video-container { position: relative; width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
         .video-container.widescreen { aspect-ratio: 16 / 9; }
         .video-container video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .video-container.natural video { height: auto; object-fit: initial; }
         .video-controls {
             position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
@@ -210,7 +211,7 @@
         </div>
 
         <div class="gallery-section">
-            <div class="video-container widescreen">
+            <div class="video-container natural">
                 <video id="video2" autoplay loop muted playsinline>
                     <source src="../assets/Shaping_Taoyuan/Vdesign_work_XVI_2.mp4" type="video/mp4">
                 </video>
