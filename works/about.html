@@ -33,7 +33,7 @@
             background: #fff;
         }
         .about-title-block {
-            padding: 40px 36px 60px;
+            padding: 16px 36px 36px;
             position: relative;
             z-index: 2;
             pointer-events: none;
@@ -42,25 +42,30 @@
             line-height: 1.02;
         }
         .about-greeting {
-            font-family: 'Noto Sans TC', sans-serif;
-            font-size: clamp(44px, 12vw, 220px);
+            font-size: clamp(38px, 10vw, 185px);
             font-weight: 700;
             color: #111;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.02em;
         }
         .about-greeting .en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
             letter-spacing: -0.02em;
         }
+        .about-greeting .zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 0.87em;
+            letter-spacing: 0;
+        }
         .about-name-zh {
             font-family: 'Noto Sans TC', sans-serif;
-            font-size: clamp(44px, 12vw, 220px);
+            font-size: clamp(33px, 8.7vw, 162px);
             font-weight: 700;
             color: #111;
+            letter-spacing: 0;
         }
         .about-name-en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            font-size: clamp(44px, 12vw, 220px);
+            font-size: clamp(38px, 10vw, 185px);
             font-weight: 700;
             color: #111;
             letter-spacing: -0.03em;
@@ -76,7 +81,9 @@
         }
 
         .about-desc {
-            max-width: 640px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
             margin-bottom: 80px;
             opacity: 0;
             transform: translateY(30px);
@@ -89,7 +96,6 @@
             font-weight: 400;
             line-height: 1.95;
             color: #111;
-            margin-bottom: 28px;
         }
         .desc-zh p + p { margin-top: 0.9em; }
         .desc-en {
@@ -143,12 +149,20 @@
             font-weight: 400;
             color: #aaa;
         }
-        .exp-desc {
+        .exp-desc-zh {
             font-family: 'Noto Sans TC', sans-serif;
             font-size: clamp(13px, 1.15vw, 15px);
             font-weight: 400;
             line-height: 1.95;
             color: #666;
+            margin-bottom: 14px;
+        }
+        .exp-desc-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(12px, 1.1vw, 14px);
+            font-weight: 400;
+            line-height: 1.85;
+            color: #999;
         }
 
         /* ── NAV ────────────────────────────────────────────────── */
@@ -186,15 +200,15 @@
         body { padding-top: 72px !important; }
 
         @media (max-width: 968px) {
-            .about-title-block { padding: 32px 28px 48px; }
+            .about-title-block { padding: 12px 28px 32px; }
             .about-content { padding: 60px 30px 0; }
-            .about-desc { margin-bottom: 60px; }
+            .about-desc { grid-template-columns: 1fr; gap: 32px; margin-bottom: 60px; }
             .experience-item { grid-template-columns: 1fr; gap: 8px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
-            .about-title-block { padding: 24px 20px 36px; }
+            .about-title-block { padding: 8px 20px 28px; }
             .about-content { padding: 48px 20px 0; }
             .desc-zh { font-size: 17px; }
             .desc-en { font-size: 15px; }
@@ -209,7 +223,7 @@
 
     <section class="about-hero" id="aboutHero">
         <div class="about-title-block">
-            <div class="about-greeting"><span class="en">Hi</span>！我是 <span class="en">I'm</span></div>
+            <div class="about-greeting"><span class="en">Hi</span><span class="zh">！我是</span> <span class="en">I'm</span></div>
             <div class="about-name-zh">伍聖燿</div>
             <div class="about-name-en">Sheng-Yao, Wu</div>
         </div>
@@ -259,9 +273,16 @@
                     <div class="exp-period">2025 — 2026</div>
                 </div>
                 <div class="exp-desc">
-                    官網內容重構－梳理資訊，運用 Vibe Coding 統整網頁內容並完成視覺設計。<br>
-                    品牌插畫系統－制定專屬插畫系統，能呈現攝影較難表現的抽象情境，也提升受眾對複雜資訊的接收意願。<br>
-                    產品情境照生成－AI 影像生成與修圖技術產出產品情境照，降低傳統搭景拍攝的時間與資金成本。
+                    <div class="exp-desc-zh">
+                        官網內容重構－梳理資訊，運用 Vibe Coding 統整網頁內容並完成視覺設計。<br>
+                        品牌插畫系統－制定專屬插畫系統，能呈現攝影較難表現的抽象情境，也提升受眾對複雜資訊的接收意願。<br>
+                        產品情境照生成－AI 影像生成與修圖技術產出產品情境照，降低傳統搭景拍攝的時間與資金成本。
+                    </div>
+                    <div class="exp-desc-en">
+                        Website Restructuring — Reorganized information architecture and rebuilt the site using vibe coding, bringing content and visual design up to standard.<br>
+                        Brand Illustration System — Developed a proprietary illustration system to convey abstract scenarios that photography struggles to capture, improving audience receptiveness to complex information.<br>
+                        Product Lifestyle Photography — Used AI image generation and retouching to produce product context shots, reducing the time and cost of traditional set photography.
+                    </div>
                 </div>
             </div>
 
@@ -271,8 +292,14 @@
                     <div class="exp-period">2024 — 2025</div>
                 </div>
                 <div class="exp-desc">
-                    動態圖像設計－突破平面敘事的限制，透過動態更完整傳達專案概念，同時讓作品更具吸引力。<br>
-                    3D 建模－突破平面圖視角侷限，透過 3D 建模並配合 3D 列印，協助觀看者清晰理解作品的空間概念。
+                    <div class="exp-desc-zh">
+                        動態圖像設計－突破平面敘事的限制，透過動態更完整傳達專案概念，同時讓作品更具吸引力。<br>
+                        3D 建模－突破平面圖視角侷限，透過 3D 建模並配合 3D 列印，協助觀看者清晰理解作品的空間概念。
+                    </div>
+                    <div class="exp-desc-en">
+                        Motion Design — Expanded beyond static storytelling; used motion to more fully communicate project concepts while making the work more visually engaging.<br>
+                        3D Modeling — Went beyond flat drawings by creating 3D models paired with 3D printing, helping viewers clearly understand the spatial concepts of each project.
+                    </div>
                 </div>
             </div>
 
@@ -282,8 +309,14 @@
                     <div class="exp-period">2023 — 2024</div>
                 </div>
                 <div class="exp-desc">
-                    品牌標誌設計－分析品牌目標受眾與所想傳遞的感受，將抽象概念轉化為具體的視覺標誌。<br>
-                    指標識別系統－延續品牌視覺調性，以功能圖示取代繁雜文字，讓觀者接收資訊時更直覺、快速。
+                    <div class="exp-desc-zh">
+                        品牌標誌設計－分析品牌目標受眾與所想傳遞的感受，將抽象概念轉化為具體的視覺標誌。<br>
+                        指標識別系統－延續品牌視覺調性，以功能圖示取代繁雜文字，讓觀者接收資訊時更直覺、快速。
+                    </div>
+                    <div class="exp-desc-en">
+                        Brand Identity — Analyzed target audiences and the feelings each brand aimed to convey, then translated abstract concepts into concrete visual marks.<br>
+                        Wayfinding System — Extended the brand's visual language by replacing dense copy with functional icons, making information faster and more intuitive to absorb.
+                    </div>
                 </div>
             </div>
 
@@ -334,7 +367,7 @@
             window.addEventListener('resize', resize, { passive: true });
 
             var G = 0.55, BOUNCE = 0.42, FRIC = 0.84, AIR = 0.993, ANG_D = 0.985;
-            var IMG_H = isMobile ? 120 : 180;
+            var IMG_H = isMobile ? 132 : 198;
             var PAD_B = 18, M_RAD = 135, M_STR = 0.4, FLAT_K = 0.001;
             var pendingImp = 0;
 
