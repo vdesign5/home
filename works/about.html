@@ -3,193 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - 伍聖燿</title>
+    <title>About — STUDIO 5</title>
     <link rel="icon" type="image/png" href="../assets/logo_mark.png">
     <link rel="apple-touch-icon" href="../assets/logo_mark.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;400;500;600;700&family=Noto+Sans+TC:wght@100;200;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100;200;300;400;500;600;700&family=Noto+Sans+TC:wght@100;200;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.20/dist/lenis.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            color: #333; 
-            background: #fff; 
-            overflow-x: hidden; 
-            padding-bottom: 180px; 
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: #111;
+            background: #fff;
+            overflow-x: hidden;
+            padding-bottom: 80px;
         }
-        .english { font-family: Arial, sans-serif; }
-        
-        /* Layout Container */
-        .about-container {
-            max-width: 1000px;
-            margin: 120px auto;
-            padding: 0 40px;
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 40px;
+
+        @keyframes fadeIn  { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDownNav { to { transform: translateY(0); } }
+
+        /* ── HERO ──────────────────────────────────────────────── */
+        .about-hero {
+            position: relative;
+            width: 100%;
+            min-height: calc(100vh - 72px);
+            overflow: hidden;
+            background: #fff;
+        }
+        .about-title-block {
+            padding: 40px 36px 60px;
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
             opacity: 0;
-            transform: translateY(30px);
-            animation: slideUp 0.8s ease 0.3s forwards;
+            animation: fadeIn 0.6s ease 0.15s forwards;
+            line-height: 1.02;
+        }
+        .about-greeting {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(44px, 12vw, 220px);
+            font-weight: 700;
+            color: #111;
+            letter-spacing: -0.01em;
+        }
+        .about-greeting .en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: -0.02em;
+        }
+        .about-name-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(44px, 12vw, 220px);
+            font-weight: 700;
+            color: #111;
+        }
+        .about-name-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(44px, 12vw, 220px);
+            font-weight: 700;
+            color: #111;
+            letter-spacing: -0.03em;
+        }
+
+        /* ── CONTENT ───────────────────────────────────────────── */
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 60px 0;
             position: relative;
             z-index: 6;
         }
 
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .about-desc {
+            max-width: 640px;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
         }
+        .about-desc.in-view { animation: slideUp 0.8s ease forwards; }
 
-        /* Profile Image */
-        .profile-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+        .desc-zh {
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px);
+            font-weight: 400;
+            line-height: 1.95;
+            color: #111;
+            margin-bottom: 28px;
         }
-        
-        .profile-img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
+        .desc-zh p + p { margin-top: 0.9em; }
+        .desc-en {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: clamp(17px, 1.6vw, 21px);
+            font-weight: 400;
+            line-height: 1.85;
+            color: #111;
         }
+        .desc-en p + p { margin-top: 1em; }
 
-        /* Content Sections */
-        .about-section {
-            display: flex;
-            gap: 30px;
-            margin-bottom: 60px;
+        /* ── EXPERIENCE ─────────────────────────────────────────── */
+        .about-experience {
+            opacity: 0;
+            transform: translateY(30px);
         }
+        .about-experience.in-view { animation: slideUp 0.8s ease 0.1s forwards; }
 
-        .section-label {
-            font-size: 28px;
-            font-weight: 200;
-            color: #333;
-            letter-spacing: 4px;
-            white-space: nowrap;
-            width: 100px;
-            flex-shrink: 0;
-        }
-
-        .section-content {
-            flex: 1;
-        }
-
-        /* Text Styles */
-        .intro-text {
-            font-size: 17px;
-            font-weight: 200;
-            line-height: 2;
-            color: #555;
-            margin-bottom: 24px;
+        .exp-label {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            color: #aaa;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 36px;
         }
 
         .experience-item {
-            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 0 40px;
+            margin-bottom: 36px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid #ebebeb;
         }
+        .experience-item:last-child { border-bottom: none; margin-bottom: 0; }
 
-        .experience-item:last-child {
-            margin-bottom: 0;
-        }
-
+        .exp-meta { padding-top: 2px; }
         .exp-title {
-            font-size: 18px;
-            font-weight: 200;
-            color: #333;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(13px, 1.2vw, 15px);
+            font-weight: 500;
+            color: #111;
+            line-height: 1.6;
+            margin-bottom: 4px;
         }
-
+        .exp-period {
+            font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: #aaa;
+        }
         .exp-desc {
-            font-size: 15px;
-            font-weight: 200;
-            line-height: 1.8;
-            color: #888;
-        }
-        /* Dynamic Island */
-        .dynamic-island {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 14px 48px;
-            display: flex; align-items: center; justify-content: space-between;
-            z-index: 10;
-            border-top-left-radius: 32px; border-top-right-radius: 32px;
-            box-shadow: 0 -6px 24px rgba(0,0,0,0.05);
-            transform: translateY(100%); animation: slideUpIsland 0.8s ease 0.3s forwards;
-        }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
-        .island-left { display: flex; gap: 24px; align-items: center; flex: 1; }
-        .menu-toggle {
-            display: flex; flex-direction: column; gap: 5px;
-            cursor: pointer; padding: 6px; flex-shrink: 0;
-            background: transparent; border: none; outline: none;
-            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-        }
-        .menu-toggle span {
-            width: 24px; height: 2px; background: #ccc;
-            border-radius: 2px; transition: all 0.3s; pointer-events: none;
-        }
-        .menu-toggle:hover span { background: #FF0000; }
-        .menu-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-        .menu-toggle.open span:nth-child(2) { opacity: 0; }
-        .menu-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-        .menu-container {
-            display: flex; gap: 24px; align-items: center;
-            max-width: 0; overflow: hidden; opacity: 0;
-            transition: max-width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s;
-        }
-        .menu-container.open { max-width: 320px; opacity: 1; }
-        .menu-item {
-            cursor: pointer; flex-shrink: 0;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 15px; letter-spacing: 0.06em; font-weight: 200;
-            color: #aaa; text-decoration: none; transition: color 0.25s;
-        }
-        .menu-item:hover { color: #FF0000; }
-        .menu-item.active { color: #222; }
-        .island-center {
-            position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
-        }
-        .island-center a { display: block; transition: opacity 0.3s; }
-        .island-center a:hover { opacity: 0.6; }
-        .island-center img { height: 42px; display: block; pointer-events: none; }
-        .island-right { flex: 1; text-align: right; line-height: 1.6; }
-        .island-right .zh { display: block; font-size: 15px; color: #333; font-weight: 200; }
-        .island-right .en {
-            display: block; font-size: 13px; color: #888; font-weight: 200;
-            font-family: 'Apparat', 'Helvetica Neue', Arial, sans-serif;
-            letter-spacing: 0.04em; margin-top: 2px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: clamp(13px, 1.15vw, 15px);
+            font-weight: 400;
+            line-height: 1.95;
+            color: #666;
         }
 
-        @media (max-width: 968px) {
-            body { padding-bottom: 120px; }
-            .about-container { padding: 0 30px; margin: 60px auto; }
-            .about-grid { grid-template-columns: 1fr; gap: 40px; }
-            .about-title { font-size: 28px; }
-            .skill-item { font-size: 14px; }
-            .dynamic-island { padding: 12px 20px; border-top-left-radius: 24px; border-top-right-radius: 24px; }
-            .island-right { display: none; }
-            .island-center { position: absolute; left: auto; right: 20px; transform: none; }
-            .island-center img { height: 36px; }
-        }
-        
-        @media (max-width: 640px) {
-            body { padding-bottom: 110px; }
-            .about-container { padding: 0 24px; margin: 60px auto; }
-            .profile-img { width: 120px; height: 120px; }
-            .dynamic-island { padding: 10px 16px; }
-            .island-center img { height: 32px; }
-            .menu-toggle span { width: 20px; }
-            .menu-item { font-size: 12px; }
-            .menu-container.open { max-width: 240px; }
-            .menu-container { gap: 18px; }
-        }
-
-        /* ══ Nav override ══════════════════════════════════════ */
+        /* ── NAV ────────────────────────────────────────────────── */
         .dynamic-island {
             position: fixed !important;
             top: 0 !important; bottom: auto !important;
@@ -205,9 +167,8 @@
             mix-blend-mode: difference;
             transform: translateY(-100%);
             animation: slideDownNav 0.8s ease 0.3s forwards !important;
+            z-index: 10;
         }
-        @keyframes slideDownNav { to { transform: translateY(0); } }
-        @keyframes slideUpIsland { to { transform: translateY(0); } }
         .island-logo { display: block !important; transition: opacity 0.3s; }
         .island-logo:hover { opacity: 0.7 !important; }
         .island-logo img { height: 42px; display: block !important; filter: invert(1); }
@@ -222,78 +183,112 @@
             max-width: none !important; overflow: visible !important; opacity: 1 !important;
         }
         .menu-item:hover { opacity: 0.6 !important; color: white !important; }
-        .island-left, .island-center, .island-right,
-        .menu-toggle, .menu-container { display: none !important; }
+        body { padding-top: 72px !important; }
+
         @media (max-width: 968px) {
+            .about-title-block { padding: 32px 28px 48px; }
+            .about-content { padding: 60px 30px 0; }
+            .about-desc { margin-bottom: 60px; }
+            .experience-item { grid-template-columns: 1fr; gap: 8px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
         }
         @media (max-width: 640px) {
+            .about-title-block { padding: 24px 20px 36px; }
+            .about-content { padding: 48px 20px 0; }
+            .desc-zh { font-size: 17px; }
+            .desc-en { font-size: 15px; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
             .island-nav { gap: 16px; }
         }
-        body { padding-top: 72px !important; }
     </style>
 </head>
 <body>
 
-    <div class="about-container">
-        <div class="profile-wrapper">
-            <img src="../assets/me.png" alt="伍聖燿" class="profile-img">
+    <section class="about-hero" id="aboutHero">
+        <div class="about-title-block">
+            <div class="about-greeting"><span class="en">Hi</span>！我是 <span class="en">I'm</span></div>
+            <div class="about-name-zh">伍聖燿</div>
+            <div class="about-name-en">Sheng-Yao, Wu</div>
+        </div>
+    </section>
+
+    <div class="about-content">
+
+        <div class="about-desc">
+            <div class="desc-zh">
+                <p>常見到，<br>
+                可能很清楚自己想說什麼，<br>
+                卻不知道它應該長怎樣、對誰說。</p>
+                <p>設計師，<br>
+                就是試著把這些還沒有形狀的想法，<br>
+                釐清成一個能看得懂，也願意看的樣子。</p>
+                <p>有時候透過平面設計，<br>
+                有時候結合動態、3D、插畫，<br>
+                再不然可能得寫一點程式。</p>
+                <p>也就是，<br>
+                原本需要解釋很多次的事情，<br>
+                透過視覺變得更容易被理解，<br>
+                讓你不用說那麼多。</p>
+            </div>
+            <div class="desc-en">
+                <p>It happens all the time —<br>
+                you know exactly what you want to say,<br>
+                but not what it should look like, or who it's really for.</p>
+                <p>A designer's job is to take those<br>
+                still-shapeless ideas and work them into<br>
+                something people can understand — and want to look at.</p>
+                <p>Sometimes through graphic design,<br>
+                sometimes with motion, 3D, or illustration,<br>
+                and sometimes that means writing a bit of code.</p>
+                <p>The point is this:<br>
+                something that used to take a lot of explaining<br>
+                becomes easier to grasp through visuals.<br>
+                So you don't have to say as much.</p>
+            </div>
         </div>
 
-        <div class="about-info">
-            
-            <div class="about-section">
-                <div class="section-label">自介 ｜</div>
-                <div class="section-content">
-                    <p class="intro-text">
-                        嗨，我是伍聖燿，是一個透過優化視覺來解決問題的人。<br>
-                        可能不是什麼神奇的魔法，但我認為設計能夠降低溝通的時間與成本。
-                    </p>
-                    <p class="intro-text">
-                        致力於替那些想把事情講清楚，卻不知道畫面該長什麼樣子的人，<br>
-                        透過平面設計、動態圖像設計、3D 建模、vibe coding、插畫等方式，<br>
-                        整理成你想對話的人看得懂、且看得舒服的樣子。
-                    </p>
+        <div class="about-experience">
+            <div class="exp-label">Experience</div>
+
+            <div class="experience-item">
+                <div class="exp-meta">
+                    <div class="exp-title">OVO 京典衛浴<br>品牌設計師</div>
+                    <div class="exp-period">2025 — 2026</div>
+                </div>
+                <div class="exp-desc">
+                    官網內容重構－梳理資訊，運用 Vibe Coding 統整網頁內容並完成視覺設計。<br>
+                    品牌插畫系統－制定專屬插畫系統，能呈現攝影較難表現的抽象情境，也提升受眾對複雜資訊的接收意願。<br>
+                    產品情境照生成－AI 影像生成與修圖技術產出產品情境照，降低傳統搭景拍攝的時間與資金成本。
                 </div>
             </div>
 
-            <div class="about-section">
-                <div class="section-label">經歷 ｜</div>
-                <div class="section-content">
-                    
-                    <div class="experience-item">
-                        <div class="exp-title">OVO 京典衛浴 ｜ 品牌設計師 (2025 — 2026)</div>
-                        <div class="exp-desc">
-                            官網內容重構－梳理資訊，運用 Vibe Coding 統整網頁內容並完成視覺優化。<br>
-                            品牌插畫系統－制定專屬插畫系統，能呈現攝影較難表現的抽象情境，也提升受眾對複雜資訊接收意願。<br>
-                            產品情境照生成－AI 影像生成與修圖技術產出產品情境照，降低傳統搭景拍攝的時間與資金成本。
-                        </div>
-                    </div>
+            <div class="experience-item">
+                <div class="exp-meta">
+                    <div class="exp-title">跡地設計<br>設計實習</div>
+                    <div class="exp-period">2024 — 2025</div>
+                </div>
+                <div class="exp-desc">
+                    動態圖像設計－突破平面敘事的限制，透過動態更完整傳達專案概念，同時讓作品更具吸引力。<br>
+                    3D 建模－突破平面圖視角侷限，透過 3D 建模並配合 3D 列印，協助觀看者清晰理解作品的空間概念。
+                </div>
+            </div>
 
-                    <div class="experience-item">
-                        <div class="exp-title">跡地設計 ｜ 設計實習 (2024 — 2025)</div>
-                        <div class="exp-desc">
-                            動態圖像設計－優化原先平面的敘事限制，透過動態更能完整傳達專案概念，同時讓作品較吸睛的呈現。<br>
-                            3D 建模－突破平面圖視角侷限，透過 3D 建模並配合 3D 列印，協助觀看者清晰理解作品的空間概念。
-                        </div>
-                    </div>
-
-                    <div class="experience-item">
-                        <div class="exp-title">泰設計 ｜ 平面設計師 (2023 — 2024)</div>
-                        <div class="exp-desc">
-                            品牌標誌設計：分析品牌目標受眾與品牌所想傳遞的感受，將抽象的概念，轉化為具體的視覺標誌。<br>
-                            指標識別系統：延續品牌視覺調性，設計功能圖示代替繁雜文字，讓觀者接收資訊時更直覺、快速。
-                        </div>
-                    </div>
-
+            <div class="experience-item">
+                <div class="exp-meta">
+                    <div class="exp-title">泰設計<br>平面設計師</div>
+                    <div class="exp-period">2023 — 2024</div>
+                </div>
+                <div class="exp-desc">
+                    品牌標誌設計－分析品牌目標受眾與所想傳遞的感受，將抽象概念轉化為具體的視覺標誌。<br>
+                    指標識別系統－延續品牌視覺調性，以功能圖示取代繁雜文字，讓觀者接收資訊時更直覺、快速。
                 </div>
             </div>
 
         </div>
+
     </div>
 
     <div class="dynamic-island">
@@ -312,22 +307,319 @@
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            orientation: 'vertical',
-            gestureOrientation: 'vertical',
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
+            orientation: 'vertical', gestureOrientation: 'vertical',
+            smoothWheel: true, wheelMultiplier: 1,
+            smoothTouch: false, touchMultiplier: 2, infinite: false,
         });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
+        /* ── PHYSICS (6 items: 5 logo + profile photo) ─────────── */
+        (function() {
+            var hero   = document.getElementById('aboutHero');
+            var canvas = document.createElement('canvas');
+            canvas.style.cssText = 'position:absolute;inset:0;z-index:4;cursor:default;touch-action:pan-y;';
+            hero.appendChild(canvas);
+            var ctx = canvas.getContext('2d');
+
+            var heroW = 0, heroH = 0, heroRect;
+            var isMobile = hero.offsetWidth < 768;
+            function resize() {
+                heroW = hero.offsetWidth; heroH = hero.offsetHeight;
+                isMobile = heroW < 768;
+                canvas.width = heroW; canvas.height = heroH;
+                heroRect = hero.getBoundingClientRect();
+            }
+            resize();
+            window.addEventListener('resize', resize, { passive: true });
+
+            var G = 0.55, BOUNCE = 0.42, FRIC = 0.84, AIR = 0.993, ANG_D = 0.985;
+            var IMG_H = isMobile ? 120 : 180;
+            var PAD_B = 18, M_RAD = 135, M_STR = 0.4, FLAT_K = 0.001;
+            var pendingImp = 0;
+
+            var SRCS = [
+                '../assets/logo_5_texture.png',
+                '../assets/logo_伍_texture.png',
+                '../assets/logo_w_texture.png',
+                '../assets/logo_u_texture.png',
+                '../assets/logo_character.png',
+                '../assets/me.png'
+            ];
+
+            var bodies = [];
+            SRCS.forEach(function(src, i) {
+                var img = new Image();
+                var ivx = (Math.random() - 0.5) * 1.2;
+                var isPhoto = (i === 5);
+                var b = {
+                    img: img, bmp: null,
+                    x: 90 + i * 65 + Math.random() * 20,
+                    y: -(230 + i * 250 + Math.random() * 60),
+                    vx: ivx, vy: 0,
+                    rot: (Math.random() - 0.5) * 0.45,
+                    av: ivx * 0.0007 + (Math.random() - 0.5) * 0.003,
+                    w: IMG_H, h: IMG_H,
+                    ok: false, sleep: 0,
+                    drag: false, dox: 0, doy: 0,
+                    round: isPhoto
+                };
+                bodies.push(b);
+                img.onload = function() {
+                    if (isPhoto) {
+                        b.w = IMG_H; b.h = IMG_H;
+                    } else {
+                        b.w = IMG_H * img.naturalWidth / (img.naturalHeight || 1);
+                        b.h = IMG_H;
+                    }
+                    if (typeof createImageBitmap === 'function') {
+                        createImageBitmap(img).then(function(bmp) { b.bmp = bmp; b.ok = true; });
+                    } else {
+                        b.bmp = img; b.ok = true;
+                    }
+                };
+                img.src = src;
+            });
+
+            var mx = -9999, my = -9999, dvx = 0, dvy = 0;
+            var touchDragId = null, lastDocTouchY = 0;
+
+            function toLocal(cx, cy) { return [cx - heroRect.left, cy - heroRect.top]; }
+            function hitTest(b, px, py, pad) {
+                pad = (pad === undefined) ? 6 : pad;
+                var dx = px - b.x, dy = py - b.y;
+                var c = Math.cos(-b.rot), s = Math.sin(-b.rot);
+                return Math.abs(dx*c - dy*s) < b.w*0.5 + pad &&
+                       Math.abs(dx*s + dy*c) < b.h*0.5 + pad;
+            }
+            function startDrag(b, px, py, idx) {
+                b.drag = true; b.sleep = 0;
+                b.dox = px - b.x; b.doy = py - b.y;
+                bodies.splice(idx, 1); bodies.push(b);
+            }
+            function moveDrag(px, py) {
+                bodies.forEach(function(b) {
+                    if (!b.drag) return;
+                    var nx = px - b.dox, ny = py - b.doy;
+                    b.vx = nx - b.x; b.vy = ny - b.y;
+                    b.x = nx; b.y = ny;
+                });
+            }
+            function endDrag() { bodies.forEach(function(b) { if (b.drag) b.drag = false; }); }
+
+            canvas.addEventListener('pointerdown', function(e) {
+                if (e.pointerType === 'touch') return;
+                var p = toLocal(e.clientX, e.clientY);
+                for (var i = bodies.length - 1; i >= 0; i--) {
+                    var b = bodies[i]; if (!b.ok) continue;
+                    if (hitTest(b, p[0], p[1])) {
+                        startDrag(b, p[0], p[1], i);
+                        canvas.setPointerCapture(e.pointerId);
+                        canvas.style.cursor = 'grabbing';
+                        e.preventDefault(); break;
+                    }
+                }
+            }, { passive: false });
+
+            canvas.addEventListener('pointermove', function(e) {
+                if (e.pointerType === 'touch') return;
+                var p = toLocal(e.clientX, e.clientY);
+                var prevMx = mx, prevMy = my;
+                mx = p[0]; my = p[1];
+                dvx = mx - prevMx; dvy = my - prevMy;
+                moveDrag(mx, my);
+                var hover = false;
+                for (var i = bodies.length - 1; i >= 0; i--) {
+                    if (!bodies[i].ok) continue;
+                    if (hitTest(bodies[i], mx, my, 0)) { hover = true; break; }
+                }
+                canvas.style.cursor = hover ? 'grab' : 'default';
+            });
+
+            canvas.addEventListener('pointerup', function(e) {
+                if (e.pointerType === 'touch') return;
+                endDrag(); canvas.style.cursor = 'default';
+            });
+            canvas.addEventListener('mouseleave', function() { mx = -9999; my = -9999; dvx = 0; dvy = 0; });
+
+            canvas.addEventListener('touchstart', function(e) {
+                if (touchDragId !== null) return;
+                var t = e.changedTouches[0];
+                var p = toLocal(t.clientX, t.clientY);
+                for (var i = bodies.length - 1; i >= 0; i--) {
+                    var b = bodies[i]; if (!b.ok) continue;
+                    if (hitTest(b, p[0], p[1], 12)) {
+                        touchDragId = t.identifier;
+                        startDrag(b, p[0], p[1], i);
+                        e.preventDefault(); break;
+                    }
+                }
+            }, { passive: false });
+
+            canvas.addEventListener('touchmove', function(e) {
+                if (touchDragId === null) return;
+                for (var ti = 0; ti < e.changedTouches.length; ti++) {
+                    var t = e.changedTouches[ti];
+                    if (t.identifier !== touchDragId) continue;
+                    var p = toLocal(t.clientX, t.clientY);
+                    moveDrag(p[0], p[1]); e.preventDefault(); break;
+                }
+            }, { passive: false });
+
+            canvas.addEventListener('touchend', function(e) {
+                for (var ti = 0; ti < e.changedTouches.length; ti++) {
+                    if (e.changedTouches[ti].identifier === touchDragId) {
+                        touchDragId = null; endDrag(); break;
+                    }
+                }
+                if (e.touches.length === 0) { mx = -9999; my = -9999; }
+            });
+
+            document.addEventListener('touchstart', function(e) {
+                lastDocTouchY = e.touches[0].clientY;
+            }, { passive: true });
+            document.addEventListener('touchmove', function(e) {
+                if (touchDragId !== null) return;
+                var dy = lastDocTouchY - e.touches[0].clientY;
+                lastDocTouchY = e.touches[0].clientY;
+                if (dy > 3) pendingImp += Math.min(dy * 0.18, 4);
+            }, { passive: true });
+            window.addEventListener('wheel', function(e) {
+                if (e.deltaY > 1) pendingImp += Math.min(e.deltaY * 0.07, 5);
+            }, { passive: true });
+
+            (function tick() {
+                requestAnimationFrame(tick);
+                ctx.clearRect(0, 0, heroW, heroH);
+
+                if (pendingImp > 0) {
+                    var applyImp = Math.min(pendingImp, 8);
+                    pendingImp = Math.max(0, pendingImp - applyImp);
+                    bodies.forEach(function(b) {
+                        if (!b.ok || b.drag) return;
+                        b.sleep = 0;
+                        b.vy -= applyImp + Math.random() * 0.5;
+                        b.av += (Math.random() - 0.5) * 0.01;
+                    });
+                }
+
+                bodies.forEach(function(b) {
+                    if (!b.ok || b.drag) return;
+                    if (b.sleep > 60) return;
+
+                    b.vy += G;
+                    b.vx *= AIR; b.vy *= AIR;
+
+                    if (mx > -1000) {
+                        var ddx = b.x - mx, ddy = b.y - my;
+                        var d2 = ddx*ddx + ddy*ddy;
+                        if (d2 < M_RAD*M_RAD && d2 > 0.25) {
+                            var d = Math.sqrt(d2);
+                            b.sleep = 0;
+                            var f = (1 - d/M_RAD) * M_STR;
+                            b.vx += ddx/d * f + dvx*0.07;
+                            b.vy += ddy/d * f + dvy*0.07;
+                            b.av += dvx * 0.0001;
+                        }
+                    }
+
+                    b.x += b.vx; b.y += b.vy;
+                    b.rot += b.av; b.av *= ANG_D;
+
+                    var sinR = Math.abs(Math.sin(b.rot));
+                    var cosR = Math.abs(Math.cos(b.rot));
+                    var hH = b.w*sinR*0.5 + b.h*cosR*0.5;
+                    var hW = b.w*cosR*0.5 + b.h*sinR*0.5;
+
+                    var flY = heroH - PAD_B - hH;
+                    if (b.y >= flY) {
+                        b.y = flY;
+                        b.vy = -Math.abs(b.vy) * BOUNCE;
+                        b.vx *= FRIC;
+                        b.av *= 0.88;
+                        var r = (b.w + b.h) * 0.25;
+                        b.av = b.av * 0.7 + (b.vx / r) * 0.3;
+                        b.av -= Math.sin(2 * b.rot) * FLAT_K;
+                        if (Math.abs(b.vy) < 0.7) {
+                            b.vy = 0;
+                            if (Math.abs(b.vx) < 0.12 && Math.abs(b.av) < 0.003) b.sleep++;
+                        }
+                    }
+
+                    if (b.y < -b.h * 3) b.y = -b.h * 3;
+                    if (b.x - hW < 0) {
+                        b.x = hW; b.vx = Math.abs(b.vx) * 0.52;
+                        b.av = b.av * 0.5 + b.vy * 0.0002;
+                    }
+                    if (b.x + hW > heroW) {
+                        b.x = heroW - hW; b.vx = -Math.abs(b.vx) * 0.52;
+                        b.av = b.av * 0.5 - b.vy * 0.0002;
+                    }
+                });
+
+                for (var iter = 0; iter < 3; iter++) {
+                    for (var ci = 0; ci < bodies.length - 1; ci++) {
+                        var bi = bodies[ci]; if (!bi.ok) continue;
+                        for (var cj = ci + 1; cj < bodies.length; cj++) {
+                            var bj = bodies[cj]; if (!bj.ok) continue;
+                            if (bi.sleep > 60 && bj.sleep > 60) continue;
+                            var ri = (bi.w+bi.h)*0.25, rj = (bj.w+bj.h)*0.25;
+                            var cdx = bj.x - bi.x, cdy = bj.y - bi.y;
+                            var cd2 = cdx*cdx + cdy*cdy, minD = ri+rj;
+                            if (cd2 < minD*minD && cd2 > 0.01) {
+                                bi.sleep = 0; bj.sleep = 0;
+                                var cd = Math.sqrt(cd2);
+                                var pen = (minD - cd) * 0.55;
+                                var nx = cdx/cd, ny = cdy/cd;
+                                if (!bi.drag) { bi.x -= nx*pen; bi.y -= ny*pen; }
+                                if (!bj.drag) { bj.x += nx*pen; bj.y += ny*pen; }
+                                var rvx = bj.vx - bi.vx, rvy = bj.vy - bi.vy;
+                                var dot = rvx*nx + rvy*ny;
+                                if (dot < 0) {
+                                    var imp = dot * 0.7;
+                                    if (!bi.drag) { bi.vx += imp*nx; bi.vy += imp*ny; }
+                                    if (!bj.drag) { bj.vx -= imp*nx; bj.vy -= imp*ny; }
+                                    var tx = -ny, ty = nx;
+                                    var rtv = rvx*tx + rvy*ty;
+                                    var ra = 0.0003;
+                                    if (!bi.drag) bi.av += rtv/((bi.w+bi.h)*0.25) * ra;
+                                    if (!bj.drag) bj.av -= rtv/((bj.w+bj.h)*0.25) * ra;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                var toRender = bodies.slice().sort(function(a, b) {
+                    if (a.drag) return 1; if (b.drag) return -1;
+                    return b.y - a.y;
+                });
+                toRender.forEach(function(b) {
+                    if (!b.ok) return;
+                    ctx.save();
+                    ctx.translate(b.x, b.y);
+                    ctx.rotate(b.rot);
+                    if (b.round) {
+                        var r = Math.min(b.w, b.h) * 0.5;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, r, 0, Math.PI * 2);
+                        ctx.clip();
+                    }
+                    ctx.drawImage(b.bmp, -b.w*0.5, -b.h*0.5, b.w, b.h);
+                    ctx.restore();
+                });
+
+                dvx *= 0.8; dvy *= 0.8;
+            })();
+        })();
+
+        /* ── IntersectionObserver ───────────────────────────────── */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.about-desc, .about-experience').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
