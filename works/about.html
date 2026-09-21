@@ -43,38 +43,39 @@
         }
         .about-greeting {
             font-size: clamp(38px, 10vw, 185px);
-            font-weight: 700;
+            font-weight: 600;
             color: #111;
             letter-spacing: -0.02em;
         }
         .about-greeting .en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 600;
             letter-spacing: -0.02em;
         }
         .about-greeting .zh {
             font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 500;
             font-size: 0.87em;
             letter-spacing: 0;
         }
         .about-name-zh {
             font-family: 'Noto Sans TC', sans-serif;
             font-size: clamp(33px, 8.7vw, 162px);
-            font-weight: 700;
+            font-weight: 500;
             color: #111;
             letter-spacing: 0;
         }
         .about-name-en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
             font-size: clamp(38px, 10vw, 185px);
-            font-weight: 700;
+            font-weight: 600;
             color: #111;
             letter-spacing: -0.03em;
         }
 
         /* ── CONTENT ───────────────────────────────────────────── */
         .about-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            margin-left: 50%;
             padding: 80px 60px 0;
             position: relative;
             z-index: 6;
@@ -201,7 +202,7 @@
 
         @media (max-width: 968px) {
             .about-title-block { padding: 12px 28px 32px; }
-            .about-content { padding: 60px 30px 0; }
+            .about-content { margin-left: 0; padding: 60px 30px 0; }
             .about-desc { grid-template-columns: 1fr; gap: 32px; margin-bottom: 60px; }
             .experience-item { grid-template-columns: 1fr; gap: 8px; }
             .dynamic-island { padding: 12px 20px !important; }
