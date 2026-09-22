@@ -83,20 +83,22 @@
         }
 
         .about-desc {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            right: 60px;
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: 1fr 1fr;
             gap: 48px;
-            width: fit-content;
-            margin-left: auto;
-            margin-bottom: 80px;
+            z-index: 5;
+            pointer-events: none;
             opacity: 0;
-            transform: translateY(30px);
+            animation: fadeIn 0.8s ease 0.5s forwards;
         }
-        .about-desc.in-view { animation: slideUp 0.8s ease forwards; }
 
         .desc-zh {
             font-family: 'Noto Sans TC', sans-serif;
-            font-size: clamp(17px, 1.6vw, 21px);
+            font-size: clamp(13px, 1.2vw, 17px);
             font-weight: 400;
             line-height: 1.95;
             color: #111;
@@ -104,7 +106,7 @@
         .desc-zh p + p { margin-top: 0.9em; }
         .desc-en {
             font-family: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
-            font-size: clamp(17px, 1.6vw, 21px);
+            font-size: clamp(13px, 1.2vw, 17px);
             font-weight: 400;
             line-height: 1.85;
             color: #111;
@@ -206,7 +208,7 @@
         @media (max-width: 968px) {
             .about-title-block { padding: 12px 28px 32px; }
             .about-content { padding: 60px 30px 0; }
-            .about-desc { grid-template-columns: 1fr; gap: 32px; margin-bottom: 60px; width: auto; }
+            .about-desc { left: 30px; right: 30px; bottom: 30px; grid-template-columns: 1fr; gap: 20px; }
             .experience-item { grid-template-columns: 1fr; gap: 8px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
@@ -214,8 +216,7 @@
         @media (max-width: 640px) {
             .about-title-block { padding: 8px 20px 28px; }
             .about-content { padding: 48px 20px 0; }
-            .desc-zh { font-size: 17px; }
-            .desc-en { font-size: 15px; }
+            .about-desc { left: 20px; right: 20px; bottom: 24px; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
@@ -231,10 +232,6 @@
             <div class="about-name-zh">伍聖燿</div>
             <div class="about-name-en">Sheng-Yao, Wu</div>
         </div>
-    </section>
-
-    <div class="about-content">
-
         <div class="about-desc">
             <div class="desc-zh">
                 <p>常見到，<br>
@@ -267,6 +264,9 @@
                 So you don't have to say as much.</p>
             </div>
         </div>
+    </section>
+
+    <div class="about-content">
 
         <div class="about-experience">
             <div class="exp-label">Experience</div>
@@ -656,7 +656,7 @@
                 if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
             });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.about-desc, .about-experience').forEach(el => observer.observe(el));
+        document.querySelectorAll('.about-experience').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
