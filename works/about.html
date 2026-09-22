@@ -84,9 +84,9 @@
 
         .about-desc {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: auto auto;
             gap: 48px;
-            max-width: 65%;
+            width: fit-content;
             margin-left: auto;
             margin-bottom: 80px;
             opacity: 0;
@@ -206,7 +206,7 @@
         @media (max-width: 968px) {
             .about-title-block { padding: 12px 28px 32px; }
             .about-content { padding: 60px 30px 0; }
-            .about-desc { grid-template-columns: 1fr; gap: 32px; margin-bottom: 60px; max-width: 100%; }
+            .about-desc { grid-template-columns: 1fr; gap: 32px; margin-bottom: 60px; width: auto; }
             .experience-item { grid-template-columns: 1fr; gap: 8px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
@@ -237,16 +237,34 @@
 
         <div class="about-desc">
             <div class="desc-zh">
-                <p>常見到，可能很清楚自己想說什麼，卻不知道它應該長怎樣、對誰說。</p>
-                <p>設計師，就是試著把這些還沒有形狀的想法，釐清成一個能看得懂，也願意看的樣子。</p>
-                <p>有時候透過平面設計，有時候結合動態、3D、插畫，再不然可能得寫一點程式。</p>
-                <p>也就是，原本需要解釋很多次的事情，透過視覺變得更容易被理解，讓你不用說那麼多。</p>
+                <p>常見到，<br>
+                可能很清楚自己想說什麼，<br>
+                卻不知道它應該長怎樣、對誰說。</p>
+                <p>設計師，<br>
+                就是試著把這些還沒有形狀的想法，<br>
+                釐清成一個能看得懂，也願意看的樣子。</p>
+                <p>有時候透過平面設計，<br>
+                有時候結合動態、3D、插畫，<br>
+                再不然可能得寫一點程式。</p>
+                <p>也就是，<br>
+                原本需要解釋很多次的事情，<br>
+                透過視覺變得更容易被理解，<br>
+                讓你不用說那麼多。</p>
             </div>
             <div class="desc-en">
-                <p>It happens all the time — you know exactly what you want to say, but not what it should look like, or who it's really for.</p>
-                <p>A designer's job is to take those still-shapeless ideas and work them into something people can understand — and want to look at.</p>
-                <p>Sometimes through graphic design, sometimes with motion, 3D, or illustration, and sometimes that means writing a bit of code.</p>
-                <p>The point is this: something that used to take a lot of explaining becomes easier to grasp through visuals. So you don't have to say as much.</p>
+                <p>It happens all the time —<br>
+                you know exactly what you want to say,<br>
+                but not what it should look like, or who it's really for.</p>
+                <p>A designer's job is to take those<br>
+                still-shapeless ideas and work them into<br>
+                something people can understand — and want to look at.</p>
+                <p>Sometimes through graphic design,<br>
+                sometimes with motion, 3D, or illustration,<br>
+                and sometimes that means writing a bit of code.</p>
+                <p>The point is this:<br>
+                something that used to take a lot of explaining<br>
+                becomes easier to grasp through visuals.<br>
+                So you don't have to say as much.</p>
             </div>
         </div>
 
