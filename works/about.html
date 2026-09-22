@@ -31,6 +31,9 @@
             min-height: calc(100vh - 72px);
             overflow: hidden;
             background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .about-title-block {
             padding: 16px 36px 36px;
@@ -83,13 +86,10 @@
         }
 
         .about-desc {
-            position: absolute;
-            bottom: 40px;
-            left: 60px;
-            right: 60px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 48px;
+            padding: 0 60px 40px;
             z-index: 5;
             pointer-events: none;
             opacity: 0;
@@ -208,7 +208,7 @@
         @media (max-width: 968px) {
             .about-title-block { padding: 12px 28px 32px; }
             .about-content { padding: 60px 30px 0; }
-            .about-desc { left: 30px; right: 30px; bottom: 30px; grid-template-columns: 1fr; gap: 20px; }
+            .about-desc { padding: 0 30px 30px; grid-template-columns: 1fr; gap: 20px; }
             .experience-item { grid-template-columns: 1fr; gap: 8px; }
             .dynamic-island { padding: 12px 20px !important; }
             .island-logo img { height: 36px; }
@@ -216,7 +216,7 @@
         @media (max-width: 640px) {
             .about-title-block { padding: 8px 20px 28px; }
             .about-content { padding: 48px 20px 0; }
-            .about-desc { left: 20px; right: 20px; bottom: 24px; }
+            .about-desc { padding: 0 20px 24px; }
             .dynamic-island { padding: 10px 16px !important; }
             .island-logo img { height: 32px; }
             .menu-item { font-size: 12px !important; }
